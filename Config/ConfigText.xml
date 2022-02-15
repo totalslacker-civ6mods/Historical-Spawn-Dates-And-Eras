@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+  <LocalizedText>	
+	<Replace Tag="LOC_MAP_HISTORICAL_SPAWN_NAME" Language="en_US">
+      <Text>Activate Historical Spawn Dates or Eras</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HISTORICAL_SPAWN_DESC" Language="en_US">
+      <Text>Disable to turn off all HSD features and gameplay changes.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Use this option to disable the mod without changing your active mods.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HISTORICAL_SPAWN_ERA_NAME" Language="en_US">
+      <Text>Spawn By Era</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HISTORICAL_SPAWN_ERA_DESC" Language="en_US">
+      <Text>Players will spawn at the beginning of their starting Era.[NEWLINE][NEWLINE][COLOR_Civ6Red]Overrides the Timeline setting.[ENDCOLOR]</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_BALANCE_HSD" Language="en_US">
+      <Text>Balance system activated</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_BALANCE_HSD_DESC" Language="en_US">
+      <Text>[COLOR_Civ6Red]Disabling this option is not recommended.[ENDCOLOR][NEWLINE][NEWLINE]Disable to turn off all starting bonuses and spawn zones for new players.</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HSD_BOOST" Language="en_US">
+      <Text>Complete Boosted Techs and Civics</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HSD_BOOST_DESC" Language="en_US">
+      <Text>Eureka boosts will complete a technology or civic when a player spawns.[NEWLINE][NEWLINE][COLOR_Civ6Blue]New civilizations will be more advanced with this option enabled.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_GRANT_GPP" Language="en_US">
+      <Text>Bonus Great Person Points</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_GRANT_GPP_DESC" Language="en_US">
+      <Text>Receive a burst of Great Person points towards all Great People when spawning (adjusted for Game Speed)</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_UNIQUE_UNITS" Language="en_US">
+      <Text>Spawn Unique Units</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_UNIQUE_UNITS_DESC" Language="en_US">
+      <Text>Unique units will be included in the starting units</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_ERA_BUILDING" Language="en_US">
+      <Text>Era Buildings for all Civs</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_ERA_BUILDING_DESC" Language="en_US">
+      <Text>All Civs with HSD receive an Era Building in every city which boosts yields[NEWLINE][NEWLINE][COLOR_Civ6Blue]By default when this option is disabled, only Colonial Civs will receive Era Buildings.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_COLONIZATION" Language="en_US">
+      <Text>Colonization Mode</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_COLONIZATION_DESC" Language="en_US">
+      <Text>Activate dynamic colony generation for western European civilizations. Colonies will spawn at the beginning of every game era starting with the Renaissance. Colonies will spawn on different continents depending on the player, and will select the best plot location based on scripted conditions. Cartography must be researched at the time of the era transition to spawn colonies. If a player researches Cartography after an era transition, the colonies that were meant to spawn that era will spawn during the next era transition. This effect is cumulative, so multiple eras worth of colonies can be spawned if there is available land.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Custom civilizations can be added to this list in the mod files.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_COLONIZATION_PLAYER" Language="en_US">
+      <Text>Spawn player colonies</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_COLONIZATION_PLAYER_DESC" Language="en_US">
+      <Text>Colonization Mode will include the human player.[NEWLINE][NEWLINE][COLOR_Civ6Blue]If this option is disabled, only AI players will receive colonies.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_FLIP_ZONES" Language="en_US">
+      <Text>Disable Free City revolts</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_FLIP_ZONES_DESC" Language="en_US">
+      <Text>Cities in the Spawn Zone will not revolt. New players can still Declare War if the Spawn Zone is occupied.</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_SPAWN_RANGE" Language="en_US">
+      <Text>Dynamic Spawn Zones</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_SPAWN_RANGE_DESC" Language="en_US">
+      <Text>If a spawn zone is occupied and a new starting plot is chosen, cities will revolt around the new starting plot instead of the original spawn zone.[NEWLINE][NEWLINE][COLOR_Civ6Red]Not recommended for Earth maps.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_SPAWN_AGE" Language="en_US">
+      <Text>Golden Age Start</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_SPAWN_AGE_DESC" Language="en_US">
+      <Text>+1 Era Score per turn is earned from the start of the game for players waiting to spawn. This will generate an excessive amount of Era Score and guarantee a Golden Age for any player spawning after the Ancient Era.[NEWLINE][NEWLINE][COLOR_Civ6Blue]By default when this option is disabled, Era Score is not earned until the first Civilization enters the Classical Era (measured by tech or civic progress). Depending on when this happens, there may not be enough Era Score to prevent a Dark Age during the first era transition for all players waiting to spawn.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_LESSER_ERA" Language="en_US">
+      <Text>Lesser Era Mode</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_LESSER_ERA_DESC" Language="en_US">
+      <Text>Starting units for new players will be one era behind the current Game Era.[NEWLINE][NEWLINE][COLOR_Civ6Blue]By default when this option is disabled, the advancement of starting units is equal to the current Game Era.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_LITE_MODE_NAME" Language="en_US">
+      <Text>Lite Mode</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_LITE_MODE_DESC" Language="en_US">
+      <Text>HSD only affects Isolated Civilizations and Colonial Civilizations, as well as their related City-States. All other Civilizations and City-States start the game normally.[NEWLINE][NEWLINE][COLOR_Civ6Red]Overrides the Timeline setting.[ENDCOLOR] Compatible with Spawn by Era mode.</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_CONVERT_CITIES" Language="en_US">
+      <Text>Convert Cities</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_CONVERT_CITIES_DESC" Language="en_US">
+      <Text>Cities in the spawn zone for a new player will be directly converted to that player. Always converts the capital if the starting plot is owned by another player. Surrounding cities are converted under the following conditions -- [COLOR_Civ6Red]not an original capital, not the owner's last city, and does not contain an established Governor.[ENDCOLOR][NEWLINE][NEWLINE][COLOR_Civ6Blue]When this option is disabled, cities in the spawn zone will convert to the Free Cities faction according to the same conditions, but not directly to the new player.[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_CONVERT_SPAWN_ZONES" Language="en_US">
+      <Text>Spawn Zone Type</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_CONVERT_SPAWN_ZONES_DESC" Language="en_US">
+      <Text>Choose a type of spawn zone. This will determine which cities are included in the spawn zone. Use the Convert Cities option above to change what happens to cities in the spawn zone.</Text>
+    </Replace>
+	<Replace Tag="LOC_SPAWNZONE_CLASSIC_NAME" Language="en_US">
+      <Text>Classic</Text>
+    </Replace>	
+	<Replace Tag="LOC_SPAWNZONE_CLASSIC_DESC" Language="en_US">
+      <Text>Try to convert one city per player within the spawn zone (excluding the capital). The entire spawn zone is scanned for possible cities, and obstacles are ignored.</Text>
+    </Replace>
+	<Replace Tag="LOC_SPAWNZONE_ITERATIVE_NAME" Language="en_US">
+      <Text>Iterative</Text>
+    </Replace>	
+	<Replace Tag="LOC_SPAWNZONE_ITERATIVE_DESC" Language="en_US">
+      <Text>Try to convert every city within the spawn zone that is not separated by mountains or water. The city plot must have a reachable path entirely within the spawn zone to be converted.</Text>
+    </Replace>
+	<Replace Tag="LOC_SPAWNZONE_ALL_NAME" Language="en_US">
+      <Text>All Cities</Text>
+    </Replace>	
+	<Replace Tag="LOC_SPAWNZONE_ALL_DESC" Language="en_US">
+      <Text>Try to convert every city within the spawn zone. Obstacles are ignored.</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_LOYAL_HARBORS" Language="en_US">
+      <Text>Loyal Harbors</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_LOYAL_HARBORS_DESC" Language="en_US">
+      <Text>Coastal cities owned by players with a Harbor or unique replacement will always remain loyal.</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA" Language="en_US">
+      <Text>Industrial Era Comandantes</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA_DESC" Language="en_US">
+      <Text>Gran Colombia Comandante unique units will spawn in the Industrial Era (all previous Era units will spawn at once)</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_COMANDANTES_SLIDER" Language="en_US">
+      <Text>Comandante Starting Era</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_COMANDANTES_SLIDER_DESC" Language="en_US">
+      <Text>Starting era for Gran Colombia's Comandante General to appear. This option should match their start date.[NEWLINE][NEWLINE]1 = Classical (default)[NEWLINE]2 = Medieval[NEWLINE]3 = Renaissance[NEWLINE]4 = Industrial[NEWLINE]5 = Modern[NEWLINE]6 = Atomic[NEWLINE]7 = Information[NEWLINE]</Text>
+    </Replace>
+	<!-- Spawn Date Tables -->
+	<Replace Tag="LOC_MAP_SPAWN_DATE_TABLES_NAME" Language="en_US">
+      <Text>Timeline</Text>
+    </Replace>	
+	<Replace Tag="LOC_HSD_STANDARD_NAME" Language="en_US">
+      <Text>Standard</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_STANDARD_DESC" Language="en_US">
+      <Text>Based on a mixture of historical realism and gameplay balance</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_TRUE_START_NAME" Language="en_US">
+      <Text>True Historical Starts</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_TRUE_START_DESC" Language="en_US">
+      <Text>Based on the national founding dates for countries</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_SPAWN_RANGE_SLIDER" Language="en_US">
+      <Text>Spawn Range</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_SPAWN_RANGE_SLIDER_DESC" Language="en_US">
+      <Text>Set the range surrounding the starting plot to be searched for a suitable location for a new city, if the spawn zone is occupied.[NEWLINE][NEWLINE]If a new city cannot be built within this range, the new player will spawn on the nearest unoccupied plot to the starting plot.</Text>
+    </Replace>	
+	<Replace Tag="LOC_MAP_RAGING_BARBARIANS" Language="en_US">
+      <Text>Raging Barbarians Mode</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_RAGING_BARBARIANS_DESC" Language="en_US">
+      <Text>Geographically dependant barbarian camps with unique units linked to the continent.[NEWLINE][NEWLINE][COLOR_Civ6Red]Requires all DLC and Expansions![ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_PEACEFUL_SPAWN" Language="en_US">
+      <Text>Peaceful Spawns</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_PEACEFUL_SPAWN_DESC" Language="en_US">
+      <Text>Activate the PeacefulSpawns list. Players in this list will not declare war when spawning.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Define the players in this list from the file IsolatedCivs.sql[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_RESTRICT_SPAWN" Language="en_US">
+      <Text>One-City Spawns</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_RESTRICT_SPAWN_DESC" Language="en_US">
+      <Text>Activate the RestrictedSpawns list. Players in this list will only try to convert their capital city when spawning.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Define the players in this list from the file IsolatedCivs.sql[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_UNIQUE_SPAWN" Language="en_US">
+      <Text>Unique Spawn Zones</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_UNIQUE_SPAWN_DESC" Language="en_US">
+      <Text>Activate the UniqueSpawnZones list. Players in this list will use scripted spawn zone conditions.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Define the players in this list from the file IsolatedCivs.sql. Define the conditions for a unique spawn zone in ScriptHSD.lua in function GetUniqueSpawnZone()[ENDCOLOR]</Text>
+    </Replace>
+	<!-- Headers and Footers -->
+	<Replace Tag="LOC_MAP_HSD_HEADER_MAIN_NAME" Language="en_US">
+      <Text>[COLOR_Civ6Yellow]Historical Spawn Dates[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HSD_FOOTER_MAIN_NAME" Language="en_US">
+      <Text>[COLOR_Civ6Yellow]Historical Spawn Dates[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HSD_HEADER_SPAWN_OPTIONS_NAME" Language="en_US">
+      <Text>[COLOR_Science]Spawn Options[ENDCOLOR]</Text>
+    </Replace>
+	<!-- Legacy Support for old saves -->
+	<Replace Tag="LOC_MAP_OLD_WORLD_START" Language="en_US">
+      <Text>Spawn Dates</Text>
+    </Replace>	
+	<Replace Tag="LOC_OLD_WORLD_START" Language="en_US">
+      <Text>All Civs</Text>
+    </Replace>
+	<Replace Tag="LOC_OLD_WORLD_START_DESC" Language="en_US">
+      <Text>All Civilizations use Historical Spawn Dates</Text>
+    </Replace>
+	<Replace Tag="LOC_NEW_WORLD_START" Language="en_US">
+      <Text>Colonial + Isolated Civs</Text>
+    </Replace>
+	<Replace Tag="LOC_NEW_WORLD_START_DESC" Language="en_US">
+      <Text>Only Colonial and Isolated Civs use Historical Spawn Dates</Text>
+    </Replace>	
+  </LocalizedText>
+</GameData>

@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<Types>
+		<Row Type="TRIBE_KONGO" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_ZULU" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_NUBIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_CELTIC" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_GREEK" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_VIKING" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_BARBARY" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_CREE" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_SCYTHIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_AZTEC" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_MAORI" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_VARU" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_IBERIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_BALKANS" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_SLAVIC" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_HAIDA" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_PIRATES" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_PERSIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_COMANCHE" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_PATAGONIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_SOUTH_AMERICAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_AUSTRALIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INCAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_MALI" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_EASTASIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_MONGOL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_SIBERIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+	</Types>
+	<BarbarianTribes>
+		<Row TribeType="TRIBE_KONGO" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_KONGO" RangedTag="CLASS_BARB_KONGO" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_KONGO" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_ZULU" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_ZULU" RangedTag="CLASS_BARB_ZULU" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ZULU" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_NUBIAN" PercentRangedUnits="35" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_ETHIOPIAN" RangedTag="CLASS_BARB_NUBIAN" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ETHIOPIAN" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_CELTIC" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_CELTIC" RangedTag="CLASS_BARB_LIGHTCAV" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_GREEK" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_NAVAL_MELEE" MeleeTag="CLASS_BARB_PIRATES_AFRICA" RangedTag="CLASS_BARB_NAVAL_RANGED" SiegeTag="CLASS_BARB_NAVAL_RANGED" DefenderTag="CLASS_BARB_GREEK" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
+		
+		<Row TribeType="TRIBE_VIKING" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_VIKING_NAVAL" MeleeTag="CLASS_BARB_VIKING_NAVAL" RangedTag="CLASS_BARB_VIKING_NAVAL" SiegeTag="CLASS_BARB_NAVAL_RANGED" DefenderTag="CLASS_BARB_MELEE" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_BARBARY" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_PIRATES_AFRICA" MeleeTag="CLASS_BARB_PIRATES_AFRICA" RangedTag="CLASS_BARB_NAVAL_RANGED" SiegeTag="CLASS_BARB_NAVAL_RANGED" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
+		
+		<Row TribeType="TRIBE_CREE" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_CREE" MeleeTag="CLASS_BARB_CREE" RangedTag="CLASS_BARB_CREE" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="15"/>
+		
+		<Row TribeType="TRIBE_SCYTHIAN" PercentRangedUnits="35" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SCYTHIAN" DefenderTag="CLASS_BARB_HEAVYCAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_AZTEC" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_AZTEC" RangedTag="CLASS_BARB_MAYA" SiegeTag="CLASS_BARB_MAYA" DefenderTag="CLASS_BARB_AZTEC" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
+		
+		<Row TribeType="TRIBE_MAORI" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_NAVAL_MELEE" MeleeTag="CLASS_BARB_NAVAL_MELEE" RangedTag="CLASS_BARB_NAVAL_RANGED" SiegeTag="CLASS_BARB_NAVAL_RANGED" DefenderTag="CLASS_BARB_MAORI" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
+		
+		<Row TribeType="TRIBE_VARU" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARU" RangedTag="CLASS_BARB_VOI_CHIEN" SiegeTag="CLASS_BARB_DOMREY" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_IBERIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_MELEE" RangedTag="CLASS_BARB_RANGED" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_BALKANS" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_SLAVIC" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_HAIDA" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_LONGSHIP" MeleeTag="CLASS_LONGSHIP" RangedTag="CLASS_LONGSHIP" SiegeTag="CLASS_LONGSHIP" DefenderTag="CLASS_BARB_MAORI" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
+		
+		<Row TribeType="TRIBE_PIRATES" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_NAVAL_RAIDER" MeleeTag="CLASS_BARB_NAVAL_RAIDER" RangedTag="CLASS_BARB_NAVAL_RAIDER" SiegeTag="CLASS_BARB_NAVAL_RAIDER" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
+		
+		<Row TribeType="TRIBE_PERSIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PERSIAN" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_COMANCHE" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_COMANCHE" RangedTag="CLASS_BARB_COMANCHE" SiegeTag="CLASS_BARB_COMANCHE" DefenderTag="CLASS_BARB_COMANCHE" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_PATAGONIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PATAGONIAN" RangedTag="CLASS_BARB_PATAGONIAN" SiegeTag="CLASS_BARB_PATAGONIAN" DefenderTag="CLASS_BARB_PATAGONIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_SOUTH_AMERICAN" PercentRangedUnits="35" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_SOUTHAM" RangedTag="CLASS_BARB_MAYA" SiegeTag="CLASS_BARB_SOUTHAM" DefenderTag="CLASS_BARB_SOUTHAM" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_AUSTRALIAN" PercentRangedUnits="35" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_AUSTRALIAN" MeleeTag="CLASS_BARB_AUSTRALIAN" RangedTag="CLASS_BARB_AUSTRALIAN" SiegeTag="CLASS_BARB_AUSTRALIAN" DefenderTag="CLASS_BARB_AUSTRALIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INCAN" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_INCAN" RangedTag="CLASS_BARB_INCAN" SiegeTag="CLASS_BARB_INCAN" DefenderTag="CLASS_BARB_INCAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
+		
+		<Row TribeType="TRIBE_MALI" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_MALI" RangedTag="CLASS_BARB_MALI" SiegeTag="CLASS_BARB_MALI" DefenderTag="CLASS_BARB_MALI" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_EASTASIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_EASTASIAN" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_MONGOL" PercentRangedUnits="35" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+
+		<Row TribeType="TRIBE_SIBERIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_EASTASIAN" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+	</BarbarianTribes>
+	<BarbarianAttackForces>
+	
+		<!-- Kongo -->
+		<Row AttackForceType="LowDifficultyKongoRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_KONGO" NumMeleeUnits="2" RangeTag="CLASS_BARB_KONGO" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="KongoRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_KONGO" NumMeleeUnits="3" RangeTag="CLASS_BARB_KONGO" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyKongoRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_KONGO" NumMeleeUnits="4" RangeTag="CLASS_BARB_KONGO" NumRangeUnits="3" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyKongoAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_KONGO" NumMeleeUnits="3" RangeTag="CLASS_BARB_KONGO" NumRangeUnits="2" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="1"/>
+		<Row AttackForceType="KongoAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_KONGO" NumMeleeUnits="4" RangeTag="CLASS_BARB_KONGO" NumRangeUnits="3" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="1" SupportTag="CLASS_BARB_SUPPORT" NumSupportUnits="1"/>
+		<Row AttackForceType="HighDifficultyKongoAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_KONGO" NumMeleeUnits="5" RangeTag="CLASS_BARB_KONGO" NumRangeUnits="4" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="2" SupportTag="CLASS_BARB_SUPPORT" NumSupportUnits="1"/>
+		
+		<!-- Zulu -->
+		<Row AttackForceType="LowDifficultyZuluRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_ZULU" NumMeleeUnits="2" RangeTag="CLASS_BARB_ZULU" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="ZuluRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_ZULU" NumMeleeUnits="3" RangeTag="CLASS_BARB_ZULU" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyZuluRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_ZULU" NumMeleeUnits="4" RangeTag="CLASS_BARB_ZULU" NumRangeUnits="3" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyZuluAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_ZULU" NumMeleeUnits="3" RangeTag="CLASS_BARB_ZULU" NumRangeUnits="2" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="1"/>
+		<Row AttackForceType="ZuluAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_ZULU" NumMeleeUnits="4" RangeTag="CLASS_BARB_ZULU" NumRangeUnits="3" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="1" SupportTag="CLASS_BARB_SUPPORT" NumSupportUnits="1"/>
+		<Row AttackForceType="HighDifficultyZuluAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_ZULU" NumMeleeUnits="5" RangeTag="CLASS_BARB_ZULU" NumRangeUnits="4" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="2" SupportTag="CLASS_BARB_SUPPORT" NumSupportUnits="1"/>
+		
+		<!--Nubian -->
+		<Row AttackForceType="LowDifficultyNubianRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_ETHIOPIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_NUBIAN" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="NubianRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_ETHIOPIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_NUBIAN" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyNubianRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_ETHIOPIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_NUBIAN" NumRangeUnits="3" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyNubianAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_ETHIOPIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_NUBIAN" NumRangeUnits="2" SiegeTag="CLASS_SIEGE" NumSiegeUnits="1"/>
+		<Row AttackForceType="NubianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_ETHIOPIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_NUBIAN" NumRangeUnits="3" SiegeTag="CLASS_SIEGE" NumSiegeUnits="1" SupportTag="CLASS_BATTERING_RAM" NumSupportUnits="1"/>
+		<Row AttackForceType="HighDifficultyNubianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_ETHIOPIAN" NumMeleeUnits="5" RangeTag="CLASS_BARB_NUBIAN" NumRangeUnits="4" SiegeTag="CLASS_SIEGE" NumSiegeUnits="2" SupportTag="CLASS_BATTERING_RAM" NumSupportUnits="1"/>
+		
+		<!--Celtic -->
+		<Row AttackForceType="LowDifficultyCelticRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_CELTIC" NumMeleeUnits="2" RangeTag="CLASS_BARB_HEAVYCAV" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="CelticRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_CELTIC" NumMeleeUnits="3" RangeTag="CLASS_BARB_HEAVYCAV" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyCelticRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_CELTIC" NumMeleeUnits="4" RangeTag="CLASS_BARB_HEAVYCAV" NumRangeUnits="3" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyCelticAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_CELTIC" NumMeleeUnits="3" RangeTag="CLASS_BARB_HEAVYCAV" NumRangeUnits="2" SiegeTag="CLASS_SIEGE" NumSiegeUnits="1"/>
+		<Row AttackForceType="CelticAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_CELTIC" NumMeleeUnits="4" RangeTag="CLASS_BARB_HEAVYCAV" NumRangeUnits="3" SiegeTag="CLASS_SIEGE" NumSiegeUnits="1" SupportTag="CLASS_BATTERING_RAM" NumSupportUnits="1"/>
+		<Row AttackForceType="HighDifficultyCelticAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_CELTIC" NumMeleeUnits="5" RangeTag="CLASS_BARB_CELTIC" NumRangeUnits="4" SiegeTag="CLASS_SIEGE" NumSiegeUnits="2" SupportTag="CLASS_BATTERING_RAM" NumSupportUnits="1"/>
+		
+		<!-- Greek -->
+		<Row AttackForceType="LowDifficultyGreekRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="GreekRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="2" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyGreekRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="3" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyGreekAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="2" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="1" SiegeTag="CLASS_BARB_PIRATES_AFRICA" NumSiegeUnits="1"/>
+		<Row AttackForceType="GreekAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="3" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="2" SiegeTag="CLASS_BARB_PIRATES_AFRICA" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyGreekAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="4" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="3" SiegeTag="CLASS_BARB_PIRATES_AFRICA" NumSiegeUnits="2"/>
+		
+		<!-- Viking -->
+		<Row AttackForceType="LowDifficultyVikingRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_VIKING_NAVAL" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="VikingRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_VIKING_NAVAL" NumMeleeUnits="2" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyVikingRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_VIKING_NAVAL" NumMeleeUnits="3" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyVikingAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_VIKING_NAVAL" NumMeleeUnits="2" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="1" SiegeTag="CLASS_BARB_VIKING_NAVAL" NumSiegeUnits="1"/>
+		<Row AttackForceType="VikingAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_VIKING_NAVAL" NumMeleeUnits="3" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="2" SiegeTag="CLASS_BARB_VIKING_NAVAL" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyVikingAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_VIKING_NAVAL" NumMeleeUnits="4" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="3" SiegeTag="CLASS_BARB_VIKING_NAVAL" NumSiegeUnits="2"/>
+		
+		<!-- Barbary -->
+		<Row AttackForceType="LowDifficultyBarbaryRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="BarbaryRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="2" RangeTag="CLASS_BARB_PIRATES_AFRICA" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyBarbaryRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="3" RangeTag="CLASS_BARB_PIRATES_AFRICA" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyBarbaryAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="2" RangeTag="CLASS_BARB_PIRATES_AFRICA" NumRangeUnits="1" SiegeTag="CLASS_BARB_PIRATES_AFRICA" NumSiegeUnits="1"/>
+		<Row AttackForceType="BarbaryAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="3" RangeTag="CLASS_BARB_PIRATES_AFRICA" NumRangeUnits="2" SiegeTag="CLASS_BARB_PIRATES_AFRICA" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyBarbaryAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_PIRATES_AFRICA" NumMeleeUnits="4" RangeTag="CLASS_BARB_PIRATES_AFRICA" NumRangeUnits="3" SiegeTag="CLASS_BARB_PIRATES_AFRICA" NumSiegeUnits="2"/>
+		
+		<!-- Cree -->
+		<Row AttackForceType="LowDifficultyCreeRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_CREE" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="CreeRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_CREE" NumMeleeUnits="2" RangeTag="CLASS_BARB_CREE" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyCreeRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_CREE" NumMeleeUnits="3" RangeTag="CLASS_BARB_CREE" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyCreeAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_CREE" NumMeleeUnits="2" RangeTag="CLASS_BARB_CREE" NumRangeUnits="1" SiegeTag="CLASS_BARB_CREE" NumSiegeUnits="1"/>
+		<Row AttackForceType="CreeAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_CREE" NumMeleeUnits="3" RangeTag="CLASS_BARB_CREE" NumRangeUnits="2" SiegeTag="CLASS_BARB_CREE" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyCreeAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_CREE" NumMeleeUnits="4" RangeTag="CLASS_BARB_CREE" NumRangeUnits="3" SiegeTag="CLASS_BARB_CREE" NumSiegeUnits="2"/>
+		
+		<!-- Scythian -->
+		<Row AttackForceType="LowDifficultyScythianRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_SCYTHIAN" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="ScythianRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_SCYTHIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyScythianRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_SCYTHIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyScythianAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_SCYTHIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="1" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="1"/>
+		<Row AttackForceType="ScythianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_SCYTHIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="2" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyScythianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_SCYTHIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="3" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="2"/>
+		
+		<!-- Aztec -->
+		<Row AttackForceType="LowDifficultyAztecRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_AZTEC" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="AztecRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_AZTEC" NumMeleeUnits="2" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyAztecRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_AZTEC" NumMeleeUnits="3" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyAztecAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_AZTEC" NumMeleeUnits="2" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="1" SiegeTag="CLASS_BARB_AZTEC" NumSiegeUnits="1"/>
+		<Row AttackForceType="AztecAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_AZTEC" NumMeleeUnits="3" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="2" SiegeTag="CLASS_BARB_AZTEC" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyAztecAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_AZTEC" NumMeleeUnits="4" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="3" SiegeTag="CLASS_BARB_AZTEC" NumSiegeUnits="2"/>
+		
+		<!-- Maori -->
+		<Row AttackForceType="LowDifficultyMaoriRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_NAVAL_MELEE" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="MaoriRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_NAVAL_MELEE" NumMeleeUnits="2" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyMaoriRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_NAVAL_MELEE" NumMeleeUnits="3" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyMaoriAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_NAVAL_MELEE" NumMeleeUnits="2" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="1" SiegeTag="CLASS_BARB_NAVAL_RANGED" NumSiegeUnits="1"/>
+		<Row AttackForceType="MaoriAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_NAVAL_MELEE" NumMeleeUnits="3" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="2" SiegeTag="CLASS_BARB_NAVAL_RANGED" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyMaoriAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_NAVAL_MELEE" NumMeleeUnits="4" RangeTag="CLASS_BARB_NAVAL_RANGED" NumRangeUnits="3" SiegeTag="CLASS_BARB_NAVAL_RANGED" NumSiegeUnits="2"/>
+		
+		<!-- Varu -->
+		<Row AttackForceType="LowDifficultyVaruRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_VARU" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="VaruRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_VARU" NumMeleeUnits="2" RangeTag="CLASS_BARB_VOI_CHIEN" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyVaruRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_VARU" NumMeleeUnits="3" RangeTag="CLASS_BARB_VOI_CHIEN" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyVaruAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_VARU" NumMeleeUnits="2" RangeTag="CLASS_BARB_VOI_CHIEN" NumRangeUnits="1" SiegeTag="CLASS_BARB_DOMREY" NumSiegeUnits="1"/>
+		<Row AttackForceType="VaruAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_VARU" NumMeleeUnits="3" RangeTag="CLASS_BARB_VOI_CHIEN" NumRangeUnits="2" SiegeTag="CLASS_BARB_DOMREY" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyVaruAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_VARU" NumMeleeUnits="4" RangeTag="CLASS_BARB_VOI_CHIEN" NumRangeUnits="3" SiegeTag="CLASS_BARB_DOMREY" NumSiegeUnits="2"/>
+		
+		<!-- Iberian -->
+		<Row AttackForceType="LowDifficultyIberianRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="IberianRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="2" RangeTag="CLASS_BARB_RANGED" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyIberianRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="3" RangeTag="CLASS_BARB_RANGED" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyIberianAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="2" RangeTag="CLASS_BARB_RANGED" NumRangeUnits="1" SiegeTag="CLASS_BARB_HEAVYCAV" NumSiegeUnits="1"/>
+		<Row AttackForceType="IberianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="3" RangeTag="CLASS_BARB_RANGED" NumRangeUnits="2" SiegeTag="CLASS_BARB_HEAVYCAV" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyIberianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="4" RangeTag="CLASS_BARB_RANGED" NumRangeUnits="3" SiegeTag="CLASS_BARB_HEAVYCAV" NumSiegeUnits="2"/>
+		
+		<!-- Balkans -->
+		<Row AttackForceType="LowDifficultyBalkansRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="BalkansRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="2" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyBalkansRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="3" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyBalkansAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="2" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="1" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="1"/>
+		<Row AttackForceType="BalkansAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="3" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="2" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyBalkansAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_MELEE" NumMeleeUnits="4" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="3" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="2"/>
+		
+		<!-- Slavic -->
+		<Row AttackForceType="LowDifficultySlavicRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="SlavicRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="1" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="1"/>
+		<Row AttackForceType="SlavicAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_SLAVIC" NumMeleeUnits="3" RangeTag="CLASS_BARB_LIGHTCAV" NumRangeUnits="2" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="3" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="2"/>
+		
+		<!-- Haida -->
+		<Row AttackForceType="LowDifficultyHaidaRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_LONGSHIP" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HaidaRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_LONGSHIP" NumMeleeUnits="2" RangeTag="CLASS_LONGSHIP" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyHaidaRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_LONGSHIP" NumMeleeUnits="3" RangeTag="CLASS_LONGSHIP" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyHaidaAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_LONGSHIP" NumMeleeUnits="2" RangeTag="CLASS_LONGSHIP" NumRangeUnits="1" SiegeTag="CLASS_BARB_NAVAL_RAIDER" NumSiegeUnits="1"/>
+		<Row AttackForceType="HaidaAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_LONGSHIP" NumMeleeUnits="3" RangeTag="CLASS_LONGSHIP" NumRangeUnits="2" SiegeTag="CLASS_BARB_NAVAL_RAIDER" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyHaidaAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_LONGSHIP" NumMeleeUnits="4" RangeTag="CLASS_LONGSHIP" NumRangeUnits="3" SiegeTag="CLASS_BARB_NAVAL_RAIDER" NumSiegeUnits="2"/>
+
+		<!-- Pirates -->
+		<Row AttackForceType="LowDifficultyPiratesRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_NAVAL_RAIDER" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="PiratesRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_NAVAL_RAIDER" NumMeleeUnits="2" RangeTag="CLASS_BARB_NAVAL_RAIDER" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyPiratesRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_NAVAL_RAIDER" NumMeleeUnits="3" RangeTag="CLASS_BARB_NAVAL_RAIDER" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyPiratesAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_NAVAL_RAIDER" NumMeleeUnits="2" RangeTag="CLASS_BARB_NAVAL_RAIDER" NumRangeUnits="1" SiegeTag="CLASS_BARB_NAVAL_RAIDER" NumSiegeUnits="1"/>
+		<Row AttackForceType="PiratesAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_NAVAL_RAIDER" NumMeleeUnits="3" RangeTag="CLASS_BARB_NAVAL_RAIDER" NumRangeUnits="2" SiegeTag="CLASS_BARB_NAVAL_RAIDER" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyPiratesAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_NAVAL_RAIDER" NumMeleeUnits="4" RangeTag="CLASS_BARB_NAVAL_RAIDER" NumRangeUnits="3" SiegeTag="CLASS_BARB_NAVAL_RAIDER" NumSiegeUnits="2"/>
+		
+		<!-- Persian -->
+		<Row AttackForceType="LowDifficultyPersianRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_PERSIAN" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="PersianRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_PERSIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyPersianRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_PERSIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyPersianAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_PERSIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="1" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="1"/>
+		<Row AttackForceType="PersianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_PERSIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="2" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyPersianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_PERSIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_SCYTHIAN" NumRangeUnits="3" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="2"/>
+		
+		<!-- Comanche -->
+		<Row AttackForceType="LowDifficultyComancheRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_COMANCHE" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="ComancheRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_COMANCHE" NumMeleeUnits="2" RangeTag="CLASS_BARB_COMANCHE" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyComancheRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_COMANCHE" NumMeleeUnits="3" RangeTag="CLASS_BARB_COMANCHE" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyComancheAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_COMANCHE" NumMeleeUnits="2" RangeTag="CLASS_BARB_COMANCHE" NumRangeUnits="1" SiegeTag="CLASS_BARB_COMANCHE" NumSiegeUnits="1"/>
+		<Row AttackForceType="ComancheAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_COMANCHE" NumMeleeUnits="3" RangeTag="CLASS_BARB_COMANCHE" NumRangeUnits="2" SiegeTag="CLASS_BARB_COMANCHE" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyComancheAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_COMANCHE" NumMeleeUnits="4" RangeTag="CLASS_BARB_COMANCHE" NumRangeUnits="3" SiegeTag="CLASS_BARB_COMANCHE" NumSiegeUnits="2"/>
+		
+		<!-- Patagonian -->
+		<Row AttackForceType="LowDifficultyPatagonianRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_PATAGONIAN" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="PatagonianRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_PATAGONIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_PATAGONIAN" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyPatagonianRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_PATAGONIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_PATAGONIAN" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyPatagonianAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_PATAGONIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_PATAGONIAN" NumRangeUnits="1" SiegeTag="CLASS_BARB_PATAGONIAN" NumSiegeUnits="1"/>
+		<Row AttackForceType="PatagonianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_PATAGONIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_PATAGONIAN" NumRangeUnits="2" SiegeTag="CLASS_BARB_PATAGONIAN" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyPatagonianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_PATAGONIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_PATAGONIAN" NumRangeUnits="3" SiegeTag="CLASS_BARB_PATAGONIAN" NumSiegeUnits="2"/>	
+
+		<!-- SouthAmerican -->
+		<Row AttackForceType="LowDifficultySouthAmericanRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_SOUTHAM" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="SouthAmericanRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_SOUTHAM" NumMeleeUnits="2" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultySouthAmericanRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_SOUTHAM" NumMeleeUnits="3" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultySouthAmericanAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_SOUTHAM" NumMeleeUnits="2" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="1" SiegeTag="CLASS_BARB_SOUTHAM" NumSiegeUnits="1"/>
+		<Row AttackForceType="SouthAmericanAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_SOUTHAM" NumMeleeUnits="3" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="2" SiegeTag="CLASS_BARB_SOUTHAM" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultySouthAmericanAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_SOUTHAM" NumMeleeUnits="4" RangeTag="CLASS_BARB_MAYA" NumRangeUnits="3" SiegeTag="CLASS_BARB_SOUTHAM" NumSiegeUnits="2"/>
+		
+		<!-- Australian -->
+		<Row AttackForceType="LowDifficultyAustralianRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_AUSTRALIAN" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="AustralianRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_AUSTRALIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_AUSTRALIAN" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyAustralianRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_AUSTRALIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_AUSTRALIAN" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyAustralianAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_AUSTRALIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_AUSTRALIAN" NumRangeUnits="1" SiegeTag="CLASS_BARB_AUSTRALIAN" NumSiegeUnits="1"/>
+		<Row AttackForceType="AustralianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_AUSTRALIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_AUSTRALIAN" NumRangeUnits="2" SiegeTag="CLASS_BARB_AUSTRALIAN" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyAustralianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_AUSTRALIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_AUSTRALIAN" NumRangeUnits="3" SiegeTag="CLASS_BARB_AUSTRALIAN" NumSiegeUnits="2"/>
+		
+		<!-- Incan -->
+		<Row AttackForceType="LowDifficultyIncanRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_INCAN" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="IncanRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_INCAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_INCAN" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyIncanRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_INCAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_INCAN" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyIncanAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_INCAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_INCAN" NumRangeUnits="1" SiegeTag="CLASS_BARB_INCAN" NumSiegeUnits="1"/>
+		<Row AttackForceType="IncanAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_INCAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_INCAN" NumRangeUnits="2" SiegeTag="CLASS_BARB_INCAN" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyIncanAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_INCAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_INCAN" NumRangeUnits="3" SiegeTag="CLASS_BARB_INCAN" NumSiegeUnits="2"/>
+		
+		<!-- Mali -->
+		<Row AttackForceType="LowDifficultyMaliRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_MALI" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="MaliRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_MALI" NumMeleeUnits="2" RangeTag="CLASS_BARB_MALI" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyMaliRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_MALI" NumMeleeUnits="3" RangeTag="CLASS_BARB_MALI" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyMaliAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_MALI" NumMeleeUnits="2" RangeTag="CLASS_BARB_MALI" NumRangeUnits="1" SiegeTag="CLASS_BARB_MALI" NumSiegeUnits="1"/>
+		<Row AttackForceType="MaliAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_MALI" NumMeleeUnits="3" RangeTag="CLASS_BARB_MALI" NumRangeUnits="2" SiegeTag="CLASS_BARB_MALI" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyMaliAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_MALI" NumMeleeUnits="4" RangeTag="CLASS_BARB_MALI" NumRangeUnits="3" SiegeTag="CLASS_BARB_MALI" NumSiegeUnits="2"/>
+		
+		<!-- EastAsian -->
+		<Row AttackForceType="LowDifficultyEastAsianRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_MONGOL" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="EastAsianRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyEastAsianRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyEastAsianAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="1" SiegeTag="CLASS_BARB_EASTASIAN" NumSiegeUnits="1"/>
+		<Row AttackForceType="EastAsianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="2" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyEastAsianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="3" SiegeTag="CLASS_BARB_SIEGE" NumSiegeUnits="2"/>
+		
+		<!-- Mongol -->
+		<Row AttackForceType="LowDifficultyMongolRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="MongolRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="2" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyMongolRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="3" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyMongolAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="2" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="1" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="1"/>
+		<Row AttackForceType="MongolAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="3" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="2" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyMongolAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="4" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="3" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="2"/>
+		
+		<!-- Siberian -->
+		<Row AttackForceType="LowDifficultySiberianRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="SiberianRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultySiberianRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultySiberianAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="2" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="1" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="1"/>
+		<Row AttackForceType="SiberianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_RANGED" NumRangeUnits="2" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultySiberianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="3" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="2"/>
+		
+	</BarbarianAttackForces>
+	<BarbarianTribeForces>
+		<Row AttackForceType="LowDifficultyKongoRaid" TribeType="TRIBE_KONGO"/>
+		<Row AttackForceType="KongoRaid" TribeType="TRIBE_KONGO"/>
+		<Row AttackForceType="HighDifficultyKongoRaid" TribeType="TRIBE_KONGO"/>
+		<Row AttackForceType="LowDifficultyKongoAttack" TribeType="TRIBE_KONGO"/>
+		<Row AttackForceType="KongoAttack" TribeType="TRIBE_KONGO"/>
+		<Row AttackForceType="HighDifficultyKongoAttack" TribeType="TRIBE_KONGO"/>
+		
+		<Row AttackForceType="LowDifficultyZuluRaid" TribeType="TRIBE_ZULU"/>
+		<Row AttackForceType="ZuluRaid" TribeType="TRIBE_ZULU"/>
+		<Row AttackForceType="HighDifficultyZuluRaid" TribeType="TRIBE_ZULU"/>
+		<Row AttackForceType="LowDifficultyZuluAttack" TribeType="TRIBE_ZULU"/>
+		<Row AttackForceType="ZuluAttack" TribeType="TRIBE_ZULU"/>
+		<Row AttackForceType="HighDifficultyZuluAttack" TribeType="TRIBE_ZULU"/>
+		
+		<Row AttackForceType="LowDifficultyNubianRaid" TribeType="TRIBE_NUBIAN"/>
+		<Row AttackForceType="NubianRaid" TribeType="TRIBE_NUBIAN"/>
+		<Row AttackForceType="HighDifficultyNubianRaid" TribeType="TRIBE_NUBIAN"/>
+		<Row AttackForceType="LowDifficultyNubianAttack" TribeType="TRIBE_NUBIAN"/>
+		<Row AttackForceType="NubianAttack" TribeType="TRIBE_NUBIAN"/>
+		<Row AttackForceType="HighDifficultyNubianAttack" TribeType="TRIBE_NUBIAN"/>
+		
+		<Row AttackForceType="LowDifficultyCelticRaid" TribeType="TRIBE_CELTIC"/>
+		<Row AttackForceType="CelticRaid" TribeType="TRIBE_CELTIC"/>
+		<Row AttackForceType="HighDifficultyCelticRaid" TribeType="TRIBE_CELTIC"/>
+		<Row AttackForceType="LowDifficultyCelticAttack" TribeType="TRIBE_CELTIC"/>
+		<Row AttackForceType="CelticAttack" TribeType="TRIBE_CELTIC"/>
+		<Row AttackForceType="HighDifficultyCelticAttack" TribeType="TRIBE_CELTIC"/>
+		
+		<Row AttackForceType="LowDifficultyGreekRaid" TribeType="TRIBE_GREEK"/>
+		<Row AttackForceType="GreekRaid" TribeType="TRIBE_GREEK"/>
+		<Row AttackForceType="HighDifficultyGreekRaid" TribeType="TRIBE_GREEK"/>
+		<Row AttackForceType="LowDifficultyGreekAttack" TribeType="TRIBE_GREEK"/>
+		<Row AttackForceType="GreekAttack" TribeType="TRIBE_GREEK"/>
+		<Row AttackForceType="HighDifficultyGreekAttack" TribeType="TRIBE_GREEK"/>
+		
+		<Row AttackForceType="LowDifficultyVikingRaid" TribeType="TRIBE_VIKING"/>
+		<Row AttackForceType="VikingRaid" TribeType="TRIBE_VIKING"/>
+		<Row AttackForceType="HighDifficultyVikingRaid" TribeType="TRIBE_VIKING"/>
+		<Row AttackForceType="LowDifficultyVikingAttack" TribeType="TRIBE_VIKING"/>
+		<Row AttackForceType="VikingAttack" TribeType="TRIBE_VIKING"/>
+		<Row AttackForceType="HighDifficultyVikingAttack" TribeType="TRIBE_VIKING"/>
+		
+		<Row AttackForceType="LowDifficultyBarbaryRaid" TribeType="TRIBE_BARBARY"/>
+		<Row AttackForceType="BarbaryRaid" TribeType="TRIBE_BARBARY"/>
+		<Row AttackForceType="HighDifficultyBarbaryRaid" TribeType="TRIBE_BARBARY"/>
+		<Row AttackForceType="LowDifficultyBarbaryAttack" TribeType="TRIBE_BARBARY"/>
+		<Row AttackForceType="BarbaryAttack" TribeType="TRIBE_BARBARY"/>
+		<Row AttackForceType="HighDifficultyBarbaryAttack" TribeType="TRIBE_BARBARY"/>
+		
+		<Row AttackForceType="LowDifficultyCreeRaid" TribeType="TRIBE_CREE"/>
+		<Row AttackForceType="CreeRaid" TribeType="TRIBE_CREE"/>
+		<Row AttackForceType="HighDifficultyCreeRaid" TribeType="TRIBE_CREE"/>
+		<Row AttackForceType="LowDifficultyCreeAttack" TribeType="TRIBE_CREE"/>
+		<Row AttackForceType="CreeAttack" TribeType="TRIBE_CREE"/>
+		<Row AttackForceType="HighDifficultyCreeAttack" TribeType="TRIBE_CREE"/>
+		
+		<Row AttackForceType="LowDifficultyScythianRaid" TribeType="TRIBE_SCYTHIAN"/>
+		<Row AttackForceType="ScythianRaid" TribeType="TRIBE_SCYTHIAN"/>
+		<Row AttackForceType="HighDifficultyScythianRaid" TribeType="TRIBE_SCYTHIAN"/>
+		<Row AttackForceType="LowDifficultyScythianAttack" TribeType="TRIBE_SCYTHIAN"/>
+		<Row AttackForceType="ScythianAttack" TribeType="TRIBE_SCYTHIAN"/>
+		<Row AttackForceType="HighDifficultyScythianAttack" TribeType="TRIBE_SCYTHIAN"/>
+		
+		<Row AttackForceType="LowDifficultyAztecRaid" TribeType="TRIBE_AZTEC"/>
+		<Row AttackForceType="AztecRaid" TribeType="TRIBE_AZTEC"/>
+		<Row AttackForceType="HighDifficultyAztecRaid" TribeType="TRIBE_AZTEC"/>
+		<Row AttackForceType="LowDifficultyAztecAttack" TribeType="TRIBE_AZTEC"/>
+		<Row AttackForceType="AztecAttack" TribeType="TRIBE_AZTEC"/>
+		<Row AttackForceType="HighDifficultyAztecAttack" TribeType="TRIBE_AZTEC"/>
+		
+		<Row AttackForceType="LowDifficultyMaoriRaid" TribeType="TRIBE_MAORI"/>
+		<Row AttackForceType="MaoriRaid" TribeType="TRIBE_MAORI"/>
+		<Row AttackForceType="HighDifficultyMaoriRaid" TribeType="TRIBE_MAORI"/>
+		<Row AttackForceType="LowDifficultyMaoriAttack" TribeType="TRIBE_MAORI"/>
+		<Row AttackForceType="MaoriAttack" TribeType="TRIBE_MAORI"/>
+		<Row AttackForceType="HighDifficultyMaoriAttack" TribeType="TRIBE_MAORI"/>
+		
+		<Row AttackForceType="LowDifficultyVaruRaid" TribeType="TRIBE_VARU"/>
+		<Row AttackForceType="VaruRaid" TribeType="TRIBE_VARU"/>
+		<Row AttackForceType="HighDifficultyVaruRaid" TribeType="TRIBE_VARU"/>
+		<Row AttackForceType="LowDifficultyVaruAttack" TribeType="TRIBE_VARU"/>
+		<Row AttackForceType="VaruAttack" TribeType="TRIBE_VARU"/>
+		<Row AttackForceType="HighDifficultyVaruAttack" TribeType="TRIBE_VARU"/>
+		
+		<Row AttackForceType="LowDifficultyIberianRaid" TribeType="TRIBE_IBERIAN"/>
+		<Row AttackForceType="IberianRaid" TribeType="TRIBE_IBERIAN"/>
+		<Row AttackForceType="HighDifficultyIberianRaid" TribeType="TRIBE_IBERIAN"/>
+		<Row AttackForceType="LowDifficultyIberianAttack" TribeType="TRIBE_IBERIAN"/>
+		<Row AttackForceType="IberianAttack" TribeType="TRIBE_IBERIAN"/>
+		<Row AttackForceType="HighDifficultyIberianAttack" TribeType="TRIBE_IBERIAN"/>
+		
+		<Row AttackForceType="LowDifficultyBalkansRaid" TribeType="TRIBE_BALKANS"/>
+		<Row AttackForceType="BalkansRaid" TribeType="TRIBE_BALKANS"/>
+		<Row AttackForceType="HighDifficultyBalkansRaid" TribeType="TRIBE_BALKANS"/>
+		<Row AttackForceType="LowDifficultyBalkansAttack" TribeType="TRIBE_BALKANS"/>
+		<Row AttackForceType="BalkansAttack" TribeType="TRIBE_BALKANS"/>
+		<Row AttackForceType="HighDifficultyBalkansAttack" TribeType="TRIBE_BALKANS"/>
+		
+		<Row AttackForceType="LowDifficultySlavicRaid" TribeType="TRIBE_SLAVIC"/>
+		<Row AttackForceType="SlavicRaid" TribeType="TRIBE_SLAVIC"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" TribeType="TRIBE_SLAVIC"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_SLAVIC"/>
+		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_SLAVIC"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_SLAVIC"/>
+		
+		<Row AttackForceType="LowDifficultyHaidaRaid" TribeType="TRIBE_HAIDA"/>
+		<Row AttackForceType="HaidaRaid" TribeType="TRIBE_HAIDA"/>
+		<Row AttackForceType="HighDifficultyHaidaRaid" TribeType="TRIBE_HAIDA"/>
+		<Row AttackForceType="LowDifficultyHaidaAttack" TribeType="TRIBE_HAIDA"/>
+		<Row AttackForceType="HaidaAttack" TribeType="TRIBE_HAIDA"/>
+		<Row AttackForceType="HighDifficultyHaidaAttack" TribeType="TRIBE_HAIDA"/>
+		
+		<Row AttackForceType="LowDifficultyPiratesRaid" TribeType="TRIBE_PIRATES"/>
+		<Row AttackForceType="PiratesRaid" TribeType="TRIBE_PIRATES"/>
+		<Row AttackForceType="HighDifficultyPiratesRaid" TribeType="TRIBE_PIRATES"/>
+		<Row AttackForceType="LowDifficultyPiratesAttack" TribeType="TRIBE_PIRATES"/>
+		<Row AttackForceType="PiratesAttack" TribeType="TRIBE_PIRATES"/>
+		<Row AttackForceType="HighDifficultyPiratesAttack" TribeType="TRIBE_PIRATES"/>
+		
+		<Row AttackForceType="LowDifficultyPersianRaid" TribeType="TRIBE_PERSIAN"/>
+		<Row AttackForceType="PersianRaid" TribeType="TRIBE_PERSIAN"/>
+		<Row AttackForceType="HighDifficultyPersianRaid" TribeType="TRIBE_PERSIAN"/>
+		<Row AttackForceType="LowDifficultyPersianAttack" TribeType="TRIBE_PERSIAN"/>
+		<Row AttackForceType="PersianAttack" TribeType="TRIBE_PERSIAN"/>
+		<Row AttackForceType="HighDifficultyPersianAttack" TribeType="TRIBE_PERSIAN"/>
+		
+		<Row AttackForceType="LowDifficultyComancheRaid" TribeType="TRIBE_COMANCHE"/>
+		<Row AttackForceType="ComancheRaid" TribeType="TRIBE_COMANCHE"/>
+		<Row AttackForceType="HighDifficultyComancheRaid" TribeType="TRIBE_COMANCHE"/>
+		<Row AttackForceType="LowDifficultyComancheAttack" TribeType="TRIBE_COMANCHE"/>
+		<Row AttackForceType="ComancheAttack" TribeType="TRIBE_COMANCHE"/>
+		<Row AttackForceType="HighDifficultyComancheAttack" TribeType="TRIBE_COMANCHE"/>
+		
+		<Row AttackForceType="LowDifficultyPatagonianRaid" TribeType="TRIBE_PATAGONIAN"/>
+		<Row AttackForceType="PatagonianRaid" TribeType="TRIBE_PATAGONIAN"/>
+		<Row AttackForceType="HighDifficultyPatagonianRaid" TribeType="TRIBE_PATAGONIAN"/>
+		<Row AttackForceType="LowDifficultyPatagonianAttack" TribeType="TRIBE_PATAGONIAN"/>
+		<Row AttackForceType="PatagonianAttack" TribeType="TRIBE_PATAGONIAN"/>
+		<Row AttackForceType="HighDifficultyPatagonianAttack" TribeType="TRIBE_PATAGONIAN"/>
+		
+		<Row AttackForceType="LowDifficultySouthAmericanRaid" TribeType="TRIBE_SOUTH_AMERICAN"/>
+		<Row AttackForceType="SouthAmericanRaid" TribeType="TRIBE_SOUTH_AMERICAN"/>
+		<Row AttackForceType="HighDifficultySouthAmericanRaid" TribeType="TRIBE_SOUTH_AMERICAN"/>
+		<Row AttackForceType="LowDifficultySouthAmericanAttack" TribeType="TRIBE_SOUTH_AMERICAN"/>
+		<Row AttackForceType="SouthAmericanAttack" TribeType="TRIBE_SOUTH_AMERICAN"/>
+		<Row AttackForceType="HighDifficultySouthAmericanAttack" TribeType="TRIBE_SOUTH_AMERICAN"/>
+		
+		<Row AttackForceType="LowDifficultyAustralianRaid" TribeType="TRIBE_AUSTRALIAN"/>
+		<Row AttackForceType="AustralianRaid" TribeType="TRIBE_AUSTRALIAN"/>
+		<Row AttackForceType="HighDifficultyAustralianRaid" TribeType="TRIBE_AUSTRALIAN"/>
+		<Row AttackForceType="LowDifficultyAustralianAttack" TribeType="TRIBE_AUSTRALIAN"/>
+		<Row AttackForceType="AustralianAttack" TribeType="TRIBE_AUSTRALIAN"/>
+		<Row AttackForceType="HighDifficultyAustralianAttack" TribeType="TRIBE_AUSTRALIAN"/>
+		
+		<Row AttackForceType="LowDifficultyIncanRaid" TribeType="TRIBE_INCAN"/>
+		<Row AttackForceType="IncanRaid" TribeType="TRIBE_INCAN"/>
+		<Row AttackForceType="HighDifficultyIncanRaid" TribeType="TRIBE_INCAN"/>
+		<Row AttackForceType="LowDifficultyIncanAttack" TribeType="TRIBE_INCAN"/>
+		<Row AttackForceType="IncanAttack" TribeType="TRIBE_INCAN"/>
+		<Row AttackForceType="HighDifficultyIncanAttack" TribeType="TRIBE_INCAN"/>
+
+		<Row AttackForceType="LowDifficultyMaliRaid" TribeType="TRIBE_MALI"/>
+		<Row AttackForceType="MaliRaid" TribeType="TRIBE_MALI"/>
+		<Row AttackForceType="HighDifficultyMaliRaid" TribeType="TRIBE_MALI"/>
+		<Row AttackForceType="LowDifficultyMaliAttack" TribeType="TRIBE_MALI"/>
+		<Row AttackForceType="MaliAttack" TribeType="TRIBE_MALI"/>
+		<Row AttackForceType="HighDifficultyMaliAttack" TribeType="TRIBE_MALI"/>
+		
+		<Row AttackForceType="LowDifficultyEastAsianRaid" TribeType="TRIBE_EASTASIAN"/>
+		<Row AttackForceType="EastAsianRaid" TribeType="TRIBE_EASTASIAN"/>
+		<Row AttackForceType="HighDifficultyEastAsianRaid" TribeType="TRIBE_EASTASIAN"/>
+		<Row AttackForceType="LowDifficultyEastAsianAttack" TribeType="TRIBE_EASTASIAN"/>
+		<Row AttackForceType="EastAsianAttack" TribeType="TRIBE_EASTASIAN"/>
+		<Row AttackForceType="HighDifficultyEastAsianAttack" TribeType="TRIBE_EASTASIAN"/>
+		
+		<Row AttackForceType="LowDifficultyMongolRaid" TribeType="TRIBE_MONGOL"/>
+		<Row AttackForceType="MongolRaid" TribeType="TRIBE_MONGOL"/>
+		<Row AttackForceType="HighDifficultyMongolRaid" TribeType="TRIBE_MONGOL"/>
+		<Row AttackForceType="LowDifficultyMongolAttack" TribeType="TRIBE_MONGOL"/>
+		<Row AttackForceType="MongolAttack" TribeType="TRIBE_MONGOL"/>
+		<Row AttackForceType="HighDifficultyMongolAttack" TribeType="TRIBE_MONGOL"/>
+		
+		<Row AttackForceType="LowDifficultySiberianRaid" TribeType="TRIBE_SIBERIAN"/>
+		<Row AttackForceType="SiberianRaid" TribeType="TRIBE_SIBERIAN"/>
+		<Row AttackForceType="HighDifficultySiberianRaid" TribeType="TRIBE_SIBERIAN"/>
+		<Row AttackForceType="LowDifficultySiberianAttack" TribeType="TRIBE_SIBERIAN"/>
+		<Row AttackForceType="SiberianAttack" TribeType="TRIBE_SIBERIAN"/>
+		<Row AttackForceType="HighDifficultySiberianAttack" TribeType="TRIBE_SIBERIAN"/>
+	</BarbarianTribeForces>
+	<BarbarianTribeNames>
+		<Row TribeNameType="BARBARIAN_KONGO_1" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_1"/>
+		<Row TribeNameType="BARBARIAN_KONGO_2" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_2"/>
+		<Row TribeNameType="BARBARIAN_KONGO_3" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_3"/>
+		<Row TribeNameType="BARBARIAN_KONGO_4" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_4"/>
+		<Row TribeNameType="BARBARIAN_KONGO_5" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_5"/>
+		<Row TribeNameType="BARBARIAN_ZULU_1" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_1"/>
+		<Row TribeNameType="BARBARIAN_ZULU_2" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_2"/>
+		<Row TribeNameType="BARBARIAN_ZULU_3" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_3"/>
+		<Row TribeNameType="BARBARIAN_ZULU_4" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_4"/>
+		<Row TribeNameType="BARBARIAN_ZULU_5" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_5"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_1" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_1"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_2" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_2"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_3" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_3"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_4" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_4"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_5" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_5"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_1" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_1"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_2" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_2"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_3" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_3"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_4" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_4"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_5" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_5"/>
+		<Row TribeNameType="BARBARIAN_GREEK_1" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_1"/>
+		<Row TribeNameType="BARBARIAN_GREEK_2" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_2"/>
+		<Row TribeNameType="BARBARIAN_GREEK_3" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_3"/>
+		<Row TribeNameType="BARBARIAN_GREEK_4" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_4"/>
+		<Row TribeNameType="BARBARIAN_GREEK_5" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_5"/>
+		<Row TribeNameType="BARBARIAN_VIKING_1" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_1"/>
+		<Row TribeNameType="BARBARIAN_VIKING_2" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_2"/>
+		<Row TribeNameType="BARBARIAN_VIKING_3" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_3"/>
+		<Row TribeNameType="BARBARIAN_VIKING_4" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_4"/>
+		<Row TribeNameType="BARBARIAN_VIKING_5" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_5"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_1" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_1"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_2" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_2"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_3" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_3"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_4" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_4"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_5" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_5"/>
+		<Row TribeNameType="BARBARIAN_CREE_1" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_1"/>
+		<Row TribeNameType="BARBARIAN_CREE_2" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_2"/>
+		<Row TribeNameType="BARBARIAN_CREE_3" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_3"/>
+		<Row TribeNameType="BARBARIAN_CREE_4" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_4"/>
+		<Row TribeNameType="BARBARIAN_CREE_5" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_5"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_1" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_1"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_2" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_2"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_3" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_3"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_4" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_4"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_5" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_5"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_1" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_1"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_2" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_2"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_3" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_3"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_4" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_4"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_5" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_5"/>
+		<Row TribeNameType="BARBARIAN_MAORI_1" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_1"/>
+		<Row TribeNameType="BARBARIAN_MAORI_2" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_2"/>
+		<Row TribeNameType="BARBARIAN_MAORI_3" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_3"/>
+		<Row TribeNameType="BARBARIAN_MAORI_4" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_4"/>
+		<Row TribeNameType="BARBARIAN_MAORI_5" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_5"/>
+		<Row TribeNameType="BARBARIAN_VARU_1" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_1"/>
+		<Row TribeNameType="BARBARIAN_VARU_2" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_2"/>
+		<Row TribeNameType="BARBARIAN_VARU_3" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_3"/>
+		<Row TribeNameType="BARBARIAN_VARU_4" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_4"/>
+		<Row TribeNameType="BARBARIAN_VARU_5" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_5"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_1" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_2" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_2"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_3" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_3"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_4" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_4"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_5" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_5"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_1" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_1"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_2" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_2"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_3" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_3"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_4" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_4"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_5" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_5"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_1" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_1"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_2" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_2"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_3" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_3"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_4" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_4"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_5" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_5"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_1" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_1"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_2" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_2"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_3" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_3"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_4" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_4"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_5" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_5"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_1" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_1"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_2" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_2"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_3" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_3"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_4" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_4"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_5" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_5"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_1" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_1"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_2" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_2"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_3" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_3"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_4" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_4"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_5" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_5"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_1" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_1"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_2" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_2"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_3" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_3"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_4" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_4"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_5" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_5"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_1" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_1"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_2" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_2"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_3" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_3"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_4" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_4"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_5" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_5"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_1" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_1"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_2" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_2"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_3" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_3"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_4" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_4"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_5" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_5"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_1" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_1"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_2" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_2"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_3" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_3"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_4" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_4"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_5" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_5"/>
+		<Row TribeNameType="BARBARIAN_INCAN_1" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_1"/>
+		<Row TribeNameType="BARBARIAN_INCAN_2" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_2"/>
+		<Row TribeNameType="BARBARIAN_INCAN_3" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_3"/>
+		<Row TribeNameType="BARBARIAN_INCAN_4" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_4"/>
+		<Row TribeNameType="BARBARIAN_INCAN_5" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_5"/>
+		<Row TribeNameType="BARBARIAN_MALI_1" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_1"/>
+		<Row TribeNameType="BARBARIAN_MALI_2" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_2"/>
+		<Row TribeNameType="BARBARIAN_MALI_3" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_3"/>
+		<Row TribeNameType="BARBARIAN_MALI_4" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_4"/>
+		<Row TribeNameType="BARBARIAN_MALI_5" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_5"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_1" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_1"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_2" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_2"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_3" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_3"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_4" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_4"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_5" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_5"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_1" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_1"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_2" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_2"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_3" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_3"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_4" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_4"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_5" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_5"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_1" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_2" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_2"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_3" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_3"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_4" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_4"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_5" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_5"/>
+	</BarbarianTribeNames>
+	<!-- Barbarian defenders will not leave their camp (Credit: Crazy Barbaarians mod by KCucumber) -->
+<!-- 	<ImprovementModifiers>
+		<Row>
+			<ImprovementType>IMPROVEMENT_BARBARIAN_CAMP</ImprovementType>
+			<ModifierId>CANNOT_LEAVE_CAMP</ModifierId>
+		</Row>
+	</ImprovementModifiers>
+	<Modifiers>
+		<Row>
+			<ModifierId>CANNOT_LEAVE_CAMP</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNITS_ATTACH_MODIFIER</ModifierType>
+			<SubjectRequirementSetId>PLOT_BARBARIAN_IN_CAMP_REQUIREMENTS</SubjectRequirementSetId>
+		</Row>
+		<Row>
+			<ModifierId>CANNOT_LEAVE_CAMP_MODIFIER</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNIT_ADJUST_MOVEMENT</ModifierType>
+		</Row>
+	</Modifiers>
+	<ModifierArguments>
+		<Row>
+			<ModifierId>CANNOT_LEAVE_CAMP</ModifierId>
+			<Name>ModifierId</Name>
+			<Value>CANNOT_LEAVE_CAMP_MODIFIER</Value>
+		</Row>
+		<Row>
+			<ModifierId>CANNOT_LEAVE_CAMP_MODIFIER</ModifierId>
+			<Name>Amount</Name>
+			<Value>-2</Value>
+		</Row>
+	</ModifierArguments>
+	<RequirementSets>
+		<Row>
+			<RequirementSetId>PLOT_BARBARIAN_IN_CAMP_REQUIREMENTS</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ALL</RequirementSetType>
+		</Row>
+	</RequirementSets>
+	<RequirementSetRequirements>
+		<Row>
+			<RequirementSetId>PLOT_BARBARIAN_IN_CAMP_REQUIREMENTS</RequirementSetId>
+			<RequirementId>BARBARIAN_IN_CAMP_REQUIREMENTS</RequirementId>
+		</Row>
+	</RequirementSetRequirements>
+	<Requirements>
+		<Row>
+			<RequirementId>BARBARIAN_IN_CAMP_REQUIREMENTS</RequirementId>
+			<RequirementType>REQUIREMENT_PLOT_ADJACENT_TO_OWNER</RequirementType>
+		</Row>
+	</Requirements>
+	<RequirementArguments>
+		<Row>
+			<RequirementId>BARBARIAN_IN_CAMP_REQUIREMENTS</RequirementId>
+			<Name>MinDistance</Name>
+			<Value>0</Value>
+		</Row>
+		<Row>
+			<RequirementId>BARBARIAN_IN_CAMP_REQUIREMENTS</RequirementId>
+			<Name>MaxDistance</Name>
+			<Value>0</Value>
+		</Row>
+	</RequirementArguments> -->
+</GameInfo>

@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="684731c5-4837-427d-9378-0c58e1201325" version="1.3.1">
+	<Properties>
+		<Name>LOC_HISTORICAL_SPAWN_DATES_TITLE</Name>
+		<Teaser>LOC_HISTORICAL_SPAWN_DATES_TEASER</Teaser>
+		<Description>LOC_HISTORICAL_SPAWN_DATES_DESCRIPTION</Description>
+		<CompatibleVersions>2.0</CompatibleVersions>
+		<Authors>Gedemon, totalslacker</Authors>
+		<SpecialThanks>Tiramasu</SpecialThanks>
+	</Properties>
+	<References>
+		<Mod id="02A8BDDE-67EA-4D38-9540-26E685E3156E" title="DLC: Aztec Civilization Pack" /> 
+		<Mod id="3809975F-263F-40A2-A747-8BFB171D821A" title="DLC: Poland Civilization Pack" />
+		<Mod id="E3F53C61-371C-440B-96CE-077D318B36C0" title="DLC: Australia Civilization Pack" />
+		<Mod id="E2749E9A-8056-45CD-901B-C368C8E83DEB" title="DLC: Persia and Macedon Civilization Pack" />
+		<Mod id="643EA320-8E1A-4CF1-A01C-00D88DDD131A" title="DLC: Nubia Civilization Pack" />
+		<Mod id="1F367231-A040-4793-BDBB-088816853683" title="DLC: Khmer and Indonesia Civilization Pack" />
+		<Mod id="2F6E858A-28EF-46B3-BEAC-B985E52E9BC1" title="DLC: Vikings Content" />
+		<Mod id="9DE86512-DE1A-400D-8C0A-AB46EBBF76B9" title="LOC_GRANCOLOMBIA_MAYA_MOD_TITLE" />
+		<Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="LOC_EXPANSION1_MOD_TITLE" />
+		<Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="LOC_EXPANSION2_MOD_TITLE"/>
+	</References>	
+	<ActionCriteria>
+		<Criteria id="HSD_Active">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>	
+		<Criteria id="HSD_DramaticAges">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_DRAMATICAGES</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>		
+		<Criteria id="HSD_LoyalHarbors">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>LoyalHarbors</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="HSD_RagingBarbarians">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>RagingBarbarians</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>	
+		<Criteria id="HSD_Comandantes">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>Comandantes</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+		<Criteria id="HSD_Comandantes_1">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>ComandantesSlider</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+		<Criteria id="HSD_Comandantes_2">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>ComandantesSlider</ConfigurationId>
+				<Value>2</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+		<Criteria id="HSD_Comandantes_3">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>ComandantesSlider</ConfigurationId>
+				<Value>3</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+		<Criteria id="HSD_Comandantes_4">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>ComandantesSlider</ConfigurationId>
+				<Value>4</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+		<Criteria id="HSD_Comandantes_5">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>ComandantesSlider</ConfigurationId>
+				<Value>5</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+		<Criteria id="HSD_Comandantes_6">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>ComandantesSlider</ConfigurationId>
+				<Value>6</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+		<Criteria id="HSD_Comandantes_7">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>ComandantesSlider</ConfigurationId>
+				<Value>7</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+	</ActionCriteria>
+	<LocalizedText>
+		<Text id="LOC_HISTORICAL_SPAWN_DATES_TITLE">
+			<en_US>Historical Spawn Dates</en_US>
+		</Text>
+		<Text id="LOC_HISTORICAL_SPAWN_DATES_TEASER">
+			<en_US>Original mod by Gedemon. Updated for Steam with new features and Expansion + DLC support.</en_US>
+		</Text>
+		<Text id="LOC_HISTORICAL_SPAWN_DATES_DESCRIPTION">
+			<en_US>Civilizations and City-States appear on the map according to their historical spawn date with starting bonuses based on the era. New features include city revolts in the spawn area, invasion forces and isolated Civilizations that start without bonuses. See Steam Workshop page for the entire list of features, rules changes and options for this mod.[NEWLINE][NEWLINE][NEWLINE][COLOR_RED]REQUIRES[ENDCOLOR] Rise and Fall [COLOR_GREEN]OR[ENDCOLOR] Gathering Storm</en_US>
+		</Text>
+	</LocalizedText>	
+	<InGameActions>
+		<ImportFiles>
+			<File>Scripts/UnitFunctions.lua</File>
+			<File>Scripts/ScenarioFunctions.lua</File>
+		</ImportFiles>
+		<UpdateDatabase id="HSD_PRE_COMPONENT">
+           	<Properties>
+				<LoadOrder>-1</LoadOrder>
+           	</Properties>
+			<File>Data/Tables.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_COMPONENTS_XML" criteria="HSD_Active">
+           	<Properties>
+				<LoadOrder>50</LoadOrder>
+           	</Properties>		
+			<File>Data/GamePlay.xml</File>
+		</UpdateDatabase>		
+		<UpdateDatabase id="HSD_COMPONENTS_SQL" criteria="HSD_Active">
+           	<Properties>
+				<LoadOrder>100</LoadOrder>
+           	</Properties>
+			<File>Data/GamePlay.sql</File>
+			<File>Data/IsolatedCivs.sql</File>
+			<File>Data/ModSupport.sql</File>
+			<File>Tables/HSD_Eras.sql</File>
+			<File>Tables/HSD_LiteMode.sql</File>
+			<File>Tables/HSD_LiteMode_Eras.sql</File>
+			<File>Tables/HSD_Standard.sql</File>
+			<File>Tables/HSD_TrueHSD.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_LoyalHarbors" criteria="HSD_LoyalHarbors">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/LoyalHarbors.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_RagingBarbarians_Data" criteria="HSD_RagingBarbarians">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/RagingBarbarians.sql</File>
+			<File>Data/RagingBarbarians.xml</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/Comandantes.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes_1">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/Comandantes_1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes_2">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/Comandantes_2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes_3">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/Comandantes_3.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes_4">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/Comandantes_4.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes_5">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/Comandantes_5.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes_6">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/Comandantes_6.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes_7">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>Data/Comandantes_7.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="HSD_LOC">
+			<File>Data/GameText.xml</File>
+		</UpdateText>
+		<AddUserInterfaces id="HSD_INGAME">
+			<Properties>
+				<Context>InGame</Context>
+				<LoadOrder>200</LoadOrder>
+			</Properties>
+			<File>Scripts/InGameHSD.xml</File>
+		</AddUserInterfaces>
+		<AddGameplayScripts id="HSD_SCRIPTS">
+			<Properties>
+				<LoadOrder>300</LoadOrder>
+			</Properties>
+			<File>Scripts/ScriptHSD.lua</File>
+		</AddGameplayScripts>
+		<UpdateDatabase id="HSD_RagingBarbarians_Art" criteria="HSD_RagingBarbarians">
+           	<Properties>
+				<LoadOrder>110</LoadOrder>
+           	</Properties>
+			<File>RagingBarbarians.dep</File>
+		</UpdateDatabase>
+		<UpdateIcons id="HSD_RagingBarbarians_Icons" criteria="HSD_RagingBarbarians">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+			</Properties>       
+			<File>Icons/Barbarian_Icons.xml</File> 
+		</UpdateIcons>
+        <ModArt id="HSD_RagingBarbarians_ModArt" criteria="HSD_RagingBarbarians">
+			<Items>
+				<File>RagingBarbarians.dep</File>
+			</Items>
+        </ModArt>
+		<UpdateText id="HSD_RagingBarbarians_Text" criteria="HSD_RagingBarbarians">
+			<File>Text/RagingBarbarians_Text.xml</File>
+		</UpdateText>
+	</InGameActions>	
+	<FrontEndActions>
+		<UpdateDatabase id="HSD_SETTING">
+			<File>Config/Config.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="HSD_SETTING_LOC">
+			<File>Config/ConfigText.xml</File>
+		</UpdateText>
+		<UpdateIcons id="HSD_RagingBarbarians_Icons" criteria="HSD_RagingBarbarians">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+			</Properties>       
+			<File>Icons/Barbarian_Icons.xml</File> 
+		</UpdateIcons>
+        <ModArt id="HSD_RagingBarbarians_ModArt" criteria="HSD_RagingBarbarians">
+			<Items>
+				<File>RagingBarbarians.dep</File>
+			</Items>
+        </ModArt>
+	</FrontEndActions>
+	<Files>
+		<File>ArtDefs/Units.artdef</File>
+		<File>Data/Tables.sql</File>
+		<File>Data/ModSupport.sql</File>
+		<File>Data/IsolatedCivs.sql</File>
+		<File>Data/LoyalHarbors.sql</File>
+		<File>Data/Comandantes.sql</File>
+		<File>Data/GamePlay.sql</File>
+		<File>Data/GamePlay.xml</File>
+		<File>Data/GameText.xml</File>
+		<File>Data/Comandantes_1.sql</File>
+		<File>Data/Comandantes_2.sql</File>
+		<File>Data/Comandantes_3.sql</File>
+		<File>Data/Comandantes_4.sql</File>
+		<File>Data/Comandantes_5.sql</File>
+		<File>Data/Comandantes_6.sql</File>
+		<File>Data/Comandantes_7.sql</File>
+		<File>Config/Config.xml</File>
+		<File>Config/ConfigText.xml</File>
+		<File>Scripts/InGameHSD.xml</File>
+		<File>Scripts/InGameHSD.lua</File>
+		<File>Scripts/ScriptHSD.lua</File>
+		<File>Scripts/UnitFunctions.lua</File>
+		<File>Scripts/ScenarioFunctions.lua</File>
+		<File>Tables/HSD_Eras.sql</File>
+		<File>Tables/HSD_LiteMode.sql</File>
+		<File>Tables/HSD_LiteMode_Eras.sql</File>
+		<File>Tables/HSD_Standard.sql</File>
+		<File>Tables/HSD_TrueHSD.sql</File>
+		<File>Data/RagingBarbarians.sql</File>
+		<File>Data/RagingBarbarians.xml</File>
+		<File>Icons/Barbarian_Icons.xml</File>
+		<File>Text/RagingBarbarians_Text.xml</File>
+		<File>RagingBarbarians.dep</File>
+	</Files>
+</Mod>

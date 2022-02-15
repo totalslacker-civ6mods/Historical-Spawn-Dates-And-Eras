@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<AssetObjects::GameDependencyData>
+	<ID>
+		<name text="HSD_RagingBarbarians"/>
+		<id text="684731c5-4837-427d-9378-0c58e1201325"/>
+	</ID>
+	<RequiredGameArtIDs/>
+	<SystemDependencies>
+		<Element>
+			    <ConsumerName text="Units"/>
+			    <ArtDefDependencyPaths>
+                       <Element text="Units.artdef"/>
+                </ArtDefDependencyPaths>
+        </Element>
+    </LibraryDependencies>
+</AssetObjects::GameDependencyData>
+

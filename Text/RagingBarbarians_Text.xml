@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+  <LocalizedText>
+	<!-- Names -->
+	<Row Tag="LOC_UNIT_BARBARIAN_BLACK_ARMY_NAME" Language="en_US">
+      <Text>Barbarian Black Army</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_BERSERKER_NAME" Language="en_US">
+      <Text>Barbarian Berserker</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_CATAPHRACT_NAME" Language="en_US">
+      <Text>Barbarian Cataphract</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_CONQUISTADOR_NAME" Language="en_US">
+      <Text>Barbarian Conquistador</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_CORSAIR_NAME" Language="en_US">
+      <Text>Barbarian Corsair</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_COSSACK_NAME" Language="en_US">
+      <Text>Barbarian Cossack</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_DOG_SOLDIER_NAME" Language="en_US">
+      <Text>Barbarian Dog Soldier</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_DOMREY_NAME" Language="en_US">
+      <Text>Barbarian Domrey</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_EAGLE_WARRIOR_NAME" Language="en_US">
+      <Text>Barbarian Eagle Warrior</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_GAESATAE_NAME" Language="en_US">
+      <Text>Barbarian Gaesatae</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_HIGHLANDER_NAME" Language="en_US">
+      <Text>Barbarian Highlander</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_HOPLITE_NAME" Language="en_US">
+      <Text>Barbarian Hoplite</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_HULCHE_NAME" Language="en_US">
+      <Text>Barbarian Hulche</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_IMMORTAL_NAME" Language="en_US">
+      <Text>Barbarian Immortal</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_IMPI_NAME" Language="en_US">
+      <Text>Barbarian Impi</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_JANISSARY_NAME" Language="en_US">
+      <Text>Barbarian Janissary</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_KESHIG_NAME" Language="en_US">
+      <Text>Barbarian Keshig</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_KHEVSURETI_NAME" Language="en_US">
+      <Text>Barbarian Khevsureti</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_LLANERO_NAME" Language="en_US">
+      <Text>Barbarian Llanero</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_LONGSHIP_NAME" Language="en_US">
+      <Text>Barbarian Longship</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_MAMLUK_NAME" Language="en_US">
+      <Text>Barbarian Mamluk</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_MANDEKALU_NAME" Language="en_US">
+      <Text>Barbarian Mandekalu</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_MEDJAY_NAME" Language="en_US">
+      <Text>Barbarian Medjay</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_OKIHTCITAW_NAME" Language="en_US">
+      <Text>Barbarian Okihtcitaw</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_OROMO_CAVALRY_NAME" Language="en_US">
+      <Text>Barbarian Oromo Cavalry</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_PITATI_NAME" Language="en_US">
+      <Text>Barbarian Pitati</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_PRIVATEER_NAME" Language="en_US">
+      <Text>Barbarian Privateer</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_ROUGH_RIDER_NAME" Language="en_US">
+      <Text>Barbarian Rough Rider</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_SAMURAI_NAME" Language="en_US">
+      <Text>Barbarian Samurai</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_SHIELD_BEARER_NAME" Language="en_US">
+      <Text>Barbarian Shield Bearer</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_TOA_NAME" Language="en_US">
+      <Text>Barbarian Toa</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_VARU_NAME" Language="en_US">
+      <Text>Barbarian Varu</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_VOI_CHIEN_NAME" Language="en_US">
+      <Text>Barbarian Voi Chien</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_WARAKAQ_NAME" Language="en_US">
+      <Text>Barbarian Warak'aq</Text>
+    </Row>
+	<!-- Descriptions -->
+	<Row Tag="LOC_UNIT_BARBARIAN_BLACK_ARMY_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Black Army</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_BERSERKER_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Berserker</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_CATAPHRACT_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Cataphract</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_CONQUISTADOR_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Conquistador</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_CORSAIR_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Corsair</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_COSSACK_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Cossack</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_DOG_SOLDIER_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Dog Soldier</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_DOMREY_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Domrey</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_EAGLE_WARRIOR_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Eagle Warrior</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_GAESATAE_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Gaesatae</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_HIGHLANDER_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Highlander</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_HOPLITE_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Hoplite</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_HULCHE_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Hulche</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_IMMORTAL_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Immortal</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_IMPI_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Impi</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_JANISSARY_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Janissary</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_KESHIG_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Keshig</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_KHEVSURETI_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Khevsureti</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_LLANERO_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Llanero</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_LONGSHIP_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Longship</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_MAMLUK_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Mamluk</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_MANDEKALU_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Mandekalu</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_MEDJAY_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Medjay</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_OKIHTCITAW_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Okihtcitaw</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_OROMO_CAVALRY_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Oromo Cavalry</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_PITATI_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Pitati</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_PRIVATEER_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Privateer</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_ROUGH_RIDER_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Rough Rider</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_SAMURAI_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Samurai</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_SHIELD_BEARER_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Shield Bearer</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_TOA_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Toa</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_VARU_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Varu</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_VOI_CHIEN_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Voi Chien</Text>
+    </Row>
+	<Row Tag="LOC_UNIT_BARBARIAN_WARAKAQ_DESCRIPTION" Language="en_US">
+      <Text>Barbarian Warak'aq</Text>
+    </Row>
+	<!-- Civilopedia Entries -->
+	<!-- <Row Tag="LOC_PEDIA_UNITS_PAGE_UNIT_BARBARIAN_VARU_CHAPTER_HISTORY_PARA_1" Language="en_US"> -->
+		<!-- <Text>The skill of Nubian archers was long respected and feared along the Nile. These soldiers from the Land of the Bow were a thorn in Egypt’s side for millennia—until the Egyptians solved yet another problem by throwing money at it.</Text> -->
+	<!-- </Row> -->
+	<!-- <Row Tag="LOC_PEDIA_UNITS_PAGE_UNIT_BARBARIAN_VARU_CHAPTER_HISTORY_PARA_2" Language="en_US"> -->
+		<!-- <Text>Thus came about the pítati, Nubian mercenaries paid well to guard the interests of their benefactors, be they Egyptian or Nubian. These highly mobile archers wore little armor and carried bows typical to the region. However, their distinctive thumb rings greatly reduced fatigue, and malachite facepaint applied below their eyes allowed them to loose arrows with accuracy while firing into the sun.</Text> -->
+	<!-- </Row>	 -->
+  </LocalizedText>
+</GameData>
