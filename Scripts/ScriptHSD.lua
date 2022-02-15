@@ -33,6 +33,7 @@ ExposedMembers.CheckCity =	{}
 ExposedMembers.CheckCityCapital =	{}
 ExposedMembers.CheckCityOriginalCapital = {}
 ExposedMembers.GetPlayerCityUIDatas = {}
+ExposedMembers.GetEraCountdown = {}
 
 -- ===========================================================================
 -- Global Variables - Shared with support functions
@@ -85,7 +86,8 @@ local iConvertSpawnZone			= MapConfiguration.GetValue("ConvertSpawnZones") or fa
 local bPeacefulSpawns			= MapConfiguration.GetValue("PeacefulSpawns") or false
 local bRestrictSpawnZone		= MapConfiguration.GetValue("RestrictSpawnZone") or false
 local bUniqueSpawnZones			= MapConfiguration.GetValue("UniqueSpawnZones") or false
-local bOverrideSpawn			= false
+local bIgnoreGovernor			= MapConfiguration.GetValue("IgnoreGovernor") or false
+local bOverrideSpawn			= MapConfiguration.GetValue("OverrideSpawn") or false
 
 print("bHistoricalSpawnDates is "..tostring(bHistoricalSpawnDates))
 print("bHistoricalSpawnEras is "..tostring(bHistoricalSpawnEras))
@@ -104,6 +106,10 @@ print("bGoldenAgeSpawn is "..tostring(bGoldenAgeSpawn))
 print("bSubtractEra is "..tostring(bSubtractEra))
 print("bConvertCities is "..tostring(bConvertCities))
 print("iConvertSpawnZone is "..tostring(iConvertSpawnZone))
+print("bPeacefulSpawns is "..tostring(bPeacefulSpawns))
+print("bRestrictSpawnZone is "..tostring(bRestrictSpawnZone))
+print("bUniqueSpawnZones is "..tostring(bUniqueSpawnZones))
+print("bIgnoreGovernor is "..tostring(bIgnoreGovernor))
 print("bOverrideSpawn is "..tostring(bOverrideSpawn))
 
 -- ===========================================================================
@@ -429,23 +435,6 @@ function Notification_GenericWithPlot(iPlayer :number, pPlot :object, headText :
 	-- return notification
 end
 
-function Notification_NewColony(iPlayer :number, pPlot :object)
-	local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
-	local name = "The "..Locale.Lookup("LOC_"..tostring(CivilizationTypeName).."_DESCRIPTION")
-	local adjective = Locale.Lookup("LOC_"..tostring(CivilizationTypeName).."_ADJECTIVE")
-	local pCity = Cities.GetCityInPlot(pPlot)
-	local headText = "New Colony Settled!"
-	local bodyText = "The "..tostring(name).." founded the new colony of "..Locale.Lookup(pCity:GetName()).." at "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()).."!"
-	local notification = false
-	local aPlayers = PlayerManager.GetAliveMajors()
-	for loop, pPlayer in ipairs(aPlayers) do
-		if pPlayer:IsHuman() then
-			notification = NotificationManager.SendNotification(pPlayer, NotificationTypes.REBELLION, headText, bodyText, pPlot:GetX(), pPlot:GetY())
-		end
-	end
-	-- return notification
-end
-
 -- ===========================================================================
 -- Build initialization tables when the script runs for the first time
 -- ===========================================================================
@@ -541,6 +530,63 @@ elseif(iSpawnDateTables == 0) then
 elseif(iSpawnDateTables == 1) then
 	print("True Historical Start timeline selected")
 	for row in GameInfo.HistoricalSpawnDates_TrueHSD() do
+		if isInGame[row.Civilization]  then
+			if bSavedSpawnDates then
+				if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
+					spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
+					print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
+				else
+					spawnDates[row.Civilization] = row.StartYear
+					print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+					Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
+				end				
+			else
+				spawnDates[row.Civilization] = row.StartYear
+				print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+				Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)				
+			end
+		end
+	end
+	print("Checking for missing start dates")
+	for iPlayer = 0, iMaxPlayersZeroIndex do
+		local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+		local reservePlayer = Game:GetProperty("ReservePlayer"..iPlayer)
+		if CivilizationTypeName and not spawnDates[CivilizationTypeName] and not reservePlayer then
+			print("Detected missing start date. Referring to Standard Timeline")
+			print("CivilizationTypeName is "..tostring(CivilizationTypeName).." and spawnDates[CivilizationTypeName] is "..tostring(spawnDates[CivilizationTypeName]))
+			local bMissingSpawnDate = true
+			while bMissingSpawnDate do 
+				for row in GameInfo.HistoricalSpawnDates() do
+					if row.Civilization == CivilizationTypeName  then
+						if bSavedSpawnDates then
+							if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
+								spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
+								print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
+								bMissingSpawnDate = false
+							else
+								spawnDates[row.Civilization] = row.StartYear
+								print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+								Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
+								bMissingSpawnDate = false
+							end	
+						else
+							spawnDates[row.Civilization] = row.StartYear
+							print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+							Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
+							bMissingSpawnDate = false						
+						end
+					end
+				end	
+				if bMissingSpawnDate then
+					print("Alternate starting date not found. Using default starting date")
+					bMissingSpawnDate = false
+				end
+			end
+		end		
+	end
+elseif(iSpawnDateTables == 2) then
+	print("Leader Start timeline selected")
+	for row in GameInfo.HistoricalSpawnDates_LeaderHSD() do
 		if isInGame[row.Civilization]  then
 			if bSavedSpawnDates then
 				if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
@@ -1774,9 +1820,37 @@ end
 -- ===========================================================================
 -- Colonization Mode (also in ScenarioFunctions.lua)
 -- ===========================================================================
+function Colonization_OnTechLearned(iPlayer, pTech)
+	local pPlayer = Players[iPlayer]
+	local PlayerID = pPlayer:GetID()
+	local bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
+	if bColonizationWave01 then return end
+	local iCitiesOwnedByPlayer = pPlayer:GetCities():GetCount()
+	print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
+	if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
+		return
+	end
+	if pPlayer:IsHuman() and not bPlayerColonies then
+		return
+	end
+	local colonyPlot = false
+	local sCivTypeName = PlayerConfigurations[PlayerID]:GetCivilizationTypeName()
+	local bColonizer = false
+	if colonizerCivs[sCivTypeName] then 
+		bColonizer = true 
+	end
+	local bCartography = false
+	if pPlayer:GetTechs():HasTech(GameInfo.Technologies["TECH_CARTOGRAPHY"].Index) then
+		bCartography = true
+	end
+	if bColonizer and bCartography and (not bColonizationWave01) then
+		--Spawn first colonies when cartography is discovered
+		colonyPlot = InitiateColonization_FirstWave(PlayerID, sCivTypeName)
+	end	
+end
 
 -- Used in Colonization mode (main functions are in ScenarioFunctions.lua)
-function OnPlayerEraChanged(PlayerID, iNewEraID)
+function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
 	print("Era Changed for Player # " .. PlayerID )
 	local pPlayer = Players[PlayerID]
 	local iCitiesOwnedByPlayer :number = pPlayer:GetCities():GetCount()
@@ -1817,33 +1891,94 @@ function OnPlayerEraChanged(PlayerID, iNewEraID)
 		--Spawn first colonies starting during Renaissance Era
 		colonyPlot = InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 		bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
-		if colonyPlot then
-			Notification_NewColony(PlayerID, colonyPlot)
-			print("Spawned a Renaissance era colony for "..tostring(sCivTypeName))
-		else
-			print("Failed to spawn a new colony")
-		end
+		-- if colonyPlot then
+			-- Notification_NewColony(PlayerID, colonyPlot)
+			-- print("Spawned a Renaissance era colony for "..tostring(sCivTypeName))
+		-- else
+			-- print("Failed to spawn a new colony")
+		-- end
 	end
 	if bColonizer and (iNewEraID >= 4) and bCartography and bColonizationWave01 and (not bColonizationWave02) then
 		--Spawn second wave of colonies starting during Industrial Era
 		colonyPlot = InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 		bColonizationWave02 = Game.GetProperty("Colonization_Wave02_Player_#"..PlayerID)
-		if colonyPlot then
-			Notification_NewColony(PlayerID, colonyPlot)
-			print("Spawned a Industrial era colony for "..tostring(sCivTypeName))
-		else
-			print("Failed to spawn a new colony")
-		end
+		-- if colonyPlot then
+			-- Notification_NewColony(PlayerID, colonyPlot)
+			-- print("Spawned a Industrial era colony for "..tostring(sCivTypeName))
+		-- else
+			-- print("Failed to spawn a new colony")
+		-- end
 	end
 	if bColonizer and (iNewEraID >= 5) and bCartography and bColonizationWave01 and bColonizationWave02 and (not bColonizationWave03) then
 		--Spawn third wave of colonies starting during Modern Era
 		colonyPlot = InitiateColonization_ThirdWave(PlayerID, sCivTypeName)
 		bColonizationWave03 = Game.GetProperty("Colonization_Wave03_Player_#"..PlayerID)
-		if colonyPlot then
-			Notification_NewColony(PlayerID, colonyPlot)
-			print("Spawned a Modern era colony for "..tostring(sCivTypeName))
-		else
-			print("Failed to spawn a new colony for "..tostring(sCivTypeName))
+		-- if colonyPlot then
+			-- Notification_NewColony(PlayerID, colonyPlot)
+			-- print("Spawned a Modern era colony for "..tostring(sCivTypeName))
+		-- else
+			-- print("Failed to spawn a new colony for "..tostring(sCivTypeName))
+		-- end
+	end
+end
+
+function Colonization_OnGameEraChanged(previousEra, iNewEraID)
+	print("Colonization mode is checking for new colonies to spawn...")
+	for PlayerID = 0, iMaxPlayersZeroIndex do
+		local pPlayer = Players[PlayerID]
+		local iCitiesOwnedByPlayer :number = pPlayer:GetCities():GetCount()
+		if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
+			return
+		end
+		if pPlayer:IsHuman() and not bPlayerColonies then
+			return
+		end
+		local colonyPlot = false
+		local sCivTypeName = PlayerConfigurations[PlayerID]:GetCivilizationTypeName()
+		local tEraGameInfo = GameInfo.Eras[iNewEraID]
+		local bColonizer = false
+		if colonizerCivs[sCivTypeName] then 
+			bColonizer = true 
+		end
+		local bCartography = false
+		if pPlayer:GetTechs():HasTech(GameInfo.Technologies["TECH_CARTOGRAPHY"].Index) then
+			bCartography = true
+		end
+		local bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
+		local bColonizationWave02 = Game.GetProperty("Colonization_Wave02_Player_#"..PlayerID)
+		local bColonizationWave03 = Game.GetProperty("Colonization_Wave03_Player_#"..PlayerID)
+		if bColonizer and (iNewEraID >= 3) and bCartography and (not bColonizationWave01) then
+			--Spawn first colonies starting during Renaissance Era
+			colonyPlot = InitiateColonization_FirstWave(PlayerID, sCivTypeName)
+			bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
+			if colonyPlot then
+				Notification_NewColony(PlayerID, colonyPlot)
+				print("Spawned a Renaissance era colony for "..tostring(sCivTypeName))
+			else
+				print("Failed to spawn a new colony")
+			end
+		end
+		if bColonizer and (iNewEraID >= 4) and bCartography and bColonizationWave01 and (not bColonizationWave02) then
+			--Spawn second wave of colonies starting during Industrial Era
+			colonyPlot = InitiateColonization_SecondWave(PlayerID, sCivTypeName)
+			bColonizationWave02 = Game.GetProperty("Colonization_Wave02_Player_#"..PlayerID)
+			if colonyPlot then
+				Notification_NewColony(PlayerID, colonyPlot)
+				print("Spawned a Industrial era colony for "..tostring(sCivTypeName))
+			else
+				print("Failed to spawn a new colony")
+			end
+		end
+		if bColonizer and (iNewEraID >= 5) and bCartography and bColonizationWave01 and bColonizationWave02 and (not bColonizationWave03) then
+			--Spawn third wave of colonies starting during Modern Era
+			colonyPlot = InitiateColonization_ThirdWave(PlayerID, sCivTypeName)
+			bColonizationWave03 = Game.GetProperty("Colonization_Wave03_Player_#"..PlayerID)
+			if colonyPlot then
+				Notification_NewColony(PlayerID, colonyPlot)
+				print("Spawned a Modern era colony for "..tostring(sCivTypeName))
+			else
+				print("Failed to spawn a new colony for "..tostring(sCivTypeName))
+			end
 		end
 	end
 end
@@ -1865,10 +2000,18 @@ function CityRebellion(pCity, playerID, otherPlayerID)
 			print("bOverrideSpawn is "..tostring(bOverrideSpawn)..". Converting any city")
 			pFreeCityID = pCityID
 		elseif bConvertCities then
-			local bCapital = ExposedMembers.CheckCityCapital(otherPlayerID, pCityID)
-			if not bCapital and not (Players[otherPlayerID]:GetCities():GetCount() <= 1) then
-				print("Detected non-capital city to convert in spawn zone")
-				pFreeCityID = pCityID
+			if not (Players[otherPlayerID]:GetCities():GetCount() <= 1) then
+				-- print("Detected non-capital city to convert in spawn zone")
+				if bIgnoreGovernor then
+					print("Skipping check for governor or original capital. Will not convert last city or capital.")
+					local bCapital = ExposedMembers.CheckCityCapital(otherPlayerID, pCityID)
+					if not bCapital then
+						pFreeCityID = pCityID
+					end
+				else
+					print("Checking city for governor or original capital")
+					pFreeCityID = ExposedMembers.CheckCity.CheckCityGovernor(otherPlayerID, pCityID)
+				end
 			end
 		else
 			print("Checking city for governor or original capital")
@@ -2058,10 +2201,21 @@ function DirectCityConversion(iPlayer, pPlot)
 end
 
 function ConvertInnerRingToCity(iPlayer, startingPlot)
+	local sCivTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
 	local adjacentPlots = {}
 	local CityManager = WorldBuilder.CityManager or ExposedMembers.CityManager
 	local pCity = Cities.GetCityInPlot(startingPlot)
 	local bConvertSurroundingPlots = false
+	--Check for restricted spawn where Civ will only convert capital
+	local bRestrictedSpawn = false
+	if restrictedSpawns[sCivTypeName] then 
+		bRestrictedSpawn = true 
+	end
+	if bRestrictedSpawn and bRestrictSpawnZone then
+		--If the restricted spawn zones option is enabled and the player is on the list
+		bConvertSurroundingPlots = true
+		print("Outer ring plots will be converted")
+	end
 	for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 		local adjacentPlot = Map.GetAdjacentPlot(startingPlot:GetX(), startingPlot:GetY(), direction)
 		if adjacentPlot then
@@ -2095,10 +2249,10 @@ function ConvertInnerRingToCity(iPlayer, startingPlot)
 							ImprovementBuilder.SetImprovementType(adjacentPlot, -1) 
 							ImprovementBuilder.SetImprovementType(adjacentPlot, plotImprovementIndex, iPlayer)
 						end
-						table.insert(adjacentPlots, adjacentPlot)
 						print("Converting inner ring plot to new city")	
 					end	
 				end
+				table.insert(adjacentPlots, adjacentPlot)
 			end
 		end
 	end	
@@ -2645,14 +2799,14 @@ end
 
 
 function GetStartingBonuses(player)
-	
 	-- print(" - Starting era = "..tostring(gameCurrentEra))
 	SetStartingEra(player:GetID(), gameCurrentEra)
 	player:GetEras():SetStartingEra(gameCurrentEra)
 	local playerID = player:GetID()
 	local kEraBonuses = GameInfo.StartEras[gameCurrentEra]
 	local CivilizationTypeName = PlayerConfigurations[playerID]:GetCivilizationTypeName()
-	
+	local iTechsLearned = 0
+	local iCivicsLearned = 0
 	--When spawning city-states, we only need the information up to this point
 	--End the function for city-states here
 	if not player:IsMajor() then
@@ -2678,6 +2832,7 @@ function GetStartingBonuses(player)
 				local ScienceCost  = pScience:GetResearchCost(iTech)
 				pScience:SetResearchProgress(iTech, ScienceCost)
 			end
+			iTechsLearned = iTechsLearned + 1
 		elseif(bTechCivicBoost) then
 			if player:IsHuman() then
 				pScience:SetTech(iTech, true)
@@ -2685,6 +2840,7 @@ function GetStartingBonuses(player)
 				local ScienceCost  = pScience:GetResearchCost(iTech)
 				pScience:SetResearchProgress(iTech, ScienceCost)
 			end
+			iTechsLearned = iTechsLearned + 1
 		else
 			pScience:TriggerBoost(iTech)
 			pScience:SetResearchingTech(iTech)
@@ -2707,6 +2863,7 @@ function GetStartingBonuses(player)
 					pCulture:SetCulturalProgress(iCivic, CultureCost)
 					pCulture:SetCivicCompletedThisTurn(true)
 				end
+				iCivicsLearned = iCivicsLearned + 1
 			elseif(bTechCivicBoost) then
 				if player:IsHuman() then
 					pCulture:SetCivic(iCivic, true)
@@ -2715,6 +2872,7 @@ function GetStartingBonuses(player)
 					pCulture:SetCulturalProgress(iCivic, CultureCost)
 					pCulture:SetCivicCompletedThisTurn(true)
 				end
+				iCivicsLearned = iCivicsLearned + 1
 			else
 				pCulture:TriggerBoost(iCivic)
 			end
@@ -2761,6 +2919,18 @@ function GetStartingBonuses(player)
 				player:GetInfluence():ChangeTokensToGive(iBonusDifficulty)
 				print(" - Token bonus from difficulty = "..tostring(iBonusDifficulty))
 			end
+		end
+	end
+	
+	-- Dramatic Ages mode era score adjustment for learning techs and civics
+	if bDramaticAges then
+		if iTechsLearned and (iTechsLearned > 0) then
+			print("iTechsLearned is "..tostring(iTechsLearned)..". Removing excess era score.")
+			Game:GetEras():ChangePlayerEraScore(playerID, -iTechsLearned)
+		end
+		if iCivicsLearned and (iCivicsLearned > 0) then
+			print("iCivicsLearned is "..tostring(iCivicsLearned)..". Removing excess era score.")
+			Game:GetEras():ChangePlayerEraScore(playerID, -iCivicsLearned)
 		end
 	end
 	
@@ -3150,7 +3320,6 @@ function OnCityInitialized(iPlayer, cityID, x, y)
 			print("Changing starting population for capital city...")
 		end
 		ConvertInnerRingToCity(iPlayer, cityPlot)
-		print("Converting inner ring of plots to new city")
 	elseif kEraBonuses.StartingPopulationOtherCities then
 		if iDifficulty < 5 then
 			if not (cityOriginalPopulation >= kEraBonuses.StartingPopulationOtherCities) then
@@ -3249,8 +3418,177 @@ function CityCaptureCityInitialized(iPlayer, cityID, iX, iY)
 	end
 end
 
+-- ===========================================================================
+-- Raging Barbarians Mode  (also in ScenarioFunctions.lua)
+-- ===========================================================================
 
+function UpgradeBarbarianTech(previousEra, newEra)
+	-- print("previousEra is "..tostring(previousEra))
+	-- print("newEra is "..tostring(newEra))
+	local iNewEraID = newEra
+	for iPlayer = 0, iMaxPlayersZeroIndex do
+		local pPlayer = Players[iPlayer]
+		if pPlayer and pPlayer:IsBarbarian() then
+			print("UpgradeBarbarianTech detected a barbarian player")
+			local pScience = pPlayer:GetTechs()	
+			for kTech in GameInfo.Technologies() do
+				local iTech	= kTech.Index
+				if not pScience:HasTech(iTech) then
+					--Learn all previous era techs
+					if (kTech.EraType == "ERA_ANCIENT") and (iNewEraID >= 1) then
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned "..tostring(kTech.TechnologyType))
+					end
+					if (kTech.EraType == "ERA_CLASSICAL") and (iNewEraID >= 2) then
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned "..tostring(kTech.TechnologyType))
+					end
+					if (kTech.EraType == "ERA_MEDIEVAL") and (iNewEraID >= 3) then
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned "..tostring(kTech.TechnologyType))
+					end
+					if (kTech.EraType == "ERA_RENAISSANCE") and (iNewEraID >= 4) then
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned "..tostring(kTech.TechnologyType))
+					end
+					if (kTech.EraType == "ERA_INDUSTRIAL") and (iNewEraID >= 5) then
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned "..tostring(kTech.TechnologyType))
+					end
+					if (kTech.EraType == "ERA_MODERN") and (iNewEraID >= 6) then
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned "..tostring(kTech.TechnologyType))
+					end
+					--Learn specific techs from the current era
+					if (kTech.TechnologyType == "TECH_IRON_WORKING") and (iNewEraID >= 1) then
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned a bonus tech from the current era: "..tostring(kTech.TechnologyType))
+					end
+					if (kTech.TechnologyType == "TECH_STIRRUPS") and (iNewEraID >= 2) then
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned a bonus tech from the current era: "..tostring(kTech.TechnologyType))
+					end
+				end
+			end
+		end
+	end
+end
+
+--Unused, not working
+function Invasions_SpawnInvasionByContinent()
+	local eraCountdown = ExposedMembers.GetEraCountdown()
+	if eraCountdown == 10 then
+		local invasionPlot = false
+		local continentCityPlots = {}
+		local cityOwnerIDs = {}
+		local tContinents = Map.GetContinentsInUse()
+		for i,iContinent in ipairs(tContinents) do
+			local continentPlotsIndexTable = Map.GetContinentPlots(iContinent)	
+			--Iterate through list of continent plots and gather all cities into table
+			for j, iPlotIndex in ipairs(continentPlotsIndexTable) do
+				local pPlot = Map.GetPlotByIndex(iPlotIndex)
+				if pPlot then
+					local isCity = false
+					if pPlot:IsCity() ~= nil then isCity = pPlot:IsCity() end
+					if isCity then
+						local pCity = Cities.GetCityInPlot(pPlot)
+						if pCity then
+							table.insert(continentCityPlots, pPlot)
+							print("New city plot found")
+							print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))							
+						else
+							print("City is nil in continentPlots")
+						end
+					end	
+				end
+			end
+			--Iterate through list of cities and get owner
+			if #continentCityPlots > 0 then
+				for j, pPlot in ipairs(continentCityPlots) do
+					local pCity = Cities.GetCityInPlot(pPlot)
+					if pCity then
+						local cityOwner = pCity:GetOwner()
+						if cityOwner and not cityOwnerIDs[cityOwner] then
+							-- cityOwnerIDs[cityOwner] = cityOwner
+							table.insert(cityOwnerIDs, cityOwner)
+							print("New city owner found: Player #"..tostring(cityOwner))
+						end
+					else
+						print("City was nil in continentCityPlots")
+					end
+				end
+			end
+			--Iterate through list of city owners
+			for j, cityOwner in ipairs(cityOwnerIDs) do
+				local pPlayer = Players[cityOwner]
+				local sLeaderTypeName = PlayerConfigurations[cityOwner]:GetLeaderTypeName()
+				print("Checking invasion conditions for leader: "..tostring(sLeaderTypeName))
+			end
+			continentCityPlots = {}
+			cityOwnerIDs = {}
+			-- if (GameInfo.Continents[iContinent].ContinentType == "CONTINENT_NORTH_AMERICA") then		
+				
+			-- end
+		end
+	end
+end
+
+function Invasions_SpawnInvasion(iPlayer)
+	local pPlayer = Players[iPlayer]
+	local bBarbarian = false
+	local bFreeCities = false
+	local bCityState = false
+	if not pPlayer:IsMajor() then bCityState = true end
+	if pPlayer:IsBarbarian() then bBarbarian = true end
+	if iPlayer == 62 then bFreeCities = true end
+	if pPlayer then
+		if not bBarbarian and not bFreeCities and not bCityState then
+			local iCitiesOwnedByPlayer = pPlayer:GetCities():GetCount()
+			-- print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
+			if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
+				-- print("Player #"..tostring(iPlayer).." has no cities. Cannot spawn invasion.")
+				return false
+			end
+			local eraCountdown = ExposedMembers.GetEraCountdown()
+			if eraCountdown == 10 then
+				local bInvasion = Invasions_SpawnUniqueInvasion(iPlayer)
+				if bInvasion then
+					print("Successfully spawned invasion.")
+				end
+			end
+		else
+			-- print("Player #"..tostring(iPlayer).." is a city-state, barbarian or free city player. Cannot spawn invasion.")
+		end
+	else
+		print("WARNING: player is nil in SpawnInvasion #"..tostring(iPlayer))
+	end
+end
+
+function Invasions_SpawnUniqueInvasion(iPlayer)
+	local pPlayer = Players[iPlayer]
+	if pPlayer then
+		local pCapital = pPlayer:GetCities():GetCapitalCity()
+		if pCapital then
+			local cityPlot = Map.GetPlot(pCapital:GetX(), pCapital:GetY())
+			local campPlot = FindClosestStartingPlotByContinent(cityPlot)
+			local continentIndex = cityPlot:GetContinentType()
+			local ContinentType = GameInfo.Continents[continentIndex].ContinentType
+			local iTribeIndex = GameInfo.BarbarianTribes["TRIBE_MELEE"].Index
+			if (iTribeIndex >= 0) then
+				Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), 1)
+				local iBarbarianTribe = CreateTribeAt(iTribeIndex, campPlot:GetIndex())
+				print("Spawning empty invasion tribe #"..tostring(iTribeIndex))
+				return true
+			end
+		end
+	end
+	return false
+end
+
+-- ===========================================================================
 -- Initialize
+-- ===========================================================================
+
 function OnLoadScreenClosed()
 	GetContinentDimensions()
 	GameEvents.OnGameTurnStarted.Add(SetCurrentGameEra)
@@ -3263,38 +3601,19 @@ function OnLoadScreenClosed()
 		GameEvents.OnGameTurnStarted.Add(SetCurrentBonuses)
 	end
 	if bColonizationMode then
-		Events.PlayerEraChanged.Add(OnPlayerEraChanged)
+		Events.ResearchCompleted.Add(Colonization_OnTechLearned)
+		Events.PlayerEraChanged.Add(Colonization_OnPlayerEraChanged)
+		-- Events.GameEraChanged.Add(Colonization_OnGameEraChanged)
 	end
 	if bRagingBarbarians then
+		-- GameEvents.PlayerTurnStarted.Add(Invasions_SpawnInvasion)
 		Events.ImprovementAddedToMap.Add(SpawnBarbarians)
-		-- Events.UnitAddedToMap.Add(RemoveBarbScouts)
+		Events.GameEraChanged.Add(UpgradeBarbarianTech)
 	end
 end
+
 Events.LoadScreenClose.Add(OnLoadScreenClosed)
 
---[[
-function FoundFirstPotentialSpawn()
-	for iPlayer = 0, PlayerManager.GetWasEverAliveCount() - 1 do
-		local player = Players[iPlayer]
-		if player and not player:IsBarbarian() then-- and not player:IsAlive() then
-			if SpawnPlayer(iPlayer) then return end
-		end
-	end
-end
---GameEvents.OnGameTurnStarted.Add( FoundFirstPotentialSpawn )
-
-function FoundNextPotentialSpawn(iCurrentAlivePlayer)
-	for iPlayer = iCurrentAlivePlayer + 1, PlayerManager.GetWasEverAliveCount() - 1 do
-		local player = Players[iPlayer]
-		if player and not player:IsBarbarian() then --and not player:IsAlive() then
-			if SpawnPlayer(iPlayer) then return end
-		end
-	end
-end
---Events.PlayerTurnDeactivated.Add( FoundNextPotentialSpawn )
---]]
-
-----------------------------------------------------------------------------------------
 end
 ----------------------------------------------------------------------------------------
 -- Historical Spawn Dates >>>>>

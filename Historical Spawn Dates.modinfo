@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mod id="684731c5-4837-427d-9378-0c58e1201325" version="1.3.1">
+<Mod id="684731c5-4837-427d-9378-0c58e1201325" version="1.3.5">
 	<Properties>
 		<Name>LOC_HISTORICAL_SPAWN_DATES_TITLE</Name>
 		<Teaser>LOC_HISTORICAL_SPAWN_DATES_TEASER</Teaser>
@@ -209,6 +209,7 @@
 			<File>Tables/HSD_LiteMode_Eras.sql</File>
 			<File>Tables/HSD_Standard.sql</File>
 			<File>Tables/HSD_TrueHSD.sql</File>
+			<File>Tables/HSD_LeaderHSD.sql</File>
 		</UpdateDatabase>
 		<UpdateDatabase id="HSD_LoyalHarbors" criteria="HSD_LoyalHarbors">
            	<Properties>
@@ -356,6 +357,7 @@
 		<File>Tables/HSD_LiteMode_Eras.sql</File>
 		<File>Tables/HSD_Standard.sql</File>
 		<File>Tables/HSD_TrueHSD.sql</File>
+		<File>Tables/HSD_LeaderHSD.sql</File>
 		<File>Data/RagingBarbarians.sql</File>
 		<File>Data/RagingBarbarians.xml</File>
 		<File>Icons/Barbarian_Icons.xml</File>

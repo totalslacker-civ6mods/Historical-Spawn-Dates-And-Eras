@@ -5,7 +5,7 @@
       <Text>Activate Historical Spawn Dates or Eras</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_HISTORICAL_SPAWN_DESC" Language="en_US">
-      <Text>Disable to turn off all HSD features and gameplay changes.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Use this option to disable the mod without changing your active mods.[ENDCOLOR]</Text>
+      <Text>Disable to turn off all HSD features and gameplay changes.[NEWLINE][NEWLINE]Use this option to disable the mod without changing your active mods.</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_HISTORICAL_SPAWN_ERA_NAME" Language="en_US">
       <Text>Spawn By Era</Text>
@@ -89,7 +89,7 @@
       <Text>Convert Cities</Text>
     </Replace>	
 	<Replace Tag="LOC_MAP_CONVERT_CITIES_DESC" Language="en_US">
-      <Text>Cities in the spawn zone for a new player will be directly converted to that player. Always converts the capital if the starting plot is owned by another player. Surrounding cities are converted under the following conditions -- [COLOR_Civ6Red]not an original capital, not the owner's last city, and does not contain an established Governor.[ENDCOLOR][NEWLINE][NEWLINE][COLOR_Civ6Blue]When this option is disabled, cities in the spawn zone will convert to the Free Cities faction according to the same conditions, but not directly to the new player.[ENDCOLOR]</Text>
+      <Text>Cities in the spawn zone for a new player will be directly converted to that player. Always converts the capital if the starting plot is owned by another player. Surrounding cities are converted under the following conditions:[NEWLINE]- Not an original capital[NEWLINE]- Not the owner's last city[NEWLINE]- No established Governor in city[ENDCOLOR][NEWLINE][NEWLINE]When this option is disabled, cities in the spawn zone will convert to the Free Cities faction according to the same conditions, but not directly to the new player.</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_CONVERT_SPAWN_ZONES" Language="en_US">
       <Text>Spawn Zone Type</Text>
@@ -149,6 +149,12 @@
 	<Replace Tag="LOC_HSD_TRUE_START_DESC" Language="en_US">
       <Text>Based on the national founding dates for countries</Text>
     </Replace>	
+	<Replace Tag="LOC_HSD_LEADER_START_NAME" Language="en_US">
+      <Text>Leader Start</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_LEADER_START_DESC" Language="en_US">
+      <Text>Based on the birth date of the Leader.</Text>
+    </Replace>
 	<Replace Tag="LOC_MAP_SPAWN_RANGE_SLIDER" Language="en_US">
       <Text>Spawn Range</Text>
     </Replace>
@@ -178,6 +184,18 @@
     </Replace>
 	<Replace Tag="LOC_MAP_UNIQUE_SPAWN_DESC" Language="en_US">
       <Text>Activate the UniqueSpawnZones list. Players in this list will use scripted spawn zone conditions.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Define the players in this list from the file IsolatedCivs.sql. Define the conditions for a unique spawn zone in ScriptHSD.lua in function GetUniqueSpawnZone()[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_IGNORE_GOVERNOR" Language="en_US">
+      <Text>Convert Cities with Governor</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_IGNORE_GOVERNOR_DESC" Language="en_US">
+      <Text>Cities with established governors can be converted in the spawn zone. When this option is disabled, cities with an established governor will not be converted.</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_OVERRIDE_SPAWN" Language="en_US">
+      <Text>Convert Any City</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_OVERRIDE_SPAWN_DESC" Language="en_US">
+      <Text>Any city can be converted in a spawn zone, including capitals, city-states and a player's final city. Use at your own risk!</Text>
     </Replace>
 	<!-- Headers and Footers -->
 	<Replace Tag="LOC_MAP_HSD_HEADER_MAIN_NAME" Language="en_US">

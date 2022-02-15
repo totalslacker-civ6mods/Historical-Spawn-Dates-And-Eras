@@ -28,6 +28,7 @@
 		<Row Type="TRIBE_EASTASIAN" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_MONGOL" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_SIBERIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE" Kind="KIND_BARBARIAN_TRIBE"/>
 	</Types>
 	<BarbarianTribes>
 		<Row TribeType="TRIBE_KONGO" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_KONGO" RangedTag="CLASS_BARB_KONGO" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_KONGO" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
@@ -36,7 +37,7 @@
 		
 		<Row TribeType="TRIBE_NUBIAN" PercentRangedUnits="35" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_ETHIOPIAN" RangedTag="CLASS_BARB_NUBIAN" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ETHIOPIAN" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
-		<Row TribeType="TRIBE_CELTIC" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_CELTIC" RangedTag="CLASS_BARB_LIGHTCAV" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		<Row TribeType="TRIBE_CELTIC" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_CELTIC" RangedTag="CLASS_BARB_LIGHTCAV" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_CELTIC" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<Row TribeType="TRIBE_GREEK" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_NAVAL_MELEE" MeleeTag="CLASS_BARB_PIRATES_AFRICA" RangedTag="CLASS_BARB_NAVAL_RANGED" SiegeTag="CLASS_BARB_NAVAL_RANGED" DefenderTag="CLASS_BARB_GREEK" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
 		
@@ -46,7 +47,7 @@
 		
 		<Row TribeType="TRIBE_CREE" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_CREE" MeleeTag="CLASS_BARB_CREE" RangedTag="CLASS_BARB_CREE" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="15"/>
 		
-		<Row TribeType="TRIBE_SCYTHIAN" PercentRangedUnits="35" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SCYTHIAN" DefenderTag="CLASS_BARB_HEAVYCAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		<Row TribeType="TRIBE_SCYTHIAN" PercentRangedUnits="35" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SCYTHIAN" DefenderTag="CLASS_BARB_HEAVYCAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<Row TribeType="TRIBE_AZTEC" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_AZTEC" RangedTag="CLASS_BARB_MAYA" SiegeTag="CLASS_BARB_MAYA" DefenderTag="CLASS_BARB_AZTEC" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
 		
@@ -56,15 +57,15 @@
 		
 		<Row TribeType="TRIBE_IBERIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_MELEE" RangedTag="CLASS_BARB_RANGED" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
-		<Row TribeType="TRIBE_BALKANS" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		<Row TribeType="TRIBE_BALKANS" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_GREEK" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
-		<Row TribeType="TRIBE_SLAVIC" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		<Row TribeType="TRIBE_SLAVIC" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<Row TribeType="TRIBE_HAIDA" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_LONGSHIP" MeleeTag="CLASS_LONGSHIP" RangedTag="CLASS_LONGSHIP" SiegeTag="CLASS_LONGSHIP" DefenderTag="CLASS_BARB_MAORI" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
 		
 		<Row TribeType="TRIBE_PIRATES" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_NAVAL_RAIDER" MeleeTag="CLASS_BARB_NAVAL_RAIDER" RangedTag="CLASS_BARB_NAVAL_RAIDER" SiegeTag="CLASS_BARB_NAVAL_RAIDER" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
 		
-		<Row TribeType="TRIBE_PERSIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PERSIAN" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		<Row TribeType="TRIBE_PERSIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PERSIAN" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<Row TribeType="TRIBE_COMANCHE" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_COMANCHE" RangedTag="CLASS_BARB_COMANCHE" SiegeTag="CLASS_BARB_COMANCHE" DefenderTag="CLASS_BARB_COMANCHE" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
@@ -80,9 +81,13 @@
 		
 		<Row TribeType="TRIBE_EASTASIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_EASTASIAN" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
-		<Row TribeType="TRIBE_MONGOL" PercentRangedUnits="35" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		<Row TribeType="TRIBE_MONGOL" PercentRangedUnits="35" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 
 		<Row TribeType="TRIBE_SIBERIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_EASTASIAN" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<!-- Invasions -->
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE" PercentRangedUnits="50" TurnsToWarriorSpawn="5" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="1" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="10"/>
 		
 	</BarbarianTribes>
 	<BarbarianAttackForces>
@@ -303,6 +308,15 @@
 		<Row AttackForceType="SiberianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_RANGED" NumRangeUnits="2" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="1"/>
 		<Row AttackForceType="HighDifficultySiberianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="3" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="2"/>
 		
+		<!-- Invasions -->
+		<!-- Europe -->
+		<Row AttackForceType="LowDifficultyInvasionEuropeRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="3" RaidingForce="true"/>
+		<Row AttackForceType="InvasionEuropeRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="1" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyInvasionEuropeRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="3" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyInvasionEuropeAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="2" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="1"/>
+		<Row AttackForceType="InvasionEuropeAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="1" MeleeTag="CLASS_BARB_SLAVIC" NumMeleeUnits="4" RangeTag="CLASS_BARB_LIGHTCAV" NumRangeUnits="3" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="2"/>
+		<Row AttackForceType="HighDifficultyInvasionEuropeAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="5" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="4" SiegeTag="CLASS_BARB_TAGMA" NumSiegeUnits="3"/>
+
 	</BarbarianAttackForces>
 	<BarbarianTribeForces>
 		<Row AttackForceType="LowDifficultyKongoRaid" TribeType="TRIBE_KONGO"/>
@@ -493,6 +507,16 @@
 		<Row AttackForceType="LowDifficultySiberianAttack" TribeType="TRIBE_SIBERIAN"/>
 		<Row AttackForceType="SiberianAttack" TribeType="TRIBE_SIBERIAN"/>
 		<Row AttackForceType="HighDifficultySiberianAttack" TribeType="TRIBE_SIBERIAN"/>
+		
+		<!-- Invasions -->
+		<!-- Europe -->
+		<Row AttackForceType="LowDifficultyInvasionEuropeRaid" TribeType="TRIBE_INVASION_EUROPE"/>
+		<Row AttackForceType="InvasionEuropeRaid" TribeType="TRIBE_INVASION_EUROPE"/>
+		<Row AttackForceType="HighDifficultyInvasionEuropeRaid" TribeType="TRIBE_INVASION_EUROPE"/>
+		<Row AttackForceType="LowDifficultyInvasionEuropeAttack" TribeType="TRIBE_INVASION_EUROPE"/>
+		<Row AttackForceType="InvasionEuropeAttack" TribeType="TRIBE_INVASION_EUROPE"/>
+		<Row AttackForceType="HighDifficultyInvasionEuropeAttack" TribeType="TRIBE_INVASION_EUROPE"/>
+		
 	</BarbarianTribeForces>
 	<BarbarianTribeNames>
 		<Row TribeNameType="BARBARIAN_KONGO_1" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_1"/>
@@ -630,6 +654,11 @@
 		<Row TribeNameType="BARBARIAN_SIBERIAN_3" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_3"/>
 		<Row TribeNameType="BARBARIAN_SIBERIAN_4" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_4"/>
 		<Row TribeNameType="BARBARIAN_SIBERIAN_5" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_5"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_1" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_2" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_3" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_4" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_5" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_5"/>
 	</BarbarianTribeNames>
 	<!-- Barbarian defenders will not leave their camp (Credit: Crazy Barbaarians mod by KCucumber) -->
 <!-- 	<ImprovementModifiers>

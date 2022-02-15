@@ -537,7 +537,7 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 				return true
 			else
 				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SPEARMAN", pPlot:GetX(), pPlot:GetY())
-				return true 					
+				return true
 			end
 		else
 			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SPEARMAN", pPlot:GetX(), pPlot:GetY())

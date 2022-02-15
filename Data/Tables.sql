@@ -10,6 +10,10 @@ CREATE TABLE IF NOT EXISTS HistoricalSpawnDates_TrueHSD
 	 (	Civilization TEXT NOT NULL UNIQUE,
 		StartYear INTEGER DEFAULT -10000);
 		
+CREATE TABLE IF NOT EXISTS HistoricalSpawnDates_LeaderHSD
+	 (	Civilization TEXT NOT NULL UNIQUE,
+		StartYear INTEGER DEFAULT -10000);
+		
 CREATE TABLE IF NOT EXISTS HistoricalSpawnDates_LiteMode
 	 (	Civilization TEXT NOT NULL UNIQUE,
 		StartYear INTEGER DEFAULT -10000);

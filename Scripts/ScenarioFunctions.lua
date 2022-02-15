@@ -2,41 +2,32 @@
 -- Scenario functions (optional scripted events)
 -- ===========================================================================
 --
+local bDramaticAges = GameConfiguration.GetValue("GAMEMODE_DRAMATICAGES")
+
+function Notification_NewColony(iPlayer :number, pPlot :object)
+	local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+	local name = Locale.Lookup("LOC_"..tostring(CivilizationTypeName).."_DESCRIPTION")
+	local adjective = Locale.Lookup("LOC_"..tostring(CivilizationTypeName).."_ADJECTIVE")
+	local pCity = Cities.GetCityInPlot(pPlot)
+	local headText = "New Colony Settled!"
+	-- local bodyText = "The "..tostring(name).." founded the new colony of "..Locale.Lookup(pCity:GetName()).." at "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()).."!"
+	local bodyText = "The "..tostring(name).." founded the colony of "..Locale.Lookup(pCity:GetName()).." on the continent of "..Locale.Lookup(GameInfo.Continents[pPlot:GetContinentType()].Description).."!"
+	local notification = false
+	local aPlayers = PlayerManager.GetAliveMajors()
+	for loop, pPlayer in ipairs(aPlayers) do
+		if pPlayer:IsHuman() then
+			notification = NotificationManager.SendNotification(pPlayer, NotificationTypes.REBELLION, headText, bodyText, pPlot:GetX(), pPlot:GetY())
+		end
+	end
+	print("Spawning "..tostring(adjective).." colonizer units at plot "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))
+	-- return notification
+end
+
 -- ===========================================================================
 -- Raging Barbarians & Unique Barbarians mode
 -- ===========================================================================
 
 local g_CurrentBarbarianCamp = {}
-
--- local BarbarianTribeTypes = {
-		-- "TRIBE_NAVAL",
-		-- "TRIBE_CAVALRY",
-		-- "TRIBE_MELEE",
-		-- "TRIBE_KONGO",
-		-- "TRIBE_ZULU",
-		-- "TRIBE_NUBIAN",
-		-- "TRIBE_CELTIC",
-		-- "TRIBE_GREEK",
-		-- "TRIBE_VIKING",
-		-- "TRIBE_BARBARY",
-		-- "TRIBE_CREE",
-		-- "TRIBE_SCYTHIAN",
-		-- "TRIBE_AZTEC",
-		-- "TRIBE_MAORI",
-		-- "TRIBE_VARU",
-		-- "TRIBE_IBERIAN",
-		-- "TRIBE_BALKANS",
-		-- "TRIBE_SLAVIC",
-		-- "TRIBE_HAIDA",
-		-- "TRIBE_PIRATES",
-		-- "TRIBE_PERSIAN"
--- }
-
--- for i, pBarbarianTribeType in ipairs(BarbarianTribeTypes) do
-	-- if GameInfo.BarbarianTribes[pBarbarianTribeType] then
-		
-	-- end
--- end
 
 local iNavalBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_NAVAL"]
 local iCavalryBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_CAVALRY"]
@@ -67,6 +58,7 @@ local IncanBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_INCAN"]
 local MaliBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_MALI"]
 local EastAsianBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_EASTASIAN"]
 local SiberianBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_SIBERIAN"]
+local InvasionEuropeTribe = GameInfo.BarbarianTribes["TRIBE_INVASION_EUROPE"]
 
 ContinentDimensions = {} --Global variable
 
@@ -592,18 +584,34 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 			if (campPlot:GetY() < lowerHalf) then
 				--Southern Europe
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
-					if IberianBarbarianTribe then
-						local iBarbarianTribeType = IberianBarbarianTribe.Index
-						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(IberianBarbarianTribe.TribeType))
+					if CelticBarbarianTribe then
+						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
+						if not InvasionCamp then
+							local iBarbarianTribeType = CelticBarbarianTribe.Index
+							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(CelticBarbarianTribe.TribeType))
+						else
+							local iBarbarianTribeType = InvasionEuropeTribe.Index
+							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(InvasionEuropeTribe.TribeType))
+							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
+						end
 					else
 						print("Tribe type is nil")
 					end
 				else
 					if BalkansBarbarianTribe then
-						local iBarbarianTribeType = BalkansBarbarianTribe.Index
-						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(BalkansBarbarianTribe.TribeType))
+						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
+						if not InvasionCamp then
+							local iBarbarianTribeType = BalkansBarbarianTribe.Index
+							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(BalkansBarbarianTribe.TribeType))
+						else
+							local iBarbarianTribeType = InvasionEuropeTribe.Index
+							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(InvasionEuropeTribe.TribeType))
+							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
+						end
 					else
 						print("Tribe type is nil")
 					end
@@ -612,17 +620,33 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 				--Northern Europe
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					if CelticBarbarianTribe then
-						local iBarbarianTribeType = CelticBarbarianTribe.Index
-						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(CelticBarbarianTribe.TribeType))
+						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
+						if not InvasionCamp then
+							local iBarbarianTribeType = CelticBarbarianTribe.Index
+							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(CelticBarbarianTribe.TribeType))
+						else
+							local iBarbarianTribeType = InvasionEuropeTribe.Index
+							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(InvasionEuropeTribe.TribeType))
+							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
+						end
 					else
 						print("Tribe type is nil")
 					end
 				else
 					if SlavicBarbarianTribe then
-						local iBarbarianTribeType = SlavicBarbarianTribe.Index
-						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(SlavicBarbarianTribe.TribeType))
+						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
+						if not InvasionCamp then
+							local iBarbarianTribeType = SlavicBarbarianTribe.Index
+							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(SlavicBarbarianTribe.TribeType))
+						else
+							local iBarbarianTribeType = InvasionEuropeTribe.Index
+							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(InvasionEuropeTribe.TribeType))
+							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
+						end
 					else
 						print("Tribe type is nil")
 					end
@@ -959,7 +983,7 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 			end
 		end
 	end
-	--Civilizations
+	--Civilizations (unused example code)
 	if sCivTypeName == "CIVILIZATION_KONGO" then
 		local eBarbarianTribeType = 3 --Kongo
 		local iBarbarianTribe = CreateTribeAt(eBarbarianTribeType, campPlot:GetIndex())
@@ -1124,6 +1148,44 @@ function InitiateColonization_GetCoastalPlots(coastalPlots)
 			table.insert(colonyPlots, pPlot)
 			-- print("New colony plot found")
 			-- print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))	
+		else
+			-- print("isWater is "..tostring(isWater))
+			-- print("isOwned is "..tostring(isOwned))
+			-- print("isUnit is "..tostring(isUnit))
+		end
+	end
+	if #colonyPlots == 0 then
+		print("InitiateColonization_GetCoastalPlots found no coastal plots")
+	end
+	return colonyPlots
+end
+
+function InitiateColonization_GetWaterAdjacentPlots(coastalPlots)
+	local colonyPlots = {}
+	for i, iPlotIndex in ipairs(coastalPlots) do
+		-- print("Checking coastal plot...")
+		local pPlot = Map.GetPlotByIndex(iPlotIndex)
+		local coastalLand = false
+		local impassable = true
+		local isOwned = true
+		local isUnit  = true
+		if pPlot:IsCoastalLand() ~= nil then coastalLand = pPlot:IsCoastalLand() end
+		if pPlot:IsOwned() ~= nil then isOwned = pPlot:IsOwned() end
+		if pPlot:IsUnit() ~= nil then isUnit = pPlot:IsUnit() end
+		if pPlot:IsImpassable() ~= nil then impassable = pPlot:IsImpassable() end
+		if coastalLand and not isOwned and not impassable then 
+			local iWaterAdjacent = 0
+			for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
+				local adjacentPlot = Map.GetAdjacentPlot(pPlot:GetX(), pPlot:GetY(), direction)
+				if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
+					iWaterAdjacent = iWaterAdjacent + 1
+				end
+			end		
+			if iWaterAdjacent >= 3 then
+				table.insert(colonyPlots, pPlot)
+				-- print("New colony plot found")
+				-- print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))							
+			end
 		else
 			-- print("isWater is "..tostring(isWater))
 			-- print("isOwned is "..tostring(isOwned))
@@ -1439,8 +1501,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning English colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
 		end
@@ -1468,8 +1530,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end				
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning French colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
 		end
@@ -1497,8 +1559,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end			
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning German colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
 		end
@@ -1526,8 +1588,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Dutch colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			elseif(GameInfo.Continents[iContinent].ContinentType == "CONTINENT_AFRICA") then
 				print("Netherlands is founding a new colony in Africa...")
@@ -1550,9 +1612,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Dutch colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 				end	
 			end
 		end
@@ -1569,7 +1630,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 				--Select possible colony plots
 				colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
 				--Find the best plot in the selection
-				selectedPlot = InitiateColonization_BestColonyPlot(colonyPlots)
+				selectedPlot = InitiateColonization_BestColonyMostDistant(colonyPlots, startingPlot)
 				--Create colony on selected plot
 				if selectedPlot then
 					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
@@ -1580,8 +1641,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end				
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Portuguese colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 					--Spawn water units last (Portugal gets extra Naus)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
@@ -1598,7 +1659,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 				local plotScore = -100
 				local coastalPlots = Map.GetContinentPlots(iContinent)
 				colonyPlots = InitiateColonization_GetIslandPlots(coastalPlots)
-				selectedPlot = InitiateColonization_BestColonyPlot(colonyPlots)
+				selectedPlot = InitiateColonization_BestColonyByDistance(colonyPlots, startingPlot)
 				if selectedPlot then
 					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
 					if pCity then
@@ -1608,8 +1669,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Portuguese colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 					--Spawn water units last (Portugal gets extra Naus)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
@@ -1639,8 +1700,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end				
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Portuguese colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
@@ -1676,8 +1737,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_SCOTTISH_HIGHLANDER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Scottish colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
 		end
@@ -1706,7 +1767,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 					end
 					UnitManager.InitUnit(PlayerID, "UNIT_SPANISH_CONQUISTADOR", selectedPlot:GetX(), selectedPlot:GetY())
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Spanish colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			elseif(GameInfo.Continents[iContinent].ContinentType == "CONTINENT_NORTH_AMERICA") then
 				print("Spain is founding a new colony in North America...")
@@ -1730,7 +1791,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 					end	
 					UnitManager.InitUnit(PlayerID, "UNIT_SPANISH_CONQUISTADOR", selectedPlot:GetX(), selectedPlot:GetY())
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Spanish colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					Notification_NewColony(PlayerID, selectedPlot)
 				end							
 			elseif(GameInfo.Continents[iContinent].ContinentType == "CONTINENT_ASIA") then
 				print("Spain is founding a new colony in Asia...")
@@ -1759,7 +1820,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 					UnitManager.InitUnit(PlayerID, "UNIT_SPANISH_CONQUISTADOR", selectedPlot:GetX(), selectedPlot:GetY())
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_SPANISH_CONQUISTADOR", selectedPlot:GetX(), selectedPlot:GetY())
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Spanish colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					Notification_NewColony(PlayerID, selectedPlot)
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
@@ -1798,8 +1859,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Generic Civilization colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			elseif(GameInfo.Continents[iContinent].ContinentType == "CONTINENT_SOUTH_AMERICA" and iRandomContinent == 1) then
 				print("Generic or modded civilization is founding a new colony in South America...")
@@ -1822,8 +1883,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
-					print("Spawning Generic Civilization colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
 				end					
 			end
 		end		

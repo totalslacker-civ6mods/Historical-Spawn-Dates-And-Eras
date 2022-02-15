@@ -185,6 +185,7 @@ VALUES
 -------------------------------------------------------------------------------
 INSERT OR REPLACE INTO RestrictedSpawns (Civilization) 
 VALUES
+		('CIVILIZATION_KOREA'),
 		('CIVILIZATION_NETHERLANDS'),
 		('CIVILIZATION_PORTUGAL');
 		
@@ -194,6 +195,8 @@ VALUES
 INSERT OR REPLACE INTO PeacefulSpawns (Civilization) 
 VALUES
 		('CIVILIZATION_AUSTRALIA'),
+		('CIVILIZATION_NETHERLANDS'),
+		('CIVILIZATION_PORTUGAL'),
 		('CIVILIZATION_CANADA');
 		
 -------------------------------------------------------------------------------

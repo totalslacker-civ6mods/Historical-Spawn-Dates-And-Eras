@@ -31,7 +31,11 @@
 		<Row ParameterId="ComandantesSlider" Name="LOC_MAP_COMANDANTES_SLIDER" Description="LOC_MAP_COMANDANTES_SLIDER_DESC" Domain="ComandantesSlider" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="ComandantesSlider" GroupId="AdvancedOptions" Visible="1" SortIndex="327"/>
 		
 		<!-- SPAWN OPTIONS -->
-		<Row ParameterId="ConvertCities" Name="LOC_MAP_CONVERT_CITIES" Description="LOC_MAP_CONVERT_CITIES_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="ConvertCities" GroupId="AdvancedOptions" Visible="1" SortIndex="331"/>
+		<Row ParameterId="ConvertCities" Name="LOC_MAP_CONVERT_CITIES" Description="LOC_MAP_CONVERT_CITIES_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="ConvertCities" GroupId="AdvancedOptions" Visible="1" SortIndex="330"/>
+		
+		<Row ParameterId="IgnoreGovernor" Name="LOC_MAP_IGNORE_GOVERNOR" Description="LOC_MAP_IGNORE_GOVERNOR_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="IgnoreGovernor" GroupId="AdvancedOptions" Visible="1" SortIndex="331"/>
+		
+		<Row ParameterId="OverrideSpawn" Name="LOC_MAP_OVERRIDE_SPAWN" Description="LOC_MAP_OVERRIDE_SPAWN_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="OverrideSpawn" GroupId="AdvancedOptions" Visible="1" SortIndex="331"/>
 		
 		<Row ParameterId="ConvertSpawnZones" Name="LOC_MAP_CONVERT_SPAWN_ZONES" Description="LOC_MAP_CONVERT_SPAWN_ZONES_DESC" Domain="SpawnZoneOptions" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="ConvertSpawnZones" GroupId="AdvancedOptions" Visible="1" SortIndex="331"/>
 		
@@ -77,6 +81,7 @@
 		<!-- New Spawn Tables -->
 		<Replace Domain="SpawnDateTables" Value="0" 	Name="LOC_HSD_STANDARD_NAME" 	Description="LOC_HSD_STANDARD_DESC" 	SortIndex="10"/>
 		<Replace Domain="SpawnDateTables" Value="1" 	Name="LOC_HSD_TRUE_START_NAME" 	Description="LOC_HSD_TRUE_START_DESC" 	SortIndex="20"/>
+		<Replace Domain="SpawnDateTables" Value="2" 	Name="LOC_HSD_LEADER_START_NAME" 	Description="LOC_HSD_LEADER_START_DESC" 	SortIndex="30"/>
 		<!-- Spawn Zone Options -->
 		<Replace Domain="SpawnZoneOptions" Value="0" 	Name="LOC_SPAWNZONE_CLASSIC_NAME" 	Description="LOC_SPAWNZONE_CLASSIC_DESC" 	SortIndex="10"/>
 		<Replace Domain="SpawnZoneOptions" Value="1" 	Name="LOC_SPAWNZONE_ITERATIVE_NAME" 	Description="LOC_SPAWNZONE_ITERATIVE_DESC" 	SortIndex="20"/>
@@ -121,6 +126,10 @@
 		<Row ParameterId="PeacefulSpawns" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="RestrictSpawnZone" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="UniqueSpawnZones" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="IgnoreGovernor" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="IgnoreGovernor" ConfigurationGroup="Map" ConfigurationId="ConvertCities" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="OverrideSpawn" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="OverrideSpawn" ConfigurationGroup="Map" ConfigurationId="ConvertCities" Operator="Equals" ConfigurationValue="1"/>
 		<!-- New Spawn Tables -->
 		<Row ParameterId="SpawnDateTables" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="LiteMode" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>

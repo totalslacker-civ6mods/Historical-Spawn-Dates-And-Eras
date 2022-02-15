@@ -72,7 +72,7 @@ function CheckCityGovernor(pPlayerID, pCityID)
 			return false
 		end
 	else
-		print ("CheckCityGovernor could not return a city ID")
+		print ("City was an original capital or had an established governor.")
 		return false
 	end
 end
@@ -141,6 +141,13 @@ function CheckCityOriginalCapital(pPlayerID, pCityID)
 		end	
 	end
 	return bOriginalCapital
+end
+
+function GetEraCountdown()
+	local pGameEras:table = Game.GetEras()
+	local nextEraCountdown = pGameEras:GetNextEraCountdown() + 1; -- 0 turns remaining is the last turn, shift by 1 to make sense to non-programmers
+	print("nextEraCountdown is "..tostring(nextEraCountdown))
+	return nextEraCountdown
 end
 
 -- all credit for the code below goes to Tiramasu, taken from the Free City States mod
@@ -231,6 +238,7 @@ function InitializeHSD_UI()
 	ExposedMembers.CheckCityCapital = CheckCityCapital
 	ExposedMembers.CheckCityOriginalCapital = CheckCityOriginalCapital
 	ExposedMembers.GetPlayerCityUIDatas = GetPlayerCityUIDatas
+	ExposedMembers.GetEraCountdown = GetEraCountdown
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))	
