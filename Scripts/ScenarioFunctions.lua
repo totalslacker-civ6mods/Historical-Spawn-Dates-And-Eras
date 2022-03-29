@@ -1800,14 +1800,15 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 				local selectedPlot = false	
 				local plotScore = -100
 				local coastalPlots = Map.GetContinentPlots(iContinent)
-				if GameInfo.Features["FEATURE_CHOCOLATEHILLS"] then
-					colonyPlots = InitiateColonization_GetPlotsByFeature(coastalPlots, GameInfo.Features["FEATURE_CHOCOLATEHILLS"].Index)
-					if colonyPlots == false then
-						colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
-					end
-				else
-					colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
-				end
+				-- if GameInfo.Features["FEATURE_CHOCOLATEHILLS"] then
+					-- colonyPlots = InitiateColonization_GetPlotsByFeature(coastalPlots, GameInfo.Features["FEATURE_CHOCOLATEHILLS"].Index)
+					-- if colonyPlots == false then
+						-- colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
+					-- end
+				-- else
+					-- colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
+				-- end
+				colonyPlots = InitiateColonization_GetIslandPlots(coastalPlots)
 				selectedPlot = InitiateColonization_BestColonyMostDistant(colonyPlots, startingPlot)
 				if selectedPlot then
 					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
@@ -2240,14 +2241,15 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 				local selectedPlot = false	
 				local plotScore = -100
 				local coastalPlots = Map.GetContinentPlots(iContinent)
-				if GameInfo.Features["FEATURE_YOSEMITE"] then
-					colonyPlots = InitiateColonization_GetPlotsByFeature(coastalPlots, GameInfo.Features["FEATURE_YOSEMITE"].Index)
-					if colonyPlots == false then
-						colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
-					end
-				else
-					colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
-				end
+				-- if GameInfo.Features["FEATURE_YOSEMITE"] then
+					-- colonyPlots = InitiateColonization_GetPlotsByFeature(coastalPlots, GameInfo.Features["FEATURE_YOSEMITE"].Index)
+					-- if colonyPlots == false then
+						-- colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
+					-- end
+				-- else
+					-- colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
+				-- end
+				colonyPlots = InitiateColonization_GetCoastalPlots(coastalPlots)
 				selectedPlot = InitiateColonization_BestColonyMostDistant(colonyPlots, startingPlot)
 				if selectedPlot then
 					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
