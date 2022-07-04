@@ -10,6 +10,128 @@ function CreateUnitWithExp(unitType, expFactor, pPlayerUnits, pPlot)
 	return true
 end
 
+function GetPlayerTraits(iPlayer, sTrait)
+	local pPlayer = Players[iPlayer]
+	local playerTraits = {}
+	local bHasTrait = false
+	local sLeaderTypeName = PlayerConfigurations[iPlayer]:GetLeaderTypeName()
+	for trait in GameInfo.LeaderTraits() do
+		if (trait.LeaderType == sLeaderTypeName) and (trait.TraitType == sTrait) then
+			playerTraits[iPlayer] = Players[iPlayer]
+			bHasTrait = true
+		end
+	end
+	if not playerTraits[iPlayer] then
+		local sCivTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+		for trait in GameInfo.CivilizationTraits() do
+			if (trait.CivilizationType == sCivTypeName) and (trait.TraitType == sTrait) then
+				playerTraits[iPlayer] = Players[iPlayer]
+				bHasTrait = true
+			end
+		end
+	end
+	return bHasTrait
+end
+
+function GetMostAdvancedUnit(iPlayer, promotionClass)
+	print("Return UnitType of most advanced unit "..tostring(PlayerConfigurations[iPlayer]:GetLeaderTypeName()).." can build from promotion class "..tostring(promotionClass))
+	local pPlayer = Players[iPlayer]
+	local pScience = pPlayer:GetTechs()
+	local playerTechs = {}
+	local iTechCost = -1
+	local pCulture = pPlayer:GetCulture()
+	local playerCivics = {}
+	local iCivicCost = -1
+	local selectedUnit = false
+	-- print("Gather list of techs known by player")
+	for kTech in GameInfo.Technologies() do		
+		local iTech	= kTech.Index
+		if pScience:HasTech(iTech) then
+			if not playerTechs[iTech] then playerTechs[iTech] = 0 end
+			playerTechs[iTech] = playerTechs[iTech] + 1
+		end
+	end
+	-- print("Gather list of civics known by player")
+	for kCivic in GameInfo.Civics() do		
+		local iCivic = kCivic.Index
+		if pCulture:HasCivic(iCivic) then
+			if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
+			playerCivics[iCivic] = playerCivics[iCivic] + 1
+		end
+	end
+	-- print("Check prereq tech for all units in promotion class against techs known by player")
+	for kUnit in GameInfo.Units() do
+		-- local iUnit = kUnit.Index
+		if kUnit and kUnit.PromotionClass and (kUnit.PromotionClass == promotionClass) then
+			local bUnitHasTrait = false
+			local bCivHasTrait = false
+			if kUnit.TraitType then bUnitHasTrait = true end
+			if GetPlayerTraits(iPlayer, kUnit.TraitType) then bCivHasTrait = true end
+			if (not kUnit.PrereqTech) and (not kUnit.PrereqCivic) then
+				-- print("Check for starting units")
+				if bUnitHasTrait and not bCivHasTrait then
+					print("Unique unit not available to player")
+				else
+					if (iTechCost < 0) then
+						iTechCost = 0
+						selectedUnit = kUnit.UnitType
+					elseif(iTechCost == 0) then
+						if bUnitHasTrait then
+							selectedUnit = kUnit.UnitType
+						end
+					end
+				end
+			elseif(kUnit.PrereqTech and playerTechs[GameInfo.Technologies[kUnit.PrereqTech].Index]) then
+				if bUnitHasTrait and not bCivHasTrait then
+					print("Unique unit not available to player")
+				else
+					if (GameInfo.Technologies[kUnit.PrereqTech].Cost > iTechCost) then
+						iTechCost = GameInfo.Technologies[kUnit.PrereqTech].Cost
+						selectedUnit = kUnit.UnitType
+					elseif(GameInfo.Technologies[kUnit.PrereqTech].Cost == iTechCost) then
+						if bUnitHasTrait then
+							selectedUnit = kUnit.UnitType
+						end
+					end
+				end
+			elseif(kUnit.PrereqCivic and playerCivics[GameInfo.Civics[kUnit.PrereqCivic].Index]) then
+				if bUnitHasTrait and not bCivHasTrait then
+					print("Unique unit not available to player")
+				else
+					if ((GameInfo.Units[kUnit.UnitType].MandatoryObsoleteTech and not playerTechs[GameInfo.Technologies[(GameInfo.Units[kUnit.UnitType].MandatoryObsoleteTech)].Index]) or (not GameInfo.Units[kUnit.UnitType].MandatoryObsoleteTech)) and ((GameInfo.UnitUpgrades[kUnit.UnitType] and not playerTechs[GameInfo.Technologies[(GameInfo.Units[(GameInfo.UnitUpgrades[kUnit.UnitType].UpgradeUnit)].PrereqTech)].Index]) or (not GameInfo.UnitUpgrades[kUnit.UnitType])) then
+						if (GameInfo.Civics[kUnit.PrereqCivic].Cost > iCivicCost) then
+							iCivicCost = GameInfo.Civics[kUnit.PrereqCivic].Cost
+							selectedUnit = kUnit.UnitType
+						elseif(GameInfo.Civics[kUnit.PrereqCivic].Cost == iCivicCost) then
+							if bUnitHasTrait then
+								selectedUnit = kUnit.UnitType
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	if selectedUnit then
+		-- print("Check for unique unit replacements")
+		local bCivHasTrait = false
+		for kUnit in GameInfo.UnitReplaces() do
+			if kUnit and (kUnit.ReplacesUnitType == selectedUnit) then
+				local unitTrait = GameInfo.Units[kUnit.CivUniqueUnitType].TraitType
+				if GetPlayerTraits(iPlayer, unitTrait) then bCivHasTrait = true end
+				if bCivHasTrait then
+					selectedUnit = kUnit.CivUniqueUnitType
+				end
+			end
+		end
+		print("Found most advanced unit: "..tostring(selectedUnit))
+		return selectedUnit
+	else
+		print("WARNING: No unit could be found! Returning boolean false")
+		return selectedUnit
+	end
+end
+
 -- ===========================================================================
 -- Main functions related to unit spawns
 -- ===========================================================================
@@ -856,7 +978,13 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 		--Classical Era
 		if bSpawnUniqueUnits then
 			if CivilizationTypeName == "CIVILIZATION_GREECE" then
-				CreateUnitWithExp("UNIT_GREEK_HOPLITE", 1, pPlayerUnits, pPlot)
+				local sUnitType = GetMostAdvancedUnit(iPlayer, "PROMOTION_CLASS_ANTI_CAVALRY")
+				-- CreateUnitWithExp("UNIT_GREEK_HOPLITE", 1, pPlayerUnits, pPlot)
+				if sUnitType then
+					CreateUnitWithExp(sUnitType, 1, pPlayerUnits, pPlot)
+				else
+					print("sUnitType was false")
+				end
 				return true
 			elseif(CivilizationTypeName == "CIVILIZATION_GAUL" and GameInfo.Units['UNIT_GAUL_GAESATAE']) then
 				CreateUnitWithExp("UNIT_GAUL_GAESATAE", 3, pPlayerUnits, pPlot)

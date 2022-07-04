@@ -1943,6 +1943,9 @@ function Colonization_OnGameEraChanged(previousEra, iNewEraID)
 		local bCartography = false
 		if pPlayer:GetTechs():HasTech(GameInfo.Technologies["TECH_CARTOGRAPHY"].Index) then
 			bCartography = true
+		elseif (sCivTypeName == "CIVILIZATION_RUSSIA") then
+			-- print("Russia ignores cartography requirment as they colonize inland")
+			bCartography = true
 		end
 		local bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
 		local bColonizationWave02 = Game.GetProperty("Colonization_Wave02_Player_#"..PlayerID)

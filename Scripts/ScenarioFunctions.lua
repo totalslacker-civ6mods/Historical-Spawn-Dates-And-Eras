@@ -1713,6 +1713,30 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 				end
 			end
 		end
+	elseif(sCivTypeName == "CIVILIZATION_RUSSIA") then
+		--Does not spawn on coast
+		local tContinents = Map.GetContinentsInUse()
+		for i,iContinent in ipairs(tContinents) do
+			if (GameInfo.Continents[iContinent].ContinentType == "CONTINENT_SIBERIA") then
+				print(tostring(sCivTypeName).." is founding a new colony in "..tostring(GameInfo.Continents[iContinent].ContinentType))
+				local selectedPlot = false	
+				local continentPlotIndexes = Map.GetContinentPlots(iContinent)
+				--Find the best plot in the selection
+				selectedPlot = InitiateColonization_BestColonyByDistance(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					Notification_NewColony(PlayerID, selectedPlot)
+				end			
+			end
+		end
 	elseif(sCivTypeName == "CIVILIZATION_SCOTLAND") then
 		local tContinents = Map.GetContinentsInUse()
 		for i,iContinent in ipairs(tContinents) do
