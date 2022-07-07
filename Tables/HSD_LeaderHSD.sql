@@ -58,7 +58,7 @@ VALUES
 ( 	'LEADER_CLEOPATRA', 					-69 ),
 ( 	'LEADER_BARBAROSSA', 					1122 ),
 ( 	'LEADER_MVEMBA', 						1456 ),
-( 	'LEADER_ALEXANDER', 					356 ),
+( 	'LEADER_ALEXANDER', 					-356 ),
 ( 	'LEADER_MANSA_MUSA', 					1280 ),
 ( 	'LEADER_AMANITORE', 					-68 ),
 ( 	'LEADER_SULEIMAN', 						1494 ),

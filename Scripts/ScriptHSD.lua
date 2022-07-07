@@ -1,16 +1,15 @@
 ------------------------------------------------------------------------------
 --	FILE:	 ScriptHSD.lua
 --  Gedemon (2017)
---  totalslacker (2020-2021)
+--  totalslacker (2020-2022)
 --
 --	TODO:
---	Different spawn date tables for custom scenarios [done]
---	Difficulty settings [done]
---	Support for plague mods [unlikely at this point]
---	Expand the notification system with spawn failure and less info messages [done]
---  Create config menu options for spawn dates (enter spawn dates from the menu, etc)
---  Test colony notifications
---	Saved start dates [done]
+--	Setup menu array option for restricted spawn list
+--  Receive spawn bonuses based on progress of other players on same continent
+--  Spawn units based on military strength of nearby players
+--  Starting units receive free maintainence and extra movement points
+--  Ancient era civs do not receive bonuses unless they have HSD
+--  Support for 6T mod: timeline, unit adjustments
 --	Create a SpawnManager class to integrate the multiple spawning functions
 ------------------------------------------------------------------------------
 
@@ -2031,7 +2030,7 @@ function CityRebellion(pCity, playerID, otherPlayerID)
 							print("----------")
 							print("Converting city to new player")
 							print("----------")
-							ConvertCitiesUnits(playerID, freeCityPlot, gameCurrentEra)
+							CityUnits_Dynamic(playerID, freeCityPlot, gameCurrentEra)
 							print("Spawning more player units at city")
 							bRevolt = true
 						end
@@ -2349,7 +2348,7 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		local convertedCity = DirectCityConversion(iPlayer, startingPlot)
 		if convertedCity then
-			EraSiegeUnits(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
 		else
 			local errorString :string = "Failed to convert city to new player"
 			local errorMessage = Notification_FailedSpawn(iPlayer, startingPlot, errorString)
@@ -2359,7 +2358,7 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			EraSiegeUnits(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
 		end
 	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		print("bConvertCities is true")
@@ -2369,7 +2368,7 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 			local cityPlot = Map.GetPlot(cityFromPlot:GetX(), cityFromPlot:GetY())
 			local convertedCity = DirectCityConversion(iPlayer, cityPlot)
 			if convertedCity then
-				EraSiegeUnits(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
+				StartingUnits_Dynamic(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
 				newStartingPlot = cityPlot
 			else
 				local errorString :string = "Failed to convert city to new player"
@@ -2384,7 +2383,7 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			EraSiegeUnits(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
 		end
 	elseif(startingPlot:IsOwned() and not bOwnerIsPlayer) then
 		print("Starting plot is owned. Searching for new starting plot.")
@@ -2394,10 +2393,10 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 			MoveStartingPlotUnits(plotUnits, newStartingPlot)
 		end
 		print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-		EraSiegeUnits(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
 	else
 		if (Game.GetCurrentGameTurn() >= 10) then
-			EraSiegeUnits(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
 		end
 	end
 	--Check for restricted spawn where Civ will only convert capital
@@ -2454,7 +2453,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		local convertedCity = DirectCityConversion(iPlayer, startingPlot)
 		if convertedCity then
-			IsolatedPlayerSeige(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+			StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 		else
 			local errorString :string = "Failed to convert city to new player"
 			local errorMessage = Notification_FailedSpawn(iPlayer, startingPlot, errorString)
@@ -2464,7 +2463,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			IsolatedPlayerSeige(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+			StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 		end
 	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		print("bConvertCities is true")
@@ -2474,7 +2473,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 			local cityPlot = Map.GetPlot(cityFromPlot:GetX(), cityFromPlot:GetY())
 			local convertedCity = DirectCityConversion(iPlayer, cityPlot)
 			if convertedCity then
-				IsolatedPlayerSeige(iPlayer, cityPlot, isolatedSpawn, CivilizationTypeName)
+				StartingUnits_Isolated(iPlayer, cityPlot, isolatedSpawn, CivilizationTypeName)
 				newStartingPlot = cityPlot
 			else
 				local errorString :string = "Failed to convert city to new player"
@@ -2485,7 +2484,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 					MoveStartingPlotUnits(plotUnits, newStartingPlot)
 				end
 				print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-				IsolatedPlayerSeige(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+				StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 			end								
 		else
 			local errorString :string = "No city found for this plot!"
@@ -2496,7 +2495,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			IsolatedPlayerSeige(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+			StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 		end
 	elseif(startingPlot:IsOwned() and not bOwnerIsPlayer) then
 		print("Starting plot is owned. Searching for new starting plot.")
@@ -2506,9 +2505,9 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 			MoveStartingPlotUnits(plotUnits, newStartingPlot)
 		end
 		print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-		IsolatedPlayerSeige(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+		StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 	elseif(bCityTooClose) then
-		IsolatedPlayerSeige(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+		StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 	end
 	if bSpawnRange and newStartingPlot then 
 		FreeCityRevolt(iPlayer, newStartingPlot)
@@ -2729,8 +2728,8 @@ function SpawnPlayer(iPlayer)
 						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
 					end
 					
-					--Spawn any extra units specific to this Civ or start (further logic to be implemented in the UnitSpawns function)
-					UnitSpawns(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+					--Spawn any extra units specific to this Civ or start
+					StartingUnits_Extra(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 					
 					--Delete hidden settler now that we have a city or units on the map, or the AI will never build more settlers
 					DeleteUnitsOffMap(iPlayer)
@@ -2775,8 +2774,8 @@ function SpawnPlayer(iPlayer)
 					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
 				end
 				
-				--Spawn any extra units specific to this Civ or start (further logic to be implemented in the UnitSpawns function)
-				UnitSpawns(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+				--Spawn any extra units specific to this Civ or start
+				StartingUnits_Extra(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 				
 				--Delete hidden settler now that we have a city or units on the map, or the AI will never build more settlers
 				DeleteUnitsOffMap(iPlayer)

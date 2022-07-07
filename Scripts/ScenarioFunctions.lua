@@ -2,6 +2,8 @@
 -- Scenario functions (optional scripted events)
 -- ===========================================================================
 --
+include("UnitFunctions");
+
 local bDramaticAges = GameConfiguration.GetValue("GAMEMODE_DRAMATICAGES")
 
 function Notification_NewColony(iPlayer :number, pPlot :object)
@@ -1501,7 +1503,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
@@ -1530,7 +1532,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end				
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
@@ -1559,7 +1561,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end			
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
@@ -1588,7 +1590,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			elseif(GameInfo.Continents[iContinent].ContinentType == "CONTINENT_AFRICA") then
@@ -1612,7 +1614,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end	
 			end
@@ -1641,7 +1643,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end				
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 					--Spawn water units last (Portugal gets extra Naus)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -1669,7 +1671,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 					--Spawn water units last (Portugal gets extra Naus)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -1700,7 +1702,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end				
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -1731,8 +1733,8 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
@@ -1761,7 +1763,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
@@ -1850,7 +1852,11 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_CARAVEL", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_CARAVEL"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_CARAVEL", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								print("Naval unit does not exist! No dynamic spawn function for naval units has been created yet.")
+							end
 							break
 						end
 					end
@@ -1884,7 +1890,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			elseif(GameInfo.Continents[iContinent].ContinentType == "CONTINENT_SOUTH_AMERICA" and iRandomContinent == 1) then
@@ -1908,7 +1914,7 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_MAN_AT_ARMS", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end					
 			end
@@ -1941,13 +1947,21 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					if GameInfo.Units["UNIT_RANGER"] then
+						UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					else
+						SpawnUnit(PlayerID, selectedPlot, Game.GetEras():GetCurrentEra(), "PROMOTION_CLASS_RECON")
+					end
 					print("Spawning English colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_ENGLISH_SEADOG", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_ENGLISH_SEADOG"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_ENGLISH_SEADOG", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_RAIDER")
+							end
 							break
 						end
 					end
@@ -1970,13 +1984,21 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					if GameInfo.Units["UNIT_RANGER"] then
+						UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					else
+						SpawnUnit(PlayerID, selectedPlot, Game.GetEras():GetCurrentEra(), "PROMOTION_CLASS_RECON")
+					end
 					print("Spawning English colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_ENGLISH_SEADOG", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_ENGLISH_SEADOG"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_ENGLISH_SEADOG", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_RAIDER")
+							end
 							break
 						end
 					end
@@ -2004,13 +2026,21 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					if GameInfo.Units["UNIT_RANGER"] then
+						UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					else
+						SpawnUnit(PlayerID, selectedPlot, Game.GetEras():GetCurrentEra(), "PROMOTION_CLASS_RECON")
+					end
 					print("Spawning French colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_PRIVATEER"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_RAIDER")
+							end
 							break
 						end
 					end					
@@ -2039,7 +2069,11 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_PRIVATEER"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_RAIDER")
+							end
 							break
 						end
 					end					
@@ -2067,13 +2101,17 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_FIELD_CANNON", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_RANGED")
 					print("Spawning German colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_PRIVATEER"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_RAIDER")
+							end
 							break
 						end
 					end	
@@ -2101,13 +2139,21 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					if GameInfo.Units["UNIT_RANGER"] then
+						UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					else
+						SpawnUnit(PlayerID, selectedPlot, Game.GetEras():GetCurrentEra(), "PROMOTION_CLASS_RECON")
+					end
 					print("Spawning Dutch colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_DE_ZEVEN_PROVINCIEN"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_DE_ZEVEN_PROVINCIEN", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_RAIDER")
+							end
 							break
 						end
 					end	
@@ -2130,13 +2176,21 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					if GameInfo.Units["UNIT_RANGER"] then
+						UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					else
+						SpawnUnit(PlayerID, selectedPlot, Game.GetEras():GetCurrentEra(), "PROMOTION_CLASS_RECON")
+					end
 					print("Spawning Dutch colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_DE_ZEVEN_PROVINCIEN", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_DE_ZEVEN_PROVINCIEN"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_DE_ZEVEN_PROVINCIEN", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_RAIDER")
+							end
 							break
 						end
 					end	
@@ -2164,7 +2218,11 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					if GameInfo.Units["UNIT_RANGER"] then
+						UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					else
+						SpawnUnit(PlayerID, selectedPlot, Game.GetEras():GetCurrentEra(), "PROMOTION_CLASS_RECON")
+					end
 					print("Spawning Portuguese colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (Portugal gets extra Naus)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -2192,7 +2250,11 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					if GameInfo.Units["UNIT_RANGER"] then
+						UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					else
+						SpawnUnit(PlayerID, selectedPlot, Game.GetEras():GetCurrentEra(), "PROMOTION_CLASS_RECON")
+					end
 					print("Spawning Portuguese colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (Portugal gets extra Naus)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -2220,7 +2282,11 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
 					end
 					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
-					UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					if GameInfo.Units["UNIT_RANGER"] then
+						UnitManager.InitUnit(PlayerID, "UNIT_RANGER", selectedPlot:GetX(), selectedPlot:GetY())
+					else
+						SpawnUnit(PlayerID, selectedPlot, Game.GetEras():GetCurrentEra(), "PROMOTION_CLASS_RECON")
+					end
 					print("Spawning Portuguese colonizer units at plot "..tostring(selectedPlot:GetX())..", "..tostring(selectedPlot:GetY()))
 					--Spawn water units last (we're using a break statement)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -2348,7 +2414,11 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							if GameInfo.Units["UNIT_PRIVATEER"] then
+								UnitManager.InitUnit(PlayerID, "UNIT_PRIVATEER", adjacentPlot:GetX(), adjacentPlot:GetY())
+							else
+								SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_RAIDER")
+							end
 							break
 						end
 					end
@@ -2390,7 +2460,7 @@ function InitiateColonization_ThirdWave(PlayerID, sCivTypeName)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_IRONCLAD", adjacentPlot:GetX(), adjacentPlot:GetY())
+							SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_MELEE")
 							break
 						end
 					end
@@ -2419,7 +2489,7 @@ function InitiateColonization_ThirdWave(PlayerID, sCivTypeName)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_IRONCLAD", adjacentPlot:GetX(), adjacentPlot:GetY())
+							SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_MELEE")
 							break
 						end
 					end
@@ -2454,7 +2524,7 @@ function InitiateColonization_ThirdWave(PlayerID, sCivTypeName)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_IRONCLAD", adjacentPlot:GetX(), adjacentPlot:GetY())
+							SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_MELEE")
 							break
 						end
 					end					
@@ -2489,7 +2559,7 @@ function InitiateColonization_ThirdWave(PlayerID, sCivTypeName)
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local adjacentPlot = Map.GetAdjacentPlot(selectedPlot:GetX(), selectedPlot:GetY(), direction)
 						if adjacentPlot and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
-							UnitManager.InitUnit(PlayerID, "UNIT_IRONCLAD", adjacentPlot:GetX(), adjacentPlot:GetY())
+							SpawnUnit(PlayerID, adjacentPlot, 1, "PROMOTION_CLASS_NAVAL_MELEE")
 							break
 						end
 					end	
