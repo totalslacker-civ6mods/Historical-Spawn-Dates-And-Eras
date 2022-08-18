@@ -111,6 +111,7 @@ print("bRestrictSpawnZone is "..tostring(bRestrictSpawnZone))
 print("bUniqueSpawnZones is "..tostring(bUniqueSpawnZones))
 print("bIgnoreGovernor is "..tostring(bIgnoreGovernor))
 print("bOverrideSpawn is "..tostring(bOverrideSpawn))
+print("iUnitListType is "..tostring(iUnitListType))
 
 -- ===========================================================================
 -- Other Game Settings
