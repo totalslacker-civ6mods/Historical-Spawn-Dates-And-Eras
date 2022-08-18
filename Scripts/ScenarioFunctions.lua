@@ -254,7 +254,7 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 	local baseX = ContinentDimensions[sCivTypeName].baseX
 	-- print("Checking barbarian camp surroundings")
 	if campPlot:IsCoastalLand() then
-		print("Coastal land camp detected. Checking adjacent plots...")
+		-- print("Coastal land camp detected. Checking adjacent plots...")
 		local iWaterAdjacent = 0
 		for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 			local adjacentPlot = Map.GetAdjacentPlot(campPlot:GetX(), campPlot:GetY(), direction)
@@ -262,13 +262,13 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 				iWaterAdjacent = iWaterAdjacent + 1
 			end
 		end		
-		print("iWaterAdjacent is "..tostring(iWaterAdjacent))
+		-- print("iWaterAdjacent is "..tostring(iWaterAdjacent))
 		if iWaterAdjacent >= 3 then		
 			print("iWaterAdjacent is high enough to spawn a naval tribe")
 			bIsCoastalCamp = true
 		end
 	end	
-	print("Spawning barbarian camp based on continent")
+	-- print("Spawning barbarian camp based on continent")
 	if sCivTypeName == "CONTINENT_AFRICA" then
 		if bIsCoastalCamp then
 			if (campPlot:GetY() < lowerHalf) then
