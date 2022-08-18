@@ -1826,7 +1826,7 @@ function Colonization_OnTechLearned(iPlayer, pTech)
 	local bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
 	if bColonizationWave01 then return end
 	local iCitiesOwnedByPlayer = pPlayer:GetCities():GetCount()
-	print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
+	-- print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
 	if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
 		return
 	end
@@ -1854,7 +1854,7 @@ function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
 	print("Era Changed for Player # " .. PlayerID )
 	local pPlayer = Players[PlayerID]
 	local iCitiesOwnedByPlayer :number = pPlayer:GetCities():GetCount()
-	print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
+	-- print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
 	if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
 		return
 	end

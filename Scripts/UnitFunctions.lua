@@ -187,7 +187,7 @@ function StartingUnits_Dynamic(iPlayer, pPlot, currentGameEra, settlersBonus)
 	print("Spawning starting units dynamically based on tech and civic progress and any mods enabled")
 	local pPlayer = Players[iPlayer]
 	local pPlayerUnits = pPlayer:GetUnits()
-	local pPlayerResources = pPlayer:GetResources()	
+	local playerResources = pPlayer:GetResources()	
 	local startingPlot = pPlayer:GetStartingPlot()
 	local reconPlot = PlayerBuffer(startingPlot)
 	local currentEra = currentGameEra
