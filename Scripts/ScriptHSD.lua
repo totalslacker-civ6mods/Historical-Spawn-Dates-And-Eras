@@ -1157,12 +1157,12 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 	for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 		local adjacentPlot = Map.GetAdjacentPlot(startingPlot:GetX(), startingPlot:GetY(), direction)
 		if adjacentPlot and not adjacentPlot:IsWater() and not adjacentPlot:IsImpassable() then
-			print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
+			-- print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
 			table.insert(permPlots, adjacentPlot:GetIndex())
 			table.insert(curPlots, adjacentPlot:GetIndex())
 		end
 	end
-	print("curPlots = "..tostring(#curPlots))
+	-- print("curPlots = "..tostring(#curPlots))
 	local bAdjacentPlots = true
 	while (bAdjacentPlots) do
 		for j, iPlotIndex in ipairs(curPlots) do
@@ -1179,7 +1179,7 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 					if not bDuplicate then
 						local iDistance = Map.GetPlotDistance(startingPlot:GetX(), startingPlot:GetY(), adjacentPlot:GetX(), adjacentPlot:GetY())
 						if iDistance <= iShortestDistance then
-							print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
+							-- print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
 							table.insert(permPlots, adjacentPlot:GetIndex())
 							table.insert(nextPlots, adjacentPlot:GetIndex())
 						end
@@ -1188,9 +1188,9 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 			end
 		end
 		curPlots = {}
-		print("curPlots = "..tostring(#curPlots))
-		print("nextPlots = "..tostring(#nextPlots))
-		print("permPlots = "..tostring(#permPlots))
+		-- print("curPlots = "..tostring(#curPlots))
+		-- print("nextPlots = "..tostring(#nextPlots))
+		-- print("permPlots = "..tostring(#permPlots))
 		for j, iPlotIndex in ipairs(nextPlots) do
 			local pPlot = Map.GetPlotByIndex(iPlotIndex)
 			for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -1205,7 +1205,7 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 					if not bDuplicate then
 						local iDistance = Map.GetPlotDistance(startingPlot:GetX(), startingPlot:GetY(), adjacentPlot:GetX(), adjacentPlot:GetY())
 						if iDistance <= iShortestDistance then
-							print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
+							-- print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
 							table.insert(permPlots, adjacentPlot:GetIndex())
 							table.insert(curPlots, adjacentPlot:GetIndex())
 						end
@@ -1214,9 +1214,9 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 			end
 		end
 		nextPlots = {}
-		print("curPlots = "..tostring(#curPlots))
-		print("nextPlots = "..tostring(#nextPlots))
-		print("permPlots = "..tostring(#permPlots))
+		-- print("curPlots = "..tostring(#curPlots))
+		-- print("nextPlots = "..tostring(#nextPlots))
+		-- print("permPlots = "..tostring(#permPlots))
 		if ((#curPlots == 0) and (#nextPlots == 0)) then
 			print("No more adjacent plots in range")
 			bAdjacentPlots = false
@@ -1235,8 +1235,8 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 				local pCity = Cities.GetCityInPlot(pPlot)
 				if pCity and (pCity:GetOwner() ~= iPlayer) then
 					table.insert(revoltCityPlots, pPlot)
-					print("New city plot found")
-					print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))							
+					-- print("New city plot found")
+					-- print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))							
 				end
 			end	
 		end
