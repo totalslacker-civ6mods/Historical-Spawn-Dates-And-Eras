@@ -184,15 +184,19 @@ end
 -- ===========================================================================
 
 function StartingUnits_Dynamic(iPlayer, pPlot, currentGameEra, settlersBonus)
+	print("Spawning starting units dynamically based on tech and civic progress and any mods enabled")
 	local pPlayer = Players[iPlayer]
 	local pPlayerUnits = pPlayer:GetUnits()
-	local pPlayerResources = player:GetResources()	
-	local startingPlot = player:GetStartingPlot()
+	local pPlayerResources = pPlayer:GetResources()	
+	local startingPlot = pPlayer:GetStartingPlot()
 	local reconPlot = PlayerBuffer(startingPlot)
 	local currentEra = currentGameEra
 	--print("Checking for era mods")
 	local bEraMod_6T = false
-	if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then bEraMod_6T = true end
+	if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then 
+		bEraMod_6T = true 
+		print("Historical Spawn Dates has detected the 6T Era Mod. Era values will be adjusted where necessary.")
+	end
 	if bEraMod_6T and (currentEra > 1) then
 		currentEra = currentEra - 1
 	end
@@ -438,7 +442,7 @@ function StartingUnits_Dynamic(iPlayer, pPlot, currentGameEra, settlersBonus)
 		end
 		return true 
 	end
-	if currentEra == 8 then
+	if currentEra >= 8 then
 		--Future
 		if bGatheringStormActive then
 			playerResources:ChangeResourceAmount(GameInfo.Resources['RESOURCE_IRON'].Index, 20)
@@ -489,6 +493,7 @@ end
 
 --Isolated player starting units
 function StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+	print("Spawning starting units for Isolated players.")
 	local pPlayer = Players[iPlayer]
 	local pPlayerUnits = pPlayer:GetUnits()
 	local pTreasury = pPlayer:GetTreasury()
@@ -497,16 +502,35 @@ function StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, Civilizati
 	if isolatedSpawn and CivilizationTypeName == "CIVILIZATION_AZTEC" then
 		if gameCurrentEra > 0 then
 			pTreasury:ChangeGoldBalance(gameCurrentEra * 100)
-			CreateUnitWithExp("UNIT_AZTEC_EAGLE_WARRIOR", gameCurrentEra, pPlayerUnits, startingPlot)
-			CreateUnitWithExp("UNIT_AZTEC_EAGLE_WARRIOR", gameCurrentEra, pPlayerUnits, startingPlot)
-			CreateUnitWithExp("UNIT_ARCHER", gameCurrentEra, pPlayerUnits, startingPlot)
+			if GameInfo.Units["UNIT_AZTEC_EAGLE_WARRIOR"] then
+				CreateUnitWithExp("UNIT_AZTEC_EAGLE_WARRIOR", gameCurrentEra, pPlayerUnits, startingPlot)
+				CreateUnitWithExp("UNIT_AZTEC_EAGLE_WARRIOR", gameCurrentEra, pPlayerUnits, startingPlot)
+			else
+				SpawnUnit(iPlayer, startingPlot, gameCurrentEra, "PROMOTION_CLASS_MELEE")
+				SpawnUnit(iPlayer, startingPlot, gameCurrentEra, "PROMOTION_CLASS_MELEE")
+			end
+			if GameInfo.Units["UNIT_ARCHER"] then
+				CreateUnitWithExp("UNIT_ARCHER", gameCurrentEra, pPlayerUnits, startingPlot)
+			else
+				SpawnUnit(iPlayer, startingPlot, gameCurrentEra, "PROMOTION_CLASS_RANGED")
+			end
 			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
-			return true		
+			return true
 		else
 			pTreasury:ChangeGoldBalance(100)
-			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_AZTEC_EAGLE_WARRIOR", startingPlot:GetX(), startingPlot:GetY())
-			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_AZTEC_EAGLE_WARRIOR", startingPlot:GetX(), startingPlot:GetY())
 			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_ARCHER", startingPlot:GetX(), startingPlot:GetY())
+			if GameInfo.Units["UNIT_AZTEC_EAGLE_WARRIOR"] then
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_AZTEC_EAGLE_WARRIOR", startingPlot:GetX(), startingPlot:GetY())
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_AZTEC_EAGLE_WARRIOR", startingPlot:GetX(), startingPlot:GetY())
+			else
+				SpawnUnit(iPlayer, startingPlot, 1, "PROMOTION_CLASS_MELEE")
+				SpawnUnit(iPlayer, startingPlot, 1, "PROMOTION_CLASS_MELEE")
+			end
+			if GameInfo.Units["UNIT_ARCHER"] then
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_ARCHER", startingPlot:GetX(), startingPlot:GetY())
+			else
+				SpawnUnit(iPlayer, startingPlot, 1, "PROMOTION_CLASS_RANGED")
+			end
 			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
 			return true		
 		end
@@ -615,7 +639,8 @@ function StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, Civilizati
 end
 
 -- Starting units for all players, called by SpawnPlayer
-function StartingUnits_Preset(iPlayer, pPlot, currentGameEra, settlersBonus)
+function StartingUnits_Static(iPlayer, pPlot, currentGameEra, settlersBonus)
+	print("Spawning starting units from predefined list")
 	local player = Players[iPlayer]
 	local playerResources = player:GetResources()	
 	local startingPlot = player:GetStartingPlot()
@@ -930,6 +955,7 @@ end
 
 --Units that spawn in converted cities
 function CityUnits_Dynamic(iPlayer, pPlot, currentGameEra)
+	print("Spawning city units dynamically based on tech or civic progress and any mods enabled")
 	local player = Players[iPlayer]
 	local startingPlot = player:GetStartingPlot()
 	local currentEra = currentGameEra
@@ -1090,7 +1116,8 @@ function CityUnits_Dynamic(iPlayer, pPlot, currentGameEra)
 	return false
 end
 
-function CityUnits_Preset(iPlayer, pPlot, currentGameEra)
+function CityUnits_Static(iPlayer, pPlot, currentGameEra)
+	print("Spawning city units from predefined list")
 	local player = Players[iPlayer]
 	local startingPlot = player:GetStartingPlot()
 	local currentEra = currentGameEra
@@ -1225,8 +1252,8 @@ function SpawnUnit(iPlayer, pPlot, currentEra, sPromoClass)
 end
 
 -- ===========================================================================
--- Preset: spawns unit based on a predefined era list with options for unique units, custom EXP, and special conditions.
--- Mod support must be hardcoded. Missing units will default to the most advanced available unit
+-- Static: spawns unit based on a predefined era list with options for unique units, custom EXP, and special conditions.
+-- Mod support must be hardcoded. Missing units will default to the most advanced available unit by using the dynamic function
 -- ===========================================================================
 
 function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)

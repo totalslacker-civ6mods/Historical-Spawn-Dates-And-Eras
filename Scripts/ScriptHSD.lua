@@ -87,6 +87,7 @@ local bRestrictSpawnZone		= MapConfiguration.GetValue("RestrictSpawnZone") or fa
 local bUniqueSpawnZones			= MapConfiguration.GetValue("UniqueSpawnZones") or false
 local bIgnoreGovernor			= MapConfiguration.GetValue("IgnoreGovernor") or false
 local bOverrideSpawn			= MapConfiguration.GetValue("OverrideSpawn") or false
+local iUnitListType				= MapConfiguration.GetValue("UnitList") or 1 -- 1 = Static Unit List, 0 = Dynamic Unit List
 
 print("bHistoricalSpawnDates is "..tostring(bHistoricalSpawnDates))
 print("bHistoricalSpawnEras is "..tostring(bHistoricalSpawnEras))
@@ -2030,8 +2031,11 @@ function CityRebellion(pCity, playerID, otherPlayerID)
 							print("----------")
 							print("Converting city to new player")
 							print("----------")
-							CityUnits_Dynamic(playerID, freeCityPlot, gameCurrentEra)
-							print("Spawning more player units at city")
+							if (iUnitListType == 0) then
+								CityUnits_Dynamic(playerID, freeCityPlot, gameCurrentEra)
+							elseif(iUnitListType == 1) then
+								CityUnits_Static(playerID, freeCityPlot, gameCurrentEra)
+							end
 							bRevolt = true
 						end
 					else
@@ -2348,7 +2352,11 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		local convertedCity = DirectCityConversion(iPlayer, startingPlot)
 		if convertedCity then
-			StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			if (iUnitListType == 0) then
+				StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			elseif(iUnitListType == 1) then
+				StartingUnits_Static(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			end
 		else
 			local errorString :string = "Failed to convert city to new player"
 			local errorMessage = Notification_FailedSpawn(iPlayer, startingPlot, errorString)
@@ -2358,7 +2366,11 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			if (iUnitListType == 0) then
+				StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			elseif(iUnitListType == 1) then
+				StartingUnits_Static(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			end
 		end
 	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		print("bConvertCities is true")
@@ -2368,7 +2380,11 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 			local cityPlot = Map.GetPlot(cityFromPlot:GetX(), cityFromPlot:GetY())
 			local convertedCity = DirectCityConversion(iPlayer, cityPlot)
 			if convertedCity then
-				StartingUnits_Dynamic(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
+				if (iUnitListType == 0) then
+					StartingUnits_Dynamic(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
+				elseif(iUnitListType == 1) then
+					StartingUnits_Static(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
+				end
 				newStartingPlot = cityPlot
 			else
 				local errorString :string = "Failed to convert city to new player"
@@ -2383,7 +2399,11 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			if (iUnitListType == 0) then
+				StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			elseif(iUnitListType == 1) then
+				StartingUnits_Static(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			end
 		end
 	elseif(startingPlot:IsOwned() and not bOwnerIsPlayer) then
 		print("Starting plot is owned. Searching for new starting plot.")
@@ -2393,10 +2413,18 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 			MoveStartingPlotUnits(plotUnits, newStartingPlot)
 		end
 		print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-		StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		if (iUnitListType == 0) then
+			StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		elseif(iUnitListType == 1) then
+			StartingUnits_Static(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		end
 	else
 		if (Game.GetCurrentGameTurn() >= 10) then
-			StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			if (iUnitListType == 0) then
+				StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			elseif(iUnitListType == 1) then
+				StartingUnits_Static(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			end
 		end
 	end
 	--Check for restricted spawn where Civ will only convert capital
