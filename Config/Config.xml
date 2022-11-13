@@ -15,9 +15,12 @@
 		
 		<Row ParameterId="LiteMode" Name="LOC_MAP_LITE_MODE_NAME" Description="LOC_MAP_LITE_MODE_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="LiteMode" GroupId="AdvancedOptions" Visible="1" SortIndex="313"/>
 		
-		<!-- BOOST OPTIONS -->
-		<Row ParameterId="SpawnUUs" Name="LOC_MAP_UNIQUE_UNITS" Description="LOC_MAP_UNIQUE_UNITS_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="SpawnUUs" GroupId="AdvancedOptions" Visible="1" SortIndex="321"/>			
+		<!-- UNIT OPTIONS -->
+		<Row ParameterId="UnitList" Name="LOC_HSD_UNIT_SPAWN_TYPES_NAME" Description="LOC_HSD_UNIT_SPAWN_TYPES_DESC" Domain="HSD_UnitLists" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="UnitList" GroupId="AdvancedOptions" Visible="1" SortIndex="320"/>	
 		
+		<Row ParameterId="SpawnUUs" Name="LOC_MAP_UNIQUE_UNITS" Description="LOC_MAP_UNIQUE_UNITS_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="SpawnUUs" GroupId="AdvancedOptions" Visible="1" SortIndex="321"/>	
+		
+		<!-- BOOST OPTIONS -->
 		<Row ParameterId="GrantGPP" Name="LOC_MAP_GRANT_GPP" Description="LOC_MAP_GRANT_GPP_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="GrantGPP" GroupId="AdvancedOptions" Visible="1" SortIndex="322"/>
 		
 		<Row ParameterId="TechCivicBoost" Name="LOC_MAP_HSD_BOOST" Description="LOC_MAP_HSD_BOOST_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="TechCivicBoost" GroupId="AdvancedOptions" Visible="1" SortIndex="323"/>
@@ -48,6 +51,9 @@
 		<Row ParameterId="UniqueSpawnZones" Name="LOC_MAP_UNIQUE_SPAWN" Description="LOC_MAP_UNIQUE_SPAWN_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="UniqueSpawnZones" GroupId="AdvancedOptions" Visible="1" SortIndex="332"/>
 		
 		<Row ParameterId="SpawnRangeSlider" Name="LOC_MAP_SPAWN_RANGE_SLIDER" Description="LOC_MAP_SPAWN_RANGE_SLIDER_DESC" Domain="SpawnRangeSlider" DefaultValue="10" ConfigurationGroup="Map" ConfigurationId="SpawnRangeSlider" GroupId="AdvancedOptions" Visible="1" SortIndex="333"/>
+		
+		<!-- RESTRICTED SPAWNS -->
+		<!-- <Row Key1="Ruleset" Key2="RULESET_EXPANSION_2" ParameterId="HSD_RestrictedCivs" Name="LOC_HSD_RESTRICTED_CIVS_NAME" Description="LOC_HSD_RESTRICTED_CIVS_DESC" Domain="Players:Expansion2_Players" Hash="0" Array="1" ConfigurationGroup="Map" ConfigurationId="HSD_RestrictedCivs" GroupId="AdvancedOptions" UxHint="InvertSelection" SortIndex="334"/> -->
 		
 		<!-- GAME MODES -->
 		<Row ParameterId="Colonization" Name="LOC_MAP_COLONIZATION" Description="LOC_MAP_COLONIZATION_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="Colonization" GroupId="AdvancedOptions" Visible="1" SortIndex="341"/>
@@ -86,6 +92,9 @@
 		<Replace Domain="SpawnZoneOptions" Value="0" 	Name="LOC_SPAWNZONE_CLASSIC_NAME" 	Description="LOC_SPAWNZONE_CLASSIC_DESC" 	SortIndex="10"/>
 		<Replace Domain="SpawnZoneOptions" Value="1" 	Name="LOC_SPAWNZONE_ITERATIVE_NAME" 	Description="LOC_SPAWNZONE_ITERATIVE_DESC" 	SortIndex="20"/>
 		<Replace Domain="SpawnZoneOptions" Value="2" 	Name="LOC_SPAWNZONE_ALL_NAME" 	Description="LOC_SPAWNZONE_ALL_DESC" 	SortIndex="30"/>
+		<!-- Unit Spawn Types -->
+		<Replace Domain="HSD_UnitLists" Value="0" 	Name="LOC_HSD_DYNAMIC_UNITS_NAME" 	Description="LOC_HSD_DYNAMIC_UNITS_DESC" 	SortIndex="10"/>
+		<Replace Domain="HSD_UnitLists" Value="1" 	Name="LOC_HSD_STATIC_UNITS_NAME" 	Description="LOC_HSD_STATIC_UNITS_DESC" 	SortIndex="20"/>
 	</DomainValues>	
 	<DomainRanges>
 		<Replace Domain="SpawnRangeSlider" 		MinimumValue="2" MaximumValue="20" />
@@ -105,6 +114,7 @@
 		<Row ParameterId="LoyalHarbors" ConfigurationGroup="Map" ConfigurationId="Colonization" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="SpawnUUs" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="SpawnUUs" ConfigurationGroup="Map" ConfigurationId="BalanceHSD" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="SpawnUUs" ConfigurationGroup="Map" ConfigurationId="UnitList" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="FlipZones" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="FlipZones" ConfigurationGroup="Map" ConfigurationId="BalanceHSD" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="SpawnRange" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
@@ -130,11 +140,18 @@
 		<Row ParameterId="IgnoreGovernor" ConfigurationGroup="Map" ConfigurationId="ConvertCities" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="OverrideSpawn" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="OverrideSpawn" ConfigurationGroup="Map" ConfigurationId="ConvertCities" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="UnitList" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<!-- New Spawn Tables -->
 		<Row ParameterId="SpawnDateTables" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="LiteMode" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<!-- Legacy Support for Old Saves -->
 		<Row ParameterId="OldWorldStart" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="OldWorldStart" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnEras" Operator="NotEquals" ConfigurationValue="1"/>
-	</ParameterDependencies>	
+	</ParameterDependencies>
+	<DomainValueQueries>
+		<!-- <Row QueryId="HSD_RestrictedCivs"/> -->
+	</DomainValueQueries>
+	<Queries>
+		<!-- <Row QueryId="HSD_RestrictedCivs" SQL="SELECT Domain, LeaderName AS Name, LeaderAbilityDescription AS Description, LeaderType AS Value, coalesce(SortIndex,100) AS SortIndex FROM Players"/> -->
+	</Queries>
 </GameInfo>

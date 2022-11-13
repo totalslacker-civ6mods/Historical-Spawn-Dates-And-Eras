@@ -197,6 +197,24 @@
 	<Replace Tag="LOC_MAP_OVERRIDE_SPAWN_DESC" Language="en_US">
       <Text>Any city can be converted in a spawn zone, including capitals, city-states and a player's final city. Use at your own risk!</Text>
     </Replace>
+	<Replace Tag="LOC_HSD_UNIT_SPAWN_TYPES_NAME" Language="en_US">
+      <Text>Unit Lists</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_UNIT_SPAWN_TYPES_DESC" Language="en_US">
+      <Text>Choose from dynamically spawning units or a predefined list.</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_DYNAMIC_UNITS_NAME" Language="en_US">
+      <Text>Dynamic</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_DYNAMIC_UNITS_DESC" Language="en_US">
+      <Text>Spawn units based on tech or civic progress and enabled mods. This option supports any mod that adds units, and unique units are always available.</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_STATIC_UNITS_NAME" Language="en_US">
+      <Text>Static</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_STATIC_UNITS_DESC" Language="en_US">
+      <Text>Spawn units based on a predefined list for each player based on the current era. Units will spawn dynamically if the predefined unit is missing from the game due to mod changes.</Text>
+    </Replace>
 	<!-- Headers and Footers -->
 	<Replace Tag="LOC_MAP_HSD_HEADER_MAIN_NAME" Language="en_US">
       <Text>[COLOR_Civ6Yellow]Historical Spawn Dates[ENDCOLOR]</Text>

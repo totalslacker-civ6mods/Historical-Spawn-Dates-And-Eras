@@ -187,7 +187,8 @@ INSERT OR REPLACE INTO RestrictedSpawns (Civilization)
 VALUES
 		('CIVILIZATION_KOREA'),
 		('CIVILIZATION_NETHERLANDS'),
-		('CIVILIZATION_PORTUGAL');
+		('CIVILIZATION_PORTUGAL'),
+		('CIVILIZATION_GEORGIA');
 		
 -------------------------------------------------------------------------------
 -- Peaceful Spawns (Civs in this list can convert cities but will never declare war)

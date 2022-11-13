@@ -1,16 +1,15 @@
 ------------------------------------------------------------------------------
 --	FILE:	 ScriptHSD.lua
 --  Gedemon (2017)
---  totalslacker (2020-2021)
+--  totalslacker (2020-2022)
 --
 --	TODO:
---	Different spawn date tables for custom scenarios [done]
---	Difficulty settings [done]
---	Support for plague mods [unlikely at this point]
---	Expand the notification system with spawn failure and less info messages [done]
---  Create config menu options for spawn dates (enter spawn dates from the menu, etc)
---  Test colony notifications
---	Saved start dates [done]
+--	Setup menu array option for restricted spawn list
+--  Receive spawn bonuses based on progress of other players on same continent
+--  Spawn units based on military strength of nearby players
+--  Starting units receive free maintainence and extra movement points
+--  Ancient era civs do not receive bonuses unless they have HSD
+--  Support for 6T mod: timeline, unit adjustments
 --	Create a SpawnManager class to integrate the multiple spawning functions
 ------------------------------------------------------------------------------
 
@@ -88,6 +87,7 @@ local bRestrictSpawnZone		= MapConfiguration.GetValue("RestrictSpawnZone") or fa
 local bUniqueSpawnZones			= MapConfiguration.GetValue("UniqueSpawnZones") or false
 local bIgnoreGovernor			= MapConfiguration.GetValue("IgnoreGovernor") or false
 local bOverrideSpawn			= MapConfiguration.GetValue("OverrideSpawn") or false
+local iUnitListType				= MapConfiguration.GetValue("UnitList") or 1 -- 1 = Static Unit List, 0 = Dynamic Unit List
 
 print("bHistoricalSpawnDates is "..tostring(bHistoricalSpawnDates))
 print("bHistoricalSpawnEras is "..tostring(bHistoricalSpawnEras))
@@ -111,6 +111,7 @@ print("bRestrictSpawnZone is "..tostring(bRestrictSpawnZone))
 print("bUniqueSpawnZones is "..tostring(bUniqueSpawnZones))
 print("bIgnoreGovernor is "..tostring(bIgnoreGovernor))
 print("bOverrideSpawn is "..tostring(bOverrideSpawn))
+print("iUnitListType is "..tostring(iUnitListType))
 
 -- ===========================================================================
 -- Other Game Settings
@@ -1157,12 +1158,12 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 	for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 		local adjacentPlot = Map.GetAdjacentPlot(startingPlot:GetX(), startingPlot:GetY(), direction)
 		if adjacentPlot and not adjacentPlot:IsWater() and not adjacentPlot:IsImpassable() then
-			print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
+			-- print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
 			table.insert(permPlots, adjacentPlot:GetIndex())
 			table.insert(curPlots, adjacentPlot:GetIndex())
 		end
 	end
-	print("curPlots = "..tostring(#curPlots))
+	-- print("curPlots = "..tostring(#curPlots))
 	local bAdjacentPlots = true
 	while (bAdjacentPlots) do
 		for j, iPlotIndex in ipairs(curPlots) do
@@ -1179,7 +1180,7 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 					if not bDuplicate then
 						local iDistance = Map.GetPlotDistance(startingPlot:GetX(), startingPlot:GetY(), adjacentPlot:GetX(), adjacentPlot:GetY())
 						if iDistance <= iShortestDistance then
-							print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
+							-- print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
 							table.insert(permPlots, adjacentPlot:GetIndex())
 							table.insert(nextPlots, adjacentPlot:GetIndex())
 						end
@@ -1188,9 +1189,9 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 			end
 		end
 		curPlots = {}
-		print("curPlots = "..tostring(#curPlots))
-		print("nextPlots = "..tostring(#nextPlots))
-		print("permPlots = "..tostring(#permPlots))
+		-- print("curPlots = "..tostring(#curPlots))
+		-- print("nextPlots = "..tostring(#nextPlots))
+		-- print("permPlots = "..tostring(#permPlots))
 		for j, iPlotIndex in ipairs(nextPlots) do
 			local pPlot = Map.GetPlotByIndex(iPlotIndex)
 			for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -1205,7 +1206,7 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 					if not bDuplicate then
 						local iDistance = Map.GetPlotDistance(startingPlot:GetX(), startingPlot:GetY(), adjacentPlot:GetX(), adjacentPlot:GetY())
 						if iDistance <= iShortestDistance then
-							print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
+							-- print("Adding index of adjacent plot "..tostring(adjacentPlot:GetX())..", "..tostring(adjacentPlot:GetY()).." to table")
 							table.insert(permPlots, adjacentPlot:GetIndex())
 							table.insert(curPlots, adjacentPlot:GetIndex())
 						end
@@ -1214,9 +1215,9 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 			end
 		end
 		nextPlots = {}
-		print("curPlots = "..tostring(#curPlots))
-		print("nextPlots = "..tostring(#nextPlots))
-		print("permPlots = "..tostring(#permPlots))
+		-- print("curPlots = "..tostring(#curPlots))
+		-- print("nextPlots = "..tostring(#nextPlots))
+		-- print("permPlots = "..tostring(#permPlots))
 		if ((#curPlots == 0) and (#nextPlots == 0)) then
 			print("No more adjacent plots in range")
 			bAdjacentPlots = false
@@ -1235,8 +1236,8 @@ function FindSpawnPlotsByEra(startingPlot, iPlayer)
 				local pCity = Cities.GetCityInPlot(pPlot)
 				if pCity and (pCity:GetOwner() ~= iPlayer) then
 					table.insert(revoltCityPlots, pPlot)
-					print("New city plot found")
-					print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))							
+					-- print("New city plot found")
+					-- print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))							
 				end
 			end	
 		end
@@ -1826,7 +1827,7 @@ function Colonization_OnTechLearned(iPlayer, pTech)
 	local bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
 	if bColonizationWave01 then return end
 	local iCitiesOwnedByPlayer = pPlayer:GetCities():GetCount()
-	print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
+	-- print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
 	if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
 		return
 	end
@@ -1854,7 +1855,7 @@ function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
 	print("Era Changed for Player # " .. PlayerID )
 	local pPlayer = Players[PlayerID]
 	local iCitiesOwnedByPlayer :number = pPlayer:GetCities():GetCount()
-	print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
+	-- print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
 	if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
 		return
 	end
@@ -1943,6 +1944,9 @@ function Colonization_OnGameEraChanged(previousEra, iNewEraID)
 		local bCartography = false
 		if pPlayer:GetTechs():HasTech(GameInfo.Technologies["TECH_CARTOGRAPHY"].Index) then
 			bCartography = true
+		elseif (sCivTypeName == "CIVILIZATION_RUSSIA") then
+			-- print("Russia ignores cartography requirment as they colonize inland")
+			bCartography = true
 		end
 		local bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
 		local bColonizationWave02 = Game.GetProperty("Colonization_Wave02_Player_#"..PlayerID)
@@ -2028,8 +2032,11 @@ function CityRebellion(pCity, playerID, otherPlayerID)
 							print("----------")
 							print("Converting city to new player")
 							print("----------")
-							ConvertCitiesUnits(playerID, freeCityPlot, gameCurrentEra)
-							print("Spawning more player units at city")
+							if (iUnitListType == 0) then
+								CityUnits_Dynamic(playerID, freeCityPlot, gameCurrentEra)
+							elseif(iUnitListType == 1) then
+								CityUnits_Static(playerID, freeCityPlot, gameCurrentEra)
+							end
 							bRevolt = true
 						end
 					else
@@ -2346,7 +2353,11 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		local convertedCity = DirectCityConversion(iPlayer, startingPlot)
 		if convertedCity then
-			EraSiegeUnits(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			if (iUnitListType == 0) then
+				StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			elseif(iUnitListType == 1) then
+				StartingUnits_Static(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			end
 		else
 			local errorString :string = "Failed to convert city to new player"
 			local errorMessage = Notification_FailedSpawn(iPlayer, startingPlot, errorString)
@@ -2356,7 +2367,11 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			EraSiegeUnits(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			if (iUnitListType == 0) then
+				StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			elseif(iUnitListType == 1) then
+				StartingUnits_Static(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			end
 		end
 	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		print("bConvertCities is true")
@@ -2366,7 +2381,11 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 			local cityPlot = Map.GetPlot(cityFromPlot:GetX(), cityFromPlot:GetY())
 			local convertedCity = DirectCityConversion(iPlayer, cityPlot)
 			if convertedCity then
-				EraSiegeUnits(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
+				if (iUnitListType == 0) then
+					StartingUnits_Dynamic(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
+				elseif(iUnitListType == 1) then
+					StartingUnits_Static(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
+				end
 				newStartingPlot = cityPlot
 			else
 				local errorString :string = "Failed to convert city to new player"
@@ -2381,7 +2400,11 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			EraSiegeUnits(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			if (iUnitListType == 0) then
+				StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			elseif(iUnitListType == 1) then
+				StartingUnits_Static(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+			end
 		end
 	elseif(startingPlot:IsOwned() and not bOwnerIsPlayer) then
 		print("Starting plot is owned. Searching for new starting plot.")
@@ -2391,10 +2414,18 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 			MoveStartingPlotUnits(plotUnits, newStartingPlot)
 		end
 		print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-		EraSiegeUnits(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		if (iUnitListType == 0) then
+			StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		elseif(iUnitListType == 1) then
+			StartingUnits_Static(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		end
 	else
 		if (Game.GetCurrentGameTurn() >= 10) then
-			EraSiegeUnits(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			if (iUnitListType == 0) then
+				StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			elseif(iUnitListType == 1) then
+				StartingUnits_Static(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+			end
 		end
 	end
 	--Check for restricted spawn where Civ will only convert capital
@@ -2451,7 +2482,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		local convertedCity = DirectCityConversion(iPlayer, startingPlot)
 		if convertedCity then
-			IsolatedPlayerSeige(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+			StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 		else
 			local errorString :string = "Failed to convert city to new player"
 			local errorMessage = Notification_FailedSpawn(iPlayer, startingPlot, errorString)
@@ -2461,7 +2492,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			IsolatedPlayerSeige(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+			StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 		end
 	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
 		print("bConvertCities is true")
@@ -2471,7 +2502,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 			local cityPlot = Map.GetPlot(cityFromPlot:GetX(), cityFromPlot:GetY())
 			local convertedCity = DirectCityConversion(iPlayer, cityPlot)
 			if convertedCity then
-				IsolatedPlayerSeige(iPlayer, cityPlot, isolatedSpawn, CivilizationTypeName)
+				StartingUnits_Isolated(iPlayer, cityPlot, isolatedSpawn, CivilizationTypeName)
 				newStartingPlot = cityPlot
 			else
 				local errorString :string = "Failed to convert city to new player"
@@ -2482,7 +2513,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 					MoveStartingPlotUnits(plotUnits, newStartingPlot)
 				end
 				print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-				IsolatedPlayerSeige(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+				StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 			end								
 		else
 			local errorString :string = "No city found for this plot!"
@@ -2493,7 +2524,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 				MoveStartingPlotUnits(plotUnits, newStartingPlot)
 			end
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-			IsolatedPlayerSeige(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+			StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 		end
 	elseif(startingPlot:IsOwned() and not bOwnerIsPlayer) then
 		print("Starting plot is owned. Searching for new starting plot.")
@@ -2503,9 +2534,9 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 			MoveStartingPlotUnits(plotUnits, newStartingPlot)
 		end
 		print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
-		IsolatedPlayerSeige(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+		StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 	elseif(bCityTooClose) then
-		IsolatedPlayerSeige(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+		StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 	end
 	if bSpawnRange and newStartingPlot then 
 		FreeCityRevolt(iPlayer, newStartingPlot)
@@ -2562,7 +2593,14 @@ function SpawnStartingCity(iPlayer, startingPlot)
 				elseif(player:GetCities():GetCount() < 1) then
 					print("iShortestDistance is "..tostring(iShortestDistance))
 					if iShortestDistance == 3 then
-						local bDifferentAreaIDs = true
+						--The code within this scope was meant to detect when a city could be founded on a starting plot that is an island
+						--Island cities can be founded within 3 plots of a city on another landmass by default in Civ6
+						--To check this you could use the GetAreaID() function on two plots and compare the AreaID integer to ensure they differ
+						--Area seems to defined as connected landmass, independent of the continent property. This should allow islands to be detected
+						--GetAreaID() does not always work as expected and can return different IDs for plots on the same landmass
+						--This can cause a bug where civs spawn with territory but no city
+						--Set bDifferentAreaIDs to false to bypass GetAreaID() and just spawn a settler every time instead
+						local bDifferentAreaIDs = false
 						local pCitiesInRange = FindClosestCitiesToPlotXY(startingPlot:GetX(), startingPlot:GetY())
 						if pCitiesInRange then
 							for i, pCity in ipairs(pCitiesInRange) do
@@ -2726,8 +2764,8 @@ function SpawnPlayer(iPlayer)
 						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
 					end
 					
-					--Spawn any extra units specific to this Civ or start (further logic to be implemented in the UnitSpawns function)
-					UnitSpawns(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+					--Spawn any extra units specific to this Civ or start
+					StartingUnits_Extra(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 					
 					--Delete hidden settler now that we have a city or units on the map, or the AI will never build more settlers
 					DeleteUnitsOffMap(iPlayer)
@@ -2772,8 +2810,8 @@ function SpawnPlayer(iPlayer)
 					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
 				end
 				
-				--Spawn any extra units specific to this Civ or start (further logic to be implemented in the UnitSpawns function)
-				UnitSpawns(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+				--Spawn any extra units specific to this Civ or start
+				StartingUnits_Extra(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 				
 				--Delete hidden settler now that we have a city or units on the map, or the AI will never build more settlers
 				DeleteUnitsOffMap(iPlayer)
@@ -3584,6 +3622,31 @@ function Invasions_SpawnUniqueInvasion(iPlayer)
 	end
 	return false
 end
+
+-- ===========================================================================
+-- Bug Fixes
+-- ===========================================================================
+
+-- Credits: Zegangani / Tiramasu from Free City States mod
+
+function RemoveFreeCityUnit( playerID:number, unitID:number )
+--This function fixes a bug where a converted city from the Free Cities starts to spawn units of the Free Cities Player. This bug seems to be caused by using the Cities.DestroyCity function on a city of the Free Cities. Even if you do not place a new city on the plot of the destroyed free city the plot will keep spawning free city units. 
+--Note that this bug does not occure if you set a free city yourself. It only happens to cities that became free because of loyalty loss.
+	if (playerID == 62) and unitID then
+		local pUnit = UnitManager.GetUnit(playerID, unitID)
+		if pUnit then
+			local pPlot = Map.GetPlot(pUnit:GetX(), pUnit:GetY())
+			if pPlot then
+				local iOwnerID = pPlot:GetOwner()		
+				if (iOwnerID ~= 62) then
+					UnitManager.Kill(pUnit, false)
+					print("Deleting Free City State Unit with ID " .. unitID)
+				end			
+			end
+		end
+	end	
+end
+Events.UnitAddedToMap.Add(RemoveFreeCityUnit)
 
 -- ===========================================================================
 -- Initialize
