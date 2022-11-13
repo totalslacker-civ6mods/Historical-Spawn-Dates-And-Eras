@@ -534,8 +534,7 @@ function StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, Civilizati
 			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
 			return true		
 		end
-	end
-	if isolatedSpawn and CivilizationTypeName == "CIVILIZATION_CREE" then
+	elseif(isolatedSpawn and (CivilizationTypeName == "CIVILIZATION_CREE")) then
 		if gameCurrentEra > 0 then
 			pTreasury:ChangeGoldBalance(gameCurrentEra * 100)
 			CreateUnitWithExp("UNIT_HORSEMAN", gameCurrentEra, pPlayerUnits, startingPlot)
@@ -553,8 +552,7 @@ function StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, Civilizati
 			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
 			return true		
 		end
-	end
-	if isolatedSpawn and CivilizationTypeName == "CIVILIZATION_MAORI" then
+	elseif(isolatedSpawn and (CivilizationTypeName == "CIVILIZATION_MAORI")) then
 		if gameCurrentEra > 0 then
 			pTreasury:ChangeGoldBalance(gameCurrentEra * 100)
 			CreateUnitWithExp("UNIT_MAORI_TOA", gameCurrentEra, pPlayerUnits, startingPlot)
@@ -572,8 +570,7 @@ function StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, Civilizati
 			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
 			return true		
 		end
-	end
-	if isolatedSpawn and CivilizationTypeName == "CIVILIZATION_MAYA" then
+	elseif(isolatedSpawn and (CivilizationTypeName == "CIVILIZATION_MAYA")) then
 		if gameCurrentEra > 0 then
 			pTreasury:ChangeGoldBalance(gameCurrentEra * 100)
 			CreateUnitWithExp("UNIT_MAYAN_HULCHE", gameCurrentEra, pPlayerUnits, startingPlot)
@@ -591,8 +588,7 @@ function StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, Civilizati
 			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
 			return true		
 		end
-	end
-	if isolatedSpawn and CivilizationTypeName == "CIVILIZATION_INCA" then
+	elseif(isolatedSpawn and (CivilizationTypeName == "CIVILIZATION_INCA")) then
 		if gameCurrentEra > 0 then
 			pTreasury:ChangeGoldBalance(gameCurrentEra * 100)
 			CreateUnitWithExp("UNIT_INCA_WARAKAQ", gameCurrentEra, pPlayerUnits, startingPlot)
@@ -615,8 +611,26 @@ function StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, Civilizati
 			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
 			return true		
 		end
-	end
-	if isolatedSpawn and CivilizationTypeName == "CIVILIZATION_MAPUCHE" then
+	elseif(isolatedSpawn and (CivilizationTypeName == "CIVILIZATION_MAPUCHE")) then
+		if gameCurrentEra > 0 then
+			pTreasury:ChangeGoldBalance(gameCurrentEra * 100)
+			CreateUnitWithExp("UNIT_PIKEMAN", gameCurrentEra, pPlayerUnits, startingPlot)
+			CreateUnitWithExp("UNIT_PIKEMAN", gameCurrentEra, pPlayerUnits, startingPlot)
+			CreateUnitWithExp("UNIT_ARCHER", gameCurrentEra, pPlayerUnits, startingPlot)
+			CreateUnitWithExp("UNIT_ARCHER", gameCurrentEra, pPlayerUnits, startingPlot)
+			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
+			return true		
+		else
+			pTreasury:ChangeGoldBalance(100)
+			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SPEARMAN", startingPlot:GetX(), startingPlot:GetY())
+			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SPEARMAN", startingPlot:GetX(), startingPlot:GetY())
+			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_ARCHER", startingPlot:GetX(), startingPlot:GetY())
+			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_ARCHER", startingPlot:GetX(), startingPlot:GetY())
+			print("Spawning units for " ..tostring(CivilizationTypeName) .. " at " ..tostring(startingPlot:GetX()) ..", " ..tostring(startingPlot:GetY()))
+			return true		
+		end
+	else
+		print("Spawning default units for an isolated player.")
 		if gameCurrentEra > 0 then
 			pTreasury:ChangeGoldBalance(gameCurrentEra * 100)
 			CreateUnitWithExp("UNIT_PIKEMAN", gameCurrentEra, pPlayerUnits, startingPlot)

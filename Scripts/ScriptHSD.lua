@@ -275,10 +275,10 @@ function ConvertYearToEra(startYear)
 	return startEra
 end
 
-function ConvertYearToAnnoDomini(currentTurnYear :number)
+function ConvertYearToAnnoDomini(currentTurnYear)
 	local calendarDateBC = false
 	local calendarTurnString :string = "nil"
-	if currentTurnYear < 0 then
+	if (currentTurnYear < 0) then
 		-- print("Converting negative year number to calendar date")
 		calendarDateBC = currentTurnYear*(-1)
 		if calendarDateBC then
@@ -893,31 +893,32 @@ function InitializeHSD()
 					print("Check "..tostring(CivilizationTypeName)..", spawn year  = ".. tostring(spawnYear))
 				end
 			end
-			if bHistoricalSpawnEras and spawnEra and spawnEra > gameCurrentEra then
+			if bHistoricalSpawnEras and spawnEra and (spawnEra > gameCurrentEra) then
 				if player then
 					local playerUnits = player:GetUnits()
 					local toKill = {}
 					local offmapUnits = {}
 					for i, unit in playerUnits:Members() do
-						if(unit:GetX() >= 0 or  unit:GetY() >= 0) then
+						print("Found "..tostring(GameInfo.Units[unit:GetType()].UnitType).." at "..tostring(unit:GetX())..", "..tostring(unit:GetY()))
+						if((unit:GetX() >= 0) or  (unit:GetY() >= 0)) then
 							table.insert(toKill, unit)
 						else
 							table.insert(offmapUnits, unit)
 						end
 					end
-					if #offmapUnits < 1 then
+					if (#offmapUnits < 1) then
 						print("No settler detected off map. Spawning settler at (-1, -1) to keep the player alive until their spawn date...")
 						UnitManager.InitUnit(player, "UNIT_SETTLER", -1, -1)
-					elseif #offmapUnits > 1 then
+					elseif (#offmapUnits > 1) then
 						print("There are "..tostring(#offmapUnits).." extra settlers off map. Deleting extra settlers...")
 						for i, unit in ipairs(offmapUnits) do
-							if i < #offmapUnits then
+							if (i < #offmapUnits) then
 								playerUnits:Destroy(unit)
 								print("Deleting extra off map unit #"..tostring(i).."...")
 							end
 						end	
 					end
-					if #toKill > 0 then
+					if (#toKill > 0) then
 						print("This player has units on the map before their spawn date. Deleting these units")
 						for i, unit in ipairs(toKill) do
 							playerUnits:Destroy(unit)
@@ -928,31 +929,31 @@ function InitializeHSD()
 						LuaEvents.SetAutoValues()
 					end
 				end					
-			elseif(not bHistoricalSpawnEras and spawnYear and spawnYear > currentTurnYear) then
+			elseif(not bHistoricalSpawnEras and spawnYear and (spawnYear > currentTurnYear)) then
 				if player then
 					local playerUnits = player:GetUnits()
 					local toKill = {}
 					local offmapUnits = {}
 					for i, unit in playerUnits:Members() do
-						if(unit:GetX() >= 0 or  unit:GetY() >= 0) then
+						if((unit:GetX() >= 0) or  (unit:GetY() >= 0)) then
 							table.insert(toKill, unit)
 						else
 							table.insert(offmapUnits, unit)
 						end
 					end
-					if #offmapUnits < 1 then
+					if (#offmapUnits < 1) then
 						print("No settler detected off map. Spawning settler at (-1, -1) to keep the player alive until their spawn date...")
 						UnitManager.InitUnit(player, "UNIT_SETTLER", -1, -1)
-					elseif #offmapUnits > 1 then
+					elseif (#offmapUnits > 1) then
 						print("There are "..tostring(#offmapUnits).." extra settlers off map. Deleting extra settlers...")
 						for i, unit in ipairs(offmapUnits) do
-							if i < #offmapUnits then
+							if (i < #offmapUnits) then
 								playerUnits:Destroy(unit)
 								print("Deleting extra off map unit #"..tostring(i).."...")
 							end
 						end	
 					end
-					if #toKill > 0 then
+					if (#toKill > 0) then
 						print("This player has units on the map before their spawn date. Deleting these units")
 						for i, unit in ipairs(toKill) do
 							playerUnits:Destroy(unit)
@@ -971,12 +972,14 @@ LuaEvents.InitializeHSD.Add(InitializeHSD)
 
 -- ===========================================================================
 -- Hard city conversion code from the Free City States mod, all credit goes to Tiramasu
--- totalslacker: 	It destroys and recreates the city, 
--- 					avoid using the method, we would rather script AI invasions instead
+-- totalslacker: 	It destroys and recreates the city. 
+-- 					The city is different in game terms, such as original owner
 -- ===========================================================================
 
+-- ===========================================================================
 -- Used to delete the starting settlers that are created offmap at (-1,-1)
 -- Don't call until the player has founded a city or has new settlers!
+-- ===========================================================================
 function DeleteUnitsOffMap ( iPlayerID )
 	local pUnits = Players[iPlayerID]:GetUnits();
 	local pUnit;
@@ -992,8 +995,9 @@ function DeleteUnitsOffMap ( iPlayerID )
 	end	
 end
 
+-- ===========================================================================
 -- City conversion related code below, everything is called from the function ConvertCapital
-
+-- ===========================================================================
 local CityDataList = {}
 function GetCityDatas ( pCity )
 	local kCityDatas :table = {
@@ -1852,8 +1856,18 @@ end
 
 -- Used in Colonization mode (main functions are in ScenarioFunctions.lua)
 function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
-	print("Era Changed for Player # " .. PlayerID )
 	local pPlayer = Players[PlayerID]
+	-- print("Era Changed for Player # " .. PlayerID )
+	local bEraMod_6T = false
+	local iEra = 0
+	if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then 
+		bEraMod_6T = true 
+		-- print("Historical Spawn Dates has detected the 6T Era Mod. Era values will be adjusted where necessary.")
+	end
+	if bEraMod_6T then
+		-- print("Increase the era count check for the additional era.")
+		iEra = 1
+	end
 	local iCitiesOwnedByPlayer :number = pPlayer:GetCities():GetCount()
 	-- print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
 	if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
@@ -1873,7 +1887,7 @@ function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
 	if (tEraGameInfo ~= nil) then
 		local sEraTypeName = tEraGameInfo.EraType
 		local sEraTextName = Locale.Lookup(tEraGameInfo.Name)
-		print("The Player's new Era ID# (" .. iNewEraID .. ") matches to the " .. sEraTextName .. " Era (" .. sEraTypeName)
+		-- print("The Player's new Era ID# (" .. iNewEraID .. ") matches to the " .. sEraTextName .. " Era (" .. sEraTypeName)
 	else
 		print("The GameInfo for " .. iNewEraID .. " retrieved a nil value: this should not be possible")
 	end
@@ -1888,7 +1902,7 @@ function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
 	local bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
 	local bColonizationWave02 = Game.GetProperty("Colonization_Wave02_Player_#"..PlayerID)
 	local bColonizationWave03 = Game.GetProperty("Colonization_Wave03_Player_#"..PlayerID)
-	if bColonizer and (iNewEraID >= 3) and bCartography and (not bColonizationWave01) then
+	if bColonizer and (iNewEraID >= (3 + iEra)) and bCartography and (not bColonizationWave01) then
 		--Spawn first colonies starting during Renaissance Era
 		colonyPlot = InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 		bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
@@ -1899,7 +1913,7 @@ function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
 			-- print("Failed to spawn a new colony")
 		-- end
 	end
-	if bColonizer and (iNewEraID >= 4) and bCartography and bColonizationWave01 and (not bColonizationWave02) then
+	if bColonizer and (iNewEraID >= (4 + iEra)) and bCartography and bColonizationWave01 and (not bColonizationWave02) then
 		--Spawn second wave of colonies starting during Industrial Era
 		colonyPlot = InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 		bColonizationWave02 = Game.GetProperty("Colonization_Wave02_Player_#"..PlayerID)
@@ -1910,7 +1924,7 @@ function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
 			-- print("Failed to spawn a new colony")
 		-- end
 	end
-	if bColonizer and (iNewEraID >= 5) and bCartography and bColonizationWave01 and bColonizationWave02 and (not bColonizationWave03) then
+	if bColonizer and (iNewEraID >= (5 + iEra)) and bCartography and bColonizationWave01 and bColonizationWave02 and (not bColonizationWave03) then
 		--Spawn third wave of colonies starting during Modern Era
 		colonyPlot = InitiateColonization_ThirdWave(PlayerID, sCivTypeName)
 		bColonizationWave03 = Game.GetProperty("Colonization_Wave03_Player_#"..PlayerID)
@@ -1923,6 +1937,7 @@ function Colonization_OnPlayerEraChanged(PlayerID, iNewEraID)
 	end
 end
 
+--Unused
 function Colonization_OnGameEraChanged(previousEra, iNewEraID)
 	print("Colonization mode is checking for new colonies to spawn...")
 	for PlayerID = 0, iMaxPlayersZeroIndex do
@@ -1943,9 +1958,6 @@ function Colonization_OnGameEraChanged(previousEra, iNewEraID)
 		end
 		local bCartography = false
 		if pPlayer:GetTechs():HasTech(GameInfo.Technologies["TECH_CARTOGRAPHY"].Index) then
-			bCartography = true
-		elseif (sCivTypeName == "CIVILIZATION_RUSSIA") then
-			-- print("Russia ignores cartography requirment as they colonize inland")
 			bCartography = true
 		end
 		local bColonizationWave01 = Game.GetProperty("Colonization_Wave01_Player_#"..PlayerID)
@@ -2772,7 +2784,11 @@ function SpawnPlayer(iPlayer)
 					
 					--Display ingame notifications
 					ShowSpawnNotifications(iPlayer, startingPlot, newStartingPlot, CivilizationTypeName)
-					
+					--Clear list of revolting cities for notifications and restore the UI values for auto end turn for the human player
+					Notifications_revoltingCityPlots = {}
+					if player:IsHuman() then
+						LuaEvents.RestoreAutoValues()
+					end					
 					return true
 				end
 			elseif(not bHistoricalSpawnEras and spawnYear and spawnYear >= previousTurnYear and spawnYear < currentTurnYear) then
