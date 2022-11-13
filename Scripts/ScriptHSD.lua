@@ -2593,7 +2593,14 @@ function SpawnStartingCity(iPlayer, startingPlot)
 				elseif(player:GetCities():GetCount() < 1) then
 					print("iShortestDistance is "..tostring(iShortestDistance))
 					if iShortestDistance == 3 then
-						local bDifferentAreaIDs = true
+						--The code within this scope was meant to detect when a city could be founded on a starting plot that is an island
+						--Island cities can be founded within 3 plots of a city on another landmass by default in Civ6
+						--To check this you could use the GetAreaID() function on two plots and compare the AreaID integer to ensure they differ
+						--Area seems to defined as connected landmass, independent of the continent property. This should allow islands to be detected
+						--GetAreaID() does not always work as expected and can return different IDs for plots on the same landmass
+						--This can cause a bug where civs spawn with territory but no city
+						--Set bDifferentAreaIDs to false to bypass GetAreaID() and just spawn a settler every time instead
+						local bDifferentAreaIDs = false
 						local pCitiesInRange = FindClosestCitiesToPlotXY(startingPlot:GetX(), startingPlot:GetY())
 						if pCitiesInRange then
 							for i, pCity in ipairs(pCitiesInRange) do
@@ -3615,6 +3622,31 @@ function Invasions_SpawnUniqueInvasion(iPlayer)
 	end
 	return false
 end
+
+-- ===========================================================================
+-- Bug Fixes
+-- ===========================================================================
+
+-- Credits: Zegangani / Tiramasu from Free City States mod
+
+function RemoveFreeCityUnit( playerID:number, unitID:number )
+--This function fixes a bug where a converted city from the Free Cities starts to spawn units of the Free Cities Player. This bug seems to be caused by using the Cities.DestroyCity function on a city of the Free Cities. Even if you do not place a new city on the plot of the destroyed free city the plot will keep spawning free city units. 
+--Note that this bug does not occure if you set a free city yourself. It only happens to cities that became free because of loyalty loss.
+	if (playerID == 62) and unitID then
+		local pUnit = UnitManager.GetUnit(playerID, unitID)
+		if pUnit then
+			local pPlot = Map.GetPlot(pUnit:GetX(), pUnit:GetY())
+			if pPlot then
+				local iOwnerID = pPlot:GetOwner()		
+				if (iOwnerID ~= 62) then
+					UnitManager.Kill(pUnit, false)
+					print("Deleting Free City State Unit with ID " .. unitID)
+				end			
+			end
+		end
+	end	
+end
+Events.UnitAddedToMap.Add(RemoveFreeCityUnit)
 
 -- ===========================================================================
 -- Initialize
