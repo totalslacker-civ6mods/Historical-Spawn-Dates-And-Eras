@@ -117,7 +117,7 @@ VALUES
 (	'CIVILIZATION_NALANDA',		 	-2500	),
 (	'CIVILIZATION_SAMARKAND',		 -800	),
 (	'CIVILIZATION_WOLIN',		 	-1200	),
-
+(	'CIVILIZATION_HUNZA',		 	150		),
 (	'END_OF_INSERT',				NULL	);	
 -- Remove "END_OF_INSERT" entry 
 DELETE from HistoricalSpawnDates WHERE Civilization ='END_OF_INSERT';

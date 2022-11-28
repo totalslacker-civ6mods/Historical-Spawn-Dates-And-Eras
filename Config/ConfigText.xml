@@ -134,6 +134,9 @@
       <Text>Starting era for Gran Colombia's Comandante General to appear. This option should match their start date.[NEWLINE][NEWLINE]1 = Classical (default)[NEWLINE]2 = Medieval[NEWLINE]3 = Renaissance[NEWLINE]4 = Industrial[NEWLINE]5 = Modern[NEWLINE]6 = Atomic[NEWLINE]7 = Information[NEWLINE]</Text>
     </Replace>
 	<!-- Spawn Date Tables -->
+	<Replace Tag="LOC_HSD_INPUT_NAME" Language="en_US">
+      <Text>[ICON_List] Input Start Dates Manually</Text>
+    </Replace>	
 	<Replace Tag="LOC_MAP_SPAWN_DATE_TABLES_NAME" Language="en_US">
       <Text>Timeline</Text>
     </Replace>	
@@ -217,13 +220,25 @@
     </Replace>
 	<!-- Headers and Footers -->
 	<Replace Tag="LOC_MAP_HSD_HEADER_MAIN_NAME" Language="en_US">
-      <Text>[COLOR_Civ6Yellow]Historical Spawn Dates[ENDCOLOR]</Text>
+      <Text>[ICON_Bolt] [COLOR_Civ6Yellow]Historical Spawn Dates[ENDCOLOR] [ICON_Bolt] </Text>
     </Replace>
 	<Replace Tag="LOC_MAP_HSD_FOOTER_MAIN_NAME" Language="en_US">
-      <Text>[COLOR_Civ6Yellow]Historical Spawn Dates[ENDCOLOR]</Text>
+      <Text>[ICON_Bolt] [COLOR_Civ6Yellow]Historical Spawn Dates[ENDCOLOR] [ICON_Bolt]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HSD_HEADER_BASE_OPTIONS_NAME" Language="en_US">
+      <Text>[ICON_Bullet] Core Features [ICON_Bullet]</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_HSD_HEADER_SPAWN_OPTIONS_NAME" Language="en_US">
-      <Text>[COLOR_Science]Spawn Options[ENDCOLOR]</Text>
+      <Text>[ICON_Bullet] Spawn Zones [ICON_Bullet]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HSD_HEADER_TIMELINE_OPTIONS_NAME" Language="en_US">
+      <Text>[ICON_Bullet] Timelines [ICON_Bullet]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HSD_HEADER_BOOST_OPTIONS_NAME" Language="en_US">
+      <Text>[ICON_Bullet] Bonuses [ICON_Bullet]</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_HSD_HEADER_GAME_MODES_NAME" Language="en_US">
+      <Text>[ICON_Bullet] Game Modes [ICON_Bullet]</Text>
     </Replace>
 	<!-- Legacy Support for old saves -->
 	<Replace Tag="LOC_MAP_OLD_WORLD_START" Language="en_US">

@@ -9,6 +9,8 @@
 		<Row ParameterId="FlipZones" Name="LOC_MAP_FLIP_ZONES" Description="LOC_MAP_FLIP_ZONES_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="FlipZones" GroupId="AdvancedOptions" Visible="1" SortIndex="303"/>
 		
 		<!-- TIMELINE OPTIONS -->
+		<Row ParameterId="InputHSD" Name="LOC_HSD_INPUT_NAME" Description=""	Domain="bool" 	DefaultValue="0" 	ConfigurationGroup="Map" 	ConfigurationId="InputHSD" 	GroupId="AdvancedOptions" 	SortIndex="314"/>
+		
 		<Row ParameterId="SpawnDateTables" Name="LOC_MAP_SPAWN_DATE_TABLES_NAME" Description="" Domain="SpawnDateTables" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="SpawnDateTables" GroupId="AdvancedOptions" Visible="1" SortIndex="311"/>		
 		
 		<Row ParameterId="HistoricalSpawnEras" Name="LOC_MAP_HISTORICAL_SPAWN_ERA_NAME" Description="LOC_MAP_HISTORICAL_SPAWN_ERA_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnEras" GroupId="AdvancedOptions" Visible="1" SortIndex="312"/>
@@ -27,7 +29,7 @@
 		
 		<Row ParameterId="EraBuildingForAll" Name="LOC_MAP_ERA_BUILDING" Description="LOC_MAP_ERA_BUILDING_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="EraBuildingForAll" GroupId="AdvancedOptions" Visible="1" SortIndex="324"/>
 		
-		<Row ParameterId="Comandantes" Name="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA" Description="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="Comandantes" GroupId="AdvancedOptions" Visible="0" SortIndex="325"/>
+		<Row ParameterId="Comandantes" Name="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA" Description="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA_DESC" Domain="bool" DefaultValue="5" ConfigurationGroup="Map" ConfigurationId="Comandantes" GroupId="AdvancedOptions" Visible="0" SortIndex="325"/>
 
 		<Row ParameterId="SpawnAge" Name="LOC_MAP_SPAWN_AGE" Description="LOC_MAP_SPAWN_AGE_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="SpawnAge" GroupId="AdvancedOptions" Visible="1" SortIndex="326"/>
 		
@@ -74,11 +76,11 @@
 		<Row ParameterId="HSD_Header_Main" Name="LOC_MAP_HSD_HEADER_MAIN_NAME" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Header_Main" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="299"/>
 		<Row ParameterId="HSD_Footer_Main" Name="LOC_MAP_HSD_FOOTER_MAIN_NAME" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Footer_Main" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="350"/>
 		<!-- Sections -->
-		<!-- <Row ParameterId="HSD_Base_Options" Name="[ICON_Checkmark]" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Base_Options" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="300"/> -->
-		<!-- <Row ParameterId="HSD_Timeline_Options" Name="[ICON_Turn]" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Timeline_Options" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="310"/> -->
-		<!-- <Row ParameterId="HSD_Boost_Options" Name="[ICON_List]" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Boost_Options" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="320"/> -->
-		<!-- <Row ParameterId="HSD_Spawn_Options" Name="[ICON_Government]" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Spawn_Options" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="330"/> -->
-		<!-- <Row ParameterId="HSD_Game_Modes" Name="[ICON_District]" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Game_Modes" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="340"/> -->
+		<Row ParameterId="HSD_Base_Options" Name="LOC_MAP_HSD_HEADER_BASE_OPTIONS_NAME" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Base_Options" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="300"/>
+		<Row ParameterId="HSD_Timeline_Options" Name="LOC_MAP_HSD_HEADER_TIMELINE_OPTIONS_NAME" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Timeline_Options" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="310"/>
+		<Row ParameterId="HSD_Boost_Options" Name="LOC_MAP_HSD_HEADER_BOOST_OPTIONS_NAME" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Boost_Options" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="320"/>
+		<Row ParameterId="HSD_Spawn_Options" Name="LOC_MAP_HSD_HEADER_SPAWN_OPTIONS_NAME" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Spawn_Options" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="330"/>
+		<Row ParameterId="HSD_Game_Modes" Name="LOC_MAP_HSD_HEADER_GAME_MODES_NAME" Description="" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="HSD_Game_Modes" GroupId="AdvancedOptions" Visible="1" ReadOnly="1" SortIndex="340"/>
 	</Parameters>
 	<DomainValues>
 		<!-- Legacy Support for Old Saves -->
@@ -141,6 +143,12 @@
 		<Row ParameterId="OverrideSpawn" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="OverrideSpawn" ConfigurationGroup="Map" ConfigurationId="ConvertCities" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="UnitList" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="InputHSD" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="HSD_Base_Options" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="HSD_Timeline_Options" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="HSD_Boost_Options" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="HSD_Spawn_Options" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="HSD_Game_Modes" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<!-- New Spawn Tables -->
 		<Row ParameterId="SpawnDateTables" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="LiteMode" ConfigurationGroup="Map" ConfigurationId="HistoricalSpawnDates" Operator="Equals" ConfigurationValue="1"/>
