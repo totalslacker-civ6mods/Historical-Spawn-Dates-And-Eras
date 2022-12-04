@@ -3483,7 +3483,7 @@ function UpgradeBarbarianTech(previousEra, newEra)
 	for iPlayer = 0, iMaxPlayersZeroIndex do
 		local pPlayer = Players[iPlayer]
 		if pPlayer and pPlayer:IsBarbarian() then
-			print("UpgradeBarbarianTech detected a barbarian player")
+			-- print("UpgradeBarbarianTech detected a barbarian player")
 			local pScience = pPlayer:GetTechs()	
 			for kTech in GameInfo.Technologies() do
 				local iTech	= kTech.Index
@@ -3592,11 +3592,21 @@ function Invasions_SpawnInvasion(iPlayer)
 	local bBarbarian = false
 	local bFreeCities = false
 	local bCityState = false
+	local bEraLimit = false
+	local iEra = 0
+	if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then 
+		-- print("Historical Spawn Dates has detected the 6T Era Mod")
+		-- print("Increase the era count for the additional era")
+		iEra = 1
+	end
+	if (gameCurrentEra >= (4 + iEra)) then
+		bEraLimit = true
+	end	
 	if not pPlayer:IsMajor() then bCityState = true end
 	if pPlayer:IsBarbarian() then bBarbarian = true end
 	if iPlayer == 62 then bFreeCities = true end
 	if pPlayer then
-		if not bBarbarian and not bFreeCities and not bCityState then
+		if not bBarbarian and not bFreeCities and not bCityState and not bEraLimit then
 			local iCitiesOwnedByPlayer = pPlayer:GetCities():GetCount()
 			-- print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
 			if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
