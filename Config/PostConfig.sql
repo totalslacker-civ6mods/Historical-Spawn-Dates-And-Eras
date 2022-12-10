@@ -1,11 +1,11 @@
 -- Create Leader Start Date list <Row ParameterId="InputHSD" Name="LOC_HSD_INPUT_NAME" Description=""	Domain="bool" 	DefaultValue="0" 	ConfigurationGroup="Map" 	ConfigurationId="InputHSD" 	GroupId="AdvancedOptions" 	SortIndex="311"/>
 	
 INSERT OR REPLACE INTO Parameters (ParameterId, Name, Description, Domain, DefaultValue, ConfigurationGroup, ConfigurationId, GroupId, SortIndex)
-	SELECT	'HSD' || '_' || LeaderType, LeaderName, CivilizationName, 'uint', 0, 'Map', 'HSD' || '_' || LeaderType, 'AdvancedOptions', 315
+	SELECT	'HSD' || '_' || LeaderType, LeaderName, CivilizationName, 'text', 0, 'Map', 'HSD' || '_' || LeaderType, 'AdvancedOptions', 315
 	FROM Players WHERE Domain='Players:Expansion2_Players';
 	
 INSERT OR REPLACE INTO Parameters (ParameterId, Name, Description, Domain, DefaultValue, ConfigurationGroup, ConfigurationId, GroupId, SortIndex)
-	SELECT	'HSD' || '_' || CivilizationType, Name, Name, 'uint', 0, 'Map', 'HSD' || '_' || CivilizationType, 'AdvancedOptions', 316
+	SELECT	'HSD' || '_' || CivilizationType, Name, Name, 'text', 0, 'Map', 'HSD' || '_' || CivilizationType, 'AdvancedOptions', 316
 	FROM CityStates WHERE Domain='Expansion2CityStates';
 
 INSERT OR REPLACE INTO ParameterDependencies (ParameterId, ConfigurationGroup, ConfigurationId, Operator, ConfigurationValue)

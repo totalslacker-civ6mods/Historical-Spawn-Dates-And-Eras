@@ -227,6 +227,20 @@ function Round(num)
     end
 end
 
+function ConvertStringToYear(inputHSD)
+	print("Calling ConvertStringToYear")
+	print("inputHSD is type "..type(inputHSD))
+	local value = tonumber(inputHSD)
+	-- print("tonumber is type "..type(value))
+	if not value then
+		print("WARNING: The start date was input incorrectly. value is "..tostring(inputHSD))
+		local gSubString = string.gsub(inputHSD, "%D", "")
+		print("New value is "..tostring(gSubString))
+		value = math.max(tonumber(gSubString) or 0)
+	end
+	return value
+end
+
 function ConvertYearToEra(startYear)
 	local startEra = 0
 	if startYear < -1600 then
@@ -496,8 +510,9 @@ if bInputHSD then
 		if isInGame[row.CivilizationType]  then
 			local inputHSD = MapConfiguration.GetValue('HSD_'..row.CivilizationType)
 			if inputHSD then
-				print(tostring(row.CivilizationType), " spawn year = ", tostring(inputHSD))
-				spawnDates[row.CivilizationType] = inputHSD
+				local value = ConvertStringToYear(inputHSD)
+				print(tostring(row.CivilizationType), " spawn year = ", tostring(value))
+				spawnDates[row.CivilizationType] = value
 			else
 				-- print("Start date is invalid!")
 			end
@@ -507,8 +522,9 @@ if bInputHSD then
 		if isInGame[row.LeaderType]  then
 			local inputHSD = MapConfiguration.GetValue('HSD_'..row.LeaderType)
 			if inputHSD then
-				print(tostring(row.LeaderType), " spawn year = ", tostring(inputHSD))
-				spawnDates[row.LeaderType] = inputHSD
+				local value = ConvertStringToYear(inputHSD)
+				print(tostring(row.LeaderType), " spawn year = ", tostring(value))
+				spawnDates[row.LeaderType] = value
 			else
 				-- print("Start date is invalid!")
 			end
@@ -679,10 +695,11 @@ if bInputHSD then
 		if isInGame[row.CivilizationType]  then
 			local inputHSD = MapConfiguration.GetValue('HSD_'..row.CivilizationType)
 			if inputHSD then
-				local startEra = ConvertYearToEra(inputHSD)
+				local value = ConvertStringToYear(inputHSD)
+				local startEra = ConvertYearToEra(value)
 				if startEra then
 					spawnEras[row.CivilizationType] = startEra
-					print(tostring(row.Civilization), " spawn era = ", tostring(startEra))
+					print(tostring(row.CivilizationType), " spawn era = ", tostring(startEra))
 				else
 					print("Start date could not be converted to era!")
 				end
@@ -695,7 +712,8 @@ if bInputHSD then
 		if isInGame[row.LeaderType]  then
 			local inputHSD = MapConfiguration.GetValue('HSD_'..row.LeaderType)
 			if inputHSD then
-				local startEra = ConvertYearToEra(inputHSD)
+				local value = ConvertStringToYear(inputHSD)
+				local startEra = ConvertYearToEra(value)
 				if startEra then
 					spawnEras[row.LeaderType] = startEra
 					print(tostring(row.LeaderType), " spawn era = ", tostring(startEra))
@@ -3543,7 +3561,7 @@ function UpgradeBarbarianTech(previousEra, newEra)
 	for iPlayer = 0, iMaxPlayersZeroIndex do
 		local pPlayer = Players[iPlayer]
 		if pPlayer and pPlayer:IsBarbarian() then
-			print("UpgradeBarbarianTech detected a barbarian player")
+			-- print("UpgradeBarbarianTech detected a barbarian player")
 			local pScience = pPlayer:GetTechs()	
 			for kTech in GameInfo.Technologies() do
 				local iTech	= kTech.Index
@@ -3652,11 +3670,21 @@ function Invasions_SpawnInvasion(iPlayer)
 	local bBarbarian = false
 	local bFreeCities = false
 	local bCityState = false
+	local bEraLimit = false
+	local iEra = 0
+	if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then 
+		-- print("Historical Spawn Dates has detected the 6T Era Mod")
+		-- print("Increase the era count for the additional era")
+		iEra = 1
+	end
+	if (gameCurrentEra >= (4 + iEra)) then
+		bEraLimit = true
+	end	
 	if not pPlayer:IsMajor() then bCityState = true end
 	if pPlayer:IsBarbarian() then bBarbarian = true end
 	if iPlayer == 62 then bFreeCities = true end
 	if pPlayer then
-		if not bBarbarian and not bFreeCities and not bCityState then
+		if not bBarbarian and not bFreeCities and not bCityState and not bEraLimit then
 			local iCitiesOwnedByPlayer = pPlayer:GetCities():GetCount()
 			-- print("iCitiesOwnedByPlayer is "..tostring(iCitiesOwnedByPlayer))
 			if iCitiesOwnedByPlayer and (iCitiesOwnedByPlayer < 1) then
