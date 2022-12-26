@@ -1,5 +1,5 @@
 -----------------------------------------------
--- Create Tables
+-- Create Tables for UI context
 -----------------------------------------------
 
 CREATE TABLE IF NOT EXISTS HistoricalSpawnDates
@@ -32,14 +32,14 @@ CREATE TABLE IF NOT EXISTS IsolatedCivs
 CREATE TABLE IF NOT EXISTS ColonialCivs
 	 (	Civilization TEXT NOT NULL UNIQUE);
 	 
-CREATE TABLE IF NOT EXISTS ColonizerCivs
-	 (	Civilization TEXT NOT NULL UNIQUE);
+-- CREATE TABLE IF NOT EXISTS ColonizerCivs
+	 -- (	Civilization TEXT NOT NULL UNIQUE);
 	 
-CREATE TABLE IF NOT EXISTS RestrictedSpawns
-	 (	Civilization TEXT NOT NULL UNIQUE);
+-- CREATE TABLE IF NOT EXISTS RestrictedSpawns
+	 -- (	Civilization TEXT NOT NULL UNIQUE);
 	 
-CREATE TABLE IF NOT EXISTS PeacefulSpawns
-	 (	Civilization TEXT NOT NULL UNIQUE);
+-- CREATE TABLE IF NOT EXISTS PeacefulSpawns
+	 -- (	Civilization TEXT NOT NULL UNIQUE);
 	 
-CREATE TABLE IF NOT EXISTS UniqueSpawnZones
-	 (	Civilization TEXT NOT NULL UNIQUE);
+-- CREATE TABLE IF NOT EXISTS UniqueSpawnZones
+	 -- (	Civilization TEXT NOT NULL UNIQUE);

@@ -6,7 +6,7 @@ include("UnitFunctions");
 
 local bDramaticAges = GameConfiguration.GetValue("GAMEMODE_DRAMATICAGES")
 
-function Notification_NewColony(iPlayer :number, pPlot :object)
+function Notification_NewColony(iPlayer, pPlot)
 	local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
 	local name = Locale.Lookup("LOC_"..tostring(CivilizationTypeName).."_DESCRIPTION")
 	local adjective = Locale.Lookup("LOC_"..tostring(CivilizationTypeName).."_ADJECTIVE")
@@ -198,7 +198,7 @@ function SpawnBarbsByPlayer(campPlot)
 		end		
 	end
 	if closestPlayerName then
-		bBarbarian = SpawnUniqueBarbarianTribe(campPlot, closestPlayerName)
+		bBarbarian = SpawnUniqueBarbarians(campPlot, closestPlayerName)
 	end
 	return bBarbarian
 end
@@ -207,7 +207,7 @@ function SpawnBarbsByContinent(campPlot)
 	local bBarbarian = false
 	local continentType = campPlot:GetContinentType()
 	if continentType and GameInfo.Continents[continentType] then
-		bBarbarian = SpawnUniqueBarbarianTribe(campPlot, GameInfo.Continents[continentType].ContinentType)
+		bBarbarian = SpawnUniqueBarbarians(campPlot, GameInfo.Continents[continentType].ContinentType)
 	end
 	return bBarbarian
 end
@@ -239,13 +239,111 @@ function CheckForSurroundingResource(campPlot, resourceType)
 	return bResourceFound
 end
 
-function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
+function FindNearestTargetCity(iStartX, iStartY)
+	print("FindNearestTargetCity will find the nearest city of any major player to the invasion")
+	local pCity = false
+	local iShortestDistance = 10000
+	-- print("Finding closest city distance...")
+	local aPlayers = PlayerManager.GetAliveMajors()
+	for loop, pPlayer in ipairs(aPlayers) do
+		local pPlayerCities:table = pPlayer:GetCities()
+		for i, pLoopCity in pPlayerCities:Members() do
+			local iDistance = Map.GetPlotDistance(iStartX, iStartY, pLoopCity:GetX(), pLoopCity:GetY())
+			if iDistance and (iDistance < iShortestDistance) then
+				pCity = pLoopCity
+				iShortestDistance = iDistance
+			end
+		end
+	end
+	if pCity then
+		print ("FindNearestTargetCity() found a target city")
+	else
+		print ("FindNearestTargetCity() failed to find a target city")
+	end
+    return pCity
+end
+
+function FindNearestPlayerCity(iStartX, iStartY, iPlayer)
+	print("FindNearestPlayerCity will find the nearest city of the player that triggered the invasion")
+	local pCity = false
+	local iShortestDistance = 10000
+	-- print("Finding closest city distance...")
+	local pPlayer = Players[iPlayer]
+	local pPlayerCities:table = pPlayer:GetCities()
+	for i, pLoopCity in pPlayerCities:Members() do
+		local iDistance = Map.GetPlotDistance(iStartX, iStartY, pLoopCity:GetX(), pLoopCity:GetY())
+		if iDistance and (iDistance < iShortestDistance) then
+			pCity = pLoopCity
+			iShortestDistance = iDistance
+		end
+	end
+	if pCity then
+		print ("FindNearestPlayerCity() found a target city")
+	else
+		print ("FindNearestPlayerCity() failed to find a target city")
+	end
+    return pCity
+end
+
+function InvadeFromPlot(pPlot, iBarbarianTribe, iPlayer)
+	local pTargetCity = false
+	pTargetCity = FindNearestPlayerCity(pPlot:GetX(), pPlot:GetY(), iPlayer)
+	--TODO: Check here to see if city is reachable
+	if not pTargetCity then
+		print("Could not find the nearest city of the player that spawned the invasion. Searching for nearest city of any major player.")
+		pTargetCity = FindNearestTargetCity(pPlot:GetX(), pPlot:GetY())
+	end
+	if pTargetCity then
+		local pTargetOwnerID = pTargetCity:GetOwner()
+		pBarbManager:StartOperationWithCityTarget(iBarbarianTribe, "Barbarian City Assault", pTargetOwnerID, pTargetCity:GetID())
+		print("Barbarian invasion spawned for "..Locale.Lookup(pTargetCity:GetName()))
+	else
+		print("pTargetCity was "..tostring(pTargetCity))
+	end
+	return pTargetCity
+end
+
+function SpawnBarbarianTribe(pPlot, pTribe)
+	if not pPlot then
+		print("pPlot is "..tostring(pPlot))
+	end
+	if not pTribe then
+		print("pTribe is "..tostring(pTribe))
+	end
+	if pTribe and pPlot then
+		local iBarbarianTribeType = pTribe.Index
+		local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, pPlot:GetIndex())
+		print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(pTribe.TribeType))
+		return iBarbarianTribe
+	end
+	return false
+end
+
+function SpawnInvasion(pPlot, iBarbarianTribe, sUnitClass1, sUnitClass2)
+	local iEra = ((Game.GetEras():GetCurrentEra()) + 1) --Game eras are zero indexed
+	local iRange = 3
+	local iDifficulty = GameInfo.Difficulties[PlayerConfigurations[0]:GetHandicapTypeID()].Index
+	local iUnitDifficulty = math.ceil((iDifficulty/2))
+	local InvasionCamp = Game:GetProperty("InvasionCamp_"..pPlot:GetIndex())
+	if InvasionCamp then
+		pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, pPlot:GetIndex(), iRange)
+		pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), pPlot:GetIndex(), iRange)
+		pBarbManager:CreateTribeUnits(iBarbarianTribe, sUnitClass1, (iUnitDifficulty + iEra), pPlot:GetIndex(), iRange)
+		pBarbManager:CreateTribeUnits(iBarbarianTribe, sUnitClass2, (iUnitDifficulty + iEra), pPlot:GetIndex(), iRange)
+		InvadeFromPlot(pPlot, iBarbarianTribe, InvasionCamp)
+		Game:SetProperty("InvasionCamp_"..pPlot:GetIndex(), false)
+	else
+		-- print("Invasion not detected for this plot.")
+	end
+end
+
+function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 	print("Spawning a unique barbarian camp for "..tostring(sCivTypeName))
 	local bBarbarian = false
 	local bIsCoastalCamp = false
 	local pBarbManager = Game.GetBarbarianManager() 
 	local iRange = 3;
-	local iUnitDifficulty = math.floor((iDifficulty/2))
+	local iUnitDifficulty = math.ceil((iDifficulty/2))
 	local iEra = ((Game.GetEras():GetCurrentEra()) + 1) --Game eras are zero indexed
 	local maxY = ContinentDimensions[sCivTypeName].maxY
 	local spanY = ContinentDimensions[sCivTypeName].spanY
@@ -561,6 +659,15 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 						local iBarbarianTribeType = GreekBarbarianTribe.Index
 						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
 						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(GreekBarbarianTribe.TribeType))
+						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
+						if InvasionCamp then
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CELTIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
+						end
 					else
 						print("Tribe type is nil")
 					end
@@ -570,6 +677,15 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 						local iBarbarianTribeType = GreekBarbarianTribe.Index
 						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
 						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(GreekBarbarianTribe.TribeType))
+						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
+						if InvasionCamp then
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_GREEK", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
+						end
 					else
 						print("Tribe type is nil")
 					end
@@ -580,6 +696,15 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 					local iBarbarianTribeType = VikingBarbarianTribe.Index
 					local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
 					print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(VikingBarbarianTribe.TribeType))
+					local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
+					if InvasionCamp then
+						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
+						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
+						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CELTIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
+					end
 				else
 					print("Tribe type is nil")
 				end
@@ -589,15 +714,16 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 				--Southern Europe
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					if CelticBarbarianTribe then
+						local iBarbarianTribeType = CelticBarbarianTribe.Index
+						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(CelticBarbarianTribe.TribeType))
 						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
-						if not InvasionCamp then
-							local iBarbarianTribeType = CelticBarbarianTribe.Index
-							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(CelticBarbarianTribe.TribeType))
-						else
-							local iBarbarianTribeType = InvasionEuropeTribe.Index
-							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(InvasionEuropeTribe.TribeType))
+						if InvasionCamp then
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CELTIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
 							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
 						end
 					else
@@ -605,15 +731,16 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 					end
 				else
 					if BalkansBarbarianTribe then
+						local iBarbarianTribeType = BalkansBarbarianTribe.Index
+						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(BalkansBarbarianTribe.TribeType))
 						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
-						if not InvasionCamp then
-							local iBarbarianTribeType = BalkansBarbarianTribe.Index
-							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(BalkansBarbarianTribe.TribeType))
-						else
-							local iBarbarianTribeType = InvasionEuropeTribe.Index
-							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(InvasionEuropeTribe.TribeType))
+						if InvasionCamp then
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_GREEK", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
 							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
 						end
 					else
@@ -624,17 +751,18 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 				--Northern Europe
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					if CelticBarbarianTribe then
+						local iBarbarianTribeType = CelticBarbarianTribe.Index
+						local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
+						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(CelticBarbarianTribe.TribeType))
 						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
-						if not InvasionCamp then
-							local iBarbarianTribeType = CelticBarbarianTribe.Index
-							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(CelticBarbarianTribe.TribeType))
-						else
-							local iBarbarianTribeType = InvasionEuropeTribe.Index
-							local iBarbarianTribe = CreateTribeAt(iBarbarianTribeType, campPlot:GetIndex())
-							print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(InvasionEuropeTribe.TribeType))
+						if InvasionCamp then
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CELTIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
 							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
-						end
+						end	
 					else
 						print("Tribe type is nil")
 					end
@@ -645,22 +773,11 @@ function SpawnUniqueBarbarianTribe(campPlot, sCivTypeName)
 						print("Spawning tribe #"..tostring(iBarbarianTribeType)..", "..tostring(SlavicBarbarianTribe.TribeType))
 						local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
 						if InvasionCamp then
-							if (iDifficulty <= 2) then
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (2 + iEra), campPlot:GetIndex(), iRange)
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (1 + iEra), campPlot:GetIndex(), iRange)
-							elseif(iDifficulty <= 4) then
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (1 + iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (1 + iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-							elseif(iDifficulty >= 6) then
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", (1 + iEra), campPlot:GetIndex(), iRange)
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (3 * iEra), campPlot:GetIndex(), iRange)
-								pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (2 * iEra), campPlot:GetIndex(), iRange)
-							end
-							--Get tribe units and attack nearest city
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
 							Game:SetProperty("InvasionCamp_"..campPlot:GetIndex(), false)
 						end						
 					else
@@ -1104,7 +1221,7 @@ function SpawnBarbarians(iX, iY, eImprovement, playerID, resource, isPillaged, i
 end
 
 --Obselete code, but still functional
-function RemoveBarbScouts( playerID:number, unitID:number )
+function RemoveBarbScouts( playerID, unitID )
 	local player 			= Players[playerID]
 	if not player:IsBarbarian() then
 		return

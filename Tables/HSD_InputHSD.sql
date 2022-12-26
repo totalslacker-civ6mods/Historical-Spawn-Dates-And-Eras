@@ -2,11 +2,11 @@
 -- Timeline data stored in the front end. Used as the default values for manual input options.
 -- Civilization names must be appended with HSD_ 
 -------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS HistoricalSpawnDates
+CREATE TABLE IF NOT EXISTS HistoricalSpawnDates_input
 	 (	Civilization TEXT NOT NULL UNIQUE,
 		StartYear INTEGER DEFAULT -10000);
 
-INSERT OR REPLACE INTO HistoricalSpawnDates
+INSERT OR REPLACE INTO HistoricalSpawnDates_input
 (	Civilization,				StartYear) 
 VALUES
 -- Leaders
@@ -211,6 +211,6 @@ VALUES
 (	'HSD_CIVILIZATION_HUNZA',		 		150	),
 (	'END_OF_INSERT',				NULL	);	
 -- Remove "END_OF_INSERT" entry 
-DELETE from HistoricalSpawnDates WHERE Civilization ='END_OF_INSERT';
+DELETE from HistoricalSpawnDates_input WHERE Civilization ='END_OF_INSERT';
 
 --End

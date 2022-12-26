@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+  <LocalizedText>
+	<Replace Tag="LOC_BUILDING_CENTER_NAME" Language="en_US">
+      <Text>Era Start Building</Text>
+    </Replace>
+	<Replace Tag="LOC_BUILDING_CENTER_DESCRIPTION" Language="en_US">
+      <Text>Provides bonus yields based on your Civilization's starting Era</Text>
+    </Replace>
+	<Replace Tag="LOC_BUILDING_SUPER_MONUMENT_NAME" Language="en_US">
+      <Text>Super Monument</Text>
+    </Replace>
+	<Replace Tag="LOC_BUILDING_SUPER_MONUMENT_DESCRIPTION" Language="en_US">
+      <Text>Increases Loyalty pressure from all citizens until the Era threshhold for number of cities is reached. Districts cost 50% less to produce in all cities.</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_ISOLATED" Language="en_US">
+      <Text>Isolated Civilization</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_ISOLATED_DESC" Language="en_US">
+      <Text>Start the game without any bonus technology or civics. [ICON_TradeRoute]Trade Routes to more advanced civilizations grant +1 [ICON_Science]Science for every technology that civilization is ahead of them, and +1 [ICON_Culture]Culture for every civic.</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_COLONIAL" Language="en_US">
+      <Text>Colonial Civilization</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_COLONIAL_DESC" Language="en_US">
+      <Text>Start the game with the Democracy government unlocked. Receive the Era Building in all cities. [ICON_TradeRoute]Trade Routes to more advanced civilizations grant +1 [ICON_Science]Science for every three technologies that civilization is ahead of them, and +1 [ICON_Culture]Culture for every three civics.</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_LOYAL_HARBORS" Language="en_US">
+      <Text>Loyal Harbors</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_LOYAL_HARBORS_DESC" Language="en_US">
+      <Text>Coastal cities on foreign continents with a Harbor district (or unique replacement) will be permanently loyal</Text>
+    </Replace>	
+	<Replace Tag="LOC_HSD_NAME" Language="en_US">
+      <Text>Historical Spawn Date</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_ERASTART_NAME" Language="en_US">
+      <Text>Starting Era</Text>
+    </Replace>
+  </LocalizedText>
+</GameData>

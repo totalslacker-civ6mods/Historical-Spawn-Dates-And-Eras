@@ -15,7 +15,17 @@ VALUES
 		('CIVILIZATION_MAORI'),
 		('CIVILIZATION_MAPUCHE'),
 		('CIVILIZATION_MAYA'),
-		('CIVILIZATION_CREE');
+		('CIVILIZATION_CREE'),
+		--City states (do not receive bonus but are counted in Lite Mode)
+		('CIVILIZATION_ANTANANARIVO'),
+		('CIVILIZATION_CAGUANA'),
+		('CIVILIZATION_CAHOKIA'),
+		('CIVILIZATION_HUNZA'),
+		('CIVILIZATION_LA_VENTA'),
+		('CIVILIZATION_NAN_MADOL'),
+		('CIVILIZATION_NAZCA'),
+		('CIVILIZATION_PALENQUE'),
+		('CIVILIZATION_RAPA_NUI');
 
 -------------------------------------------------------------------------------
 -- Civilizations that receive an Era Building that provides bonus yields in every new city (Colonial Civs)
@@ -29,13 +39,16 @@ VALUES
 --
 -- You can insert modded civilizations here too. The last line must end with a semicolon ( ; ) 
 -------------------------------------------------------------------------------
-INSERT OR REPLACE INTO EraBuildingCivs (Civilization) 
+INSERT OR REPLACE INTO ColonialCivs (Civilization) 
 VALUES
 		('CIVILIZATION_AMERICA'),
 		('CIVILIZATION_AUSTRALIA'),
 		('CIVILIZATION_BRAZIL'),
 		('CIVILIZATION_CANADA'),
-		('CIVILIZATION_GRAN_COLOMBIA');
+		('CIVILIZATION_GRAN_COLOMBIA'),
+		--City states (do not receive bonus but are counted in Lite Mode)
+		('CIVILIZATION_BUENOS_AIRES'),
+		('CIVILIZATION_JOHANNESBURG');
 
 -------------------------------------------------------------------------------
 -- Colonial Civilization Modifier (copy of the Grand Embassy modifier with a different description)
@@ -57,10 +70,15 @@ INSERT INTO ModifierArguments	(ModifierId,	Name,	Value)
 VALUES	('TRAIT_ADJUST_PROGRESS_COLONIAL_CIV',	'TechCivicsPerYield',	'3');
 
 -------------------------------------------------------------------------------
--- Civilizations that receive the Colonial trait
+-- Major Civilizations on the colonials list will receive the Colonial trait
 -- WARNING: These values are included in the game database and used by game core functions,
 -- compatibility checks are necessary for players without Expansion or DLC content, or for modded civilizations
 -------------------------------------------------------------------------------
+
+INSERT OR REPLACE INTO CivilizationTraits	(CivilizationType, TraitType)
+	SELECT Civilization, 'TRAIT_LEADER_COLONIAL'
+	FROM ColonialCivs WHERE EXISTS (SELECT * FROM Civilizations WHERE ColonialCivs.Civilization = Civilizations.CivilizationType AND StartingCivilizationLevelType = 'CIVILIZATION_LEVEL_FULL_CIV');
+
 /* INSERT OR REPLACE INTO LeaderTraits		(LeaderType, TraitType)
 VALUES
 		('LEADER_T_ROOSEVELT', 		'TRAIT_LEADER_COLONIAL'),
@@ -78,22 +96,22 @@ INSERT OR REPLACE INTO LeaderTraits 	(LeaderType, TraitType)
 SELECT ('LEADER_SIMON_BOLIVAR'), ('TRAIT_LEADER_COLONIAL')
 WHERE EXISTS (SELECT * FROM Leaders WHERE LeaderType =  'LEADER_SIMON_BOLIVAR'); */
 
-INSERT OR REPLACE INTO CivilizationTraits		(CivilizationType, TraitType)
-VALUES
-		('CIVILIZATION_AMERICA', 		'TRAIT_LEADER_COLONIAL'),
-		('CIVILIZATION_BRAZIL',			'TRAIT_LEADER_COLONIAL');
+-- INSERT OR REPLACE INTO CivilizationTraits		(CivilizationType, TraitType)
+-- VALUES
+		-- ('CIVILIZATION_AMERICA', 		'TRAIT_LEADER_COLONIAL'),
+		-- ('CIVILIZATION_BRAZIL',			'TRAIT_LEADER_COLONIAL');
 		
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_AUSTRALIA'), ('TRAIT_LEADER_COLONIAL')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_AUSTRALIA');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_AUSTRALIA'), ('TRAIT_LEADER_COLONIAL')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_AUSTRALIA');
 
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_CANADA'), ('TRAIT_LEADER_COLONIAL')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_CANADA');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_CANADA'), ('TRAIT_LEADER_COLONIAL')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_CANADA');
 
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_GRAN_COLOMBIA'), ('TRAIT_LEADER_COLONIAL')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_GRAN_COLOMBIA');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_GRAN_COLOMBIA'), ('TRAIT_LEADER_COLONIAL')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_GRAN_COLOMBIA');
 
 -------------------------------------------------------------------------------
 -- Isolated Civilization Modifier (more powerful Grand Embassy - 1 Tech/Civic per Yield instead of 3)
@@ -115,10 +133,14 @@ INSERT INTO ModifierArguments	(ModifierId,	Name,	Value)
 VALUES	('TRAIT_ADJUST_PROGRESS_ISOLATED_CIV',	'TechCivicsPerYield',	'1');
 
 -------------------------------------------------------------------------------
--- Civilizations that receive the Isolated trait
+-- Major Civilizations on the isolated list will receive the Isolated trait
 -- WARNING: These values are included in the game database and used by game core functions,
 -- compatibility checks are necessary for players without Expansion or DLC content
 -------------------------------------------------------------------------------
+INSERT OR REPLACE INTO CivilizationTraits	(CivilizationType, TraitType)
+	SELECT Civilization, 'TRAIT_LEADER_ISOLATED'
+	FROM IsolatedCivs WHERE EXISTS (SELECT * FROM Civilizations WHERE IsolatedCivs.Civilization = Civilizations.CivilizationType AND StartingCivilizationLevelType = 'CIVILIZATION_LEVEL_FULL_CIV');
+
 /* INSERT OR REPLACE INTO LeaderTraits 	(LeaderType, TraitType)
 SELECT ('LEADER_MONTEZUMA'), ('TRAIT_LEADER_ISOLATED')
 WHERE EXISTS (SELECT * FROM Leaders WHERE LeaderType =  'LEADER_MONTEZUMA');
@@ -143,29 +165,29 @@ INSERT OR REPLACE INTO LeaderTraits 	(LeaderType, TraitType)
 SELECT ('LEADER_POUNDMAKER'), ('TRAIT_LEADER_ISOLATED')
 WHERE EXISTS (SELECT * FROM Leaders WHERE LeaderType =  'LEADER_POUNDMAKER'); */
 
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_AZTEC'), ('TRAIT_LEADER_ISOLATED')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_AZTEC');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_AZTEC'), ('TRAIT_LEADER_ISOLATED')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_AZTEC');
 
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_MAORI'), ('TRAIT_LEADER_ISOLATED')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_MAORI');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_MAORI'), ('TRAIT_LEADER_ISOLATED')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_MAORI');
 
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_MAPUCHE'), ('TRAIT_LEADER_ISOLATED')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_MAPUCHE');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_MAPUCHE'), ('TRAIT_LEADER_ISOLATED')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_MAPUCHE');
 
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_MAYA'), ('TRAIT_LEADER_ISOLATED')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_MAYA');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_MAYA'), ('TRAIT_LEADER_ISOLATED')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_MAYA');
 
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_INCA'), ('TRAIT_LEADER_ISOLATED')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_INCA');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_INCA'), ('TRAIT_LEADER_ISOLATED')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_INCA');
 
-INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
-SELECT ('CIVILIZATION_CREE'), ('TRAIT_LEADER_ISOLATED')
-WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_CREE');
+-- INSERT OR REPLACE INTO CivilizationTraits 	(CivilizationType, TraitType)
+-- SELECT ('CIVILIZATION_CREE'), ('TRAIT_LEADER_ISOLATED')
+-- WHERE EXISTS (SELECT * FROM Civilizations WHERE CivilizationType =  'CIVILIZATION_CREE');
 
 -------------------------------------------------------------------------------
 -- Colonizers (Civs in this list will participate in Colonization mode)

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<EventPopupData>
+		<Row Type="HSD_RAGING_BARBARIANS_INVASION_WARNING" Title="LOC_HSD_BARB_INVASION_DESCRIPTION" FilterCondition="ANY" BackgroundImage="PolandScenario_EventBG_EarlyWarning" ForegroundImage=""/>
+		<!-- <Row Type="SCENARIO_POLAND_INVASION_HERE" Title="LOC_NOTIFICATION_BARBARIANS_SIGHTED_MESSAGE" FilterCondition="ANY" BackgroundImage="PolandScenario_EventBG_InvasionHere" ForegroundImage=""/> -->
+	</EventPopupData>
+</GameInfo>

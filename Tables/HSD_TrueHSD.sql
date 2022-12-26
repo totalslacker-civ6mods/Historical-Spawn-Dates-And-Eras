@@ -8,6 +8,10 @@
 -------------------------------------------------------------------------------
 -- Spawn dates based on the national founding date of countries
 -------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS HistoricalSpawnDates_TrueHSD
+	 (	Civilization TEXT NOT NULL UNIQUE,
+		StartYear INTEGER DEFAULT -10000);
+
 
 INSERT OR REPLACE INTO HistoricalSpawnDates_TrueHSD
 (	Civilization,				StartYear) 
@@ -15,12 +19,12 @@ VALUES
 -- Major Civilizations
 (	'CIVILIZATION_AMERICA',			 1776	),
 (	'CIVILIZATION_ARABIA',			 632	),
-(	'CIVILIZATION_AUSTRALIA',		 1788	),
-(	'CIVILIZATION_AZTEC',			 -600	),
-(	'CIVILIZATION_BABYLON_STK',		-4100	),
+(	'CIVILIZATION_AUSTRALIA',		 1900	),
+(	'CIVILIZATION_AZTEC',			 1250	),
+(	'CIVILIZATION_BABYLON_STK',		-2000	),
 (	'CIVILIZATION_BRAZIL',			 1822	),
-(	'CIVILIZATION_BYZANTIUM',		 500	),
-(	'CIVILIZATION_CANADA',		 	1800	),
+(	'CIVILIZATION_BYZANTIUM',		 330	),
+(	'CIVILIZATION_CANADA',		 	1867	),
 (	'CIVILIZATION_CHINA',			-2100	),
 (	'CIVILIZATION_CREE',			-400	),
 (	'CIVILIZATION_ENGLAND',			 900	),

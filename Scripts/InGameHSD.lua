@@ -23,6 +23,75 @@ local defaultAutoEndTurn	= UserConfiguration.GetValue("AutoEndTurn")
 -- Calendar Functions
 ----------------------------------------------------------------------------------------
 
+function GetStandardTimeline(civType)
+	local iStartYear = 0
+	local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates")
+	for i, row in ipairs(results) do
+		if row.Civilization == civType then
+			iStartYear = row.StartYear
+			print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+		end
+	end
+	return iStartYear
+end
+
+function GetTrueHSDTimeline(civType)
+	local iStartYear = 0
+	local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates_TrueHSD")
+	for i, row in ipairs(results) do
+		if row.Civilization == civType then
+			iStartYear = row.StartYear
+			print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+		end
+	end
+	return iStartYear
+end
+
+function GetLeaderTimeline(civType)
+	local iStartYear = 0
+	local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates_LeaderHSD")
+	for i, row in ipairs(results) do
+		if row.Civilization == civType then
+			iStartYear = row.StartYear
+			print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+		end
+	end
+	return iStartYear
+end
+
+function GetEraTimeline(civType)
+	local iStartEra = 0
+	local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnEras")
+	for i, row in ipairs(results) do
+		if row.Civilization == civType then
+			iStartEra = row.Era
+			print(tostring(row.Civilization), " spawn era = ", tostring(row.Era))
+		end
+	end
+	return iStartEra
+end
+
+function GetLitemodeCivs(civType)
+	-- local iStartYear = false
+	-- local iStartEra = false
+	local eligibleForHSD = false
+	local isolated = DB.ConfigurationQuery("SELECT * FROM IsolatedCivs")
+	local colonial = DB.ConfigurationQuery("SELECT * FROM ColonialCivs")
+	for i, row in ipairs(isolated) do
+		if row.Civilization == civType then
+			eligibleForHSD = true
+			print(tostring(row.Civilization), " is an isolated player.")
+		end
+	end
+	for i, row in ipairs(colonial) do
+		if row.Civilization == civType then
+			eligibleForHSD = true
+			print(tostring(row.Civilization), " is a colonial player.")
+		end
+	end
+	return eligibleForHSD
+end
+
 function SetTurnYear(iTurn)
 	previousTurnYear 	= Calendar.GetTurnYearForGame( iTurn )
 	currentTurnYear 	= Calendar.GetTurnYearForGame( iTurn + 1 )
@@ -234,6 +303,11 @@ function InitializeHSD_UI()
 	LuaEvents.RestoreAutoValues.Add(RestoreAutoValues)
 	LuaEvents.SetStartingEra.Add( SetStartingEra )
 	-- Share UI context functions with gameplay scripts
+	ExposedMembers.GetStandardTimeline = GetStandardTimeline
+	ExposedMembers.GetTrueHSDTimeline = GetTrueHSDTimeline
+	ExposedMembers.GetLeaderTimeline = GetLeaderTimeline
+	ExposedMembers.GetEraTimeline = GetEraTimeline
+	ExposedMembers.GetLitemodeCivs = GetLitemodeCivs
 	ExposedMembers.CheckCity.CheckCityGovernor = CheckCityGovernor
 	ExposedMembers.CheckCityCapital = CheckCityCapital
 	ExposedMembers.CheckCityOriginalCapital = CheckCityOriginalCapital
