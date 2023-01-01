@@ -4,7 +4,7 @@
 --	totalslacker (2020-2021)
 ------------------------------------------------------------------------------
 
-include("ScriptHSD.lua");
+include("ScriptHSD.lua")
 
 print ("loading InGameHSD.lua")
 
@@ -212,13 +212,6 @@ function CheckCityOriginalCapital(pPlayerID, pCityID)
 	return bOriginalCapital
 end
 
-function GetEraCountdown()
-	local pGameEras:table = Game.GetEras()
-	local nextEraCountdown = pGameEras:GetNextEraCountdown() + 1; -- 0 turns remaining is the last turn, shift by 1 to make sense to non-programmers
-	print("nextEraCountdown is "..tostring(nextEraCountdown))
-	return nextEraCountdown
-end
-
 -- all credit for the code below goes to Tiramasu, taken from the Free City States mod
 function GetPlayerCityUIDatas(pPlayerID, pCityID)
 	local CityUIDataList = {}	
@@ -293,6 +286,24 @@ function GetPlayerCityUIDatas(pPlayerID, pCityID)
 end
 
 ----------------------------------------------------------------------------------------
+-- Support functions for Raging Barbarians mode
+----------------------------------------------------------------------------------------
+
+function GetEraCountdown()
+	local pGameEras:table = Game.GetEras()
+	local nextEraCountdown = pGameEras:GetNextEraCountdown() + 1; -- 0 turns remaining is the last turn, shift by 1 to make sense to non-programmers
+	print("nextEraCountdown is "..tostring(nextEraCountdown))
+	return nextEraCountdown
+end
+
+function GetTribeNameType(iBarbarianTribe)
+	local pBarbManager = Game.GetBarbarianManager()
+	local iBarbType = pBarbManager:GetTribeNameType(iBarbarianTribe)
+	print("GetTribeNameType returned iBarbType of "..tostring(iBarbType))
+	return iBarbType
+end
+
+----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
 
@@ -313,6 +324,7 @@ function InitializeHSD_UI()
 	ExposedMembers.CheckCityOriginalCapital = CheckCityOriginalCapital
 	ExposedMembers.GetPlayerCityUIDatas = GetPlayerCityUIDatas
 	ExposedMembers.GetEraCountdown = GetEraCountdown
+	ExposedMembers.GetTribeNameType = GetTribeNameType
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))	

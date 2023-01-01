@@ -13,6 +13,7 @@
 --	Create a SpawnManager class to integrate the multiple spawning functions
 --	City states able to cause revolts and convert cities
 --	ipairs / pairs, other multiplayer desyncs
+--	Test CityManager.TransferCityToFreeCities(CityInstance) and CityManager.TransferCity(Player)
 ------------------------------------------------------------------------------
 
 include("UnitFunctions");
@@ -4122,7 +4123,7 @@ function OnLoadScreenClosed()
 		-- Events.GameEraChanged.Add(Colonization_OnGameEraChanged)
 	end
 	if bRagingBarbarians then
-		-- GameEvents.PlayerTurnStarted.Add(Invasions_SpawnInvasion)
+		GameEvents.PlayerTurnStarted.Add(Invasions_SpawnInvasion)
 		Events.ImprovementAddedToMap.Add(SpawnBarbarians)
 		Events.GameEraChanged.Add(UpgradeBarbarianTech)
 	end

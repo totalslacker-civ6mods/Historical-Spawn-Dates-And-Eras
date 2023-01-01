@@ -406,6 +406,17 @@
 			</Properties>
 			<File>Scripts/ScriptHSD.lua</File>
 		</AddGameplayScripts>
+		<ReplaceUIScript id="HSD_RagingBarbarians_UI_Script" criteria="HSD_RagingBarbarians">
+		  <Properties>
+			<LuaContext>UnitFlagManager</LuaContext>
+			<LuaReplace>Scripts/UnitFlagManager_RagingBarbarians_MODE.lua</LuaReplace>
+		  </Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="HSD_RagingBarbarians_Script_Import" criteria="HSD_RagingBarbarians">
+			<Items>
+				<File>Scripts/UnitFlagManager_RagingBarbarians_MODE.lua</File>
+			</Items>
+		</ImportFiles>
 		<UpdateDatabase id="HSD_RagingBarbarians_Art" criteria="HSD_RagingBarbarians">
            	<Properties>
 				<LoadOrder>110</LoadOrder>
@@ -432,6 +443,7 @@
 				<File>Icons/HSD_Menu_Icon.dds</File>
 				<File>Icons/ColonizationMode_Icon.dds</File>
 				<File>Icons/RagingBarbarians_Icon.dds</File>
+				<File>Icons/Raging_Barbarians_Invasion_Background.dds</File>
 			</Items>
 		</ImportFiles>
 		<UpdateIcons id="HSD_Icons">
@@ -527,6 +539,7 @@
 		<File>Scripts/ScriptHSD.lua</File>
 		<File>Scripts/UnitFunctions.lua</File>
 		<File>Scripts/ScenarioFunctions.lua</File>
+		<File>Scripts/UnitFlagManager_RagingBarbarians_MODE.lua</File>
 		<File>Tables/HSD_Eras.sql</File>
 		<File>Tables/HSD_LiteMode.sql</File>
 		<File>Tables/HSD_LiteMode_Eras.sql</File>
@@ -548,6 +561,7 @@
 		<File>Icons/RagingBarbarians_Background.dds</File>
 		<File>Icons/RagingBarbarians_Portrait.dds</File>
 		<File>Icons/RagingBarbarians_Icon.dds</File>
+		<File>Icons/Raging_Barbarians_Invasion_Background.dds</File>
 		<File>Text/RagingBarbarians_Text.xml</File>
 		<File>Text/RagingBarbarians_Text.xml</File>
 		<File>Text/GameText.xml</File>

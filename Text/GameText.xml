@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
   <LocalizedText>
+	<!-- BUILDINGS -->
 	<Replace Tag="LOC_BUILDING_CENTER_NAME" Language="en_US">
       <Text>Era Start Building</Text>
     </Replace>
@@ -13,6 +14,7 @@
 	<Replace Tag="LOC_BUILDING_SUPER_MONUMENT_DESCRIPTION" Language="en_US">
       <Text>Increases Loyalty pressure from all citizens until the Era threshhold for number of cities is reached. Districts cost 50% less to produce in all cities.</Text>
     </Replace>
+	<!-- TRAITS -->
 	<Replace Tag="LOC_TRAIT_LEADER_ISOLATED" Language="en_US">
       <Text>Isolated Civilization</Text>
     </Replace>
@@ -30,12 +32,19 @@
     </Replace>
 	<Replace Tag="LOC_TRAIT_LEADER_LOYAL_HARBORS_DESC" Language="en_US">
       <Text>Coastal cities on foreign continents with a Harbor district (or unique replacement) will be permanently loyal</Text>
-    </Replace>	
+    </Replace>
 	<Replace Tag="LOC_HSD_NAME" Language="en_US">
       <Text>Historical Spawn Date</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_ERASTART_NAME" Language="en_US">
       <Text>Starting Era</Text>
+    </Replace>
+	<!-- EVENT POPUPS -->
+	<Replace Tag="LOC_HSD_BARB_INVASION_TITLE" Language="en_US">
+      <Text>Barbarian Invasion!</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_BARB_INVASION_MESSAGE" Language="en_US">
+      <Text>The {1_BarbarianTribe} barbarian hordes grow restless! Drawn by the wealth and luxuries of your empire, they have assembled under a common banner to attack the city of {2_CityName}!</Text>
     </Replace>
   </LocalizedText>
 </GameData>

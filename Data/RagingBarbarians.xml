@@ -28,7 +28,17 @@
 		<Row Type="TRIBE_EASTASIAN" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_MONGOL" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_SIBERIAN" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_GERMANIC" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_INVASION_EUROPE" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_WEST_ANCIENT" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_WEST_CLASSICAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_EAST_ANCIENT" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_EAST_CLASSICAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_NORTH_ANCIENT" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" Kind="KIND_BARBARIAN_TRIBE"/>
 	</Types>
 	<BarbarianTribes>
 		<Row TribeType="TRIBE_KONGO" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_KONGO" RangedTag="CLASS_BARB_KONGO" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_KONGO" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
@@ -85,9 +95,29 @@
 
 		<Row TribeType="TRIBE_SIBERIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_EASTASIAN" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
+		<Row TribeType="TRIBE_GERMANIC" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
 		<!-- Invasions -->
 		
 		<Row TribeType="TRIBE_INVASION_EUROPE" PercentRangedUnits="50" TurnsToWarriorSpawn="5" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="1" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="10"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_CELTIC" RangedTag="CLASS_BARB_LIGHTCAV" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_CELTIC" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_CELTIC" RangedTag="CLASS_BARB_LIGHTCAV" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_CELTIC" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_CELTIC" RangedTag="CLASS_BARB_LIGHTCAV" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_CELTIC" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 	</BarbarianTribes>
 	<BarbarianAttackForces>
@@ -309,6 +339,7 @@
 		<Row AttackForceType="HighDifficultySiberianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="3" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="2"/>
 		
 		<!-- Invasions -->
+		<!-- Attack force below is unused. We will reuse the existing attack forces for most invasions -->
 		<!-- Europe -->
 		<Row AttackForceType="LowDifficultyInvasionEuropeRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_LIGHTCAV" NumMeleeUnits="3" RaidingForce="true"/>
 		<Row AttackForceType="InvasionEuropeRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="1" MeleeTag="CLASS_BARB_VARANGIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_SLAVIC" NumRangeUnits="2" RaidingForce="true"/>
@@ -508,6 +539,13 @@
 		<Row AttackForceType="SiberianAttack" TribeType="TRIBE_SIBERIAN"/>
 		<Row AttackForceType="HighDifficultySiberianAttack" TribeType="TRIBE_SIBERIAN"/>
 		
+		<Row AttackForceType="LowDifficultySlavicRaid" TribeType="TRIBE_GERMANIC"/>
+		<Row AttackForceType="SlavicRaid" TribeType="TRIBE_GERMANIC"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" TribeType="TRIBE_GERMANIC"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_GERMANIC"/>
+		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_GERMANIC"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_GERMANIC"/>
+		
 		<!-- Invasions -->
 		<!-- Europe -->
 		<Row AttackForceType="LowDifficultyInvasionEuropeRaid" TribeType="TRIBE_INVASION_EUROPE"/>
@@ -517,148 +555,272 @@
 		<Row AttackForceType="InvasionEuropeAttack" TribeType="TRIBE_INVASION_EUROPE"/>
 		<Row AttackForceType="HighDifficultyInvasionEuropeAttack" TribeType="TRIBE_INVASION_EUROPE"/>
 		
+		<Row AttackForceType="LowDifficultyCelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT"/>
+		<Row AttackForceType="CelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT"/>
+		<Row AttackForceType="HighDifficultyCelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT"/>
+		<Row AttackForceType="LowDifficultyCelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT"/>
+		<Row AttackForceType="CelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT"/>
+		<Row AttackForceType="HighDifficultyCelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT"/>
+		
+		<Row AttackForceType="LowDifficultyCelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL"/>
+		<Row AttackForceType="CelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultyCelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL"/>
+		<Row AttackForceType="LowDifficultyCelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL"/>
+		<Row AttackForceType="CelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultyCelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL"/>
+		
+		<Row AttackForceType="LowDifficultyCelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL"/>
+		<Row AttackForceType="CelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultyCelticRaid" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL"/>
+		<Row AttackForceType="LowDifficultyCelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL"/>
+		<Row AttackForceType="CelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultyCelticAttack" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL"/>
+		
+		<Row AttackForceType="LowDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT"/>
+		<Row AttackForceType="SlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT"/>
+		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT"/>
+		
+		<Row AttackForceType="LowDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL"/>
+		<Row AttackForceType="SlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL"/>
+		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL"/>
+		
+		<Row AttackForceType="LowDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="SlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL"/>
+		
+		<Row AttackForceType="LowDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT"/>
+		<Row AttackForceType="SlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT"/>
+		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT"/>
+		
+		<Row AttackForceType="LowDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL"/>
+		<Row AttackForceType="SlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL"/>
+		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL"/>
+		
+		<Row AttackForceType="LowDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
+		<Row AttackForceType="SlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultySlavicRaid" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
+		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
+		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
+		
 	</BarbarianTribeForces>
 	<BarbarianTribeNames>
 		<Row TribeNameType="BARBARIAN_KONGO_1" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_1"/>
-		<Row TribeNameType="BARBARIAN_KONGO_2" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_2"/>
-		<Row TribeNameType="BARBARIAN_KONGO_3" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_3"/>
-		<Row TribeNameType="BARBARIAN_KONGO_4" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_4"/>
-		<Row TribeNameType="BARBARIAN_KONGO_5" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_5"/>
+		<Row TribeNameType="BARBARIAN_KONGO_2" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_1"/>
+		<Row TribeNameType="BARBARIAN_KONGO_3" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_1"/>
+		<Row TribeNameType="BARBARIAN_KONGO_4" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_1"/>
+		<Row TribeNameType="BARBARIAN_KONGO_5" TribeType="TRIBE_KONGO" TribeDisplayName="LOC_BARBARIAN_KONGO_1"/>
 		<Row TribeNameType="BARBARIAN_ZULU_1" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_1"/>
-		<Row TribeNameType="BARBARIAN_ZULU_2" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_2"/>
-		<Row TribeNameType="BARBARIAN_ZULU_3" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_3"/>
-		<Row TribeNameType="BARBARIAN_ZULU_4" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_4"/>
-		<Row TribeNameType="BARBARIAN_ZULU_5" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_5"/>
+		<Row TribeNameType="BARBARIAN_ZULU_2" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_1"/>
+		<Row TribeNameType="BARBARIAN_ZULU_3" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_1"/>
+		<Row TribeNameType="BARBARIAN_ZULU_4" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_1"/>
+		<Row TribeNameType="BARBARIAN_ZULU_5" TribeType="TRIBE_ZULU" TribeDisplayName="LOC_BARBARIAN_ZULU_1"/>
 		<Row TribeNameType="BARBARIAN_NUBIAN_1" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_1"/>
-		<Row TribeNameType="BARBARIAN_NUBIAN_2" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_2"/>
-		<Row TribeNameType="BARBARIAN_NUBIAN_3" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_3"/>
-		<Row TribeNameType="BARBARIAN_NUBIAN_4" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_4"/>
-		<Row TribeNameType="BARBARIAN_NUBIAN_5" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_5"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_2" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_1"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_3" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_1"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_4" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_1"/>
+		<Row TribeNameType="BARBARIAN_NUBIAN_5" TribeType="TRIBE_NUBIAN" TribeDisplayName="LOC_BARBARIAN_NUBIAN_1"/>
 		<Row TribeNameType="BARBARIAN_CELTIC_1" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_1"/>
-		<Row TribeNameType="BARBARIAN_CELTIC_2" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_2"/>
-		<Row TribeNameType="BARBARIAN_CELTIC_3" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_3"/>
-		<Row TribeNameType="BARBARIAN_CELTIC_4" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_4"/>
-		<Row TribeNameType="BARBARIAN_CELTIC_5" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_5"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_2" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_1"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_3" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_1"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_4" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_1"/>
+		<Row TribeNameType="BARBARIAN_CELTIC_5" TribeType="TRIBE_CELTIC" TribeDisplayName="LOC_BARBARIAN_CELTIC_1"/>
 		<Row TribeNameType="BARBARIAN_GREEK_1" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_1"/>
-		<Row TribeNameType="BARBARIAN_GREEK_2" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_2"/>
-		<Row TribeNameType="BARBARIAN_GREEK_3" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_3"/>
-		<Row TribeNameType="BARBARIAN_GREEK_4" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_4"/>
-		<Row TribeNameType="BARBARIAN_GREEK_5" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_5"/>
+		<Row TribeNameType="BARBARIAN_GREEK_2" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_1"/>
+		<Row TribeNameType="BARBARIAN_GREEK_3" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_1"/>
+		<Row TribeNameType="BARBARIAN_GREEK_4" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_1"/>
+		<Row TribeNameType="BARBARIAN_GREEK_5" TribeType="TRIBE_GREEK" TribeDisplayName="LOC_BARBARIAN_GREEK_1"/>
 		<Row TribeNameType="BARBARIAN_VIKING_1" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_1"/>
-		<Row TribeNameType="BARBARIAN_VIKING_2" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_2"/>
-		<Row TribeNameType="BARBARIAN_VIKING_3" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_3"/>
-		<Row TribeNameType="BARBARIAN_VIKING_4" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_4"/>
-		<Row TribeNameType="BARBARIAN_VIKING_5" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_5"/>
+		<Row TribeNameType="BARBARIAN_VIKING_2" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_1"/>
+		<Row TribeNameType="BARBARIAN_VIKING_3" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_1"/>
+		<Row TribeNameType="BARBARIAN_VIKING_4" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_1"/>
+		<Row TribeNameType="BARBARIAN_VIKING_5" TribeType="TRIBE_VIKING" TribeDisplayName="LOC_BARBARIAN_VIKING_1"/>
 		<Row TribeNameType="BARBARIAN_BARBARY_1" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_1"/>
-		<Row TribeNameType="BARBARIAN_BARBARY_2" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_2"/>
-		<Row TribeNameType="BARBARIAN_BARBARY_3" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_3"/>
-		<Row TribeNameType="BARBARIAN_BARBARY_4" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_4"/>
-		<Row TribeNameType="BARBARIAN_BARBARY_5" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_5"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_2" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_1"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_3" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_1"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_4" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_1"/>
+		<Row TribeNameType="BARBARIAN_BARBARY_5" TribeType="TRIBE_BARBARY" TribeDisplayName="LOC_BARBARIAN_BARBARY_1"/>
 		<Row TribeNameType="BARBARIAN_CREE_1" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_1"/>
-		<Row TribeNameType="BARBARIAN_CREE_2" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_2"/>
-		<Row TribeNameType="BARBARIAN_CREE_3" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_3"/>
-		<Row TribeNameType="BARBARIAN_CREE_4" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_4"/>
-		<Row TribeNameType="BARBARIAN_CREE_5" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_5"/>
+		<Row TribeNameType="BARBARIAN_CREE_2" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_1"/>
+		<Row TribeNameType="BARBARIAN_CREE_3" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_1"/>
+		<Row TribeNameType="BARBARIAN_CREE_4" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_1"/>
+		<Row TribeNameType="BARBARIAN_CREE_5" TribeType="TRIBE_CREE" TribeDisplayName="LOC_BARBARIAN_CREE_1"/>
 		<Row TribeNameType="BARBARIAN_SCYTHIAN_1" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_1"/>
-		<Row TribeNameType="BARBARIAN_SCYTHIAN_2" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_2"/>
-		<Row TribeNameType="BARBARIAN_SCYTHIAN_3" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_3"/>
-		<Row TribeNameType="BARBARIAN_SCYTHIAN_4" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_4"/>
-		<Row TribeNameType="BARBARIAN_SCYTHIAN_5" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_5"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_2" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_1"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_3" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_1"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_4" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_1"/>
+		<Row TribeNameType="BARBARIAN_SCYTHIAN_5" TribeType="TRIBE_SCYTHIAN" TribeDisplayName="LOC_BARBARIAN_SCYTHIAN_1"/>
 		<Row TribeNameType="BARBARIAN_AZTEC_1" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_1"/>
-		<Row TribeNameType="BARBARIAN_AZTEC_2" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_2"/>
-		<Row TribeNameType="BARBARIAN_AZTEC_3" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_3"/>
-		<Row TribeNameType="BARBARIAN_AZTEC_4" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_4"/>
-		<Row TribeNameType="BARBARIAN_AZTEC_5" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_5"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_2" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_1"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_3" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_1"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_4" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_1"/>
+		<Row TribeNameType="BARBARIAN_AZTEC_5" TribeType="TRIBE_AZTEC" TribeDisplayName="LOC_BARBARIAN_AZTEC_1"/>
 		<Row TribeNameType="BARBARIAN_MAORI_1" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_1"/>
-		<Row TribeNameType="BARBARIAN_MAORI_2" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_2"/>
-		<Row TribeNameType="BARBARIAN_MAORI_3" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_3"/>
-		<Row TribeNameType="BARBARIAN_MAORI_4" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_4"/>
-		<Row TribeNameType="BARBARIAN_MAORI_5" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_5"/>
+		<Row TribeNameType="BARBARIAN_MAORI_2" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_1"/>
+		<Row TribeNameType="BARBARIAN_MAORI_3" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_1"/>
+		<Row TribeNameType="BARBARIAN_MAORI_4" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_1"/>
+		<Row TribeNameType="BARBARIAN_MAORI_5" TribeType="TRIBE_MAORI" TribeDisplayName="LOC_BARBARIAN_MAORI_1"/>
 		<Row TribeNameType="BARBARIAN_VARU_1" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_1"/>
-		<Row TribeNameType="BARBARIAN_VARU_2" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_2"/>
-		<Row TribeNameType="BARBARIAN_VARU_3" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_3"/>
-		<Row TribeNameType="BARBARIAN_VARU_4" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_4"/>
-		<Row TribeNameType="BARBARIAN_VARU_5" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_5"/>
+		<Row TribeNameType="BARBARIAN_VARU_2" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_1"/>
+		<Row TribeNameType="BARBARIAN_VARU_3" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_1"/>
+		<Row TribeNameType="BARBARIAN_VARU_4" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_1"/>
+		<Row TribeNameType="BARBARIAN_VARU_5" TribeType="TRIBE_VARU" TribeDisplayName="LOC_BARBARIAN_VARU_1"/>
 		<Row TribeNameType="BARBARIAN_IBERIAN_1" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_1"/>
-		<Row TribeNameType="BARBARIAN_IBERIAN_2" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_2"/>
-		<Row TribeNameType="BARBARIAN_IBERIAN_3" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_3"/>
-		<Row TribeNameType="BARBARIAN_IBERIAN_4" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_4"/>
-		<Row TribeNameType="BARBARIAN_IBERIAN_5" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_5"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_2" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_3" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_4" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_IBERIAN_5" TribeType="TRIBE_IBERIAN" TribeDisplayName="LOC_BARBARIAN_IBERIAN_1"/>
 		<Row TribeNameType="BARBARIAN_BALKANS_1" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_1"/>
-		<Row TribeNameType="BARBARIAN_BALKANS_2" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_2"/>
-		<Row TribeNameType="BARBARIAN_BALKANS_3" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_3"/>
-		<Row TribeNameType="BARBARIAN_BALKANS_4" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_4"/>
-		<Row TribeNameType="BARBARIAN_BALKANS_5" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_5"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_2" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_1"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_3" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_1"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_4" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_1"/>
+		<Row TribeNameType="BARBARIAN_BALKANS_5" TribeType="TRIBE_BALKANS" TribeDisplayName="LOC_BARBARIAN_BALKANS_1"/>
 		<Row TribeNameType="BARBARIAN_SLAVIC_1" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_1"/>
-		<Row TribeNameType="BARBARIAN_SLAVIC_2" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_2"/>
-		<Row TribeNameType="BARBARIAN_SLAVIC_3" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_3"/>
-		<Row TribeNameType="BARBARIAN_SLAVIC_4" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_4"/>
-		<Row TribeNameType="BARBARIAN_SLAVIC_5" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_5"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_2" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_1"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_3" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_1"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_4" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_1"/>
+		<Row TribeNameType="BARBARIAN_SLAVIC_5" TribeType="TRIBE_SLAVIC" TribeDisplayName="LOC_BARBARIAN_SLAVIC_1"/>
 		<Row TribeNameType="BARBARIAN_HAIDA_1" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_1"/>
-		<Row TribeNameType="BARBARIAN_HAIDA_2" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_2"/>
-		<Row TribeNameType="BARBARIAN_HAIDA_3" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_3"/>
-		<Row TribeNameType="BARBARIAN_HAIDA_4" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_4"/>
-		<Row TribeNameType="BARBARIAN_HAIDA_5" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_5"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_2" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_1"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_3" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_1"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_4" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_1"/>
+		<Row TribeNameType="BARBARIAN_HAIDA_5" TribeType="TRIBE_HAIDA" TribeDisplayName="LOC_BARBARIAN_HAIDA_1"/>
 		<Row TribeNameType="BARBARIAN_PIRATES_1" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_1"/>
-		<Row TribeNameType="BARBARIAN_PIRATES_2" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_2"/>
-		<Row TribeNameType="BARBARIAN_PIRATES_3" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_3"/>
-		<Row TribeNameType="BARBARIAN_PIRATES_4" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_4"/>
-		<Row TribeNameType="BARBARIAN_PIRATES_5" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_5"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_2" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_1"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_3" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_1"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_4" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_1"/>
+		<Row TribeNameType="BARBARIAN_PIRATES_5" TribeType="TRIBE_PIRATES" TribeDisplayName="LOC_BARBARIAN_PIRATES_1"/>
 		<Row TribeNameType="BARBARIAN_PERSIAN_1" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_1"/>
-		<Row TribeNameType="BARBARIAN_PERSIAN_2" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_2"/>
-		<Row TribeNameType="BARBARIAN_PERSIAN_3" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_3"/>
-		<Row TribeNameType="BARBARIAN_PERSIAN_4" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_4"/>
-		<Row TribeNameType="BARBARIAN_PERSIAN_5" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_5"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_2" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_1"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_3" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_1"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_4" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_1"/>
+		<Row TribeNameType="BARBARIAN_PERSIAN_5" TribeType="TRIBE_PERSIAN" TribeDisplayName="LOC_BARBARIAN_PERSIAN_1"/>
 		<Row TribeNameType="BARBARIAN_COMANCHE_1" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_1"/>
-		<Row TribeNameType="BARBARIAN_COMANCHE_2" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_2"/>
-		<Row TribeNameType="BARBARIAN_COMANCHE_3" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_3"/>
-		<Row TribeNameType="BARBARIAN_COMANCHE_4" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_4"/>
-		<Row TribeNameType="BARBARIAN_COMANCHE_5" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_5"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_2" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_1"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_3" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_1"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_4" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_1"/>
+		<Row TribeNameType="BARBARIAN_COMANCHE_5" TribeType="TRIBE_COMANCHE" TribeDisplayName="LOC_BARBARIAN_COMANCHE_1"/>
 		<Row TribeNameType="BARBARIAN_PATAGONIAN_1" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_1"/>
-		<Row TribeNameType="BARBARIAN_PATAGONIAN_2" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_2"/>
-		<Row TribeNameType="BARBARIAN_PATAGONIAN_3" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_3"/>
-		<Row TribeNameType="BARBARIAN_PATAGONIAN_4" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_4"/>
-		<Row TribeNameType="BARBARIAN_PATAGONIAN_5" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_5"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_2" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_1"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_3" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_1"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_4" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_1"/>
+		<Row TribeNameType="BARBARIAN_PATAGONIAN_5" TribeType="TRIBE_PATAGONIAN" TribeDisplayName="LOC_BARBARIAN_PATAGONIAN_1"/>
 		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_1" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_1"/>
-		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_2" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_2"/>
-		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_3" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_3"/>
-		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_4" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_4"/>
-		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_5" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_5"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_2" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_1"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_3" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_1"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_4" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_1"/>
+		<Row TribeNameType="BARBARIAN_SOUTH_AMERICAN_5" TribeType="TRIBE_SOUTH_AMERICAN" TribeDisplayName="LOC_BARBARIAN_SOUTH_AMERICAN_1"/>
 		<Row TribeNameType="BARBARIAN_AUSTRALIAN_1" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_1"/>
-		<Row TribeNameType="BARBARIAN_AUSTRALIAN_2" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_2"/>
-		<Row TribeNameType="BARBARIAN_AUSTRALIAN_3" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_3"/>
-		<Row TribeNameType="BARBARIAN_AUSTRALIAN_4" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_4"/>
-		<Row TribeNameType="BARBARIAN_AUSTRALIAN_5" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_5"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_2" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_1"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_3" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_1"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_4" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_1"/>
+		<Row TribeNameType="BARBARIAN_AUSTRALIAN_5" TribeType="TRIBE_AUSTRALIAN" TribeDisplayName="LOC_BARBARIAN_AUSTRALIAN_1"/>
 		<Row TribeNameType="BARBARIAN_INCAN_1" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_1"/>
-		<Row TribeNameType="BARBARIAN_INCAN_2" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_2"/>
-		<Row TribeNameType="BARBARIAN_INCAN_3" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_3"/>
-		<Row TribeNameType="BARBARIAN_INCAN_4" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_4"/>
-		<Row TribeNameType="BARBARIAN_INCAN_5" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_5"/>
+		<Row TribeNameType="BARBARIAN_INCAN_2" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_1"/>
+		<Row TribeNameType="BARBARIAN_INCAN_3" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_1"/>
+		<Row TribeNameType="BARBARIAN_INCAN_4" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_1"/>
+		<Row TribeNameType="BARBARIAN_INCAN_5" TribeType="TRIBE_INCAN" TribeDisplayName="LOC_BARBARIAN_INCAN_1"/>
 		<Row TribeNameType="BARBARIAN_MALI_1" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_1"/>
-		<Row TribeNameType="BARBARIAN_MALI_2" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_2"/>
-		<Row TribeNameType="BARBARIAN_MALI_3" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_3"/>
-		<Row TribeNameType="BARBARIAN_MALI_4" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_4"/>
-		<Row TribeNameType="BARBARIAN_MALI_5" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_5"/>
+		<Row TribeNameType="BARBARIAN_MALI_2" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_1"/>
+		<Row TribeNameType="BARBARIAN_MALI_3" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_1"/>
+		<Row TribeNameType="BARBARIAN_MALI_4" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_1"/>
+		<Row TribeNameType="BARBARIAN_MALI_5" TribeType="TRIBE_MALI" TribeDisplayName="LOC_BARBARIAN_MALI_1"/>
 		<Row TribeNameType="BARBARIAN_EASTASIAN_1" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_1"/>
-		<Row TribeNameType="BARBARIAN_EASTASIAN_2" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_2"/>
-		<Row TribeNameType="BARBARIAN_EASTASIAN_3" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_3"/>
-		<Row TribeNameType="BARBARIAN_EASTASIAN_4" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_4"/>
-		<Row TribeNameType="BARBARIAN_EASTASIAN_5" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_5"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_2" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_1"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_3" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_1"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_4" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_1"/>
+		<Row TribeNameType="BARBARIAN_EASTASIAN_5" TribeType="TRIBE_EASTASIAN" TribeDisplayName="LOC_BARBARIAN_EASTASIAN_1"/>
 		<Row TribeNameType="BARBARIAN_MONGOL_1" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_1"/>
-		<Row TribeNameType="BARBARIAN_MONGOL_2" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_2"/>
-		<Row TribeNameType="BARBARIAN_MONGOL_3" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_3"/>
-		<Row TribeNameType="BARBARIAN_MONGOL_4" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_4"/>
-		<Row TribeNameType="BARBARIAN_MONGOL_5" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_5"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_2" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_1"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_3" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_1"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_4" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_1"/>
+		<Row TribeNameType="BARBARIAN_MONGOL_5" TribeType="TRIBE_MONGOL" TribeDisplayName="LOC_BARBARIAN_MONGOL_1"/>
 		<Row TribeNameType="BARBARIAN_SIBERIAN_1" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_1"/>
-		<Row TribeNameType="BARBARIAN_SIBERIAN_2" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_2"/>
-		<Row TribeNameType="BARBARIAN_SIBERIAN_3" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_3"/>
-		<Row TribeNameType="BARBARIAN_SIBERIAN_4" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_4"/>
-		<Row TribeNameType="BARBARIAN_SIBERIAN_5" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_5"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_2" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_3" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_4" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_SIBERIAN_5" TribeType="TRIBE_SIBERIAN" TribeDisplayName="LOC_BARBARIAN_SIBERIAN_1"/>
+		<Row TribeNameType="BARBARIAN_GERMANIC_1" TribeType="TRIBE_GERMANIC" TribeDisplayName="LOC_BARBARIAN_GERMANIC_1"/>
+		<Row TribeNameType="BARBARIAN_GERMANIC_2" TribeType="TRIBE_GERMANIC" TribeDisplayName="LOC_BARBARIAN_GERMANIC_1"/>
+		<Row TribeNameType="BARBARIAN_GERMANIC_3" TribeType="TRIBE_GERMANIC" TribeDisplayName="LOC_BARBARIAN_GERMANIC_1"/>
+		<Row TribeNameType="BARBARIAN_GERMANIC_4" TribeType="TRIBE_GERMANIC" TribeDisplayName="LOC_BARBARIAN_GERMANIC_1"/>
+		<Row TribeNameType="BARBARIAN_GERMANIC_5" TribeType="TRIBE_GERMANIC" TribeDisplayName="LOC_BARBARIAN_GERMANIC_1"/>
+		
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_1" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_1"/>
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_2" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_2"/>
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_3" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_3"/>
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_4" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_4"/>
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_5" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_1" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_2" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_3" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_4" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_5" TribeType="TRIBE_INVASION_EUROPE_WEST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_1" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_2" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_3" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_4" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_5" TribeType="TRIBE_INVASION_EUROPE_WEST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_1" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_2" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_3" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_4" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_5" TribeType="TRIBE_INVASION_EUROPE_WEST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_1" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_2" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_3" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_4" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_5" TribeType="TRIBE_INVASION_EUROPE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_1" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_2" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_3" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_4" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_5" TribeType="TRIBE_INVASION_EUROPE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_1" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_2" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_3" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_4" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_5" TribeType="TRIBE_INVASION_EUROPE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_1" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_2" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_3" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_4" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_5" TribeType="TRIBE_INVASION_EUROPE_NORTH_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_1" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_2" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_3" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_4" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_5" TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_1" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_2" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_3" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_4" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_5" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_5"/>
+		
 	</BarbarianTribeNames>
 	<!-- Barbarian defenders will not leave their camp (Credit: Crazy Barbaarians mod by KCucumber) -->
 <!-- 	<ImprovementModifiers>

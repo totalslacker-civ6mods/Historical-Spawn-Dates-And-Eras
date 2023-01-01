@@ -207,6 +207,233 @@
 	<Row Tag="LOC_UNIT_BARBARIAN_WARAKAQ_DESCRIPTION" Language="en_US">
       <Text>Barbarian Warak'aq</Text>
     </Row>
+	<!-- Tribe Names -->
+	<Row Tag="LOC_BARBARIAN_SEA_PEOPLES_NAME" Language="en_US">
+      <Text>Sea Peoples</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_VASCONES_NAME" Language="en_US">
+      <Text>Vascones</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_KONGO_1" Language="en_US">
+      <Text>Bantu</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_ZULU_1" Language="en_US">
+      <Text>Nguni</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_NUBIAN_1" Language="en_US">
+      <Text>Kushite</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_CELTIC_1" Language="en_US">
+      <Text>Celtic</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_GREEK_1" Language="en_US">
+      <Text>Mediterranean</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_VIKING_1" Language="en_US">
+      <Text>Viking</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_BARBARY_1" Language="en_US">
+      <Text>Corsair</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_CREE_1" Language="en_US">
+      <Text>Native American</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_SCYTHIAN_1" Language="en_US">
+      <Text>Steppe Nomad</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_AZTEC_1" Language="en_US">
+      <Text>Mesoamerican</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_MAORI_1" Language="en_US">
+      <Text>Austronesian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_VARU_1" Language="en_US">
+      <Text>Vedic</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_IBERIAN_1" Language="en_US">
+      <Text>Iberian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_BALKANS_1" Language="en_US">
+      <Text>Balkan</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_SLAVIC_1" Language="en_US">
+      <Text>Slavic</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_HAIDA_1" Language="en_US">
+      <Text>Pacific Northwestern</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_PIRATES_1" Language="en_US">
+      <Text>Pirate</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_PERSIAN_1" Language="en_US">
+      <Text>Aryan</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_COMANCHE_1" Language="en_US">
+      <Text>Great Plains</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_PATAGONIAN_1" Language="en_US">
+      <Text>Patagonian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_SOUTH_AMERICAN_1" Language="en_US">
+      <Text>South American</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_AUSTRALIAN_1" Language="en_US">
+      <Text>Australian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INCAN_1" Language="en_US">
+      <Text>Andean</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_MALI_1" Language="en_US">
+      <Text>Berber</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_EASTASIAN_1" Language="en_US">
+      <Text>Asian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_MONGOL_1" Language="en_US">
+      <Text>Steppe Nomad</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_SIBERIAN_1" Language="en_US">
+      <Text>Siberian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_GERMANIC_1" Language="en_US">
+      <Text>Germanic</Text>
+    </Row>
+	<!-- Invasion Tribes -->
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_1" Language="en_US">
+      <Text>Vasconic</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_2" Language="en_US">
+      <Text>Sherden</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_3" Language="en_US">
+      <Text>Celtic</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_4" Language="en_US">
+      <Text>Umbrian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_5" Language="en_US">
+      <Text>Tartessian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_1" Language="en_US">
+      <Text>Vandal</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_2" Language="en_US">
+      <Text>Visigoth</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_3" Language="en_US">
+      <Text>Suebi</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_4" Language="en_US">
+      <Text>Cimbrian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_CLASSICAL_5" Language="en_US">
+      <Text>Burgundian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_1" Language="en_US">
+      <Text>Norman</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_2" Language="en_US">
+      <Text>Avar</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_3" Language="en_US">
+      <Text>Magyar</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_4" Language="en_US">
+      <Text>Sclaveni</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_MEDIEVAL_5" Language="en_US">
+      <Text>Viking</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_1" Language="en_US">
+      <Text>Dacian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_2" Language="en_US">
+      <Text>Cimmerian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_3" Language="en_US">
+      <Text>Thracian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_4" Language="en_US">
+      <Text>Illyrian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_5" Language="en_US">
+      <Text>Phrygian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_1" Language="en_US">
+      <Text>Gepid</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_2" Language="en_US">
+      <Text>Hunnic</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_3" Language="en_US">
+      <Text>Ostrogoth</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_4" Language="en_US">
+      <Text>Visigoth</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_5" Language="en_US">
+      <Text>Bulgar</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_1" Language="en_US">
+      <Text>Avar</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_2" Language="en_US">
+      <Text>Cuman</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_3" Language="en_US">
+      <Text>Sclaveni</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_4" Language="en_US">
+      <Text>Magyar</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_MEDIEVAL_5" Language="en_US">
+      <Text>Kipchak</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_1" Language="en_US">
+      <Text>Caledonii</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_2" Language="en_US">
+      <Text>Teuton</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_3" Language="en_US">
+      <Text>Venedi</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_4" Language="en_US">
+      <Text>Bastarnae</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_ANCIENT_5" Language="en_US">
+      <Text>Aesti</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_1" Language="en_US">
+      <Text>Jute</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_2" Language="en_US">
+      <Text>Alemanni</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_3" Language="en_US">
+      <Text>Angle</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_4" Language="en_US">
+      <Text>Hunnic</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_5" Language="en_US">
+      <Text>Saxon</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_1" Language="en_US">
+      <Text>Norman</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_2" Language="en_US">
+      <Text>Danish</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_3" Language="en_US">
+      <Text>Swedish</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_4" Language="en_US">
+      <Text>Norse</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_5" Language="en_US">
+      <Text>Magyar</Text>
+    </Row>
 	<!-- Civilopedia Entries -->
 	<!-- <Row Tag="LOC_PEDIA_UNITS_PAGE_UNIT_BARBARIAN_VARU_CHAPTER_HISTORY_PARA_1" Language="en_US"> -->
 		<!-- <Text>The skill of Nubian archers was long respected and feared along the Nile. These soldiers from the Land of the Bow were a thorn in Egypt’s side for millennia—until the Egyptians solved yet another problem by throwing money at it.</Text> -->
