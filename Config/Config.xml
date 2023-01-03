@@ -201,8 +201,8 @@
 	</ConfigurationUpdates>
 	<GameModeItems>
 		<Row GameModeType="GAMEMODE_HSD" Name="LOC_GAMEMODE_HSD_NAME" Description="LOC_GAMEMODE_HSD_DESCRIPTION" Portrait="HSD_Portrait.dds" Background="HSD_Background.dds" Icon="ICON_GAMEMODE_HSD" SortIndex="20" UnitIcon="ICON_GAMEMODE_HSD_PLAYERITEM" UnitDescription="LOC_GAMEMODE_HSD_TIMELINE_DESCRIPTION" UnitName="LOC_GAMEMODE_HSD_TIMELINE_NAME"/>
-		<Row GameModeType="GAMEMODE_COLONIZATION" Name="LOC_GAMEMODE_COLONIZATION_NAME" Description="LOC_GAMEMODE_COLONIZATION_DESCRIPTION" Portrait="ColonizationMode_Portrait.dds" Background="ColonizationMode_Background.dds" Icon="ICON_GAMEMODE_COLONIZATION" SortIndex="20"  />
-		<Row GameModeType="GAMEMODE_RAGING_BARBARIANS" Name="LOC_GAMEMODE_RAGING_BARBARIANS_NAME" Description="LOC_GAMEMODE_RAGING_BARBARIANS_DESCRIPTION" Portrait="RagingBarbarians_Portrait.dds" Background="RagingBarbarians_Background.dds" Icon="ICON_GAMEMODE_RAGING_BARBARIANS" SortIndex="20"  />
+		<Row GameModeType="GAMEMODE_COLONIZATION" Name="LOC_GAMEMODE_COLONIZATION_NAME" Description="LOC_GAMEMODE_COLONIZATION_DESCRIPTION" Portrait="ColonizationMode_Portrait.dds" Background="ColonizationMode_Background.dds" Icon="ICON_GAMEMODE_COLONIZATION" SortIndex="20" UnitIcon="ICON_GAMEMODE_COLONIZATION_LOYALHARBORS" UnitDescription="LOC_MAP_LOYAL_HARBORS_DESC" UnitName="LOC_MAP_LOYAL_HARBORS" />
+		<Row GameModeType="GAMEMODE_RAGING_BARBARIANS" Name="LOC_GAMEMODE_RAGING_BARBARIANS_NAME" Description="LOC_GAMEMODE_RAGING_BARBARIANS_DESCRIPTION" Portrait="RagingBarbarians_Portrait.dds" Background="RagingBarbarians_Background.dds" Icon="ICON_GAMEMODE_RAGING_BARBARIANS" SortIndex="20" UnitIcon="ICON_GAMEMODE_RAGING_BARBARIANS_INVASIONS" UnitDescription="LOC_HSD_INVASIONS_DESCRIPTION" UnitName="LOC_HSD_INVASIONS_NAME" />
 	</GameModeItems>
 	<!--Mode-based Player Overrides-->
 	<PlayerItemOverrideQueries>

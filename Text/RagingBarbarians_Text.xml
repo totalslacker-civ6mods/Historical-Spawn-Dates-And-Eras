@@ -208,17 +208,11 @@
       <Text>Barbarian Warak'aq</Text>
     </Row>
 	<!-- Tribe Names -->
-	<Row Tag="LOC_BARBARIAN_SEA_PEOPLES_NAME" Language="en_US">
-      <Text>Sea Peoples</Text>
-    </Row>
-	<Row Tag="LOC_BARBARIAN_VASCONES_NAME" Language="en_US">
-      <Text>Vascones</Text>
-    </Row>
 	<Row Tag="LOC_BARBARIAN_KONGO_1" Language="en_US">
       <Text>Bantu</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_ZULU_1" Language="en_US">
-      <Text>Nguni</Text>
+      <Text>Bantu</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_NUBIAN_1" Language="en_US">
       <Text>Kushite</Text>
@@ -248,7 +242,7 @@
       <Text>Austronesian</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_VARU_1" Language="en_US">
-      <Text>Vedic</Text>
+      <Text>Asian</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_IBERIAN_1" Language="en_US">
       <Text>Iberian</Text>
@@ -266,7 +260,7 @@
       <Text>Pirate</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_PERSIAN_1" Language="en_US">
-      <Text>Aryan</Text>
+      <Text>Mesopotamian</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_COMANCHE_1" Language="en_US">
       <Text>Great Plains</Text>
@@ -275,7 +269,7 @@
       <Text>Patagonian</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_SOUTH_AMERICAN_1" Language="en_US">
-      <Text>South American</Text>
+      <Text>Amazonian</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_AUSTRALIAN_1" Language="en_US">
       <Text>Australian</Text>
@@ -300,10 +294,10 @@
     </Row>
 	<!-- Invasion Tribes -->
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_1" Language="en_US">
-      <Text>Vasconic</Text>
+      <Text>Vascones</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_2" Language="en_US">
-      <Text>Sherden</Text>
+      <Text>Sea People</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_3" Language="en_US">
       <Text>Celtic</Text>
@@ -357,13 +351,13 @@
       <Text>Illyrian</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_ANCIENT_5" Language="en_US">
-      <Text>Phrygian</Text>
+      <Text>Sea People</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_1" Language="en_US">
       <Text>Gepid</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_2" Language="en_US">
-      <Text>Hunnic</Text>
+      <Text>Hun</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_EAST_CLASSICAL_3" Language="en_US">
       <Text>Ostrogoth</Text>
@@ -414,7 +408,7 @@
       <Text>Angle</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_4" Language="en_US">
-      <Text>Hunnic</Text>
+      <Text>Hun</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_CLASSICAL_5" Language="en_US">
       <Text>Saxon</Text>
@@ -447,7 +441,7 @@
       <Text>Aramean</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_5" Language="en_US">
-      <Text>Hyksos</Text>
+      <Text>Sea People</Text>
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_1" Language="en_US">
       <Text>Parthian</Text>
@@ -538,6 +532,81 @@
     </Row>
 	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_5" Language="en_US">
       <Text>Xianbei</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_CLASSICAL_1" Language="en_US">
+      <Text>Xiongnu</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_CLASSICAL_2" Language="en_US">
+      <Text>Wusun</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_CLASSICAL_3" Language="en_US">
+      <Text>Yuezhi</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_CLASSICAL_4" Language="en_US">
+      <Text>Yamaek</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_CLASSICAL_5" Language="en_US">
+      <Text>Xianbei</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_MEDIEVAL_1" Language="en_US">
+      <Text>Tatar</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_MEDIEVAL_2" Language="en_US">
+      <Text>Oirat Mongol</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_MEDIEVAL_3" Language="en_US">
+      <Text>Khamag Mongol</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_MEDIEVAL_4" Language="en_US">
+      <Text>Jurchen</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_MEDIEVAL_5" Language="en_US">
+      <Text>Khitan</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_ANCIENT_1" Language="en_US">
+      <Text>Dongyi</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_ANCIENT_2" Language="en_US">
+      <Text>Nanman</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_ANCIENT_3" Language="en_US">
+      <Text>Xirong</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_ANCIENT_4" Language="en_US">
+      <Text>Beidi</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_ANCIENT_5" Language="en_US">
+      <Text>Baiyue</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_CLASSICAL_1" Language="en_US">
+      <Text>Di</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_CLASSICAL_2" Language="en_US">
+      <Text>Jie</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_CLASSICAL_3" Language="en_US">
+      <Text>Qiang</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_CLASSICAL_4" Language="en_US">
+      <Text>Tibetan</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_CLASSICAL_5" Language="en_US">
+      <Text>Yi</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_MEDIEVAL_1" Language="en_US">
+      <Text>Di</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_MEDIEVAL_2" Language="en_US">
+      <Text>Jie</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_MEDIEVAL_3" Language="en_US">
+      <Text>Qiang</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_MEDIEVAL_4" Language="en_US">
+      <Text>Tibetan</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EAST_ASIA_MEDIEVAL_5" Language="en_US">
+      <Text>Yi</Text>
     </Row>
 	<!-- Civilopedia Entries -->
 	<!-- <Row Tag="LOC_PEDIA_UNITS_PAGE_UNIT_BARBARIAN_VARU_CHAPTER_HISTORY_PARA_1" Language="en_US"> -->

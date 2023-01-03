@@ -5,31 +5,37 @@
       <Text>Historical Spawn Dates Mode</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_HSD_DESCRIPTION" Language="en_US">
-      <Text>Simulate history in this game mode with four timelines to choose from, including era or year based timelines and start date customisation from the advanced setup menu. Compatible with all civilization and unit mods.[NEWLINE][NEWLINE]Civilizations and city-states exist in a state of limited autoplay off of the visible map until their start date. They receive units and bonuses based on the progress of other players and the current era when they start the game. Isolated and Colonial civilizations have special starting conditions and bonuses. The area surrounding the starting plot will be converted to the new player, causing revolts and invasions for cities nearby. Gameplay changes and mod settings are configurable from the setup menu.[NEWLINE][NEWLINE]</Text>
+      <Text>Simulate history in this game mode with four timelines to choose from, including era or year based timelines and start date customisation from the advanced setup menu. Compatible with all civilization and unit mods, and all map types such as Earth maps or randomly generated map scripts.[NEWLINE][NEWLINE]Civilizations and city-states exist in a state of limited autoplay off of the visible map until their start date. They receive units and bonuses based on the progress of other players and the current era when they start the game. Isolated and Colonial civilizations have special starting conditions and bonuses. The area surrounding the starting plot will be converted to the new player, causing revolts and invasions for cities nearby. Gameplay effects and mod settings can be changed from the advanced setup menu.[NEWLINE]</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_HSD_TIMELINE_NAME" Language="en_US">
       <Text>Timelines</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_HSD_TIMELINE_DESCRIPTION" Language="en_US">
-      <Text>Choose a timeline from the advanced setup menu:[NEWLINE][NEWLINE][ICON_Bullet]Standard: Based on the Civilopedia[NEWLINE][NEWLINE][ICON_Bullet]True Start: Based on founding date of country[NEWLINE][NEWLINE][ICON_Bullet]Leader Start: Based on leader date[NEWLINE][NEWLINE][ICON_Bullet]Era Timeline: Based on starting era[NEWLINE][NEWLINE][ICON_Bullet]Era Start Mode: Converts any year-based timeline into era start[NEWLINE][NEWLINE][ICON_Bullet]Lite Mode: Only Isolated and Colonial civilizations receive start dates from the selected timeline</Text>
+      <Text>Choose a timeline from the advanced setup menu:[NEWLINE][NEWLINE][ICON_Bullet]Standard: Based on the Civilopedia[NEWLINE][NEWLINE][ICON_Bullet]True Start: Based on founding date of country[NEWLINE][NEWLINE][ICON_Bullet]Leader Start: Based on leader date[NEWLINE][NEWLINE][ICON_Bullet]Era Timeline: Based on starting era[NEWLINE][NEWLINE][ICON_Bullet]Era Start Mode: Converts any year-based timeline into era start[NEWLINE][NEWLINE][ICON_Bullet]Lite Mode: Only Isolated and Colonial civilizations receive start dates from the selected timeline[NEWLINE][NEWLINE][ICON_Bullet]Input Start Dates: Edit the selected timeline from the setup menu</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_COLONIZATION_NAME" Language="en_US">
       <Text>Colonization Mode</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_COLONIZATION_DESCRIPTION" Language="en_US">
-      <Text>Western European civilizations will spawn colonies on foreign continents after discovering Cartography and advancing into every new era until the Modern Era. Colonies start with military units, workers and a Harbor. Coastal cities on foreign continents with a Harbor that is not pillaged are always loyal to the owner. Colonies will spawn on different continents depending on the player, and will select the best plot location based on scripted conditions. Includes option to create colonies for AI players only, and disable loyalty bonus from Harbors.[NEWLINE][NEWLINE][ICON_Bullet]For Earth maps only</Text>
+      <Text>Western European civilizations will spawn colonies on foreign continents after discovering Cartography and advancing into every new era until the Modern Era. Colonies start with military units, workers and a Harbor. Colonies will spawn on different continents depending on the player, and will select the best plot location based on historical conditions. Includes option to create colonies for AI players only, and disable loyalty bonus from Harbors.[NEWLINE][NEWLINE][ICON_Bullet]For Earth maps only[NEWLINE][NEWLINE][ICON_Bullet]Civilizations can be added to the Colonizers list from IsolatedCivs.sql. Colonization logic is located in ScenarioFunctions.lua[NEWLINE][NEWLINE]</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_RAGING_BARBARIANS_NAME" Language="en_US">
       <Text>Raging Barbarians Mode</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_RAGING_BARBARIANS_DESCRIPTION" Language="en_US">
-      <Text>Barbarian camps will spawn unique units based on the continent and game era. These units are weaker versions of civilization unique units and can be viewed from the Civilopedia.[NEWLINE][NEWLINE][ICON_Bullet]For Earth maps only[NEWLINE][NEWLINE][ICON_Bullet]Not compatible with Barbarian Clans[NEWLINE][NEWLINE][ICON_Bullet][COLOR_Civ6Red]Requires all DLC and Expansions![ENDCOLOR]</Text>
+      <Text>Barbarian camps have historical names and spawn unique units based on the continent and game era. These units are weaker versions of civilization unique units and can be viewed from the Civilopedia.[NEWLINE][NEWLINE][ICON_Bullet]Tribe name visible on unit tooltip[NEWLINE][NEWLINE][ICON_Bullet]For Earth maps only[NEWLINE][NEWLINE][ICON_Bullet]Disabled with Barbarian Clans[NEWLINE][NEWLINE][ICON_Bullet][COLOR_Civ6Red]Requires all DLC and Expansions![ENDCOLOR][NEWLINE][NEWLINE]</Text>
+    </Replace>
+ 	<Replace Tag="LOC_HSD_INVASIONS_NAME" Language="en_US">
+      <Text>Barbarian Invasions</Text>
+    </Replace>
+ 	<Replace Tag="LOC_HSD_INVASIONS_DESCRIPTION" Language="en_US">
+      <Text>Barbarians will invade all major players at the end of the Ancient, Classical and Medieval Eras, starting when the era countdown begins. Players receive an invasion event popup message. Invasions for Europe and Asia have historical names based on location. The number of invasion units scales with difficulty and era. Invasions will spawn from a nearby unoccupied plot on the same continent.</Text>
     </Replace>
  	<Replace Tag="LOC_MAP_HSD_ADVANCED_OPTIONS_NAME" Language="en_US">
       <Text>Show Advanced Options</Text>
     </Replace>
  	<Replace Tag="LOC_MAP_HSD_ADVANCED_OPTIONS_DESCRIPTION" Language="en_US">
-      <Text>Advanced options are not required or recommended for every game. They should only be enabled after understanding the base mod effects.</Text>
+      <Text>Not required to configure. The default choices are the recommended settings.</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_HISTORICAL_SPAWN_NAME" Language="en_US">
       <Text>Activate Historical Spawn Dates or Eras</Text>
@@ -41,7 +47,7 @@
       <Text>Era Start Mode</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_HISTORICAL_SPAWN_ERA_DESC" Language="en_US">
-      <Text>Players will appear at the beginning of a new Era[NEWLINE][NEWLINE][ICON_Bullet]Compatible with all timelines[NEWLINE][ICON_Bullet]Compatible with start dates input from the setup menu[NEWLINE][ICON_Bullet]Start dates are based on the timeline option[NEWLINE][ICON_Bullet]Converts the year into era automatically</Text>
+      <Text>Players will appear at the beginning of a new Era[NEWLINE][NEWLINE][ICON_Bullet]Compatible with all timelines[NEWLINE][ICON_Bullet]Compatible with start dates input from the setup menu[NEWLINE][ICON_Bullet]Start dates are based on the timeline option[NEWLINE][ICON_Bullet]Converts the year into era automatically[NEWLINE][ICON_Bullet]Start dates not displayed in-game with this option</Text>
     </Replace>	
 	<Replace Tag="LOC_MAP_BALANCE_HSD" Language="en_US">
       <Text>Balance system activated</Text>
@@ -113,7 +119,7 @@
       <Text>Lite Mode</Text>
     </Replace>	
 	<Replace Tag="LOC_MAP_LITE_MODE_DESC" Language="en_US">
-      <Text>Isolated and Colonial players or city-states will receive start dates. All others start on turn 1 like a normal game[NEWLINE][NEWLINE][ICON_Bullet]Compatible with all timelines[NEWLINE][ICON_Bullet]Compatible with Era mode[NEWLINE][ICON_Bullet]Starting dates for Isolated and Colonial players are based on the selected timeline option</Text>
+      <Text>Isolated and Colonial players or city-states will receive start dates. All others start on turn 1 like a normal game[NEWLINE][NEWLINE][ICON_Bullet]Compatible with all timelines[NEWLINE][ICON_Bullet]Compatible with Era mode[NEWLINE][ICON_Bullet]Starting dates for Isolated and Colonial players are based on the selected timeline option[NEWLINE][ICON_Bullet]Start dates not displayed in-game with this option</Text>
     </Replace>	
 	<Replace Tag="LOC_MAP_CONVERT_CITIES" Language="en_US">
       <Text>Convert Cities</Text>
@@ -149,7 +155,7 @@
       <Text>Loyal Harbors</Text>
     </Replace>	
 	<Replace Tag="LOC_MAP_LOYAL_HARBORS_DESC" Language="en_US">
-      <Text>Coastal cities owned by players with a Harbor or unique replacement will always remain loyal.</Text>
+      <Text>Coastal cities on foreign continents with a Harbor that is not pillaged will always remain loyal to the owner. Colonies start with a Harbor.</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA" Language="en_US">
       <Text>Industrial Era Comandantes</Text>
@@ -168,7 +174,7 @@
       <Text>[ICON_List] Input Start Dates Manually</Text>
     </Replace>	
 	<Replace Tag="LOC_HSD_INPUT_DESCRIPTION" Language="en_US">
-      <Text>Edit start dates from the selected timeline. Dates must be entered in number format. Use negative numbers for BC and positive for AD. This will override all other dates visible in the setup menu or timeline files. Start dates visible under player items in the setup menu will not reflect the dates entered here. Start dates entered here will not be visible in-game as a player trait.[NEWLINE][NEWLINE][ICON_Bullet]Use this option to enter start dates for modded civilizations or leaders that are missing from the timeline[NEWLINE][NEWLINE][ICON_Bullet]When the Era Start timeline is selected, enter starting dates as single digits representing the index of the era: 0, 1, 2 etc. where 0 = Ancient, 1 = Classical, 2 = Medieval, and so on.</Text>
+      <Text>Edit start dates from the selected timeline. Dates must be entered in number format. Use negative numbers for BC and positive for AD. This will override all other dates visible in the setup menu or timeline files. Start dates visible under player items in the setup menu will not reflect the dates entered here. Start dates entered here will not be visible in-game as a player trait.[NEWLINE][NEWLINE][ICON_Bullet]Use this option to enter start dates for modded civilizations or leaders that are missing from the timeline[NEWLINE][NEWLINE][ICON_Bullet]When the Era Start timeline is selected, enter starting dates as single digits representing the index of the era: 0, 1, 2 etc. where 0 = Ancient, 1 = Classical, 2 = Medieval, and so on.[NEWLINE][ICON_Bullet]Start dates not displayed in-game with this option</Text>
     </Replace>	
 	<Replace Tag="LOC_MAP_SPAWN_DATE_TABLES_NAME" Language="en_US">
       <Text>Timeline</Text>
@@ -220,13 +226,13 @@
       <Text>One-City Spawns</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_RESTRICT_SPAWN_DESC" Language="en_US">
-      <Text>Activate the RestrictedSpawns list. Players in this list will only try to convert their capital city when spawning.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Define the players in this list from the file IsolatedCivs.sql[ENDCOLOR]</Text>
+      <Text>Activate the RestrictedSpawns list. Players in this list will only try to convert their capital city when spawning.[NEWLINE][NEWLINE][ICON_Bullet]Define the players in this list from the file IsolatedCivs.sql</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_UNIQUE_SPAWN" Language="en_US">
       <Text>Unique Spawn Zones</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_UNIQUE_SPAWN_DESC" Language="en_US">
-      <Text>Activate the UniqueSpawnZones list. Players in this list will use scripted spawn zone conditions.[NEWLINE][NEWLINE][COLOR_Civ6Blue]Define the players in this list from the file IsolatedCivs.sql. Define the conditions for a unique spawn zone in ScriptHSD.lua in function GetUniqueSpawnZone()[ENDCOLOR]</Text>
+      <Text>Activate the UniqueSpawnZones list. Players in this list will use scripted spawn zone conditions.[NEWLINE][NEWLINE][ICON_Bullet]Define the players in this list from the file IsolatedCivs.sql. Define the conditions for a unique spawn zone in ScriptHSD.lua in function GetUniqueSpawnZone()</Text>
     </Replace>
 	<Replace Tag="LOC_MAP_IGNORE_GOVERNOR" Language="en_US">
       <Text>Convert Cities with Governor</Text>
@@ -250,13 +256,13 @@
       <Text>Dynamic</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_DYNAMIC_UNITS_DESC" Language="en_US">
-      <Text>Spawn units based on tech or civic progress and enabled mods. This option supports any mod that adds units, and unique units are always available.</Text>
+      <Text>Starting units are based on tech or civic progress and enabled mods. This option supports any mod that adds units, and unique units are always available.</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_STATIC_UNITS_NAME" Language="en_US">
       <Text>Static</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_STATIC_UNITS_DESC" Language="en_US">
-      <Text>Spawn units based on a predefined list for each player based on the current era. Units will spawn dynamically if the predefined unit is missing from the game due to mod changes.</Text>
+      <Text>Starting units are based on a predefined list for each player and the current era. Choose between generic units or unique units. If a unit on the list does not exist in the current game (due to mod changes) then it will spawn dyamically.</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_NAME" Language="en_US">
       <Text>Historical Spawn Date</Text>

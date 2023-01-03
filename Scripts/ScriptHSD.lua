@@ -3933,6 +3933,11 @@ function UpgradeBarbarianTech(previousEra, newEra)
 						print("Barbarian player learned "..tostring(kTech.TechnologyType))
 					end
 					--Learn specific techs from the current era
+					if (kTech.TechnologyType == "TECH_MASONRY") and (iNewEraID >= 0) then
+						-- print("Learn Masonry for early Battering Ram")
+						pScience:SetTech(iTech, true)
+						print("Barbarian player learned a bonus tech from the current era: "..tostring(kTech.TechnologyType))
+					end
 					if (kTech.TechnologyType == "TECH_IRON_WORKING") and (iNewEraID >= 1) then
 						pScience:SetTech(iTech, true)
 						print("Barbarian player learned a bonus tech from the current era: "..tostring(kTech.TechnologyType))
@@ -4016,7 +4021,7 @@ function Invasions_SpawnInvasion(iPlayer)
 	if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then 
 		-- print("Historical Spawn Dates has detected the 6T Era Mod")
 		-- print("Increase the era count for the additional era")
-		iEra = 1
+		-- iEra = 1
 	end
 	if (gameCurrentEra >= (4 + iEra)) then
 		bEraLimit = true

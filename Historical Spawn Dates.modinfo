@@ -442,7 +442,9 @@
 				<File>Icons/HSD_Icon.dds</File>
 				<File>Icons/HSD_Menu_Icon.dds</File>
 				<File>Icons/ColonizationMode_Icon.dds</File>
+				<File>Icons/ColonizationMode_LoyalHarbors_Icon.dds</File>
 				<File>Icons/RagingBarbarians_Icon.dds</File>
+				<File>Icons/RagingBarbarians_Invasions_Icon.dds</File>
 				<File>Icons/Raging_Barbarians_Invasion_Background.dds</File>
 			</Items>
 		</ImportFiles>
@@ -466,9 +468,11 @@
 				<File>Icons/ColonizationMode_Background.dds</File>
 				<File>Icons/ColonizationMode_Portrait.dds</File>
 				<File>Icons/ColonizationMode_Icon.dds</File>
+				<File>Icons/ColonizationMode_LoyalHarbors_Icon.dds</File>
 				<File>Icons/RagingBarbarians_Background.dds</File>
 				<File>Icons/RagingBarbarians_Portrait.dds</File>
 				<File>Icons/RagingBarbarians_Icon.dds</File>
+				<File>Icons/RagingBarbarians_Invasions_Icon.dds</File>
 			</Items>
 		</ImportFiles>
 		<UpdateIcons id="HSD_Icons">
@@ -558,9 +562,11 @@
 		<File>Icons/ColonizationMode_Background.dds</File>
 		<File>Icons/ColonizationMode_Portrait.dds</File>
 		<File>Icons/ColonizationMode_Icon.dds</File>
+		<File>Icons/ColonizationMode_LoyalHarbors_Icon.dds</File>
 		<File>Icons/RagingBarbarians_Background.dds</File>
 		<File>Icons/RagingBarbarians_Portrait.dds</File>
 		<File>Icons/RagingBarbarians_Icon.dds</File>
+		<File>Icons/RagingBarbarians_Invasions_Icon.dds</File>
 		<File>Icons/Raging_Barbarians_Invasion_Background.dds</File>
 		<File>Text/RagingBarbarians_Text.xml</File>
 		<File>Text/RagingBarbarians_Text.xml</File>
