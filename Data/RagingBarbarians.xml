@@ -39,6 +39,15 @@
 		<Row Type="TRIBE_INVASION_EUROPE_NORTH_ANCIENT" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_MIDDLE_EAST_ANCIENT" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EASTERN_STEPPE_CLASSICAL" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INVASION_EASTERN_STEPPE_MEDIEVAL" Kind="KIND_BARBARIAN_TRIBE"/>
 	</Types>
 	<BarbarianTribes>
 		<Row TribeType="TRIBE_KONGO" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_KONGO" RangedTag="CLASS_BARB_KONGO" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_KONGO" SupportTag="CLASS_BARB_SUPPORT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
@@ -75,7 +84,7 @@
 		
 		<Row TribeType="TRIBE_PIRATES" IsCoastal="true" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_NAVAL_RAIDER" MeleeTag="CLASS_BARB_NAVAL_RAIDER" RangedTag="CLASS_BARB_NAVAL_RAIDER" SiegeTag="CLASS_BARB_NAVAL_RAIDER" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
 		
-		<Row TribeType="TRIBE_PERSIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PERSIAN" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		<Row TribeType="TRIBE_PERSIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PERSIAN" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_MAMLUK" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<Row TribeType="TRIBE_COMANCHE" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_COMANCHE" RangedTag="CLASS_BARB_COMANCHE" SiegeTag="CLASS_BARB_COMANCHE" DefenderTag="CLASS_BARB_COMANCHE" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
@@ -118,6 +127,24 @@
 		<Row TribeType="TRIBE_INVASION_EUROPE_NORTH_CLASSICAL" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<Row TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PERSIAN" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PERSIAN" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_PERSIAN" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_HEAVYCAV" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT" PercentRangedUnits="35" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SCYTHIAN" DefenderTag="CLASS_BARB_HEAVYCAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL" PercentRangedUnits="35" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SCYTHIAN" DefenderTag="CLASS_BARB_HEAVYCAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL" PercentRangedUnits="35" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_SCYTHIAN" SiegeTag="CLASS_BARB_SCYTHIAN" DefenderTag="CLASS_BARB_HEAVYCAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT" PercentRangedUnits="35" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EASTERN_STEPPE_CLASSICAL" PercentRangedUnits="35" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INVASION_EASTERN_STEPPE_MEDIEVAL" PercentRangedUnits="35" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_LIGHTCAV" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 	</BarbarianTribes>
 	<BarbarianAttackForces>
@@ -547,7 +574,7 @@
 		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_GERMANIC"/>
 		
 		<!-- Invasions -->
-		<!-- Europe -->
+
 		<Row AttackForceType="LowDifficultyInvasionEuropeRaid" TribeType="TRIBE_INVASION_EUROPE"/>
 		<Row AttackForceType="InvasionEuropeRaid" TribeType="TRIBE_INVASION_EUROPE"/>
 		<Row AttackForceType="HighDifficultyInvasionEuropeRaid" TribeType="TRIBE_INVASION_EUROPE"/>
@@ -617,6 +644,69 @@
 		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
 		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
 		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL"/>
+		
+		<Row AttackForceType="LowDifficultyPersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT"/>
+		<Row AttackForceType="PersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT"/>
+		<Row AttackForceType="HighDifficultyPersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT"/>
+		<Row AttackForceType="LowDifficultyPersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT"/>
+		<Row AttackForceType="PersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT"/>
+		<Row AttackForceType="HighDifficultyPersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT"/>
+		
+		<Row AttackForceType="LowDifficultyPersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL"/>
+		<Row AttackForceType="PersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultyPersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL"/>
+		<Row AttackForceType="LowDifficultyPersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL"/>
+		<Row AttackForceType="PersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultyPersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL"/>
+		
+		<Row AttackForceType="LowDifficultyPersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="PersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultyPersianRaid" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="LowDifficultyPersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="PersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultyPersianAttack" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL"/>
+		
+		<Row AttackForceType="LowDifficultyScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT"/>
+		<Row AttackForceType="ScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT"/>
+		<Row AttackForceType="HighDifficultyScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT"/>
+		<Row AttackForceType="LowDifficultyScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT"/>
+		<Row AttackForceType="ScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT"/>
+		<Row AttackForceType="HighDifficultyScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT"/>
+		
+		<Row AttackForceType="LowDifficultyScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL"/>
+		<Row AttackForceType="ScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultyScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL"/>
+		<Row AttackForceType="LowDifficultyScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL"/>
+		<Row AttackForceType="ScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultyScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL"/>
+		
+		<Row AttackForceType="LowDifficultyScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL"/>
+		<Row AttackForceType="ScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultyScythianRaid" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL"/>
+		<Row AttackForceType="LowDifficultyScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL"/>
+		<Row AttackForceType="ScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultyScythianAttack" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL"/>
+		
+		<Row AttackForceType="LowDifficultyMongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT"/>
+		<Row AttackForceType="MongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT"/>
+		<Row AttackForceType="HighDifficultyMongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT"/>
+		<Row AttackForceType="LowDifficultyMongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT"/>
+		<Row AttackForceType="MongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT"/>
+		<Row AttackForceType="HighDifficultyMongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT"/>
+		
+		<Row AttackForceType="LowDifficultyMongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_CLASSICAL"/>
+		<Row AttackForceType="MongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultyMongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_CLASSICAL"/>
+		<Row AttackForceType="LowDifficultyMongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_CLASSICAL"/>
+		<Row AttackForceType="MongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_CLASSICAL"/>
+		<Row AttackForceType="HighDifficultyMongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_CLASSICAL"/>
+		
+		<Row AttackForceType="LowDifficultyMongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_MEDIEVAL"/>
+		<Row AttackForceType="MongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultyMongolRaid" TribeType="TRIBE_INVASION_EASTERN_STEPPE_MEDIEVAL"/>
+		<Row AttackForceType="LowDifficultyMongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_MEDIEVAL"/>
+		<Row AttackForceType="MongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_MEDIEVAL"/>
+		<Row AttackForceType="HighDifficultyMongolAttack" TribeType="TRIBE_INVASION_EASTERN_STEPPE_MEDIEVAL"/>
 		
 	</BarbarianTribeForces>
 	<BarbarianTribeNames>
@@ -820,6 +910,48 @@
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_3" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_3"/>
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_4" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_4"/>
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_5" TribeType="TRIBE_INVASION_EUROPE_NORTH_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_1" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_2" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_3" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_4" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_5" TribeType="TRIBE_INVASION_MIDDLE_EAST_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_1" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_2" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_3" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_4" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_5" TribeType="TRIBE_INVASION_MIDDLE_EAST_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_1" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_2" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_3" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_4" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_5" TribeType="TRIBE_INVASION_MIDDLE_EAST_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_1" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_2" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_3" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_4" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_5" TribeType="TRIBE_INVASION_CENTRAL_ASIA_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_1" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_2" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_3" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_4" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_5" TribeType="TRIBE_INVASION_CENTRAL_ASIA_CLASSICAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_1" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_2" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_3" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_4" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_5" TribeType="TRIBE_INVASION_CENTRAL_ASIA_MEDIEVAL" TribeDisplayName="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_5"/>
+		
+		<Row TribeNameType="BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_1" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_1"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_2" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_2"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_3" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_3"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_4" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_4"/>
+		<Row TribeNameType="BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_5" TribeType="TRIBE_INVASION_EASTERN_STEPPE_ANCIENT" TribeDisplayName="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_5"/>
 		
 	</BarbarianTribeNames>
 	<!-- Barbarian defenders will not leave their camp (Credit: Crazy Barbaarians mod by KCucumber) -->

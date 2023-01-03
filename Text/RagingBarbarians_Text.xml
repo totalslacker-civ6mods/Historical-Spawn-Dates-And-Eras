@@ -434,6 +434,111 @@
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_NORTH_MEDIEVAL_5" Language="en_US">
       <Text>Magyar</Text>
     </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_1" Language="en_US">
+      <Text>Gutian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_2" Language="en_US">
+      <Text>Mitanni</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_3" Language="en_US">
+      <Text>Kassite</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_4" Language="en_US">
+      <Text>Aramean</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_ANCIENT_5" Language="en_US">
+      <Text>Hyksos</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_1" Language="en_US">
+      <Text>Parthian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_2" Language="en_US">
+      <Text>Ghassanid</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_3" Language="en_US">
+      <Text>Lakhmid</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_4" Language="en_US">
+      <Text>Bedouin</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_CLASSICAL_5" Language="en_US">
+      <Text>Caspian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_1" Language="en_US">
+      <Text>Ghuzz</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_2" Language="en_US">
+      <Text>Ghaznavid</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_3" Language="en_US">
+      <Text>Seljuk</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_4" Language="en_US">
+      <Text>Ghurid</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_MIDDLE_EAST_MEDIEVAL_5" Language="en_US">
+      <Text>Turkmen</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_1" Language="en_US">
+      <Text>Saka</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_2" Language="en_US">
+      <Text>Sarmatian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_3" Language="en_US">
+      <Text>Alan</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_4" Language="en_US">
+      <Text>Sogdian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_ANCIENT_5" Language="en_US">
+      <Text>Parthian</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_1" Language="en_US">
+      <Text>Hepthalite</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_2" Language="en_US">
+      <Text>Kushan</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_3" Language="en_US">
+      <Text>Gokturk</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_4" Language="en_US">
+      <Text>Khazar</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_CLASSICAL_5" Language="en_US">
+      <Text>Kipchak</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_1" Language="en_US">
+      <Text>Uyghur</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_2" Language="en_US">
+      <Text>Kyrgyz</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_3" Language="en_US">
+      <Text>Tatar</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_4" Language="en_US">
+      <Text>Pecheneg</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_CENTRAL_ASIA_MEDIEVAL_5" Language="en_US">
+      <Text>Kazakh</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_1" Language="en_US">
+      <Text>Xiongnu</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_2" Language="en_US">
+      <Text>Wusun</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_3" Language="en_US">
+      <Text>Yuezhi</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_4" Language="en_US">
+      <Text>Yamaek</Text>
+    </Row>
+	<Row Tag="LOC_BARBARIAN_INVASION_EASTERN_STEPPE_ANCIENT_5" Language="en_US">
+      <Text>Xianbei</Text>
+    </Row>
 	<!-- Civilopedia Entries -->
 	<!-- <Row Tag="LOC_PEDIA_UNITS_PAGE_UNIT_BARBARIAN_VARU_CHAPTER_HISTORY_PARA_1" Language="en_US"> -->
 		<!-- <Text>The skill of Nubian archers was long respected and feared along the Nile. These soldiers from the Land of the Bow were a thorn in Egypt’s side for millennia—until the Egyptians solved yet another problem by throwing money at it.</Text> -->
