@@ -68,9 +68,8 @@ iMaxPlayersZeroIndex = 63
 print("iMaxPlayersZeroIndex is "..tostring(iMaxPlayersZeroIndex))
 
 -- ===========================================================================
--- Map Configuration Values
+-- Mod Configuration Values
 -- ===========================================================================
---these should be moved to Game Configuration but it doesn't really matter
 
 local bHistoricalSpawnDates		= MapConfiguration.GetValue("HistoricalSpawnDates") or GameConfiguration.GetValue("GAMEMODE_HSD")
 local bHistoricalSpawnEras		= MapConfiguration.GetValue("HistoricalSpawnEras")
@@ -89,6 +88,7 @@ local bSubtractEra				= MapConfiguration.GetValue("SubtractEra")
 local bLiteMode					= MapConfiguration.GetValue("LiteMode")
 -- local iLegacySpawnDates			= MapConfiguration.GetValue("OldWorldStart")
 local bRagingBarbarians			= MapConfiguration.GetValue("RagingBarbarians") or false
+local bBarbarianInvasions		= MapConfiguration.GetValue("RagingBarbarians_Invasions") or false
 local bConvertCities			= MapConfiguration.GetValue("ConvertCities") or false 
 local iConvertSpawnZone			= MapConfiguration.GetValue("ConvertSpawnZones") or false
 local bPeacefulSpawns			= MapConfiguration.GetValue("PeacefulSpawns") or false
@@ -253,50 +253,109 @@ end
 
 function ConvertYearToEra(startYear)
 	local startEra = 0
-	if startYear < -1600 then
-		print("Ancient Era detected")
-		startEra = 0
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+	local bEraMod_6T = false
+	if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then 
+		bEraMod_6T = true 
+		print("Historical Spawn Dates has detected the 6T Era Mod. Era values will be adjusted where necessary.")
 	end
-	if startYear < 100 and startYear >= -1600 then
-		print("Classical Era detected")
-		startEra = 1
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
-	end
-	if startYear < 1300 and startYear >= 100 then
-		print("Medieval Era detected")
-		startEra = 2
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
-	end
-	if startYear < 1700 and startYear >= 1300 then
-		print("Renaissance Era detected")
-		startEra = 3
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
-	end
-	if startYear < 1900 and startYear >= 1700 then
-		print("Industrial Era detected")
-		startEra = 4
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
-	end
-	if startYear < 1950 and startYear >= 1900 then
-		print("Modern Era detected")
-		startEra = 5
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
-	end
-	if startYear < 1980 and startYear >= 1950 then
-		print("Atomic Era detected")
-		startEra = 6
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
-	end
-	if startYear < 2020 and startYear >= 1980 then
-		print("Information Era detected")
-		startEra = 7
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
-	end
-	if startYear >= 2020 then
-		print("Future Era detected")
-		startEra = 8
-		print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+	if not bEraMod_6T then
+		if startYear < -1600 then
+			print("Start year less than -1600. Converting to Ancient Era")
+			startEra = 0
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 100 and startYear >= -1600 then
+			print("Start year between -1600 and 100. Converting to  Classical Era")
+			startEra = 1
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1300 and startYear >= 100 then
+			print("Start year between 100 and 1300. Converting to Medieval Era")
+			startEra = 2
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1600 and startYear >= 1300 then
+			print("Start year between 1300 and 1600. Converting to Renaissance Era")
+			startEra = 3
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1800 and startYear >= 1600 then
+			print("Start year between 1600 and 1800. Converting to Industrial Era")
+			startEra = 4
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1950 and startYear >= 1800 then
+			print("Start year between 1800 and 1950. Converting to Modern Era")
+			startEra = 5
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1980 and startYear >= 1950 then
+			print("Start year between 1950 and 1980. Converting to Atomic Era")
+			startEra = 6
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 2020 and startYear >= 1980 then
+			print("Start year between 1980 and 2020. Converting to Information Era")
+			startEra = 7
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear >= 2020 then
+			print("Start year greater than 2020. Converting to Future Era")
+			startEra = 8
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+	else
+		if startYear < -1600 then
+			print("Start year less than -1600. Converting to Ancient Era")
+			startEra = 0
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < -300 and startYear >= -1600 then
+			print("Start year between -1600 and -300. Converting to  Classical Era")
+			startEra = 1
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 500 and startYear >= -300 then
+			print("Start year between -300 and 500. Converting to Post-Classical Era")
+			startEra = 2
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1200 and startYear >= 500 then
+			print("Start year between 500 and 1200. Converting to Medieval Era")
+			startEra = 3
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1600 and startYear >= 1200 then
+			print("Start year between 1200 and 1600. Converting to Renaissance Era")
+			startEra = 4
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1800 and startYear >= 1600 then
+			print("Industrial Era detected")
+			print("Start year between 1600 and 1800. Converting to Renaissance Era")
+			startEra = 5
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1950 and startYear >= 1800 then
+			print("Start year between 1800 and 1950. Converting to Modern Era")
+			startEra = 6
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 1980 and startYear >= 1950 then
+			print("Start year between 1950 and 1980. Converting to Atomic Era")
+			startEra = 7
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear < 2020 and startYear >= 1980 then
+			print("Start year between 1980 and 2020. Converting to Information Era")
+			startEra = 8
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
+		if startYear >= 2020 then
+			print("Start year greater than 2020. Converting to Future Era")
+			startEra = 9
+			print("Start year is "..tostring(startYear)..". Converted to Era is "..tostring(startEra))
+		end
 	end
 	return startEra
 end
@@ -3933,11 +3992,11 @@ function UpgradeBarbarianTech(previousEra, newEra)
 						print("Barbarian player learned "..tostring(kTech.TechnologyType))
 					end
 					--Learn specific techs from the current era
-					if (kTech.TechnologyType == "TECH_MASONRY") and (iNewEraID >= 0) then
-						-- print("Learn Masonry for early Battering Ram")
-						pScience:SetTech(iTech, true)
-						print("Barbarian player learned a bonus tech from the current era: "..tostring(kTech.TechnologyType))
-					end
+					-- if (kTech.TechnologyType == "TECH_MASONRY") and (iNewEraID >= 0) then
+						-- -- print("Learn Masonry for early Battering Ram")
+						-- pScience:SetTech(iTech, true)
+						-- print("Barbarian player learned a bonus tech from the current era: "..tostring(kTech.TechnologyType))
+					-- end
 					if (kTech.TechnologyType == "TECH_IRON_WORKING") and (iNewEraID >= 1) then
 						pScience:SetTech(iTech, true)
 						print("Barbarian player learned a bonus tech from the current era: "..tostring(kTech.TechnologyType))
