@@ -9,16 +9,17 @@
 		<SpecialThanks>Tiramasu</SpecialThanks>
 	</Properties>
 	<References>
-		<Mod id="02A8BDDE-67EA-4D38-9540-26E685E3156E" title="DLC: Aztec Civilization Pack" /> 
-		<Mod id="3809975F-263F-40A2-A747-8BFB171D821A" title="DLC: Poland Civilization Pack" />
 		<Mod id="E3F53C61-371C-440B-96CE-077D318B36C0" title="DLC: Australia Civilization Pack" />
-		<Mod id="E2749E9A-8056-45CD-901B-C368C8E83DEB" title="DLC: Persia and Macedon Civilization Pack" />
-		<Mod id="643EA320-8E1A-4CF1-A01C-00D88DDD131A" title="DLC: Nubia Civilization Pack" />
+		<Mod id="02A8BDDE-67EA-4D38-9540-26E685E3156E" title="DLC: Aztec Civilization Pack" /> 
+		<Mod id="8424840C-92EF-4426-A9B4-B4E0CB818049" title="DLC: Babylon Civilization Pack" /> 
+		<Mod id="9DE86512-DE1A-400D-8C0A-AB46EBBF76B9" title="DLC: Gran Colombia and Maya" />
 		<Mod id="1F367231-A040-4793-BDBB-088816853683" title="DLC: Khmer and Indonesia Civilization Pack" />
+		<Mod id="643EA320-8E1A-4CF1-A01C-00D88DDD131A" title="DLC: Nubia Civilization Pack" />
+		<Mod id="E2749E9A-8056-45CD-901B-C368C8E83DEB" title="DLC: Persia and Macedon Civilization Pack" />
+		<Mod id="3809975F-263F-40A2-A747-8BFB171D821A" title="DLC: Poland Civilization Pack" />
 		<Mod id="2F6E858A-28EF-46B3-BEAC-B985E52E9BC1" title="DLC: Vikings Content" />
-		<Mod id="9DE86512-DE1A-400D-8C0A-AB46EBBF76B9" title="LOC_GRANCOLOMBIA_MAYA_MOD_TITLE" />
-		<Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="LOC_EXPANSION1_MOD_TITLE" />
-		<Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="LOC_EXPANSION2_MOD_TITLE"/>
+		<Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion1: Rise and Fall" />
+		<Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion2: Gathering Storm"/>
 	</References>	
 	<ActionCriteria>
 		<Criteria id="HSD_Active">
@@ -28,6 +29,13 @@
 				<Value>1</Value>
 			</ConfigurationValueMatches>
 		</Criteria>	
+		<Criteria id="HSD_DISABLED">
+		  <ConfigurationValueMatches>
+			<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+			<Group>Map</Group>
+			<Value>0</Value>
+		  </ConfigurationValueMatches>
+		</Criteria>
 		<Criteria id="HSD_DramaticAges">
 			<ConfigurationValueMatches>
 				<Group>Game</Group>
@@ -256,8 +264,8 @@
 			</ConfigurationValueMatches>
 			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
 		</Criteria>
-		<Criteria id="MOD_6T_Enabled">
-			<ModInUse>3ec8a6fb-2a3f-425f-bff5-b00146b7d5b0</ModInUse>			<!-- 6T Eras -->
+		<Criteria id="MOD_6T_Enabled"> <!-- 6T Grand Eras mod -->
+			<ModInUse>3ec8a6fb-2a3f-425f-bff5-b00146b7d5b0</ModInUse>
 		</Criteria>
 	</ActionCriteria>
 	<LocalizedText>
@@ -272,7 +280,36 @@
 		</Text>
 	</LocalizedText>	
 	<InGameActions>
-		<ImportFiles criteria="HSD_Active">
+		<UpdateDatabase id="HSD_DISABLED" criteria="HSD_DISABLED"> 
+			<!-- Disable all in-game components when the mod is disabled from the setup menu. Does not work with front-end database -->
+			<Properties>
+				<LoadOrder>-100</LoadOrder>
+			</Properties>
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_BASE_SCRIPTS" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_PRE_COMPONENT" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_COMPONENTS_XML" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_COMPONENTS_SQL" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_TIMELINES" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="TRAITS_STANDARD_HSD" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="TRAITS_TRUE_HSD" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="TRAITS_LEADER_HSD" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="TRAITS_ERA_HSD" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_LoyalHarbors" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_Comandantes" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_LOC" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_INGAME" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_SCRIPTS" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_Images_Import" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_Icons" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_RagingBarbarians_UI_Script" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_RagingBarbarians_Script_Import" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_RagingBarbarians_Art" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_RagingBarbarians_Data" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_RagingBarbarians_Icons" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_RagingBarbarians_ModArt" />
+			<Exclude mod_id="684731c5-4837-427d-9378-0c58e1201325" action_id="HSD_RagingBarbarians_Text" />
+		</UpdateDatabase>	
+		<ImportFiles id="HSD_BASE_SCRIPTS" criteria="HSD_Active">
 			<File>Scripts/UnitFunctions.lua</File>
 			<File>Scripts/ScenarioFunctions.lua</File>
 		</ImportFiles>
@@ -297,6 +334,7 @@
 			<File>Tables/HSD_Standard.sql</File>
 			<File>Tables/HSD_LeaderHSD.sql</File>
 			<File>Tables/HSD_Eras.sql</File>
+			<File>Data/IsolatedCivs.sql</File>
 			<!-- <File>Tables/HSD_LiteMode.sql</File> -->
 			<!-- <File>Tables/HSD_LiteMode_Eras.sql</File> -->
 		</UpdateDatabase>
@@ -311,7 +349,6 @@
 				<LoadOrder>100</LoadOrder>
            	</Properties>
 			<File>Data/GamePlay.sql</File>
-			<File>Data/IsolatedCivs.sql</File>
 			<File>Data/PlayerTraits.sql</File>
 			<File>Data/ModSupport.sql</File>
 		</UpdateDatabase>

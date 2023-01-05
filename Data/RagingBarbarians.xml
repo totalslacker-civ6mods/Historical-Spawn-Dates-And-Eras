@@ -29,6 +29,7 @@
 		<Row Type="TRIBE_MONGOL" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_SIBERIAN" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_GERMANIC" Kind="KIND_BARBARIAN_TRIBE"/>
+		<Row Type="TRIBE_INUIT" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_INVASION_EUROPE" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_INVASION_EUROPE_WEST_ANCIENT" Kind="KIND_BARBARIAN_TRIBE"/>
 		<Row Type="TRIBE_INVASION_EUROPE_WEST_CLASSICAL" Kind="KIND_BARBARIAN_TRIBE"/>
@@ -99,7 +100,7 @@
 		
 		<Row TribeType="TRIBE_INCAN" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_INCAN" RangedTag="CLASS_BARB_INCAN" SiegeTag="CLASS_BARB_INCAN" DefenderTag="CLASS_BARB_INCAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="25"/>
 		
-		<Row TribeType="TRIBE_MALI" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_MALI" RangedTag="CLASS_BARB_MALI" SiegeTag="CLASS_BARB_MALI" DefenderTag="CLASS_BARB_MALI" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		<Row TribeType="TRIBE_MALI" PercentRangedUnits="25" TurnsToWarriorSpawn="15" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_MALI" RangedTag="CLASS_BARB_MALI" SiegeTag="CLASS_BARB_MALI" DefenderTag="CLASS_BARB_MALI" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<Row TribeType="TRIBE_EASTASIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="20" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_EASTASIAN" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
@@ -108,6 +109,8 @@
 		<Row TribeType="TRIBE_SIBERIAN" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_EASTASIAN" RangedTag="CLASS_BARB_MONGOL" SiegeTag="CLASS_BARB_MONGOL" DefenderTag="CLASS_BARB_EASTASIAN" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<Row TribeType="TRIBE_GERMANIC" PercentRangedUnits="25" TurnsToWarriorSpawn="10" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_VARANGIAN" RangedTag="CLASS_BARB_SLAVIC" SiegeTag="CLASS_BARB_SIEGE" DefenderTag="CLASS_BARB_ANTICAV" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="10" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
+		
+		<Row TribeType="TRIBE_INUIT" PercentRangedUnits="25" TurnsToWarriorSpawn="25" ScoutTag="CLASS_BARB_RECON" MeleeTag="CLASS_BARB_INUIT" RangedTag="CLASS_BARB_INUIT" SiegeTag="CLASS_BARB_INUIT" DefenderTag="CLASS_BARB_INUIT" ScoutingBehaviorTree="Barbarian Found City" RaidingBehaviorTree="Barbarian Attack" RaidingBoldness="15" CityAttackOperation="Barbarian City Assault" CityAttackBoldness="20"/>
 		
 		<!-- Invasions -->
 		
@@ -374,6 +377,14 @@
 		<Row AttackForceType="SiberianAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="3" RangeTag="CLASS_BARB_RANGED" NumRangeUnits="2" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="1"/>
 		<Row AttackForceType="HighDifficultySiberianAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_EASTASIAN" NumMeleeUnits="4" RangeTag="CLASS_BARB_MONGOL" NumRangeUnits="3" SiegeTag="CLASS_BARB_MONGOL" NumSiegeUnits="2"/>
 		
+		<!-- Inuit -->
+		<Row AttackForceType="LowDifficultyInuitRaid" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_INUIT" NumMeleeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="InuitRaid" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_INUIT" NumMeleeUnits="2" RangeTag="CLASS_BARB_INUIT" NumRangeUnits="1" RaidingForce="true"/>
+		<Row AttackForceType="HighDifficultyInuitRaid" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_INUIT" NumMeleeUnits="3" RangeTag="CLASS_BARB_INUIT" NumRangeUnits="2" RaidingForce="true"/>
+		<Row AttackForceType="LowDifficultyInuitAttack" MaxTargetDifficulty="DIFFICULTY_CHIEFTAIN" SpawnRate="2" MeleeTag="CLASS_BARB_INUIT" NumMeleeUnits="2" RangeTag="CLASS_BARB_INUIT" NumRangeUnits="1" SiegeTag="CLASS_BARB_INUIT" NumSiegeUnits="1"/>
+		<Row AttackForceType="InuitAttack" MinTargetDifficulty="DIFFICULTY_WARLORD" MaxTargetDifficulty="DIFFICULTY_EMPEROR" SpawnRate="2" MeleeTag="CLASS_BARB_INUIT" NumMeleeUnits="3" RangeTag="CLASS_BARB_INUIT" NumRangeUnits="2" SiegeTag="CLASS_BARB_INUIT" NumSiegeUnits="1"/>
+		<Row AttackForceType="HighDifficultyInuitAttack" MinTargetDifficulty="DIFFICULTY_IMMORTAL" SpawnRate="1" MeleeTag="CLASS_BARB_INUIT" NumMeleeUnits="4" RangeTag="CLASS_BARB_INUIT" NumRangeUnits="3" SiegeTag="CLASS_BARB_INUIT" NumSiegeUnits="2"/>
+		
 		<!-- Invasions -->
 		<!-- Attack force below is unused. We will reuse the existing attack forces for most invasions -->
 		<!-- Europe -->
@@ -581,6 +592,13 @@
 		<Row AttackForceType="LowDifficultySlavicAttack" TribeType="TRIBE_GERMANIC"/>
 		<Row AttackForceType="SlavicAttack" TribeType="TRIBE_GERMANIC"/>
 		<Row AttackForceType="HighDifficultySlavicAttack" TribeType="TRIBE_GERMANIC"/>
+		
+		<Row AttackForceType="LowDifficultyInuitRaid" TribeType="TRIBE_INUIT"/>
+		<Row AttackForceType="InuitRaid" TribeType="TRIBE_INUIT"/>
+		<Row AttackForceType="HighDifficultyInuitRaid" TribeType="TRIBE_INUIT"/>
+		<Row AttackForceType="LowDifficultyInuitAttack" TribeType="TRIBE_INUIT"/>
+		<Row AttackForceType="InuitAttack" TribeType="TRIBE_INUIT"/>
+		<Row AttackForceType="HighDifficultyInuitAttack" TribeType="TRIBE_INUIT"/>
 		
 		<!-- Invasions -->
 
@@ -880,6 +898,11 @@
 		<Row TribeNameType="BARBARIAN_GERMANIC_3" TribeType="TRIBE_GERMANIC" TribeDisplayName="LOC_BARBARIAN_GERMANIC_1"/>
 		<Row TribeNameType="BARBARIAN_GERMANIC_4" TribeType="TRIBE_GERMANIC" TribeDisplayName="LOC_BARBARIAN_GERMANIC_1"/>
 		<Row TribeNameType="BARBARIAN_GERMANIC_5" TribeType="TRIBE_GERMANIC" TribeDisplayName="LOC_BARBARIAN_GERMANIC_1"/>
+		<Row TribeNameType="BARBARIAN_INUIT_1" TribeType="TRIBE_INUIT" TribeDisplayName="LOC_BARBARIAN_INUIT_1"/>
+		<Row TribeNameType="BARBARIAN_INUIT_2" TribeType="TRIBE_INUIT" TribeDisplayName="LOC_BARBARIAN_INUIT_1"/>
+		<Row TribeNameType="BARBARIAN_INUIT_3" TribeType="TRIBE_INUIT" TribeDisplayName="LOC_BARBARIAN_INUIT_1"/>
+		<Row TribeNameType="BARBARIAN_INUIT_4" TribeType="TRIBE_INUIT" TribeDisplayName="LOC_BARBARIAN_INUIT_1"/>
+		<Row TribeNameType="BARBARIAN_INUIT_5" TribeType="TRIBE_INUIT" TribeDisplayName="LOC_BARBARIAN_INUIT_1"/>
 		
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_1" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_1"/>
 		<Row TribeNameType="BARBARIAN_INVASION_EUROPE_2" TribeType="TRIBE_INVASION_EUROPE" TribeDisplayName="LOC_BARBARIAN_INVASION_EUROPE_2"/>

@@ -76,6 +76,7 @@ local EastAsianBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_EASTASIAN"]
 local SiberianBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_SIBERIAN"]
 local GermanicBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_GERMANIC"]
 local MongolBarbarianTribe = GameInfo.BarbarianTribes["TRIBE_MONGOL"]
+local ThuleTribe = GameInfo.BarbarianTribes["TRIBE_INUIT"]
 local InvasionEuropeTribe = GameInfo.BarbarianTribes["TRIBE_INVASION_EUROPE"]
 local InvasionEuropeWestAncient = GameInfo.BarbarianTribes["TRIBE_INVASION_EUROPE_WEST_ANCIENT"]
 local InvasionEuropeWestClassical = GameInfo.BarbarianTribes["TRIBE_INVASION_EUROPE_WEST_CLASSICAL"]
@@ -1025,6 +1026,44 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SlavicBarbarianTribe)
 					end
 				end
+			end
+		end
+	elseif(sCivTypeName == "CONTINENT_GREENLANDIA") then
+		if bIsCoastalCamp then
+			if InvasionCamp then
+				iBarbarianTribe = SpawnBarbarianTribe(campPlot, ThuleTribe)
+				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
+				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+			else
+				iBarbarianTribe = SpawnBarbarianTribe(campPlot, ThuleTribe)
+			end
+		elseif(not bIsCoastalCamp) then
+			if InvasionCamp then
+				iBarbarianTribe = SpawnBarbarianTribe(campPlot, ThuleTribe)
+				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_INUIT", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+			else
+				iBarbarianTribe = SpawnBarbarianTribe(campPlot, ThuleTribe)
+			end
+		end
+	elseif(sCivTypeName == "CONTINENT_MADAGASCARIA") then
+		if bIsCoastalCamp then
+			if InvasionCamp then
+				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
+				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
+				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+			else
+				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
+			end
+		elseif(not bIsCoastalCamp) then
+			if InvasionCamp then
+				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
+				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAORI", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+			else
+				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 			end
 		end
 	elseif(sCivTypeName == "CONTINENT_NORTH_AMERICA") then
@@ -2189,6 +2228,38 @@ function InitiateColonization_FirstWave(PlayerID, sCivTypeName)
 					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
 					Notification_NewColony(PlayerID, selectedPlot)
 				end			
+				--Spawn bonus colony
+				selectedPlot = InitiateColonization_BestColonyByDistance(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					Notification_NewColony(PlayerID, selectedPlot)
+				end		
+			elseif (GameInfo.Continents[iContinent].ContinentType == "CONTINENT_ASIA") then
+				print(tostring(sCivTypeName).." is founding a new colony in "..tostring(GameInfo.Continents[iContinent].ContinentType))
+				local selectedPlot = false	
+				local continentPlotIndexes = Map.GetContinentPlots(iContinent)
+				--Find the best plot in the selection
+				selectedPlot = InitiateColonization_BestColonyByDistance(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					Notification_NewColony(PlayerID, selectedPlot)
+				end			
 			end
 		end
 	elseif(sCivTypeName == "CIVILIZATION_SCOTLAND") then
@@ -2751,6 +2822,62 @@ function InitiateColonization_SecondWave(PlayerID, sCivTypeName)
 				end			
 			end
 		end
+	elseif(sCivTypeName == "CIVILIZATION_RUSSIA") then
+		--Does not spawn on coast
+		local tContinents = Map.GetContinentsInUse()
+		for i,iContinent in ipairs(tContinents) do
+			if (GameInfo.Continents[iContinent].ContinentType == "CONTINENT_SIBERIA") then
+				print(tostring(sCivTypeName).." is founding a new colony in "..tostring(GameInfo.Continents[iContinent].ContinentType))
+				local selectedPlot = false	
+				local continentPlotIndexes = Map.GetContinentPlots(iContinent)
+				--Find the best plot in the selection
+				selectedPlot = InitiateColonization_BestColonyPlot(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					Notification_NewColony(PlayerID, selectedPlot)
+				end			
+				--Spawn bonus colony
+				selectedPlot = InitiateColonization_BestColonyPlot(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					Notification_NewColony(PlayerID, selectedPlot)
+				end		
+			elseif (GameInfo.Continents[iContinent].ContinentType == "CONTINENT_ASIA") then
+				print(tostring(sCivTypeName).." is founding a new colony in "..tostring(GameInfo.Continents[iContinent].ContinentType))
+				local selectedPlot = false	
+				local continentPlotIndexes = Map.GetContinentPlots(iContinent)
+				--Find the best plot in the selection
+				selectedPlot = InitiateColonization_BestColonyByDistance(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					Notification_NewColony(PlayerID, selectedPlot)
+				end			
+			end
+		end
 	elseif(sCivTypeName == "CIVILIZATION_SPAIN") then
 		local tContinents = Map.GetContinentsInUse()
 		for i,iContinent in ipairs(tContinents) do
@@ -3015,6 +3142,62 @@ function InitiateColonization_ThirdWave(PlayerID, sCivTypeName)
 							break
 						end
 					end	
+				end			
+			end
+		end
+	elseif(sCivTypeName == "CIVILIZATION_RUSSIA") then
+		--Does not spawn on coast
+		local tContinents = Map.GetContinentsInUse()
+		for i,iContinent in ipairs(tContinents) do
+			if (GameInfo.Continents[iContinent].ContinentType == "CONTINENT_SIBERIA") then
+				print(tostring(sCivTypeName).." is founding a new colony in "..tostring(GameInfo.Continents[iContinent].ContinentType))
+				local selectedPlot = false	
+				local continentPlotIndexes = Map.GetContinentPlots(iContinent)
+				--Find the best plot in the selection
+				selectedPlot = InitiateColonization_BestColonyMostDistant(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					Notification_NewColony(PlayerID, selectedPlot)
+				end	
+				--Spawn bonus colony
+				selectedPlot = InitiateColonization_BestColonyMostDistant(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					Notification_NewColony(PlayerID, selectedPlot)
+				end	
+			elseif (GameInfo.Continents[iContinent].ContinentType == "CONTINENT_ASIA") then
+				print(tostring(sCivTypeName).." is founding a new colony in "..tostring(GameInfo.Continents[iContinent].ContinentType))
+				local selectedPlot = false	
+				local continentPlotIndexes = Map.GetContinentPlots(iContinent)
+				--Find the best plot in the selection
+				selectedPlot = InitiateColonization_BestColonyByDistance(continentPlotIndexes, startingPlot)
+				--Create colony on selected plot
+				if selectedPlot then
+					local pCity = pPlayer:GetCities():Create(selectedPlot:GetX(), selectedPlot:GetY())
+					if not pCity then
+						print("Failed to spawn city. Spawning settler instead.")
+						UnitManager.InitUnit(PlayerID, "UNIT_SETTLER", selectedPlot:GetX(), selectedPlot:GetY())
+					end
+					UnitManager.InitUnitValidAdjacentHex(PlayerID, "UNIT_BUILDER", selectedPlot:GetX(), selectedPlot:GetY())
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					SpawnUnit(PlayerID, selectedPlot, 1, "PROMOTION_CLASS_MELEE")
+					Notification_NewColony(PlayerID, selectedPlot)
 				end			
 			end
 		end

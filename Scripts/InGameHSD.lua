@@ -309,7 +309,9 @@ end
 
 function InitializeHSD_UI()
 	-- Update calendar functions from UI for gameplay scripts
-	Events.TurnEnd.Add( SetTurnYear )
+	-- Events.TurnBegin.Add(SetTurnYear)
+	Events.TurnEnd.Add(SetTurnYear)
+	LuaEvents.SetTurnYear.Add(SetTurnYear)
 	LuaEvents.SetAutoValues.Add(SetAutoValues)
 	LuaEvents.RestoreAutoValues.Add(RestoreAutoValues)
 	LuaEvents.SetStartingEra.Add( SetStartingEra )

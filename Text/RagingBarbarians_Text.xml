@@ -292,6 +292,9 @@
 	<Row Tag="LOC_BARBARIAN_GERMANIC_1" Language="en_US">
       <Text>Germanic</Text>
     </Row>
+	<Row Tag="LOC_BARBARIAN_INUIT_1" Language="en_US">
+      <Text>Thule</Text>
+    </Row>
 	<!-- Invasion Tribes -->
 	<Row Tag="LOC_BARBARIAN_INVASION_EUROPE_WEST_ANCIENT_1" Language="en_US">
       <Text>Vascones</Text>

@@ -247,7 +247,7 @@ function StartingUnits_Dynamic(iPlayer, pPlot, currentGameEra, settlersBonus)
 		currentEra = currentEra - 1
 	end
 	--print("Subtract number of player cities from settler bonus")
-	if settlersBonus and (settlersBonus > 0)  then
+	if pPlayer:IsMajor() and settlersBonus and (settlersBonus > 0)  then
 		local pPlayerCities = pPlayer:GetCities()
 		local iCityCount = 0
 		for i, pLoopCity in pPlayerCities:Members() do
@@ -1309,7 +1309,7 @@ function SpawnUnit(iPlayer, pPlot, currentEra, sPromoClass)
 	if sUnitType then
 		CreateUnitWithExp(sUnitType, currentEra, pPlayerUnits, pPlot)
 	else
-		print("GetMostAdvancedUnit() was unable to find a unit for "..tostring(sPromoClass))
+		-- print("GetMostAdvancedUnit() was unable to find a unit for "..tostring(sPromoClass))
 	end
 end
 

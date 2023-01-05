@@ -1,16 +1,14 @@
 ------------------------------------------------------------------------------
 --	FILE:	 ScriptHSD.lua
 --  Gedemon (2017)
---  totalslacker (2020-2022)
+--  totalslacker (2020-2023)
 --
 --	TODO:
 --  Receive spawn bonuses based on progress of other players on same continent
 --  Spawn units based on military strength of nearby players
 --  Starting units receive free maintainence and extra movement points
 --  Ancient era civs do not receive bonuses unless they have HSD
---  Support for 6T mod: timeline, unit adjustments
 --	City states able to cause revolts and convert cities
---	ipairs / ipairs, other multiplayer desyncs
 --	Test CityManager.TransferCityToFreeCities(CityInstance) and CityManager.TransferCity(Player)
 ------------------------------------------------------------------------------
 
@@ -84,6 +82,7 @@ local bSpawnZonesDisabled		= MapConfiguration.GetValue("FlipZones")
 local bSpawnRange				= MapConfiguration.GetValue("SpawnRange")
 local bGoldenAgeSpawn			= MapConfiguration.GetValue("SpawnAge")
 local bLiteMode					= MapConfiguration.GetValue("LiteMode")
+local bCityStateRevolts			= MapConfiguration.GetValue("CityStateRevolts") or true --set to false if config value is created
 -- local iLegacySpawnDates			= MapConfiguration.GetValue("OldWorldStart")
 local bRagingBarbarians			= MapConfiguration.GetValue("RagingBarbarians") or false
 local bBarbarianInvasions		= MapConfiguration.GetValue("RagingBarbarians_Invasions") or false
@@ -120,6 +119,7 @@ print("bUniqueSpawnZones is "..tostring(bUniqueSpawnZones))
 print("bIgnoreGovernor is "..tostring(bIgnoreGovernor))
 print("bOverrideSpawn is "..tostring(bOverrideSpawn))
 print("iUnitListType is "..tostring(iUnitListType))
+print("bCityStateRevolts is "..tostring(bCityStateRevolts))
 
 -- ===========================================================================
 -- Other Game Settings
@@ -567,7 +567,7 @@ for iPlayer = 0, iMaxPlayersZeroIndex do
 		--Save the reserve player property at the beginning of the game but don't overwrite it later
 		if not reservePlayer and not orginalPlayer then 
 			Game:SetProperty("ReservePlayer"..iPlayer, 1)
-			print("Reserving player slot for an uninitialized player")
+			-- print("Reserving player slot for an uninitialized player")
 		end
 	end
 end
@@ -1360,6 +1360,7 @@ end
 -- ===========================================================================
 
 function InitializeHSD()
+	LuaEvents.SetTurnYear(Game.GetCurrentGameTurn())
 	-- print("Setting the HSD")
 	GetTimelineOptions()
 	-- print("Setting the current era on game load")
@@ -2113,7 +2114,7 @@ function PlayerBuffer(startingPlot)
 		end
 	end
 	if selectedPlot == startingPlot then
-		print("WARNING: A new starting plot could not be found, returning original starting plot")
+		-- print("WARNING: A new starting plot could not be found, returning original starting plot")
 	end
 	return selectedPlot
 end
@@ -2569,7 +2570,7 @@ function CityRebellion(pCity, playerID, otherPlayerID)
 				pDiplomacy:SetHasMet(otherPlayerID)
 				if not peacefulSpawns[sCivTypeName] then
 					local bCanWar = pDiplomacy:CanDeclareWarOn(otherPlayerID)
-					if bCanWar then 
+					if bCanWar and not (otherPlayerID == 62) then 
 						pDiplomacy:DeclareWarOn(otherPlayerID, iWar, true) 
 						print("War declared successfully")
 					end	
@@ -2582,7 +2583,7 @@ function CityRebellion(pCity, playerID, otherPlayerID)
 			pDiplomacy:SetHasMet(otherPlayerID)
 			if not peacefulSpawns[sCivTypeName] then
 				local bCanWar = pDiplomacy:CanDeclareWarOn(otherPlayerID)
-				if bCanWar then 
+				if bCanWar and not (otherPlayerID == 62) then 
 					pDiplomacy:DeclareWarOn(otherPlayerID, iWar, true) 
 					print("War declared successfully")
 				end	
@@ -2594,9 +2595,36 @@ end
 
 function FreeCityRevolt(playerID, startingPlot)
 	local bRevolt = false
+	local player = Players[playerID]
+	--City States
+	if not player:IsMajor() then
+		if (player:GetCities():GetCount() >= 1) then
+			print("City state detected with a starting city. Will not convert any more cities.")
+			return bRevolt
+		end
+		print("City state detected without a starting city. One city in the spawn zone will revolt!")
+		local aPlayers = PlayerManager.GetAlive()
+		for loop, pPlayer in ipairs(aPlayers) do
+			local iPlayer = pPlayer:GetID()
+			if iPlayer == playerID then
+				-- print("Don't convert your own cities!")
+			else
+				local pCity = FindClosestCityByEra(iPlayer, startingPlot:GetX(), startingPlot:GetY())
+				if pCity then
+					bRevolt = CityRebellion(pCity, playerID, iPlayer)
+					if bRevolt then 
+						return bRevolt 
+					end
+				end
+			end
+		end
+		print("Could not convert a city in the spawn zone.")
+		return bRevolt
+	end
+	--Major players
 	if (iConvertSpawnZone == 0) then
 		print("iConvertSpawnZone is "..tostring(iConvertSpawnZone)..". One city per player in the spawn zone will revolt!")
-		local aPlayers = PlayerManager.GetAlive();
+		local aPlayers = PlayerManager.GetAlive()
 		for loop, pPlayer in ipairs(aPlayers) do
 			local iPlayer = pPlayer:GetID()
 			if iPlayer == playerID then
@@ -2697,17 +2725,32 @@ function DirectCityConversion(iPlayer, pPlot)
 	local bConvertedCity = false
 	local pPlayer = Players[iPlayer]
 	local sCivTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
-	if pPlayer and pPlayer:IsMajor() and pPlot and pPlot:IsCity() then
+	if pPlayer and pPlot and pPlot:IsCity() then
 		local pCity = Cities.GetCityInPlot(pPlot)
 		local pCityOwnerID = pCity:GetOwner()
 		local pDiplomacy = pPlayer:GetDiplomacy()
 		local iWar = WarTypes.FORMAL_WAR
 		pDiplomacy:SetHasMet(pCityOwnerID)					
-		local convertedCity = ConvertCapital(iPlayer, pPlot, pCityOwnerID, pCity)
+		-- local convertedCity = ConvertCapital(iPlayer, pPlot, pCityOwnerID, pCity)
+		local convertedCity = false
+		local temp = CityManager.TransferCity(pCity, iPlayer)	--will return false
+		if (pCityOwnerID ~= Cities.GetCityInPlot(pPlot):GetOwner()) then
+			print("City has been converted!")
+			local originalOwnerID = Cities.GetCityInPlot(pPlot):GetOriginalOwner()
+			print("originalOwnerID is "..tostring(originalOwnerID))
+			-- local checkOriginalCapital = ExposedMembers.CheckCityOriginalCapital(iPlayer, Cities.GetCityInPlot(pPlot):GetID())
+			-- if checkOriginalCapital then 
+				-- occupiedCapitals[checkOriginalCapital] = true 
+				-- print("An original capital has been conquered by player "..tostring(iPlayer).." from player "..tostring(pCityOwnerID))
+			-- else
+				-- print("Check capital returned false")
+			-- end
+			convertedCity = true	
+		end
 		if convertedCity then
 			if not peacefulSpawns[sCivTypeName] then
 				local bCanWar = pDiplomacy:CanDeclareWarOn(pCityOwnerID)
-				if bCanWar then 
+				if bCanWar and not (pCityOwnerID == 62) then 
 					pDiplomacy:DeclareWarOn(pCityOwnerID, iWar, true) 
 					print("War declared successfully")
 				end	
@@ -2861,7 +2904,7 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 	local bOwnerIsPlayer = false
 	if pPlotOwnerID == iPlayer then bOwnerIsPlayer = true end
 	--Try to convert the first city, or look for a plot nearby if not possible, or just spawn starting units after turn 10 if no city to convert
-	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
+	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and ((iOtherPlayerCities > 1) or (pPlotOwnerID == 62)) then
 		local convertedCity = DirectCityConversion(iPlayer, startingPlot)
 		if convertedCity then
 			if (iUnitListType == 0) then
@@ -2884,7 +2927,7 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 				StartingUnits_Static(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
 			end
 		end
-	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
+	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and ((iOtherPlayerCities > 1) or (pPlotOwnerID == 62)) then
 		print("bConvertCities is true")
 		print("Starting plot is owned. Searching for owner city to convert.")
 		local cityFromPlot = FindClosestCityOfPlot(startingPlot)
@@ -2975,6 +3018,119 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 	return newStartingPlot
 end
 
+function SpawnMinorPlayer(iPlayer, startingPlot, newStartingPlot)
+	print("SpawnMinorPlayer initiated for player #"..tostring(iPlayer))
+	--Set variables
+	local pPlayer = Players[iPlayer]
+	local pPlotOwnerID = startingPlot:GetOwner()
+	local iOtherPlayerCities = 0
+	if Players[pPlotOwnerID] then
+		iOtherPlayerCities = Players[pPlotOwnerID]:GetCities():GetCount()
+	end
+	local sCivTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+	local newStartingPlot = newStartingPlot
+	if newStartingPlot and startingPlot:GetIndex() == newStartingPlot:GetIndex() then
+		newStartingPlot = false
+	end
+	local bOwnerIsPlayer = false
+	if pPlotOwnerID == iPlayer then bOwnerIsPlayer = true end
+	--Try to convert the first city, or look for a plot nearby if not possible, or just spawn starting units after turn 10 if no city to convert
+	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and ((iOtherPlayerCities > 1) or (pPlotOwnerID == 62)) then
+		local convertedCity = DirectCityConversion(iPlayer, startingPlot)
+		if convertedCity then
+			StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+		else
+			local errorString :string = "Failed to convert city to new player"
+			local errorMessage = Notification_FailedSpawn(iPlayer, startingPlot, errorString)
+			newStartingPlot = PlayerBuffer(startingPlot)
+			local plotUnits = Units.GetUnitsInPlot(newStartingPlot)
+			if plotUnits and #plotUnits > 0 then
+				MoveStartingPlotUnits(plotUnits, newStartingPlot)
+			end
+			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
+			StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		end
+	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and ((iOtherPlayerCities > 1) or (pPlotOwnerID == 62)) then
+		print("bConvertCities is true")
+		print("Starting plot is owned. Searching for owner city to convert.")
+		local cityFromPlot = FindClosestCityOfPlot(startingPlot)
+		if cityFromPlot then
+			local cityPlot = Map.GetPlot(cityFromPlot:GetX(), cityFromPlot:GetY())
+			local convertedCity = DirectCityConversion(iPlayer, cityPlot)
+			if convertedCity then
+				StartingUnits_Dynamic(iPlayer, cityPlot, gameCurrentEra, settlersBonus)
+				newStartingPlot = cityPlot
+			else
+				local errorString :string = "Failed to convert city to new player"
+				local errorMessage = Notification_FailedSpawn(iPlayer, cityPlot, errorString)
+				newStartingPlot = PlayerBuffer(startingPlot)
+				local plotUnits = Units.GetUnitsInPlot(newStartingPlot)
+				if plotUnits and #plotUnits > 0 then
+					MoveStartingPlotUnits(plotUnits, newStartingPlot)
+				end
+				print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
+			end								
+		else
+			local errorString :string = "No city found for this plot!"
+			local errorMessage = Notification_FailedSpawn(iPlayer, startingPlot, errorString)
+			newStartingPlot = PlayerBuffer(startingPlot)
+			local plotUnits = Units.GetUnitsInPlot(newStartingPlot)
+			if plotUnits and #plotUnits > 0 then
+				MoveStartingPlotUnits(plotUnits, newStartingPlot)
+			end
+			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
+			StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+		end
+	elseif(startingPlot:IsOwned() and not bOwnerIsPlayer) then
+		print("Starting plot is owned. Searching for new starting plot.")
+		newStartingPlot = PlayerBuffer(startingPlot)
+		local plotUnits = Units.GetUnitsInPlot(newStartingPlot)
+		if plotUnits and #plotUnits > 0 then
+			MoveStartingPlotUnits(plotUnits, newStartingPlot)
+		end
+		print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
+		StartingUnits_Dynamic(iPlayer, newStartingPlot, gameCurrentEra, settlersBonus)
+	else
+		if (Game.GetCurrentGameTurn() >= 10) then
+			StartingUnits_Dynamic(iPlayer, startingPlot, gameCurrentEra, settlersBonus)
+		end
+	end
+	--Check for restricted spawn where Civ will only convert capital
+	local bRestrictedSpawn = false
+	if restrictedSpawns[sCivTypeName] then 
+		bRestrictedSpawn = true 
+	end
+	--Check for unique spawn zones using defined spawn conditions
+	local bUniqueSpawnZone = false
+	if uniqueSpawnZones[sCivTypeName] then 
+		bUniqueSpawnZone = true 
+	end
+	--Convert surrounding cities
+	if bRestrictedSpawn then
+		print("This player is in the restricted spawns list. Surrounding cities will NOT be converted.")
+	elseif(bUniqueSpawnZone) then
+		print("This player has a unique spawn zone.")
+		GetUniqueSpawnZone(iPlayer, startingPlot)
+	else
+		if bSpawnRange and newStartingPlot then 
+			FreeCityRevolt(iPlayer, newStartingPlot)
+		else
+			FreeCityRevolt(iPlayer, startingPlot)
+		end
+	end
+	--AI invasions
+	-- if not pPlayer:IsHuman() then
+		-- if newStartingPlot then
+			-- InitiateInvasions(iPlayer, newStartingPlot)
+			-- print("Start scripted attack on nearest city if possible (starting plot has been relocated)")	
+		-- else
+			-- InitiateInvasions(iPlayer, startingPlot)
+			-- print("Start scripted attack on nearest city if possible")							
+		-- end
+	-- end
+	return newStartingPlot
+end
+
 function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
 	local player = Players[iPlayer]
 	local newStartingPlot = false
@@ -2990,7 +3146,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 	if Players[pPlotOwnerID] then
 		iOtherPlayerCities = Players[pPlotOwnerID]:GetCities():GetCount()
 	end
-	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
+	if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and ((iOtherPlayerCities > 1) or (pPlotOwnerID == 62)) then
 		local convertedCity = DirectCityConversion(iPlayer, startingPlot)
 		if convertedCity then
 			StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
@@ -3005,7 +3161,7 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 			print("New starting plot found: "..tostring(newStartingPlot:GetX())..", "..tostring(newStartingPlot:GetY()))
 			StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
 		end
-	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and (iOtherPlayerCities > 1) then
+	elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and ((iOtherPlayerCities > 1) or (pPlotOwnerID == 62)) then
 		print("bConvertCities is true")
 		print("Starting plot is owned. Searching for owner city to convert.")
 		local cityFromPlot = FindClosestCityOfPlot(startingPlot)
@@ -3066,19 +3222,30 @@ function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationT
 	return newStartingPlot
 end
 
-function SpawnStartingCity(iPlayer, startingPlot)
+function SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
 	local player = Players[iPlayer]
 	local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
 	local iTurn = Game.GetCurrentGameTurn()
 	local startTurn = GameConfiguration.GetStartTurn()	
-	local newStartingPlot = false
+	local newStartingPlot = newStartingPlot
 	local oceanStart = false
 	local bDistanceCheck = true
 	local colonialCivilization = false
 	if ColonialCivs[CivilizationTypeName] then colonialCivilization = true end
 	if startingPlot:IsWater() then oceanStart = true end
-	if not oceanStart then
-		if not bConvertCities and startingPlot:IsOwned() then
+	if (player:GetCities():GetCount() >= 1) then
+		print("Player already has a city.")
+		return newStartingPlot
+	end
+	if oceanStart then
+		--Ocean Start
+		--Attempting to spawn a city broke the Maori ocean start bonus, always spawn settler instead
+		UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
+		return newStartingPlot
+	end
+	if startingPlot:IsOwned() then
+		--Check if the player is the owner of the plot already (maybe converted a city previously)
+		if (player:GetCities():GetCount() < 1) then
 			print("Starting plot is owned. Moving starting settler.")
 			if not newStartingPlot then
 				newStartingPlot = PlayerBuffer(startingPlot)
@@ -3086,216 +3253,169 @@ function SpawnStartingCity(iPlayer, startingPlot)
 			else
 				UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", newStartingPlot:GetX(), newStartingPlot:GetY())
 			end
-		elseif(iTurn ~= startTurn and not startingPlot:IsOwned()) then
-			if bDistanceCheck then
-				local iShortestDistance = FindClosestCityDistance(startingPlot:GetX(), startingPlot:GetY())
-				if iShortestDistance > 3 then
-					if not player:IsMajor() then
+		end
+	elseif((iTurn ~= startTurn) and not startingPlot:IsOwned()) then
+		if bDistanceCheck then
+			local iShortestDistance = FindClosestCityDistance(startingPlot:GetX(), startingPlot:GetY())
+			if (iShortestDistance > 3) then
+				if not player:IsMajor() then
+					--City states spawn a settler
+					UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
+				elseif((not colonialCivilization) and (not player:IsHuman())) then
+					-- Major AI players spawn their first city automatically
+					-- ImprovementBuilder.SetImprovementType(startingPlot, -1) --Not necessary 
+					local city = player:GetCities():Create(startingPlot:GetX(), startingPlot:GetY())
+					if not city then
+						print("Failed to spawn starting city. Spawning settler instead.")
 						UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
-					elseif(not colonialCivilization) then
-						-- Major players spawn their city here
-						-- ImprovementBuilder.SetImprovementType(startingPlot, -1) --Not necessary 
-						local city = player:GetCities():Create(startingPlot:GetX(), startingPlot:GetY())
-						if not city then
-							print("Failed to spawn starting city. Spawning settler instead.")
-							UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
-						end	
-					else
-						--Colonial Civs spawn a settler
-						UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
-					end
-				elseif(player:GetCities():GetCount() < 1) then
-					print("iShortestDistance is "..tostring(iShortestDistance))
-					if iShortestDistance == 3 then
-						--The code within this scope was meant to detect when a city could be founded on a starting plot that is an island
-						--Island cities can be founded within 3 plots of a city on another landmass by default in Civ6
-						--To check this you could use the GetAreaID() function on two plots and compare the AreaID integer to ensure they differ
-						--Area seems to defined as connected landmass, independent of the continent property. This should allow islands to be detected
-						--GetAreaID() does not always work as expected and can return different IDs for plots on the same landmass
-						--This can cause a bug where civs spawn with territory but no city
-						--Set bDifferentAreaIDs to false to bypass GetAreaID() and just spawn a settler every time instead
-						local bDifferentAreaIDs = false
-						local pCitiesInRange = FindClosestCitiesToPlotXY(startingPlot:GetX(), startingPlot:GetY())
-						if pCitiesInRange then
-							for i, pCity in ipairs(pCitiesInRange) do
-								local pCityPlot = Map.GetPlotXY(pCity:GetX(), pCity:GetY())
-								print("pCityPlot AreaID is "..tostring(pCityPlot:GetAreaID())..". startingPlot AreaID is "..tostring(startingPlot:GetAreaID()))
-								if pCityPlot and (pCityPlot:GetAreaID() ~= startingPlot:GetAreaID()) then
-									print("AreaIDs are different. Starting plot or other city is located on an island.")
-								else
-									bDifferentAreaIDs = false
-									print("AreaIDs are the same. Cities are too close.")
-								end
-							end
-							if bDifferentAreaIDs then
-								local city = player:GetCities():Create(startingPlot:GetX(), startingPlot:GetY())
-								if (player:GetCities():GetCount() < 1) then
-									print("Failed to spawn starting city. Spawning settler instead.")
-									UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
-								end
+					end	
+				else
+					--Human players and Colonial Civs spawn a settler
+					UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
+				end
+			elseif(iShortestDistance == 3) then
+				print("iShortestDistance is "..tostring(iShortestDistance))
+					--The code within this scope was meant to detect when a city could be founded on a starting plot that is an island
+					--Island cities can be founded within 3 plots of a city on another landmass by default in Civ6
+					--To check this you could use the GetAreaID() function on two plots and compare the AreaID integer to ensure they differ
+					--Area seems to defined as connected landmass, independent of the continent property. This should allow islands to be detected
+					--GetAreaID() does not always work as expected and can return different IDs for plots on the same landmass
+					--This can cause a bug where civs spawn with territory but no city
+					--Set bDifferentAreaIDs to false to bypass GetAreaID() and just spawn a settler every time instead
+					local bDifferentAreaIDs = false
+					local pCitiesInRange = FindClosestCitiesToPlotXY(startingPlot:GetX(), startingPlot:GetY())
+					if pCitiesInRange then
+						for i, pCity in ipairs(pCitiesInRange) do
+							local pCityPlot = Map.GetPlotXY(pCity:GetX(), pCity:GetY())
+							print("pCityPlot AreaID is "..tostring(pCityPlot:GetAreaID())..". startingPlot AreaID is "..tostring(startingPlot:GetAreaID()))
+							if pCityPlot and (pCityPlot:GetAreaID() ~= startingPlot:GetAreaID()) then
+								print("AreaIDs are different. Starting plot or other city is located on an island.")
 							else
+								bDifferentAreaIDs = false
+								print("AreaIDs are the same. Cities are too close.")
+							end
+						end
+						if bDifferentAreaIDs then
+							local city = player:GetCities():Create(startingPlot:GetX(), startingPlot:GetY())
+							if (player:GetCities():GetCount() < 1) then
 								print("Failed to spawn starting city. Spawning settler instead.")
 								UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
 							end
 						else
-							print("City within 3 plots of starting plot. Spawning starting settler in adjacent hex.")
-							UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())						
+							print("Failed to spawn starting city. Spawning settler instead.")
+							UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
 						end
 					else
-						--Distance must be 2 or less
 						print("City within 3 plots of starting plot. Spawning starting settler in adjacent hex.")
-						UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
+						UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())			
 					end
-				end	
-			else
-				if not player:IsMajor() then
-					UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
-				elseif(not colonialCivilization) then
-					-- Major players spawn their city here
-					local city = player:GetCities():Create(startingPlot:GetX(), startingPlot:GetY())
-					if (player:GetCities():GetCount() < 1) then
-						print("Failed to spawn starting city. Spawning settler instead.")
-						UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
-					end
-				else
-					--Colonial Civs spawn a settler
+
+			elseif(iShortestDistance < 3) then
+				--Distance must be 2 or less
+				print("City within 3 plots of starting plot. Spawning starting settler in adjacent hex.")
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
+			end
+		else
+			print("Distance Check is false (not recommended)")
+			if not player:IsMajor() then
+				UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
+			elseif(not colonialCivilization) then
+				-- Major players spawn their city here
+				local city = player:GetCities():Create(startingPlot:GetX(), startingPlot:GetY())
+				if (player:GetCities():GetCount() < 1) then
+					print("Failed to spawn starting city. Spawning settler instead.")
 					UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
 				end
+			else
+				--Colonial Civs spawn a settler
+				UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
 			end
-		elseif(iTurn == startTurn) then
-			if not player:IsHuman() and player:IsMajor() then
-				local city = player:GetCities():Create(startingPlot:GetX(), startingPlot:GetY())
-				if not city then
-					print("Failed to spawn starting city.")
-				else
-					local playerUnits = player:GetUnits()
-					local toKill = {}
-					for i, unit in playerUnits:Members() do
-						local pUnitType = GameInfo.Units[unit:GetType()].UnitType
-						if pUnitType == "UNIT_SETTLER" then									
-							table.insert(toKill, unit)
-							print("Found first turn settler")
-						end
+		end
+	elseif(iTurn == startTurn) then
+		if not player:IsHuman() and player:IsMajor() then
+			--Force AI players to found their first city automatically on turn 1
+			local city = player:GetCities():Create(startingPlot:GetX(), startingPlot:GetY())
+			if not city then
+				print("Failed to spawn starting city.")
+			else
+				local playerUnits = player:GetUnits()
+				local toKill = {}
+				for i, unit in playerUnits:Members() do
+					local pUnitType = GameInfo.Units[unit:GetType()].UnitType
+					if pUnitType == "UNIT_SETTLER" then									
+						table.insert(toKill, unit)
+						print("Found first turn settler")
 					end
-					for i, unit in ipairs(toKill) do
-						playerUnits:Destroy(unit)
-						print("Killing first turn settler")
-					end
+				end
+				for i, unit in ipairs(toKill) do
+					playerUnits:Destroy(unit)
+					print("Killing first turn settler")
 				end
 			end
 		end
-	else
-		--totalslacker: attempting to spawn a city broke the Maori ocean start bonus, always spawn settler instead
-		UnitManager.InitUnit(iPlayer, "UNIT_SETTLER", startingPlot:GetX(), startingPlot:GetY())
 	end
 	return newStartingPlot
 end
 
 function SpawnPlayer(iPlayer)
 	local player = Players[iPlayer]
+	local bPlayerSpawned = false
 	local bBarbarian = false
 	local bFreeCities = false
 	if player:IsBarbarian() then bBarbarian = true end
 	if iPlayer == 62 then bFreeCities = true end
+	if bFreeCities or bBarbarian then
+		-- print("Cannot spawn barbarian or free city players")
+		return bPlayerSpawned
+	end
 	if player then
-		--Don't run this function for Barbarians or Free Cities
-		if not bBarbarian and not bFreeCities then
-			local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
-			local LeaderTypeName = PlayerConfigurations[iPlayer]:GetLeaderTypeName()
-			local spawnYear = spawnDates[LeaderTypeName] or spawnDates[CivilizationTypeName] or defaultStartYear
-			local spawnEra 	= spawnEras[LeaderTypeName] or spawnEras[CivilizationTypeName] or defaultStartEra
-			--print("Check Spawning Date for ", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear))
-			local isolatedSpawn = false
-			if isolatedCivs[CivilizationTypeName] then isolatedSpawn = true end
-			local eraBuildingCiv = false
-			if ColonialCivs[CivilizationTypeName] then eraBuildingCiv = true end
-			local iTurn = Game.GetCurrentGameTurn()
-			
-			-- Give era score before spawn
-			local era = player:GetEras():GetEra()
-			local playerID = player:GetID()
-			if bHistoricalSpawnEras and player:IsMajor() then
-				if bGoldenAgeSpawn and spawnEra > Game.GetEras():GetCurrentEra() then
-					Game:GetEras():ChangePlayerEraScore(playerID, 1)
-				end
-				if not bGoldenAgeSpawn and era < currentEra and spawnEra > Game.GetEras():GetCurrentEra() then
-					Game:GetEras():ChangePlayerEraScore(playerID, 1)
-				end
-				if spawnEra > Game.GetEras():GetCurrentEra() and (iTurn == 1) then
-					GetStartingCivics(iPlayer, isolatedSpawn)
-				end
-			elseif(not bHistoricalSpawnEras and player:IsMajor()) then
-				if bGoldenAgeSpawn and spawnYear > currentTurnYear then
-					Game:GetEras():ChangePlayerEraScore(playerID, 1)
-				end
-				if not bGoldenAgeSpawn and era < currentEra and spawnYear > currentTurnYear then
-					Game:GetEras():ChangePlayerEraScore(playerID, 1)
-				end
-				if spawnYear > currentTurnYear and (iTurn == 1) then
-					GetStartingCivics(iPlayer, isolatedSpawn)
-				end
+		local playerID = player:GetID()
+		local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+		local LeaderTypeName = PlayerConfigurations[iPlayer]:GetLeaderTypeName()
+		local spawnYear = spawnDates[LeaderTypeName] or spawnDates[CivilizationTypeName] or defaultStartYear
+		local spawnEra 	= spawnEras[LeaderTypeName] or spawnEras[CivilizationTypeName] or defaultStartEra
+		local iTurn = Game.GetCurrentGameTurn()
+		local playerEra = player:GetEras():GetEra()
+		local isolatedPlayer = false
+		local colonialPlayer = false
+		if isolatedCivs[CivilizationTypeName] then isolatedPlayer = true end
+		if ColonialCivs[CivilizationTypeName] then colonialPlayer = true end
+		
+		-- print("Check Spawning Date for ", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear))
+		
+		-- Give era score to civilizations before spawn		
+		if bHistoricalSpawnEras and player:IsMajor() then
+			if bGoldenAgeSpawn and spawnEra > Game.GetEras():GetCurrentEra() then
+				Game:GetEras():ChangePlayerEraScore(playerID, 1)
 			end
-			
-			--Main Function
-			if bHistoricalSpawnEras and spawnEra and spawnEra <= gameCurrentEra then
-				local eraSpawnCheck = Game:GetProperty(playerID .. "EraSpawn" .. spawnEra)
-				if not eraSpawnCheck then
-					Game:SetProperty(playerID .. "EraSpawn" .. spawnEra, 1)
-					-- print ("----------")
-					-- print("Setting eraSpawnCheck for player has spawned")
-					local startingPlot = player:GetStartingPlot()
-					local newStartingPlot = false
-					local cityPlot = false
-					local oceanStart = false
-					if startingPlot:IsWater() then oceanStart = true end
-					
-					--Prepare starting plot by removing units
-					if not startingPlot:IsOwned() then
-						local plotUnits = Units.GetUnitsInPlot(startingPlot)
-						if plotUnits and #plotUnits > 0 then
-							MoveStartingPlotUnits(plotUnits, startingPlot)
-						end
-					end
-					
-					print ("----------")
-					print(" - Spawning", tostring(CivilizationTypeName), "Start Era = ", tostring(spawnEra), "at", startingPlot:GetX(), startingPlot:GetY())
-					
-					if bApplyBalance then
-						if player:IsMajor() then
-							if isolatedSpawn then
-								newStartingPlot = SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
-								newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
-							else
-								GetStartingBonuses(player)
-								newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
-								newStartingPlot = SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
-							end
-						elseif not player:IsMajor() then
-							GetStartingBonuses(player)
-							newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
-						end	
-					elseif not bApplyBalance then
-						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
-					end
-					
-					--Spawn any extra units specific to this Civ or start
-					StartingUnits_Extra(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
-					
-					--Delete hidden settler now that we have a city or units on the map, or the AI will never build more settlers
-					DeleteUnitsOffMap(iPlayer)
-					
-					--Display ingame notifications
-					ShowSpawnNotifications(iPlayer, startingPlot, newStartingPlot, CivilizationTypeName)
-					--Clear list of revolting cities for notifications and restore the UI values for auto end turn for the human player
-					Notifications_revoltingCityPlots = {}
-					if player:IsHuman() then
-						LuaEvents.RestoreAutoValues()
-					end					
-					return true
-				end
-			elseif(not bHistoricalSpawnEras and spawnYear and spawnYear >= previousTurnYear and spawnYear < currentTurnYear) then
+			if not bGoldenAgeSpawn and playerEra < currentEra and spawnEra > Game.GetEras():GetCurrentEra() then
+				Game:GetEras():ChangePlayerEraScore(playerID, 1)
+			end
+			if spawnEra > Game.GetEras():GetCurrentEra() and (iTurn == 1) then
+				GetStartingCivics(iPlayer, isolatedPlayer)
+			end
+		elseif(not bHistoricalSpawnEras and player:IsMajor()) then
+			if bGoldenAgeSpawn and spawnYear > currentTurnYear then
+				Game:GetEras():ChangePlayerEraScore(playerID, 1)
+			end
+			if not bGoldenAgeSpawn and playerEra < currentEra and spawnYear > currentTurnYear then
+				Game:GetEras():ChangePlayerEraScore(playerID, 1)
+			end
+			if spawnYear > currentTurnYear and (iTurn == 1) then
+				GetStartingCivics(iPlayer, isolatedPlayer)
+			end
+		end
+		
+		--Main Function
+		if bHistoricalSpawnEras and spawnEra and (spawnEra <= gameCurrentEra) then
+			local eraSpawnCheck = Game:GetProperty(playerID .. "EraSpawn" .. spawnEra)
+			if not eraSpawnCheck then
+				Game:SetProperty(playerID .. "EraSpawn" .. spawnEra, 1)
+				-- print ("----------")
+				-- print("Setting eraSpawnCheck for player has spawned")
 				local startingPlot = player:GetStartingPlot()
 				local newStartingPlot = false
+				local cityPlot = false
 				local oceanStart = false
 				if startingPlot:IsWater() then oceanStart = true end
 				
@@ -3308,28 +3428,33 @@ function SpawnPlayer(iPlayer)
 				end
 				
 				print ("----------")
-				print(" - Spawning", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear), "at", startingPlot:GetX(), startingPlot:GetY())
-
+				print(" - Spawning", tostring(CivilizationTypeName), "Start Era = ", tostring(spawnEra), "at", startingPlot:GetX(), startingPlot:GetY())
+				
 				if bApplyBalance then
 					if player:IsMajor() then
-						if isolatedSpawn then
-							newStartingPlot = SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
-							newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
+						if isolatedPlayer then
+							newStartingPlot = SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+							newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
 						else
 							GetStartingBonuses(player)
-							newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
 							newStartingPlot = SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
+							newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
 						end
-					elseif not player:IsMajor() then
+					elseif(not player:IsMajor()) then
 						GetStartingBonuses(player)
-						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
+						if bCityStateRevolts then
+							newStartingPlot = SpawnMinorPlayer(iPlayer, startingPlot, newStartingPlot)
+							newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+						else
+							newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+						end
 					end	
 				elseif not bApplyBalance then
-					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot)
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
 				end
 				
 				--Spawn any extra units specific to this Civ or start
-				StartingUnits_Extra(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+				StartingUnits_Extra(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
 				
 				--Delete hidden settler now that we have a city or units on the map, or the AI will never build more settlers
 				DeleteUnitsOffMap(iPlayer)
@@ -3339,18 +3464,74 @@ function SpawnPlayer(iPlayer)
 				
 				--Clear list of revolting cities for notifications and restore the UI values for auto end turn for the human player
 				Notifications_revoltingCityPlots = {}
+				
 				if player:IsHuman() then
 					LuaEvents.RestoreAutoValues()
-				end
-				
-				return true			
+				end					
+				bPlayerSpawned = true
 			end
-			return false
+		elseif(spawnYear and not bHistoricalSpawnEras and (spawnYear >= previousTurnYear) and (spawnYear < currentTurnYear)) then
+			Game:SetProperty(playerID .. "YearSpawn" .. spawnEra, currentTurnYear)
+			local startingPlot = player:GetStartingPlot()
+			local newStartingPlot = false
+			local oceanStart = false
+			if startingPlot:IsWater() then oceanStart = true end
+			
+			--Prepare starting plot by removing units
+			if not startingPlot:IsOwned() then
+				local plotUnits = Units.GetUnitsInPlot(startingPlot)
+				if plotUnits and #plotUnits > 0 then
+					MoveStartingPlotUnits(plotUnits, startingPlot)
+				end
+			end
+			
+			print ("----------")
+			print(" - Spawning", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear), "at", startingPlot:GetX(), startingPlot:GetY())
+	
+			if bApplyBalance then
+				if player:IsMajor() then
+					if isolatedPlayer then
+						newStartingPlot = SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+					else
+						GetStartingBonuses(player)
+						newStartingPlot = SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
+						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+					end
+				elseif not player:IsMajor() then
+					GetStartingBonuses(player)
+					if bCityStateRevolts then
+						newStartingPlot = SpawnMinorPlayer(iPlayer, startingPlot, newStartingPlot)
+						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+					else
+						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+					end
+				end	
+			elseif not bApplyBalance then
+				newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+			end
+			
+			--Spawn any extra units specific to this Civ or start
+			StartingUnits_Extra(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+			
+			--Delete hidden settler now that we have a city or units on the map, or the AI will never build more settlers
+			DeleteUnitsOffMap(iPlayer)
+			
+			--Display ingame notifications
+			ShowSpawnNotifications(iPlayer, startingPlot, newStartingPlot, CivilizationTypeName)
+			
+			--Clear list of revolting cities for notifications and restore the UI values for auto end turn for the human player
+			Notifications_revoltingCityPlots = {}
+			
+			if player:IsHuman() then
+				LuaEvents.RestoreAutoValues()
+			end
+			bPlayerSpawned = true			
 		end
 	else
 		print("WARNING: player is nil in SpawnPlayer #"..tostring(iPlayer))
-		return false
 	end
+	return bPlayerSpawned
 end
 
 
@@ -3795,6 +3976,7 @@ function OnCityInitialized(iPlayer, cityID, x, y)
 				end
 			end
 		end		
+		print("------------")
 		return 
 	end
 	
@@ -3857,6 +4039,7 @@ function OnCityInitialized(iPlayer, cityID, x, y)
 			print("Deleting Super Monument from player "..tostring(iPlayer))
 		end
 		print("Current era is "..tostring(gameCurrentEra))
+		print("------------")
 		return 
 	end	
 	
@@ -3936,7 +4119,7 @@ function OnCityInitialized(iPlayer, cityID, x, y)
 			end
 		end
 	end	
-	
+	print("------------")
 end
 
 -- test capture or creation (these functions are no longer being used)
