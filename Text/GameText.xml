@@ -46,5 +46,14 @@
 	<Replace Tag="LOC_HSD_BARB_INVASION_MESSAGE" Language="en_US">
       <Text>The {1_BarbarianTribe} barbarian hordes grow restless! Drawn by the wealth and luxuries of your empire, they have assembled under a common banner to attack the city of {2_CityName}!</Text>
     </Replace>
+	<Replace Tag="LOC_HSD_LOADING_TITLE" Language="en_US">
+      <Text>Historical Spawn Dates is Loading!</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_LOADING_MESSAGE" Language="en_US">
+      <Text>Leader: {1_LeaderName} [NEWLINE]Starting date: {2_StartDate} [NEWLINE]Please wait until autoplay is complete</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_LOADING_IMAGE_TEXT" Language="en_US">
+      <Text>Your time has not yet come to pass...[NEWLINE]</Text>
+    </Replace>
   </LocalizedText>
 </GameData>

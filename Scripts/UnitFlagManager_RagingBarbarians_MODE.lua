@@ -43,11 +43,10 @@ function UnitFlag.UpdateName( self )
 	local pUnit : table = self:GetUnit()
 	if(pUnit ~= nil)then
 		local tribeIndex : number = pUnit:GetBarbarianTribeIndex()
-		print("tribeIndex is "..tostring(tribeIndex))
+		-- print("tribeIndex is "..tostring(tribeIndex))
 		if(tribeIndex >= 0)then
 			local pBarbarianTribeManager : table = Game.GetBarbarianManager()
 			local nameString = self.m_Instance.UnitIcon:GetToolTipString()
-
 			local barbType : number = pBarbarianTribeManager:GetTribeNameType(tribeIndex)
 			if(barbType >= 0)then
 				local pBarbTribe : table = GameInfo.BarbarianTribeNames[barbType]

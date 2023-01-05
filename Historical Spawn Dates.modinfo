@@ -256,6 +256,9 @@
 			</ConfigurationValueMatches>
 			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
 		</Criteria>
+		<Criteria id="MOD_6T_Enabled">
+			<ModInUse>3ec8a6fb-2a3f-425f-bff5-b00146b7d5b0</ModInUse>			<!-- 6T Eras -->
+		</Criteria>
 	</ActionCriteria>
 	<LocalizedText>
 		<Text id="LOC_HISTORICAL_SPAWN_DATES_TITLE">
@@ -269,7 +272,7 @@
 		</Text>
 	</LocalizedText>	
 	<InGameActions>
-		<ImportFiles>
+		<ImportFiles criteria="HSD_Active">
 			<File>Scripts/UnitFunctions.lua</File>
 			<File>Scripts/ScenarioFunctions.lua</File>
 		</ImportFiles>
@@ -294,8 +297,14 @@
 			<File>Tables/HSD_Standard.sql</File>
 			<File>Tables/HSD_LeaderHSD.sql</File>
 			<File>Tables/HSD_Eras.sql</File>
-			<File>Tables/HSD_LiteMode.sql</File>
-			<File>Tables/HSD_LiteMode_Eras.sql</File>
+			<!-- <File>Tables/HSD_LiteMode.sql</File> -->
+			<!-- <File>Tables/HSD_LiteMode_Eras.sql</File> -->
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_TIMELINES" criteria="MOD_6T_Enabled">
+			<Properties>
+				<LoadOrder>95</LoadOrder>
+			</Properties>
+			<File>Tables/HSD_Eras_6T.sql</File>
 		</UpdateDatabase>
 		<UpdateDatabase id="HSD_COMPONENTS_SQL" criteria="HSD_Active">
            	<Properties>
@@ -303,6 +312,7 @@
            	</Properties>
 			<File>Data/GamePlay.sql</File>
 			<File>Data/IsolatedCivs.sql</File>
+			<File>Data/PlayerTraits.sql</File>
 			<File>Data/ModSupport.sql</File>
 		</UpdateDatabase>
 		<UpdateDatabase id="TRAITS_STANDARD_HSD" criteria="HSD_Standard">
@@ -441,6 +451,7 @@
 			<Items>
 				<File>Icons/HSD_Icon.dds</File>
 				<File>Icons/HSD_Menu_Icon.dds</File>
+				<File>Icons/HSD_Popup.dds</File>
 				<File>Icons/ColonizationMode_Icon.dds</File>
 				<File>Icons/ColonizationMode_LoyalHarbors_Icon.dds</File>
 				<File>Icons/RagingBarbarians_Icon.dds</File>
@@ -457,7 +468,7 @@
            	<Properties>
 				<LoadOrder>-1</LoadOrder>
            	</Properties>
-			<File>Data/Tables_UI.sql</File>
+			<File>Data/Tables.sql</File>
 		</UpdateDatabase>
 		<ImportFiles id="HSD_Images_Import">
 			<Items>
@@ -496,8 +507,13 @@
 			<File>Tables/HSD_Standard.sql</File>
 			<File>Tables/HSD_LeaderHSD.sql</File>
 			<File>Tables/HSD_Eras.sql</File>
-			<File>Tables/HSD_LiteMode.sql</File>
-			<File>Tables/HSD_LiteMode_Eras.sql</File>
+			<File>Data/IsolatedCivs.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="HSD_FRONTEND_TIMELINE" >
+			<Properties>
+				<LoadOrder>55</LoadOrder>
+			</Properties>
+			<File>Tables/HSD_Eras_6T.sql</File>
 		</UpdateDatabase>
 		<UpdateText id="HSD_SETTING_LOC">
 			<File>Text/ConfigText.xml</File>
@@ -517,7 +533,6 @@
 	<Files>
 		<File>ArtDefs/Units.artdef</File>
 		<File>Data/Tables.sql</File>
-		<File>Data/Tables_UI.sql</File>
 		<File>Data/ModSupport.sql</File>
 		<File>Data/IsolatedCivs.sql</File>
 		<File>Data/LoyalHarbors.sql</File>
@@ -532,6 +547,7 @@
 		<File>Data/Comandantes_6.sql</File>
 		<File>Data/Comandantes_7.sql</File>
 		<File>Data/EventPopup.xml</File>
+		<File>Data/PlayerTraits.sql</File>
 		<File>Data/Traits_LeaderHSD.sql</File>
 		<File>Data/Traits_TrueHSD.sql</File>
 		<File>Data/Traits_StandardHSD.sql</File>
@@ -545,6 +561,7 @@
 		<File>Scripts/ScenarioFunctions.lua</File>
 		<File>Scripts/UnitFlagManager_RagingBarbarians_MODE.lua</File>
 		<File>Tables/HSD_Eras.sql</File>
+		<File>Tables/HSD_Eras_6T.sql</File>
 		<File>Tables/HSD_LiteMode.sql</File>
 		<File>Tables/HSD_LiteMode_Eras.sql</File>
 		<File>Tables/HSD_Standard.sql</File>
@@ -559,6 +576,7 @@
 		<File>Icons/HSD_Portrait.dds</File>
 		<File>Icons/HSD_Icon.dds</File>
 		<File>Icons/HSD_Menu_Icon.dds</File>
+		<File>Icons/HSD_Popup.dds</File>
 		<File>Icons/ColonizationMode_Background.dds</File>
 		<File>Icons/ColonizationMode_Portrait.dds</File>
 		<File>Icons/ColonizationMode_Icon.dds</File>

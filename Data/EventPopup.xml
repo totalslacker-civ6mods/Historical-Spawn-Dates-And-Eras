@@ -2,6 +2,6 @@
 <GameInfo>
 	<EventPopupData>
 		<Row Type="HSD_RAGING_BARBARIANS_INVASION_WARNING" Title="LOC_HSD_BARB_INVASION_TITLE" Description="LOC_HSD_BARB_INVASION_MESSAGE" FilterCondition="ANY" BackgroundImage="Raging_Barbarians_Invasion_Background.dds" ForegroundImage=""/>
-		<!-- <Row Type="SCENARIO_POLAND_INVASION_HERE" Title="LOC_NOTIFICATION_BARBARIANS_SIGHTED_MESSAGE" FilterCondition="ANY" BackgroundImage="PolandScenario_EventBG_InvasionHere" ForegroundImage=""/> -->
+		<Row Type="HSD_LOADING_POPUP" Title="LOC_HSD_LOADING_TITLE" Description="LOC_HSD_LOADING_MESSAGE" FilterCondition="ANY" BackgroundImage="HSD_Popup.dds" ForegroundImage="" ImageText="LOC_HSD_LOADING_IMAGE_TEXT" />
 	</EventPopupData>
 </GameInfo>

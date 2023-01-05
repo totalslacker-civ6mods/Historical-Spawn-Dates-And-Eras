@@ -4,15 +4,13 @@
 --  totalslacker (2020-2022)
 --
 --	TODO:
---	Setup menu array option for restricted spawn list
 --  Receive spawn bonuses based on progress of other players on same continent
 --  Spawn units based on military strength of nearby players
 --  Starting units receive free maintainence and extra movement points
 --  Ancient era civs do not receive bonuses unless they have HSD
 --  Support for 6T mod: timeline, unit adjustments
---	Create a SpawnManager class to integrate the multiple spawning functions
 --	City states able to cause revolts and convert cities
---	ipairs / pairs, other multiplayer desyncs
+--	ipairs / ipairs, other multiplayer desyncs
 --	Test CityManager.TransferCityToFreeCities(CityInstance) and CityManager.TransferCity(Player)
 ------------------------------------------------------------------------------
 
@@ -50,6 +48,7 @@ local bExpansion2				= GameConfiguration.GetValue("RULESET") == "RULESET_EXPANSI
 print("bExpansion2 is "..tostring(bExpansion2))
 bGatheringStormActive			= false	--Global Variable
 bSpawnUniqueUnits				= MapConfiguration.GetValue("SpawnUUs")	--Global Variable
+bSubtractEra					= MapConfiguration.GetValue("SubtractEra") --Global Variable
 
 -- ===========================================================================
 -- Game Configuration Values 
@@ -84,7 +83,6 @@ local bGrantGPP					= MapConfiguration.GetValue("GrantGPP")
 local bSpawnZonesDisabled		= MapConfiguration.GetValue("FlipZones")
 local bSpawnRange				= MapConfiguration.GetValue("SpawnRange")
 local bGoldenAgeSpawn			= MapConfiguration.GetValue("SpawnAge")
-local bSubtractEra				= MapConfiguration.GetValue("SubtractEra")
 local bLiteMode					= MapConfiguration.GetValue("LiteMode")
 -- local iLegacySpawnDates			= MapConfiguration.GetValue("OldWorldStart")
 local bRagingBarbarians			= MapConfiguration.GetValue("RagingBarbarians") or false
@@ -411,6 +409,32 @@ end
 -- ===========================================================================
 -- Notification Messages
 -- ===========================================================================
+function ShowLoadingPopup()
+	local aPlayers = PlayerManager.GetAliveMajors()
+	for loop, pPlayer in ipairs(aPlayers) do
+		if pPlayer:IsHuman() then
+			local pPlayerID = pPlayer:GetID()
+			local CivilizationTypeName = PlayerConfigurations[pPlayerID]:GetCivilizationTypeName()
+			local LeaderTypeName = PlayerConfigurations[pPlayerID]:GetLeaderTypeName()
+			local spawnYear = spawnDates[LeaderTypeName] or spawnDates[CivilizationTypeName] or defaultStartYear
+			local spawnEra 	= spawnEras[LeaderTypeName] or spawnEras[CivilizationTypeName] or defaultStartEra
+			if bHistoricalSpawnEras then
+				if spawnEra and (spawnEra > Game.GetEras():GetCurrentEra()) then
+					local eventKey = GameInfo.EventPopupData["HSD_LOADING_POPUP"].Type
+					local eventEffectString = Locale.Lookup("LOC_HSD_LOADING_MESSAGE", GameInfo.Leaders[LeaderTypeName].Name, GameInfo.Eras[spawnEra].Name)
+					ReportingEvents.Send("EVENT_POPUP_REQUEST", { ForPlayer = pPlayer:GetID(), EventKey = eventKey, EventEffect = eventEffectString })
+				end
+			elseif(not bHistoricalSpawnEras) then
+				if spawnYear and (spawnYear > currentTurnYear) then
+					local eventKey = GameInfo.EventPopupData["HSD_LOADING_POPUP"].Type
+					local eventEffectString = Locale.Lookup("LOC_HSD_LOADING_MESSAGE", LeaderTypeName, spawnYear)
+					ReportingEvents.Send("EVENT_POPUP_REQUEST", { ForPlayer = pPlayerID, EventKey = eventKey, EventEffect = eventEffectString })
+				end
+			end
+		end
+	end
+end
+
 function ShowSpawnNotifications(iPlayer, startingPlot, newStartingPlot, CivilizationTypeName)
 	local player = Players[iPlayer]
 	local turnYearString :string = "nil"
@@ -1283,7 +1307,7 @@ end
 -- totalslacker: 	Unused function
 --[[
 -- Set Starting Plots
-for iPlayer, position in pairs(ExposedMembers.HistoricalStartingPlots) do
+for iPlayer, position in ipairs(ExposedMembers.HistoricalStartingPlots) do
 	local player = Players[iPlayer]
 	if player then
 		local startingPlot = Map.GetPlot(position.X, position.Y)
@@ -1496,7 +1520,7 @@ function SetCityDatas(iPlayer)
 	local pCities = Players[iPlayer]:GetCities()
 	local pCity
 	for ii, pCity in pCities:Members() do			
-		for i, kCityDatas in pairs(CityDataList) do						
+		for i, kCityDatas in ipairs(CityDataList) do						
 			if ( pCity:GetX() == kCityDatas.iPosX and pCity:GetY() == kCityDatas.iPosY ) then
 				SetCityPopulation( pCity, kCityDatas.iPop )
 			end	
@@ -1510,7 +1534,7 @@ function SetPlayerCityUIDatas( iPlayer )
 	local CityManager	= WorldBuilder.CityManager or ExposedMembers.CityManager
 	local bInheritCityPlots = true
 	local bInheritCityName = false
-	for _,kCityUIDatas in pairs(CityUIDataList) do
+	for _,kCityUIDatas in ipairs(CityUIDataList) do
 		local pCities = Players[iPlayer]:GetCities();
 		for _, pCity in pCities:Members() do
 			if( pCity:GetX() == kCityUIDatas.iPosX and pCity:GetY() == kCityUIDatas.iPosY ) then 
@@ -1518,7 +1542,7 @@ function SetPlayerCityUIDatas( iPlayer )
 				if (bInheritCityName == true) then pCity:SetName(kCityUIDatas.sCityName); end		
 				--Set City Tiles:
 				if (bInheritCityPlots == true) then
-					for _,kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+					for _,kCoordinates in ipairs(kCityUIDatas.CityPlotCoordinates) do
 						local pPlot = Map.GetPlotByIndex(kCoordinates.plotID)
 						if CityManager then
 							if iPlayer ~= -1 then
@@ -1551,7 +1575,7 @@ function SetPlayerCityUIDatas( iPlayer )
 				end
 				--Set City Districts:								
 				local pCityBuildQueue = pCity:GetBuildQueue();
-				for _,kDistrictDatas in pairs(kCityUIDatas.CityDistricts) do 
+				for _,kDistrictDatas in ipairs(kCityUIDatas.CityDistricts) do 
 					local plot = Map.GetPlot(kDistrictDatas.iPosX, kDistrictDatas.iPosY)
 					local iDistrictType = kDistrictDatas.iType
 					--Check if district exists in the unique districts table
@@ -1567,7 +1591,7 @@ function SetPlayerCityUIDatas( iPlayer )
 					--unfortunately we do not have any Lua function that can set a district to pillaged
 				end		
 				--Set City Buildings:
-				for _,kBuildingData in pairs(kCityUIDatas.CityBuildings) do
+				for _,kBuildingData in ipairs(kCityUIDatas.CityBuildings) do
 					local iConstructionLevel = 100 --complete building
 					local iBuildingID = kBuildingData.iBuildingID
 					local bIsPillaged = kBuildingData.bIsPillaged
@@ -1575,7 +1599,7 @@ function SetPlayerCityUIDatas( iPlayer )
 					pCity:GetBuildings():SetPillaged(iBuildingID, bIsPillaged)
 				end
 				--Set Religious Pressures:
-				for _,kReligionData in pairs(kCityUIDatas.CityReligions) do
+				for _,kReligionData in ipairs(kCityUIDatas.CityReligions) do
 					local iPressure = kReligionData.iPressure
 					local iReligionType = kReligionData.iReligionType
 					-- print("Setting " .. iPressure .. " pressure for Religion " .. iReligionType)
@@ -3356,7 +3380,7 @@ function GetStartingBonuses(player)
 	
 	-- science
 	local pScience = player:GetTechs()	
-	for iTech, number in pairs(knownTechs) do
+	for iTech, number in ipairs(knownTechs) do
 		if number >= minCivForTech then
 			if player:IsHuman() then
 				pScience:SetTech(iTech, true) --use SetTech() for human player to skip popups
@@ -4171,6 +4195,7 @@ Events.UnitAddedToMap.Add(RemoveFreeCityUnit)
 -- ===========================================================================
 
 function OnLoadScreenClosed()
+	ShowLoadingPopup()
 	GetContinentDimensions()
 	GameEvents.OnGameTurnStarted.Add(SetCurrentGameEra)
 	GameEvents.PlayerTurnStarted.Add(SpawnPlayer)
@@ -4187,7 +4212,9 @@ function OnLoadScreenClosed()
 		-- Events.GameEraChanged.Add(Colonization_OnGameEraChanged)
 	end
 	if bRagingBarbarians then
-		GameEvents.PlayerTurnStarted.Add(Invasions_SpawnInvasion)
+		if bBarbarianInvasions then
+			GameEvents.PlayerTurnStarted.Add(Invasions_SpawnInvasion)
+		end
 		Events.ImprovementAddedToMap.Add(SpawnBarbarians)
 		Events.GameEraChanged.Add(UpgradeBarbarianTech)
 	end

@@ -83,26 +83,68 @@ function GetMostAdvancedUnit(iPlayer, promotionClass)
 	local pCulture = pPlayer:GetCulture()
 	local playerCivics = {}
 	local iCivicCost = -1
+	local currentEra = Game.GetEras():GetCurrentEra()
 	local selectedUnit = false
 	-- print("Gather list of techs known by player")
-	for kTech in GameInfo.Technologies() do		
+	for kTech in GameInfo.Technologies() do
 		local iTech	= kTech.Index
-		if pScience:HasTech(iTech) then
-			if not playerTechs[iTech] then playerTechs[iTech] = 0 end
-			playerTechs[iTech] = playerTechs[iTech] + 1
+		if bSubtractEra then --Global Variable
+			print("Lesser Era mode detected")
+			print("Current era is "..tostring(currentEra)..". Era index for tech is "..tostring(GameInfo.Eras[kTech.EraType].Index))
+			if (GameInfo.Eras[kTech.EraType].Index > 0) then
+				--Lesser Era mode restricts units to the previous era
+				if (GameInfo.Eras[kTech.EraType].Index < currentEra) then
+					if pScience:HasTech(iTech) then
+						if not playerTechs[iTech] then playerTechs[iTech] = 0 end
+						playerTechs[iTech] = playerTechs[iTech] + 1
+					end
+				end
+			else
+				--Ancient Era techs are always valid
+				if pScience:HasTech(iTech) then
+					if not playerTechs[iTech] then playerTechs[iTech] = 0 end
+					playerTechs[iTech] = playerTechs[iTech] + 1
+				end
+			end
+		else
+			--Default setting. All techs known by the player are valid.
+			if pScience:HasTech(iTech) then
+				if not playerTechs[iTech] then playerTechs[iTech] = 0 end
+				playerTechs[iTech] = playerTechs[iTech] + 1
+			end
 		end
 	end
 	-- print("Gather list of civics known by player")
 	for kCivic in GameInfo.Civics() do		
 		local iCivic = kCivic.Index
-		if pCulture:HasCivic(iCivic) then
-			if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
-			playerCivics[iCivic] = playerCivics[iCivic] + 1
+		if bSubtractEra then --Global Variable
+			print("Lesser Era mode detected")
+			print("Current era is "..tostring(currentEra)..". Era index for civic is "..tostring(GameInfo.Eras[kCivic.EraType].Index))
+			if (GameInfo.Eras[kCivic.EraType].Index > 0) then
+				--Lesser Era mode restricts units to the previous era
+				if (GameInfo.Eras[kCivic.EraType].Index < currentEra) then
+					if pCulture:HasCivic(iCivic) then
+						if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
+						playerCivics[iCivic] = playerCivics[iCivic] + 1
+					end
+				end
+			else
+				--Ancient Era civics are always valid
+				if pCulture:HasCivic(iCivic) then
+					if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
+					playerCivics[iCivic] = playerCivics[iCivic] + 1
+				end
+			end
+		else
+			--Default setting. All civics known by the player are valid.
+			if pCulture:HasCivic(iCivic) then
+				if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
+				playerCivics[iCivic] = playerCivics[iCivic] + 1
+			end
 		end
 	end
 	-- print("Check prereq tech for all units in promotion class against techs known by player")
 	for kUnit in GameInfo.Units() do
-		-- local iUnit = kUnit.Index
 		if kUnit and kUnit.PromotionClass and (kUnit.PromotionClass == promotionClass) then
 			local bUnitHasTrait = false
 			local bCivHasTrait = false
@@ -196,6 +238,10 @@ function StartingUnits_Dynamic(iPlayer, pPlot, currentGameEra, settlersBonus)
 	if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then 
 		bEraMod_6T = true 
 		print("Historical Spawn Dates has detected the 6T Era Mod. Era values will be adjusted where necessary.")
+	end
+	if bSubtractEra then --Global variable
+		print("Lesser Era mode detected. Era values will be reduced by 1.")
+		currentEra = currentEra - 1
 	end
 	if bEraMod_6T and (currentEra > 1) then
 		currentEra = currentEra - 1
@@ -690,7 +736,7 @@ function StartingUnits_Static(iPlayer, pPlot, currentGameEra, settlersBonus)
 		-- end
 	-- end	
 	
-	if bSubtractEra then
+	if bSubtractEra then --Global Variable
 		currentEra = currentEra - 1
 	end
 	if currentEra == -1 then
@@ -977,7 +1023,8 @@ function CityUnits_Dynamic(iPlayer, pPlot, currentGameEra)
 		print("Do not spawn extra units in converted city for difficulty less than King")
 		return false
 	end
-	if bSubtractEra then
+	if bSubtractEra then --Global variable
+		print("Lesser Era mode detected. Era values will be reduced by 1.")
 		currentEra = currentEra - 1
 	end
 	if currentEra == -1 then
@@ -1139,7 +1186,8 @@ function CityUnits_Static(iPlayer, pPlot, currentGameEra)
 		print("Do not spawn extra units in converted city for difficulty less than King")
 		return false
 	end
-	if bSubtractEra then
+	if bSubtractEra then --Global Variable
+		print("Lesser Era mode detected. Era values will be reduced by 1.")
 		currentEra = currentEra - 1
 	end
 	if currentEra == -1 then
