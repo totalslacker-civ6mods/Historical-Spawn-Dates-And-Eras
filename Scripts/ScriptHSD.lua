@@ -427,7 +427,7 @@ function ShowLoadingPopup()
 			elseif(not bHistoricalSpawnEras) then
 				if spawnYear and (spawnYear > currentTurnYear) then
 					local eventKey = GameInfo.EventPopupData["HSD_LOADING_POPUP"].Type
-					local eventEffectString = Locale.Lookup("LOC_HSD_LOADING_MESSAGE", LeaderTypeName, spawnYear)
+					local eventEffectString = Locale.Lookup("LOC_HSD_LOADING_MESSAGE", GameInfo.Leaders[LeaderTypeName].Name, tostring(spawnYear))
 					ReportingEvents.Send("EVENT_POPUP_REQUEST", { ForPlayer = pPlayerID, EventKey = eventKey, EventEffect = eventEffectString })
 				end
 			end
