@@ -24,8 +24,9 @@ local defaultAutoEndTurn	= UserConfiguration.GetValue("AutoEndTurn")
 ----------------------------------------------------------------------------------------
 
 function GetStandardTimeline(civType)
-	local iStartYear = 0
-	local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates")
+	local iStartYear = false
+	-- local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates")
+	local results = DB.Query("SELECT * FROM HistoricalSpawnDates")
 	for i, row in ipairs(results) do
 		if row.Civilization == civType then
 			iStartYear = row.StartYear
@@ -36,8 +37,9 @@ function GetStandardTimeline(civType)
 end
 
 function GetTrueHSDTimeline(civType)
-	local iStartYear = 0
-	local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates_TrueHSD")
+	local iStartYear = false
+	-- local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates_TrueHSD")
+	local results = DB.Query("SELECT * FROM HistoricalSpawnDates_TrueHSD")
 	for i, row in ipairs(results) do
 		if row.Civilization == civType then
 			iStartYear = row.StartYear
@@ -48,8 +50,9 @@ function GetTrueHSDTimeline(civType)
 end
 
 function GetLeaderTimeline(civType)
-	local iStartYear = 0
-	local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates_LeaderHSD")
+	local iStartYear = false
+	-- local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates_LeaderHSD")
+	local results = DB.Query("SELECT * FROM HistoricalSpawnDates_LeaderHSD")
 	for i, row in ipairs(results) do
 		if row.Civilization == civType then
 			iStartYear = row.StartYear
@@ -60,8 +63,9 @@ function GetLeaderTimeline(civType)
 end
 
 function GetEraTimeline(civType)
-	local iStartEra = 0
-	local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnEras")
+	local iStartEra = false
+	-- local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnEras")
+	local results = DB.Query("SELECT * FROM HistoricalSpawnEras")
 	for i, row in ipairs(results) do
 		if row.Civilization == civType then
 			iStartEra = row.Era
@@ -75,16 +79,16 @@ function GetLitemodeCivs(civType)
 	-- local iStartYear = false
 	-- local iStartEra = false
 	local eligibleForHSD = false
-	local isolated = DB.ConfigurationQuery("SELECT * FROM IsolatedCivs")
-	local colonial = DB.ConfigurationQuery("SELECT * FROM ColonialCivs")
+	local isolated = DB.Query("SELECT * FROM IsolatedCivs")
+	local colonial = DB.Query("SELECT * FROM ColonialCivs")
 	for i, row in ipairs(isolated) do
-		if row.Civilization == civType then
+		if ((row.Civilization == civType) or ((GameInfo.CivilizationLeaders[civType]) and (row.Civilization == GameInfo.CivilizationLeaders[civType].CivilizationType))) then
 			eligibleForHSD = true
 			print(tostring(row.Civilization), " is an isolated player.")
 		end
 	end
 	for i, row in ipairs(colonial) do
-		if row.Civilization == civType then
+		if ((row.Civilization == civType) or ((GameInfo.CivilizationLeaders[civType]) and (row.Civilization == GameInfo.CivilizationLeaders[civType].CivilizationType))) then
 			eligibleForHSD = true
 			print(tostring(row.Civilization), " is a colonial player.")
 		end

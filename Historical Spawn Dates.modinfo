@@ -551,6 +551,7 @@
 				<LoadOrder>55</LoadOrder>
 			</Properties>
 			<File>Tables/HSD_Eras_6T.sql</File>
+			<File>Data/ModSupport.sql</File>
 		</UpdateDatabase>
 		<UpdateText id="HSD_SETTING_LOC">
 			<File>Text/ConfigText.xml</File>

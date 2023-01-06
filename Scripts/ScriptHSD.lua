@@ -643,86 +643,46 @@ function SetSpawnYears()
 		end	
 	elseif(iSpawnDateTables == 0) then
 		print("Standard timeline selected")
-		-- for row in GameInfo.HistoricalSpawnDates() do
-			-- if isInGame[row.Civilization]  then
-				-- if bSavedSpawnDates then
-					-- if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
-						-- spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
-						-- print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
-					-- else
-						-- spawnDates[row.Civilization] = row.StartYear
-						-- print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-						-- Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
-					-- end
-				-- else
-					-- spawnDates[row.Civilization] = row.StartYear
-					-- print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-					-- Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)				
-				-- end
-			-- end
-		-- end
-		for row in GameInfo.Civilizations() do
-			if isInGame[row.CivilizationType]  then
+		for row in GameInfo.HistoricalSpawnDates() do
+			if isInGame[row.Civilization]  then
 				if bSavedSpawnDates then
-					if Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType)) then
-						spawnDates[row.CivilizationType] = Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType))
-						print(tostring(row.CivilizationType), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType))), " (saved start date)")
+					if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
+						spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
+						print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
 					else
-						local iStartYear = ExposedMembers.GetStandardTimeline(row.CivilizationType)
-						spawnDates[row.CivilizationType] = iStartYear
-						-- print(tostring(row.CivilizationType), " spawn year = ", tostring(iStartYear))
-						Game.SetProperty("SpawnDate_"..tostring(row.CivilizationType), iStartYear)
-					end				
+						spawnDates[row.Civilization] = row.StartYear
+						print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+						Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
+					end
 				else
-					local iStartYear = ExposedMembers.GetStandardTimeline(row.CivilizationType)
-					spawnDates[row.CivilizationType] = iStartYear
-					print(tostring(row.CivilizationType), " spawn year = ", tostring(iStartYear))
-					Game.SetProperty("SpawnDate_"..tostring(row.CivilizationType), iStartYear)				
+					spawnDates[row.Civilization] = row.StartYear
+					print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+					Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)				
 				end
 			end
 		end
 	elseif(iSpawnDateTables == 1) then
 		print("True Historical Start timeline selected")
-		for row in GameInfo.Civilizations() do
-			if isInGame[row.CivilizationType]  then
+		for row in GameInfo.HistoricalSpawnDates_TrueHSD() do
+			if isInGame[row.Civilization]  then
 				if bSavedSpawnDates then
-					if Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType)) then
-						spawnDates[row.CivilizationType] = Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType))
-						print(tostring(row.CivilizationType), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType))), " (saved start date)")
+					if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
+						spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
+						print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
 					else
-						local iStartYear = ExposedMembers.GetTrueHSDTimeline(row.CivilizationType)
-						spawnDates[row.CivilizationType] = iStartYear
-						-- print(tostring(row.CivilizationType), " spawn year = ", tostring(iStartYear))
-						Game.SetProperty("SpawnDate_"..tostring(row.CivilizationType), iStartYear)
+						local iStartYear = ExposedMembers.GetStandardTimeline(row.Civilization)
+						spawnDates[row.Civilization] = iStartYear
+						-- spawnDates[row.Civilization] = row.StartYear
+						print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+						Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
 					end				
 				else
-					local iStartYear = ExposedMembers.GetTrueHSDTimeline(row.CivilizationType)
-					spawnDates[row.CivilizationType] = iStartYear
-					print(tostring(row.CivilizationType), " spawn year = ", tostring(iStartYear))
-					Game.SetProperty("SpawnDate_"..tostring(row.CivilizationType), iStartYear)				
+					spawnDates[row.Civilization] = row.StartYear
+					print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+					Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)				
 				end
 			end
 		end
-		-- for row in GameInfo.HistoricalSpawnDates_TrueHSD() do
-			-- if isInGame[row.Civilization]  then
-				-- if bSavedSpawnDates then
-					-- if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
-						-- spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
-						-- print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
-					-- else
-						-- local iStartYear = ExposedMembers.GetStandardTimeline(row.Civilization)
-						-- spawnDates[row.Civilization] = iStartYear
-						-- -- spawnDates[row.Civilization] = row.StartYear
-						-- print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-						-- Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
-					-- end				
-				-- else
-					-- spawnDates[row.Civilization] = row.StartYear
-					-- print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-					-- Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)				
-				-- end
-			-- end
-		-- end
 		print("Checking for missing start dates")
 		for iPlayer = 0, iMaxPlayersZeroIndex do
 			local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
@@ -762,41 +722,21 @@ function SetSpawnYears()
 		end
 	elseif(iSpawnDateTables == 2) then
 		print("Leader Start timeline selected")
-		-- for row in GameInfo.HistoricalSpawnDates_LeaderHSD() do
-			-- if isInGame[row.Civilization]  then
-				-- if bSavedSpawnDates then
-					-- if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
-						-- spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
-						-- print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
-					-- else
-						-- spawnDates[row.Civilization] = row.StartYear
-						-- print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-						-- Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
-					-- end				
-				-- else
-					-- spawnDates[row.Civilization] = row.StartYear
-					-- print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-					-- Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)				
-				-- end
-			-- end
-		-- end
-		for row in GameInfo.Civilizations() do
-			if isInGame[row.CivilizationType]  then
+		for row in GameInfo.HistoricalSpawnDates_LeaderHSD() do
+			if isInGame[row.Civilization]  then
 				if bSavedSpawnDates then
-					if Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType)) then
-						spawnDates[row.CivilizationType] = Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType))
-						print(tostring(row.CivilizationType), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType))), " (saved start date)")
+					if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
+						spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
+						print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
 					else
-						local iStartYear = ExposedMembers.GetLeaderTimeline(row.CivilizationType)
-						spawnDates[row.CivilizationType] = iStartYear
-						-- print(tostring(row.CivilizationType), " spawn year = ", tostring(iStartYear))
-						Game.SetProperty("SpawnDate_"..tostring(row.CivilizationType), iStartYear)
+						spawnDates[row.Civilization] = row.StartYear
+						print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+						Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
 					end				
 				else
-					local iStartYear = ExposedMembers.GetLeaderTimeline(row.CivilizationType)
-					spawnDates[row.CivilizationType] = iStartYear
-					print(tostring(row.CivilizationType), " spawn year = ", tostring(iStartYear))
-					Game.SetProperty("SpawnDate_"..tostring(row.CivilizationType), iStartYear)				
+					spawnDates[row.Civilization] = row.StartYear
+					print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+					Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)				
 				end
 			end
 		end
@@ -854,13 +794,13 @@ function GetHSD(iSpawnDateTables, civilizationType)
 		-- print("Selected timeline number "..tostring(iSpawnDateTables))
 	end
 	if (timeline == 0) then
-		print("Standard timeline selected")
+		-- print("Standard timeline selected")
 		iStartYear = ExposedMembers.GetStandardTimeline(civilizationType)
 	elseif(timeline == 1) then
-		print("True Start timeline selected")
+		-- print("True Start timeline selected")
 		iStartYear = ExposedMembers.GetTrueHSDTimeline(civilizationType)
 	elseif(timeline == 2) then
-		print("Leader timeline selected")
+		-- print("Leader timeline selected")
 		iStartYear = ExposedMembers.GetLeaderTimeline(civilizationType)
 	end
 	if bLiteMode then
@@ -868,6 +808,10 @@ function GetHSD(iSpawnDateTables, civilizationType)
 		if not eligibleForHSD then
 			iStartYear = -4100
 		end
+	end
+	if not iStartYear then
+		print("GetHSD() could not find a start year! Returning default start year")
+		iStartYear = -4100
 	end
 	return iStartYear
 end
@@ -885,7 +829,72 @@ function GetEraHSD(civilizationType)
 			iStartEra = 0
 		end
 	end
+	if not iStartEra then
+		print("GetEraHSD() could not find a start era! Returning default start era")
+		iStartEra = 0
+	end
 	return iStartEra
+end
+
+--Unused
+function SetHSD(iSpawnDateTables, Civilization)
+	local iStartYear = false
+	local iStartEra = false
+	if bHistoricalSpawnEras then --Global Variable
+		--Era Based Timeline
+		if bSavedSpawnDates then --Global Variable
+			if Game.GetProperty("SpawnEra_"..tostring(Civilization)) then
+				spawnEras[Civilization] = Game.GetProperty("SpawnEra_"..tostring(Civilization))
+				print(tostring(Civilization), " spawn era = ", tostring(Game.GetProperty("SpawnEra_"..tostring(Civilization))), " (saved start era)")
+			else
+				iStartYear = GetHSD(iSpawnDateTables, Civilization)
+				if iSpawnDateTables == 3 then
+					iStartEra = GetEraHSD(row.CivilizationType)
+				else
+					iStartEra = ConvertYearToEra(iStartYear)
+					if not iStartEra then
+						print("Start date could not be converted to era! Using default era")
+						iStartEra = 0
+					end
+				end
+				spawnEras[Civilization] = iStartEra
+				print(tostring(Civilization), " spawn era = ", tostring(iStartEra))
+				Game.SetProperty("SpawnEra_"..tostring(Civilization), iStartEra)
+			end
+		else
+			iStartYear = GetHSD(iSpawnDateTables, Civilization)
+			if iSpawnDateTables == 3 then
+				iStartEra = GetEraHSD(row.CivilizationType)
+			else
+				iStartEra = ConvertYearToEra(iStartYear)
+				if not iStartEra then
+					print("Start date could not be converted to era! Using default era")
+					iStartEra = 0
+				end
+			end
+			spawnEras[Civilization] = iStartEra
+			print(tostring(Civilization), " spawn era = ", tostring(iStartEra))
+			Game.SetProperty("SpawnEra_"..tostring(Civilization), iStartEra)
+		end
+	elseif(not bHistoricalSpawnEras) then --Global Variable
+		--Year based timeline
+		if bSavedSpawnDates then --Global Variable
+			if Game.GetProperty("SpawnDate_"..tostring(Civilization)) then
+				spawnDates[Civilization] = Game.GetProperty("SpawnDate_"..tostring(Civilization))
+				print(tostring(Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(Civilization))), " (saved start date)")
+			else
+				iStartYear = GetHSD(iSpawnDateTables, Civilization)
+				spawnDates[Civilization] = iStartYear
+				print(tostring(Civilization), " spawn year = ", tostring(iStartYear))
+				Game.SetProperty("SpawnDate_"..tostring(Civilization), iStartYear)
+			end
+		else
+			iStartYear = GetHSD(iSpawnDateTables, Civilization)
+			spawnDates[Civilization] = iStartYear
+			print(tostring(Civilization), " spawn year = ", tostring(iStartYear))
+			Game.SetProperty("SpawnDate_"..tostring(Civilization), iStartYear)
+		end
+	end
 end
 
 function GetTimelineOptions()
@@ -897,7 +906,7 @@ function GetTimelineOptions()
 				if inputHSD then
 					local value = ConvertStringToYear(inputHSD)
 					if bHistoricalSpawnEras then
-						print("Spawn eras are enabled. Converting start year to era")
+						-- print("Spawn eras are enabled. Converting start year to era")
 						local startEra = ConvertYearToEra(value)
 						if (iSpawnDateTables == 3) then
 							print("Era timeline detected. Using original values")
@@ -909,7 +918,7 @@ function GetTimelineOptions()
 						else
 							print("Start date could not be converted to era!")
 						end
-					else
+					elseif(not bHistoricalSpawnEras) then
 						print(tostring(row.CivilizationType), " spawn year = ", tostring(value))
 						spawnDates[row.CivilizationType] = value
 					end
@@ -924,6 +933,7 @@ function GetTimelineOptions()
 				if inputHSD then
 					local value = ConvertStringToYear(inputHSD)
 					if bHistoricalSpawnEras then
+						-- print("Spawn eras are enabled. Converting start year to era")
 						local startEra = ConvertYearToEra(value)
 						if (iSpawnDateTables == 3) then
 							print("Era timeline detected. Using original values")
@@ -935,7 +945,7 @@ function GetTimelineOptions()
 						else
 							print("Start date could not be converted to era!")
 						end
-					else
+					elseif(not bHistoricalSpawnEras) then
 						print(tostring(row.LeaderType), " spawn year = ", tostring(value))
 						spawnDates[row.LeaderType] = value
 					end
@@ -944,164 +954,253 @@ function GetTimelineOptions()
 				end
 			end
 		end
-	elseif(iSpawnDateTables and (not bHistoricalSpawnEras) and (iSpawnDateTables ~= 3) and (iSpawnDateTables ~= 2)) then
-		for row in GameInfo.Civilizations() do
-			if isInGame[row.CivilizationType]  then
-				local iStartYear = false
-				if bSavedSpawnDates then
-					if Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType)) then
-						spawnDates[row.CivilizationType] = Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType))
-						print(tostring(row.CivilizationType), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.CivilizationType))), " (saved start date)")
-					else
-						iStartYear = GetHSD(iSpawnDateTables, row.CivilizationType)
-						spawnDates[row.CivilizationType] = iStartYear
-						print(tostring(row.CivilizationType), " spawn year = ", tostring(spawnDates[row.CivilizationType]))
-						Game.SetProperty("SpawnDate_"..tostring(row.CivilizationType), iStartYear)
-					end	
-				else
-					iStartYear = GetHSD(iSpawnDateTables, row.CivilizationType)
-					spawnDates[row.CivilizationType] = iStartYear
-					print(tostring(row.CivilizationType), " spawn year = ", tostring(spawnDates[row.CivilizationType]))
-					Game.SetProperty("SpawnDate_"..tostring(row.CivilizationType), iStartYear)				
-				end
-			end
-		end
-		print("Checking for missing start dates")
-		for iPlayer = 0, iMaxPlayersZeroIndex do
-			local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
-			local reservePlayer = Game:GetProperty("ReservePlayer"..iPlayer)
-			if CivilizationTypeName and not spawnDates[CivilizationTypeName] and not reservePlayer then
-				print("Detected missing start date. Referring to Standard Timeline")
-				print("CivilizationTypeName is "..tostring(CivilizationTypeName).." and spawnDates[CivilizationTypeName] is "..tostring(spawnDates[CivilizationTypeName]))
-				local bMissingSpawnDate = true
-				while bMissingSpawnDate do 
-					for row in GameInfo.HistoricalSpawnDates() do
-						if row.Civilization == CivilizationTypeName  then
-							if bSavedSpawnDates then
-								if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
-									spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
-									print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
-									bMissingSpawnDate = false
-								else
-									spawnDates[row.Civilization] = row.StartYear
-									print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-									Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
-									bMissingSpawnDate = false
-								end	
+	elseif(iSpawnDateTables) then
+		if (iSpawnDateTables == 0) then
+			print("Standard timeline selected")
+			for row in GameInfo.HistoricalSpawnDates() do
+				if isInGame[row.Civilization]  then
+					-- SetHSD(iSpawnDateTables, row.Civilization)
+					if bHistoricalSpawnEras then
+						--Era Based Timeline
+						local iStartEra = false
+						if bSavedSpawnDates then
+							if Game.GetProperty("SpawnEra_"..tostring(row.Civilization)) then
+								spawnEras[row.Civilization] = Game.GetProperty("SpawnEra_"..tostring(row.Civilization))
+								print(tostring(row.Civilization), " spawn era = ", tostring(Game.GetProperty("SpawnEra_"..tostring(row.Civilization))), " (saved start era)")
 							else
-								spawnDates[row.Civilization] = row.StartYear
-								print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-								Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
-								bMissingSpawnDate = false						
+								local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+								iStartEra = ConvertYearToEra(iStartYear)
+								if not iStartEra then
+									print("Start date could not be converted to era! Using default era")
+									iStartEra = 0
+								end
+								spawnEras[row.Civilization] = iStartEra
+								print(tostring(row.Civilization), " spawn era = ", tostring(iStartEra))
+								Game.SetProperty("SpawnEra_"..tostring(row.Civilization), iStartEra)
 							end
-						end
-					end	
-					if bMissingSpawnDate then
-						print("Alternate starting date not found. Using default starting date")
-						bMissingSpawnDate = false
-					end
-				end
-			end		
-		end
-	elseif(iSpawnDateTables and (not bHistoricalSpawnEras) and (iSpawnDateTables == 2)) then
-		for row in GameInfo.HistoricalSpawnDates_LeaderHSD() do
-			if isInGame[row.Civilization]  then
-				if bSavedSpawnDates then
-					if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
-						spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
-						print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
-					else
-						spawnDates[row.Civilization] = row.StartYear
-						print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-						Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)
-					end				
-				else
-					spawnDates[row.Civilization] = row.StartYear
-					print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
-					Game.SetProperty("SpawnDate_"..tostring(row.Civilization), row.StartYear)				
-				end
-			end
-		end
-	elseif(bHistoricalSpawnEras or (iSpawnDateTables == 3)) then
-		print("Historical Spawn Eras timeline selected")
-		for row in GameInfo.Civilizations() do
-			if isInGame[row.CivilizationType]  then
-				local iStartEra = false
-				if bSavedSpawnDates then
-					if Game.GetProperty("SpawnEra_"..tostring(row.CivilizationType)) then
-						spawnEras[row.CivilizationType] = Game.GetProperty("SpawnEra_"..tostring(row.CivilizationType))
-						print(tostring(row.CivilizationType), " spawn era = ", tostring(Game.GetProperty("SpawnEra_"..tostring(row.CivilizationType))), " (saved start era)")
-					else
-						if iSpawnDateTables == 3 then
-							iStartEra = GetEraHSD(row.CivilizationType)
 						else
-							local iStartYear = GetHSD(iSpawnDateTables, row.CivilizationType)
+							local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
 							iStartEra = ConvertYearToEra(iStartYear)
 							if not iStartEra then
 								print("Start date could not be converted to era! Using default era")
 								iStartEra = 0
 							end
+							spawnEras[row.Civilization] = iStartEra
+							print(tostring(row.Civilization), " spawn era = ", tostring(iStartEra))
+							Game.SetProperty("SpawnEra_"..tostring(row.Civilization), iStartEra)
 						end
-						spawnEras[row.CivilizationType] = iStartEra
-						print(tostring(row.CivilizationType), " spawn era = ", tostring(iStartEra))
-						Game.SetProperty("SpawnEra_"..tostring(row.CivilizationType), iStartEra)
-					end
-				else
-					if iSpawnDateTables == 3 then
-						iStartEra = GetEraHSD(row.CivilizationType)
-					else
-						local iStartYear = GetHSD(iSpawnDateTables, row.CivilizationType)
-						iStartEra = ConvertYearToEra(iStartYear)
-						if not iStartEra then
-							print("Start date could not be converted to era! Using default era")
-							iStartEra = 0
-						end
-					end
-					spawnEras[row.CivilizationType] = iStartEra
-					print(tostring(row.CivilizationType), " spawn era = ", tostring(iStartEra))
-					Game.SetProperty("SpawnEra_"..tostring(row.CivilizationType), iStartEra)
-				end
-			end
-		end
-		print("Checking for missing start eras")
-		for iPlayer = 0, iMaxPlayersZeroIndex do
-			local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
-			local reservePlayer = Game:GetProperty("ReservePlayer"..iPlayer)
-			if CivilizationTypeName and not spawnEras[CivilizationTypeName] and not reservePlayer then
-				print("Detected missing start era. Referring to Standard Timeline")
-				print("CivilizationTypeName is "..tostring(CivilizationTypeName).." and spawnEras[CivilizationTypeName] is "..tostring(spawnEras[CivilizationTypeName]))
-				local bMissingSpawnEra = true
-				while bMissingSpawnEra do 
-					for row in GameInfo.HistoricalSpawnDates() do
-						if row.Civilization == CivilizationTypeName  then
-							local startEra = ConvertYearToEra(row.StartYear)
-							if startEra then
-								if bSavedSpawnDates then
-									if Game.GetProperty("SpawnEra_"..tostring(row.Civilization)) then
-										spawnEras[row.Civilization] = Game.GetProperty("SpawnEra_"..tostring(row.Civilization))
-										print(tostring(row.Civilization), " spawn era = ", tostring(Game.GetProperty("SpawnEra_"..tostring(row.Civilization))), " (saved start era)")
-										bMissingSpawnEra = false
-									else
-										spawnEras[row.Civilization] = startEra
-										print(tostring(row.Civilization), " spawn era = ", tostring(startEra))
-										Game.SetProperty("SpawnEra_"..tostring(row.Civilization), startEra)
-										bMissingSpawnEra = false
-									end
-								else
-									spawnEras[row.Civilization] = startEra
-									print(tostring(row.Civilization), " spawn era = ", tostring(startEra))
-									Game.SetProperty("SpawnEra_"..tostring(row.Civilization), startEra)
-									bMissingSpawnEra = false
-								end
+					elseif(not bHistoricalSpawnEras) then
+						--Year based timeline
+						if bSavedSpawnDates then
+							if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
+								spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
+								print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
+							else
+								local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+								spawnDates[row.Civilization] = iStartYear
+								print(tostring(row.Civilization), " spawn year = ", tostring(iStartYear))
+								Game.SetProperty("SpawnDate_"..tostring(row.Civilization), iStartYear)
 							end
+						else
+							local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+							spawnDates[row.Civilization] = iStartYear
+							print(tostring(row.Civilization), " spawn year = ", tostring(iStartYear))
+							Game.SetProperty("SpawnDate_"..tostring(row.Civilization), iStartYear)
 						end
-					end	
-					if bMissingSpawnEra then
-						print("Alternate starting era not found. Using default starting era")
-						bMissingSpawnEra = false
 					end
 				end
-			end		
+			end	
+		elseif(iSpawnDateTables == 1) then
+			print("True Start timeline selected")
+			for row in GameInfo.HistoricalSpawnDates_TrueHSD() do
+				if isInGame[row.Civilization]  then
+					-- SetHSD(iSpawnDateTables, row.Civilization)
+					if bHistoricalSpawnEras then
+						--Era Based Timeline
+						local iStartEra = false
+						if bSavedSpawnDates then
+							if Game.GetProperty("SpawnEra_"..tostring(row.Civilization)) then
+								spawnEras[row.Civilization] = Game.GetProperty("SpawnEra_"..tostring(row.Civilization))
+								print(tostring(row.Civilization), " spawn era = ", tostring(Game.GetProperty("SpawnEra_"..tostring(row.Civilization))), " (saved start era)")
+							else
+								local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+								iStartEra = ConvertYearToEra(iStartYear)
+								if not iStartEra then
+									print("Start date could not be converted to era! Using default era")
+									iStartEra = 0
+								end
+								spawnEras[row.Civilization] = iStartEra
+								print(tostring(row.Civilization), " spawn era = ", tostring(iStartEra))
+								Game.SetProperty("SpawnEra_"..tostring(row.Civilization), iStartEra)
+							end
+						else
+							local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+							iStartEra = ConvertYearToEra(iStartYear)
+							if not iStartEra then
+								print("Start date could not be converted to era! Using default era")
+								iStartEra = 0
+							end
+							spawnEras[row.Civilization] = iStartEra
+							print(tostring(row.Civilization), " spawn era = ", tostring(iStartEra))
+							Game.SetProperty("SpawnEra_"..tostring(row.Civilization), iStartEra)
+						end
+					elseif(not bHistoricalSpawnEras) then
+						--Year based timeline
+						if bSavedSpawnDates then
+							if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
+								spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
+								print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
+							else
+								local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+								spawnDates[row.Civilization] = iStartYear
+								print(tostring(row.Civilization), " spawn year = ", tostring(iStartYear))
+								Game.SetProperty("SpawnDate_"..tostring(row.Civilization), iStartYear)
+							end
+						else
+							local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+							spawnDates[row.Civilization] = iStartYear
+							print(tostring(row.Civilization), " spawn year = ", tostring(iStartYear))
+							Game.SetProperty("SpawnDate_"..tostring(row.Civilization), iStartYear)
+						end
+					end
+				end
+			end	
+		elseif(iSpawnDateTables == 2) then
+			print("Leader timeline selected")
+			for row in GameInfo.HistoricalSpawnDates_LeaderHSD() do
+				if isInGame[row.Civilization]  then
+					-- SetHSD(iSpawnDateTables, row.Civilization)
+					if bHistoricalSpawnEras then
+						--Era Based Timeline
+						local iStartEra = false
+						if bSavedSpawnDates then
+							if Game.GetProperty("SpawnEra_"..tostring(row.Civilization)) then
+								spawnEras[row.Civilization] = Game.GetProperty("SpawnEra_"..tostring(row.Civilization))
+								print(tostring(row.Civilization), " spawn era = ", tostring(Game.GetProperty("SpawnEra_"..tostring(row.Civilization))), " (saved start era)")
+							else
+								local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+								iStartEra = ConvertYearToEra(iStartYear)
+								if not iStartEra then
+									print("Start date could not be converted to era! Using default era")
+									iStartEra = 0
+								end
+								spawnEras[row.Civilization] = iStartEra
+								print(tostring(row.Civilization), " spawn era = ", tostring(iStartEra))
+								Game.SetProperty("SpawnEra_"..tostring(row.Civilization), iStartEra)
+							end
+						else
+							local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+							iStartEra = ConvertYearToEra(iStartYear)
+							if not iStartEra then
+								print("Start date could not be converted to era! Using default era")
+								iStartEra = 0
+							end
+							spawnEras[row.Civilization] = iStartEra
+							print(tostring(row.Civilization), " spawn era = ", tostring(iStartEra))
+							Game.SetProperty("SpawnEra_"..tostring(row.Civilization), iStartEra)
+						end
+					elseif(not bHistoricalSpawnEras) then
+						--Year based timeline
+						if bSavedSpawnDates then
+							if Game.GetProperty("SpawnDate_"..tostring(row.Civilization)) then
+								spawnDates[row.Civilization] = Game.GetProperty("SpawnDate_"..tostring(row.Civilization))
+								print(tostring(row.Civilization), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(row.Civilization))), " (saved start date)")
+							else
+								local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+								spawnDates[row.Civilization] = iStartYear
+								print(tostring(row.Civilization), " spawn year = ", tostring(iStartYear))
+								Game.SetProperty("SpawnDate_"..tostring(row.Civilization), iStartYear)
+							end
+						else
+							local iStartYear = GetHSD(iSpawnDateTables, row.Civilization)
+							spawnDates[row.Civilization] = iStartYear
+							print(tostring(row.Civilization), " spawn year = ", tostring(iStartYear))
+							Game.SetProperty("SpawnDate_"..tostring(row.Civilization), iStartYear)
+						end
+					end
+				end
+			end	
+		elseif(iSpawnDateTables == 3) then
+			print("Era timeline selected")
+			for row in GameInfo.HistoricalSpawnEras() do
+				if isInGame[row.Civilization]  then
+					--Era Based Timeline
+					local iStartEra = false
+					if bSavedSpawnDates then
+						if Game.GetProperty("SpawnEra_"..tostring(row.Civilization)) then
+							spawnEras[row.Civilization] = Game.GetProperty("SpawnEra_"..tostring(row.Civilization))
+							print(tostring(row.Civilization), " spawn era = ", tostring(Game.GetProperty("SpawnEra_"..tostring(row.Civilization))), " (saved start era)")
+						else
+							iStartEra = GetEraHSD(row.Civilization)
+							spawnEras[row.Civilization] = iStartEra
+							print(tostring(row.Civilization), " spawn era = ", tostring(iStartEra))
+							Game.SetProperty("SpawnEra_"..tostring(row.Civilization), iStartEra)
+						end
+					else
+						iStartEra = GetEraHSD(row.Civilization)
+						spawnEras[row.Civilization] = iStartEra
+						print(tostring(row.Civilization), " spawn era = ", tostring(iStartEra))
+						Game.SetProperty("SpawnEra_"..tostring(row.Civilization), iStartEra)
+					end
+				end
+			end	
+		end
+	end
+	print("Checking for missing start dates")
+	for iPlayer = 0, iMaxPlayersZeroIndex do
+		local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+		local LeaderTypeName = PlayerConfigurations[iPlayer]:GetLeaderTypeName()
+		local reservePlayer = Game:GetProperty("ReservePlayer"..iPlayer)
+		if CivilizationTypeName and not bHistoricalSpawnEras and not spawnDates[LeaderTypeName] and not spawnDates[CivilizationTypeName] and not reservePlayer then
+			print("Detected missing start date.")
+			print("CivilizationTypeName is "..tostring(CivilizationTypeName).." and spawnDates[CivilizationTypeName] is "..tostring(spawnDates[CivilizationTypeName]))
+			if bSavedSpawnDates then
+				if Game.GetProperty("SpawnDate_"..tostring(CivilizationTypeName)) then
+					spawnDates[CivilizationTypeName] = Game.GetProperty("SpawnDate_"..tostring(CivilizationTypeName))
+					print(tostring(CivilizationTypeName), " spawn year = ", tostring(Game.GetProperty("SpawnDate_"..tostring(CivilizationTypeName))), " (saved start date)")
+				else
+					local iStartYear = GetHSD(iSpawnDateTables, CivilizationTypeName)
+					spawnDates[CivilizationTypeName] = iStartYear
+					print(tostring(CivilizationTypeName), " spawn year = ", tostring(iStartYear))
+					Game.SetProperty("SpawnDate_"..tostring(CivilizationTypeName), iStartYear)
+				end
+			else
+				local iStartYear = GetHSD(iSpawnDateTables, CivilizationTypeName)
+				spawnDates[CivilizationTypeName] = iStartYear
+				print(tostring(CivilizationTypeName), " spawn year = ", tostring(iStartYear))
+				Game.SetProperty("SpawnDate_"..tostring(CivilizationTypeName), iStartYear)
+			end
+		end	
+		if CivilizationTypeName and bHistoricalSpawnEras and not spawnEras[LeaderTypeName] and not spawnEras[CivilizationTypeName] and not reservePlayer then
+			print("Detected missing start era.")
+			print("CivilizationTypeName is "..tostring(CivilizationTypeName).." and spawnEras[CivilizationTypeName] is "..tostring(spawnEras[CivilizationTypeName]))
+			local iStartEra = false
+			if bSavedSpawnDates then
+				if Game.GetProperty("SpawnEra_"..tostring(CivilizationTypeName)) then
+					spawnEras[CivilizationTypeName] = Game.GetProperty("SpawnEra_"..tostring(CivilizationTypeName))
+					print(tostring(CivilizationTypeName), " spawn era = ", tostring(Game.GetProperty("SpawnEra_"..tostring(CivilizationTypeName))), " (saved start era)")
+				else
+					local iStartYear = GetHSD(iSpawnDateTables, CivilizationTypeName)
+					iStartEra = ConvertYearToEra(iStartYear)
+					if not iStartEra then
+						print("Start date could not be converted to era! Using default era")
+						iStartEra = 0
+					end
+					spawnEras[CivilizationTypeName] = iStartEra
+					print(tostring(CivilizationTypeName), " spawn era = ", tostring(iStartEra))
+					Game.SetProperty("SpawnEra_"..tostring(CivilizationTypeName), iStartEra)
+				end
+			else
+				local iStartYear = GetHSD(iSpawnDateTables, CivilizationTypeName)
+				iStartEra = ConvertYearToEra(iStartYear)
+				if not iStartEra then
+					print("Start date could not be converted to era! Using default era")
+					iStartEra = 0
+				end
+				spawnEras[CivilizationTypeName] = iStartEra
+				print(tostring(CivilizationTypeName), " spawn era = ", tostring(iStartEra))
+				Game.SetProperty("SpawnEra_"..tostring(CivilizationTypeName), iStartEra)
+			end
 		end
 	end
 end
@@ -1360,7 +1459,9 @@ end
 -- ===========================================================================
 
 function InitializeHSD()
-	LuaEvents.SetTurnYear(Game.GetCurrentGameTurn())
+	if Game.GetCurrentGameTurn() ~= GameConfiguration.GetStartTurn() then
+		LuaEvents.SetTurnYear(Game.GetCurrentGameTurn())
+	end
 	-- print("Setting the HSD")
 	GetTimelineOptions()
 	-- print("Setting the current era on game load")
@@ -3381,7 +3482,7 @@ function SpawnPlayer(iPlayer)
 		if isolatedCivs[CivilizationTypeName] then isolatedPlayer = true end
 		if ColonialCivs[CivilizationTypeName] then colonialPlayer = true end
 		
-		-- print("Check Spawning Date for ", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear))
+		print("Check Spawning Date for ", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear))
 		
 		-- Give era score to civilizations before spawn		
 		if bHistoricalSpawnEras and player:IsMajor() then
@@ -3470,8 +3571,8 @@ function SpawnPlayer(iPlayer)
 				end					
 				bPlayerSpawned = true
 			end
-		elseif(spawnYear and not bHistoricalSpawnEras and (spawnYear >= previousTurnYear) and (spawnYear < currentTurnYear)) then
-			Game:SetProperty(playerID .. "YearSpawn" .. spawnEra, currentTurnYear)
+		elseif(spawnYear and not bHistoricalSpawnEras and (((spawnYear >= previousTurnYear) and (spawnYear < currentTurnYear)) or ((spawnYear <= previousTurnYear) and (Game.GetCurrentGameTurn() == GameConfiguration.GetStartTurn())))) then
+			Game:SetProperty(playerID .. "_YearSpawn", currentTurnYear)
 			local startingPlot = player:GetStartingPlot()
 			local newStartingPlot = false
 			local oceanStart = false
