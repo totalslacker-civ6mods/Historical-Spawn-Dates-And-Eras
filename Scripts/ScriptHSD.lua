@@ -3482,7 +3482,7 @@ function SpawnPlayer(iPlayer)
 		if isolatedCivs[CivilizationTypeName] then isolatedPlayer = true end
 		if ColonialCivs[CivilizationTypeName] then colonialPlayer = true end
 		
-		print("Check Spawning Date for ", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear))
+		-- print("Check Spawning Date for ", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear))
 		
 		-- Give era score to civilizations before spawn		
 		if bHistoricalSpawnEras and player:IsMajor() then
@@ -4390,7 +4390,7 @@ function Invasions_SpawnInvasion(iPlayer)
 		-- print("Increase the era count for the additional era")
 		-- iEra = 1
 	end
-	if (gameCurrentEra >= (4 + iEra)) then
+	if (gameCurrentEra >= (3 + iEra)) then
 		bEraLimit = true
 	end	
 	if not pPlayer:IsMajor() then bCityState = true end
