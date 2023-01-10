@@ -1622,7 +1622,7 @@ function SetCityDatas(iPlayer)
 	local pCities = Players[iPlayer]:GetCities()
 	local pCity
 	for ii, pCity in pCities:Members() do			
-		for i, kCityDatas in ipairs(CityDataList) do						
+		for i, kCityDatas in pairs(CityDataList) do						
 			if ( pCity:GetX() == kCityDatas.iPosX and pCity:GetY() == kCityDatas.iPosY ) then
 				SetCityPopulation( pCity, kCityDatas.iPop )
 			end	
@@ -1636,7 +1636,7 @@ function SetPlayerCityUIDatas( iPlayer )
 	local CityManager	= WorldBuilder.CityManager or ExposedMembers.CityManager
 	local bInheritCityPlots = true
 	local bInheritCityName = false
-	for _,kCityUIDatas in ipairs(CityUIDataList) do
+	for _,kCityUIDatas in pairs(CityUIDataList) do
 		local pCities = Players[iPlayer]:GetCities();
 		for _, pCity in pCities:Members() do
 			if( pCity:GetX() == kCityUIDatas.iPosX and pCity:GetY() == kCityUIDatas.iPosY ) then 
@@ -1644,7 +1644,7 @@ function SetPlayerCityUIDatas( iPlayer )
 				if (bInheritCityName == true) then pCity:SetName(kCityUIDatas.sCityName); end		
 				--Set City Tiles:
 				if (bInheritCityPlots == true) then
-					for _,kCoordinates in ipairs(kCityUIDatas.CityPlotCoordinates) do
+					for _,kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
 						local pPlot = Map.GetPlotByIndex(kCoordinates.plotID)
 						if CityManager then
 							if iPlayer ~= -1 then
@@ -1677,7 +1677,7 @@ function SetPlayerCityUIDatas( iPlayer )
 				end
 				--Set City Districts:								
 				local pCityBuildQueue = pCity:GetBuildQueue();
-				for _,kDistrictDatas in ipairs(kCityUIDatas.CityDistricts) do 
+				for _,kDistrictDatas in pairs(kCityUIDatas.CityDistricts) do 
 					local plot = Map.GetPlot(kDistrictDatas.iPosX, kDistrictDatas.iPosY)
 					local iDistrictType = kDistrictDatas.iType
 					--Check if district exists in the unique districts table
@@ -1693,7 +1693,7 @@ function SetPlayerCityUIDatas( iPlayer )
 					--unfortunately we do not have any Lua function that can set a district to pillaged
 				end		
 				--Set City Buildings:
-				for _,kBuildingData in ipairs(kCityUIDatas.CityBuildings) do
+				for _,kBuildingData in pairs(kCityUIDatas.CityBuildings) do
 					local iConstructionLevel = 100 --complete building
 					local iBuildingID = kBuildingData.iBuildingID
 					local bIsPillaged = kBuildingData.bIsPillaged
@@ -1701,7 +1701,7 @@ function SetPlayerCityUIDatas( iPlayer )
 					pCity:GetBuildings():SetPillaged(iBuildingID, bIsPillaged)
 				end
 				--Set Religious Pressures:
-				for _,kReligionData in ipairs(kCityUIDatas.CityReligions) do
+				for _,kReligionData in pairs(kCityUIDatas.CityReligions) do
 					local iPressure = kReligionData.iPressure
 					local iReligionType = kReligionData.iReligionType
 					-- print("Setting " .. iPressure .. " pressure for Religion " .. iReligionType)
@@ -3662,10 +3662,17 @@ function GetStartingBonuses(player)
 	
 	-- science
 	local pScience = player:GetTechs()	
-	for iTech, number in ipairs(knownTechs) do
+	for iTech, number in pairs(knownTechs) do
+		-- print("Tech is "..Locale.Lookup(GameInfo.Technologies[iTech].Name.." - "..tostring(number)))
 		if number >= minCivForTech then
 			if player:IsHuman() then
 				pScience:SetTech(iTech, true) --use SetTech() for human player to skip popups
+				print(tostring(" - " .. Locale.Lookup(GameInfo.Technologies[iTech].Name)))
+				if not pScience:HasTech(iTech) then
+					print(" - Tech not detected after using SetTech(). Calling pScience:SetResearchProgress(iTech, ScienceCost)")
+					local ScienceCost  = pScience:GetResearchCost(iTech)
+					pScience:SetResearchProgress(iTech, ScienceCost)
+				end
 			elseif(not player:IsHuman()) then --the AI will not research new techs or civics if we use SetTech() or SetCivic()
 				local ScienceCost  = pScience:GetResearchCost(iTech)
 				pScience:SetResearchProgress(iTech, ScienceCost)
@@ -3674,6 +3681,11 @@ function GetStartingBonuses(player)
 		elseif(bTechCivicBoost) then
 			if player:IsHuman() then
 				pScience:SetTech(iTech, true)
+				if not pScience:HasTech(iTech) then
+					print(" - Tech not detected after using SetTech(). Calling pScience:SetResearchProgress(iTech, ScienceCost)")
+					local ScienceCost  = pScience:GetResearchCost(iTech)
+					pScience:SetResearchProgress(iTech, ScienceCost)
+				end
 			elseif(not player:IsHuman()) then
 				local ScienceCost  = pScience:GetResearchCost(iTech)
 				pScience:SetResearchProgress(iTech, ScienceCost)
@@ -3864,8 +3876,12 @@ function SetCurrentBonuses()
 			totalScience = totalScience + pScience:GetResearchProgress( pScience:GetResearchingTech() )
 			for kTech in GameInfo.Technologies() do		
 				local iTech	= kTech.Index
+				-- print(tostring(" -- kTech exists -- " .. Locale.Lookup(GameInfo.Technologies[iTech].Name)))
 				if pScience:HasTech(iTech) then
-					if not knownTechs[iTech] then knownTechs[iTech] = 0 end
+					if not knownTechs[iTech] then
+						-- print(tostring(" -- HasTech() -- " .. Locale.Lookup(GameInfo.Technologies[iTech].Name)))
+						knownTechs[iTech] = 0 
+					end
 					knownTechs[iTech] = knownTechs[iTech] + 1
 				end
 			end

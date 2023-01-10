@@ -240,7 +240,7 @@ function GetPlayerCityUIDatas(pPlayerID, pCityID)
 		kCityUIDatas.sCityName = pCity:GetName()
 		--City Tiles Datas:
 		local kCityPlots :table = Map.GetCityPlots():GetPurchasedPlots( pCity )				
-		for _,plotID in ipairs(kCityPlots) do
+		for _,plotID in pairs(kCityPlots) do
 			local pPlot:table = Map.GetPlotByIndex(plotID)
 			local kCoordinates:table = {
 				iX = pPlot:GetX(), 
@@ -277,7 +277,7 @@ function GetPlayerCityUIDatas(pPlayerID, pCityID)
 		end
 		--Religious Pressure Data:
 		local pReligions :table = pCity:GetReligion():GetReligionsInCity()
-		for _, religionData in ipairs(pReligions) do
+		for _, religionData in pairs(pReligions) do
 			table.insert(kCityUIDatas.CityReligions, {
 				iReligionType = religionData.Religion,
 				iPressure = religionData.Pressure,
@@ -296,7 +296,7 @@ end
 function GetEraCountdown()
 	local pGameEras:table = Game.GetEras()
 	local nextEraCountdown = pGameEras:GetNextEraCountdown() + 1; -- 0 turns remaining is the last turn, shift by 1 to make sense to non-programmers
-	print("nextEraCountdown is "..tostring(nextEraCountdown))
+	-- print("nextEraCountdown is "..tostring(nextEraCountdown))
 	return nextEraCountdown
 end
 
