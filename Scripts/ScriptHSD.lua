@@ -83,6 +83,8 @@ local bSpawnRange				= MapConfiguration.GetValue("SpawnRange")
 local bGoldenAgeSpawn			= MapConfiguration.GetValue("SpawnAge")
 local bLiteMode					= MapConfiguration.GetValue("LiteMode")
 local bCityStateRevolts			= MapConfiguration.GetValue("CityStateRevolts") or true --set to false if config value is created
+local bRenameCapitals			= MapConfiguration.GetValue("RenameCapitals") or false
+local bConvertMode				= MapConfiguration.GetValue("ConvertMode") or false
 -- local iLegacySpawnDates			= MapConfiguration.GetValue("OldWorldStart")
 local bRagingBarbarians			= MapConfiguration.GetValue("RagingBarbarians") or false
 local bBarbarianInvasions		= MapConfiguration.GetValue("RagingBarbarians_Invasions") or false
@@ -2831,11 +2833,17 @@ function DirectCityConversion(iPlayer, pPlot)
 		local pCityOwnerID = pCity:GetOwner()
 		local pDiplomacy = pPlayer:GetDiplomacy()
 		local iWar = WarTypes.FORMAL_WAR
-		pDiplomacy:SetHasMet(pCityOwnerID)					
-		-- local convertedCity = ConvertCapital(iPlayer, pPlot, pCityOwnerID, pCity)
+		pDiplomacy:SetHasMet(pCityOwnerID)
 		local convertedCity = false
-		local temp = CityManager.TransferCity(pCity, iPlayer)	--will return false
-		if (pCityOwnerID ~= Cities.GetCityInPlot(pPlot):GetOwner()) then
+		if bConvertMode then
+			print("Convert as New City option detected. City will be destroyed and recreated as an original city of the new player.")
+			convertedCity = ConvertCapital(iPlayer, pPlot, pCityOwnerID, pCity)
+		else
+			print("Default city conversion selected. City will be marked as conquered from the original owner.")
+			local temp = CityManager.TransferCity(pCity, iPlayer)	--will return false
+		end
+		local newCityOwnerID = Cities.GetCityInPlot(pPlot):GetOwner()
+		if (pCityOwnerID ~= newCityOwnerID) then
 			print("City has been converted!")
 			local originalOwnerID = Cities.GetCityInPlot(pPlot):GetOriginalOwner()
 			print("originalOwnerID is "..tostring(originalOwnerID))
@@ -2846,6 +2854,20 @@ function DirectCityConversion(iPlayer, pPlot)
 			-- else
 				-- print("Check capital returned false")
 			-- end
+			if bRenameCapitals and (pPlayer:GetCities():GetCapitalCity():GetID() == Cities.GetCityInPlot(pPlot):GetID()) then
+				local newCityName = false
+				local results = DB.Query("SELECT * FROM CityNames")
+				for i, row in ipairs(results) do
+					if row.CivilizationType == PlayerConfigurations[newCityOwnerID]:GetCivilizationTypeName() then
+						newCityName = row.CityName
+						print(tostring(row.CivilizationType), " new capital name = ", tostring(row.CityName))
+						-- print("The first city name in the list for a Civ is always the capital. Break the loop to stop searching now.")
+						break
+					end
+				end
+				-- print("Changing city name for capital city of new player to "..tostring(GameInfo.CityNames[PlayerConfigurations[newCityOwnerID]:GetCivilizationTypeName()]))
+				Cities.GetCityInPlot(pPlot):SetName(newCityName)
+			end
 			convertedCity = true	
 		end
 		if convertedCity then
@@ -3735,8 +3757,29 @@ function GetStartingBonuses(player)
 	
 	-- get starting governments
 	if ColonialCivs[CivilizationTypeName] then
-		--Unlock Democracy
-		pCulture:UnlockGovernment(GameInfo.Governments["GOVERNMENT_DEMOCRACY"].Index)
+		if GameInfo.Eras["ERA_6T_POST_CLASSICAL"] then 
+			print("Historical Spawn Dates has detected the 6T Era Mod. Checking for Enlightenment Government add-on.")
+			if GameInfo.Governments["GOVERNMENT_JNR_REVOLUTIONARY"] then
+				pCulture:UnlockGovernment(GameInfo.Governments["GOVERNMENT_JNR_REVOLUTIONARY"].Index)
+				print("Revolutionary republic government unlocked for Colonial Civilization.")
+			else
+				print("Could not unlock government. GameInfo.Governments['GOVERNMENT_JNR_REVOLUTIONARY'] is "..tostring(GameInfo.Governments["GOVERNMENT_JNR_REVOLUTIONARY"]))
+				if GameInfo.Governments["GOVERNMENT_DEMOCRACY"] then
+					pCulture:UnlockGovernment(GameInfo.Governments["GOVERNMENT_DEMOCRACY"].Index)
+					print("Democracy government unlocked for Colonial Civilization.")
+				else
+					print("Could not unlock government. GameInfo.Governments['GOVERNMENT_DEMOCRACY'] is "..tostring(GameInfo.Governments["GOVERNMENT_DEMOCRACY"]))
+				end	
+			end			
+		else
+			-- print("No era or government mods detected.")
+			if GameInfo.Governments["GOVERNMENT_DEMOCRACY"] then
+				pCulture:UnlockGovernment(GameInfo.Governments["GOVERNMENT_DEMOCRACY"].Index)
+				print("Democracy government unlocked for Colonial Civilization.")
+			else
+				print("Could not unlock government. GameInfo.Governments['GOVERNMENT_DEMOCRACY'] is "..tostring(GameInfo.Governments["GOVERNMENT_DEMOCRACY"]))
+			end	
+		end
 	end
 	
 	

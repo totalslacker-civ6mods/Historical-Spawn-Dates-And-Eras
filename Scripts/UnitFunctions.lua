@@ -709,7 +709,7 @@ function StartingUnits_Static(iPlayer, pPlot, currentGameEra, settlersBonus)
 	
 	print(" - Settlers = "..tostring(settlersBonus))
 	if settlersBonus and (settlersBonus > 0)  then
-		local pPlayerCities = pPlayer:GetCities()
+		local pPlayerCities = player:GetCities()
 		local iCityCount = 0
 		for i, pLoopCity in pPlayerCities:Members() do
 			if pLoopCity then

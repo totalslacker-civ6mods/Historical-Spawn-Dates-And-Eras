@@ -306,6 +306,18 @@
 	<Replace Tag="LOC_HSD_UNIQUE_SPAWN_PLAYER_DESCRIPTION" Language="en_US">
       <Text>This civilization has a unique spawn zone.</Text>
     </Replace>
+	<Replace Tag="LOC_HSD_RENAME_CAPITALS_NAME" Language="en_US">
+      <Text>Rename Capitals</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_RENAME_CAPITALS_DESCRIPTION" Language="en_US">
+      <Text>Cities which are converted into capital cities for new players will always use the capital name for that player. The original name for the converted city will be replaced.[NEWLINE][NEWLINE]When this option is disabled, converted cities will keep the name given by the previous owner or from real city name mods.</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_CONVERT_MODE_NAME" Language="en_US">
+      <Text>Convert as New City</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_CONVERT_MODE_DESCRIPTION" Language="en_US">
+      <Text>Destroy and recreate cities upon conversion. The new player will be marked as the original owner of all cities they convert, including their capital.[NEWLINE][NEWLINE]When this option is disabled, cities are converted using the default game method that conquers the city, inflicting damage and marking the city as originally owned by another player. This can cause new players to not have an original capital. This does not prevent Domination victory.</Text>
+    </Replace>
 	<!-- Headers and Footers -->
 	<Replace Tag="LOC_MAP_HSD_HEADER_MAIN_NAME" Language="en_US">
       <Text>[ICON_Bolt] [COLOR_Civ6Yellow]Historical Spawn Dates[ENDCOLOR] [ICON_Bolt] </Text>
