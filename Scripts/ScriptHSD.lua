@@ -3667,12 +3667,7 @@ function GetStartingBonuses(player)
 	local CivilizationTypeName = PlayerConfigurations[playerID]:GetCivilizationTypeName()
 	local iTechsLearned = 0
 	local iCivicsLearned = 0
-	--When spawning city-states, we only need the information up to this point
-	--End the function for city-states here
-	if not player:IsMajor() then
-		return
-	end
-	
+
 	-- gold
 	local pTreasury = player:GetTreasury()
 	local playerGoldBonus = goldBonus
@@ -3754,6 +3749,13 @@ function GetStartingBonuses(player)
 			-- pCulture:SetCulturalProgress(iCivic, CultureCost)
 		end
 	end	
+	
+	--When spawning city-states, we only need the information up to this point
+	--End the function for city-states here
+	if not player:IsMajor() then
+		return
+	end
+	
 	
 	-- get starting governments
 	if ColonialCivs[CivilizationTypeName] then

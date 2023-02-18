@@ -73,6 +73,12 @@ VALUES
 ( 	'LEADER_NADER_SHAH', 					1688 ),
 ( 	'LEADER_TOKUGAWA', 						1543 ),
 ( 	'LEADER_SULEIMAN_ALT', 					1494 ),
+(	'LEADER_QIN_ALT',						-259 ),
+(	'LEADER_WU_ZETIAN',						624 ),
+(	'LEADER_YONGLE',						1360 ),
+( 	'LEADER_CLEOPATRA_ALT', 				-69 ),
+( 	'LEADER_RAMSES', 						-1303 ),
+( 	'LEADER_SUNDIATA_KEITA', 				1217 ),
 -- Gedemo Leaders
 ( 	'LEADER_GEDEMO_LINCOLN', 			1861 ),
 ( 	'LEADER_GEDEMO_RAMESSES', 			-1279 ),
