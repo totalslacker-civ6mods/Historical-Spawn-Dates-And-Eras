@@ -32,14 +32,14 @@
 		
 		<Row ParameterId="SpawnUUs" Name="LOC_MAP_UNIQUE_UNITS" Description="LOC_MAP_UNIQUE_UNITS_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="SpawnUUs" GroupId="AdvancedOptions" Visible="1" SortIndex="321"/>	
 		
+		<Row ParameterId="SettlerBonus" Name="LOC_MAP_SETTLER_BONUS_NAME" Description="LOC_MAP_SETTLER_BONUS_DESC" Domain="SettlerBonus" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="SettlerBonus" GroupId="AdvancedOptions" Visible="1" SortIndex="321"/>	
+		
 		<!-- BOOST OPTIONS -->
 		<Row ParameterId="GrantGPP" Name="LOC_MAP_GRANT_GPP" Description="LOC_MAP_GRANT_GPP_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="GrantGPP" GroupId="AdvancedOptions" Visible="1" SortIndex="322"/>
 		
 		<Row ParameterId="TechCivicBoost" Name="LOC_MAP_HSD_BOOST" Description="LOC_MAP_HSD_BOOST_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="TechCivicBoost" GroupId="AdvancedOptions" Visible="1" SortIndex="323"/>
 		
 		<Row ParameterId="EraBuildingForAll" Name="LOC_MAP_ERA_BUILDING" Description="LOC_MAP_ERA_BUILDING_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="EraBuildingForAll" GroupId="AdvancedOptions" Visible="1" SortIndex="324"/>
-		
-		<Row ParameterId="Comandantes" Name="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA" Description="LOC_MAP_COMANDANTES_INDUSTRIAL_ERA_DESC" Domain="bool" DefaultValue="5" ConfigurationGroup="Map" ConfigurationId="Comandantes" GroupId="AdvancedOptions" Visible="0" SortIndex="325"/>
 
 		<Row ParameterId="SpawnAge" Name="LOC_MAP_SPAWN_AGE" Description="LOC_MAP_SPAWN_AGE_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="SpawnAge" GroupId="AdvancedOptions" Visible="1" SortIndex="326"/>
 		
@@ -84,6 +84,8 @@
 		
 		<Row ParameterId="RagingBarbarians_Invasions" Name="LOC_HSD_INVASIONS_NAME" Description="LOC_HSD_INVASIONS_DESCRIPTION" Domain="bool" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="RagingBarbarians_Invasions" GroupId="AdvancedOptions" Visible="1" SortIndex="346"/>
 		
+		<Row ParameterId="InvasionDifficulty" Name="LOC_MAP_INVASION_DIFFICULTY_SLIDER_NAME" Description="LOC_MAP_INVASION_DIFFICULTY_SLIDER_DESC" Domain="InvasionDifficulty" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="InvasionDifficulty" GroupId="AdvancedOptions" Visible="1" SortIndex="347"/>
+		
 		<!-- Legacy Support for Old Saves (set to hidden) -->
 		<!-- <Row ParameterId="OldWorldStart" Name="LOC_MAP_OLD_WORLD_START" Description="" Domain="OldWorldStart" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="OldWorldStart" GroupId="AdvancedOptions" Visible="0" SortIndex="310"/> -->
 	</Parameters>
@@ -114,10 +116,15 @@
 		<!-- Unit Spawn Types -->
 		<Replace Domain="HSD_UnitLists" Value="0" 	Name="LOC_HSD_DYNAMIC_UNITS_NAME" 	Description="LOC_HSD_DYNAMIC_UNITS_DESC" 	SortIndex="10"/>
 		<Replace Domain="HSD_UnitLists" Value="1" 	Name="LOC_HSD_STATIC_UNITS_NAME" 	Description="LOC_HSD_STATIC_UNITS_DESC" 	SortIndex="20"/>
+		<!-- Settler Bonus Types -->
+		<Replace Domain="SettlerBonus" Value="0" 	Name="LOC_HSD_SETTLER_BONUS_ERA_NAME" 	Description="LOC_HSD_SETTLER_BONUS_ERA_DESC" 	SortIndex="10"/>
+		<Replace Domain="SettlerBonus" Value="1" 	Name="LOC_HSD_SETTLER_BONUS_CITY_NAME" 	Description="LOC_HSD_SETTLER_BONUS_CITY_DESC" 	SortIndex="20"/>
+		<Replace Domain="SettlerBonus" Value="2" 	Name="LOC_HSD_SETTLER_BONUS_NONE_NAME" 	Description="LOC_HSD_SETTLER_BONUS_NONE_DESC" 	SortIndex="30"/>
 	</DomainValues>	
 	<DomainRanges>
 		<Replace Domain="SpawnRangeSlider" 		MinimumValue="2" MaximumValue="20" />
 		<Replace Domain="ComandantesSlider" 	MinimumValue="1" MaximumValue="7" />
+		<Replace Domain="InvasionDifficulty" 	MinimumValue="1" MaximumValue="3" />
 	</DomainRanges>
 	<ParameterDependencies>	
 		<Row ParameterId="ForceTSL" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="NotEquals" ConfigurationValue="1"/>
@@ -156,8 +163,6 @@
 		<Row ParameterId="ConvertCities" ConfigurationGroup="Map" ConfigurationId="BalanceHSD" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="ConvertSpawnZones" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="ConvertSpawnZones" ConfigurationGroup="Map" ConfigurationId="BalanceHSD" Operator="Equals" ConfigurationValue="1"/>
-		<Row ParameterId="Comandantes" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="Equals" ConfigurationValue="1"/>
-		<Row ParameterId="Comandantes" ConfigurationGroup="Map" ConfigurationId="BalanceHSD" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="ComandantesSlider" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="RagingBarbarians" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="RagingBarbarians" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_RAGING_BARBARIANS" Operator="Equals" ConfigurationValue="1"/>
@@ -178,6 +183,8 @@
 		<Row ParameterId="ConvertMode" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="ConvertMode" ConfigurationGroup="Map" ConfigurationId="ConvertCities" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="ConvertMode" ConfigurationGroup="Map" ConfigurationId="HSD_AdvancedOptions" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="InvasionDifficulty" ConfigurationGroup="Map" ConfigurationId="RagingBarbarians_Invasions" Operator="Equals" ConfigurationValue="1"/>
+		<Row ParameterId="SettlerBonus" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="Equals" ConfigurationValue="1"/>
 		<!-- Headers -->
 		<Row ParameterId="HSD_AdvancedOptions" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="Equals" ConfigurationValue="1"/>
 		<Row ParameterId="HSD_Header_Main" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HSD" Operator="Equals" ConfigurationValue="1"/>

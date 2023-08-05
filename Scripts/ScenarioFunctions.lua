@@ -15,6 +15,7 @@ ExposedMembers.GetTribeNameType = {}
 -- ===========================================================================
 
 local bDramaticAges = GameConfiguration.GetValue("GAMEMODE_DRAMATICAGES")
+local iInvasionDifficulty = MapConfiguration.GetValue("InvasionDifficulty") or 2 -- 1 = Easy, 2 = Normal, 3 = Hard
 
 -- ===========================================================================
 -- Notifications
@@ -212,6 +213,7 @@ function CreateTribeAt( eType, iPlotIndex )
 	return iTribeNumber
 end
 
+--Unused
 function SpawnBarbsByPlayer(campPlot)
 	local bBarbarian = false
 	local isBarbarian = false
@@ -391,14 +393,39 @@ end
 
 function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 	print("Spawning a unique barbarian camp for "..tostring(sCivTypeName))
+	local InvasionPlayerID = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
 	local iBarbarianTribe = false
 	local bIsCoastalCamp = false
 	local pBarbManager = Game.GetBarbarianManager() 
 	local iRange = 3;
 	local iUnitDifficulty = math.ceil((iDifficulty/2))
-	local szTribeName = ""
 	local iEra = ((Game.GetEras():GetCurrentEra()) + 1) --Game eras are zero indexed
-	local InvasionCamp = Game:GetProperty("InvasionCamp_"..campPlot:GetIndex())
+	if InvasionPlayerID then
+		print("Invasion player ID is "..tostring(InvasionPlayerID))
+		local player = Players[InvasionPlayerID]
+		print("player is "..tostring(player))
+		local iPlayerCities	= player:GetCities():GetCount()
+		print("Setting unit bonuses for barbarian invasion...")
+		if (iPlayerCities == 1) then
+			print("Player has one city. Era bonus for barbarian unit spawns reduced to 1.")
+			iEra = 1
+		end
+		if (iInvasionDifficulty == 1) then
+			print("Invasion difficulty set to Easy. Difficulty level bonus will be removed. Era bonus reduced to 1.")
+			iUnitDifficulty = 0
+			iEra = 1
+		elseif(iInvasionDifficulty == 2) then
+			print("Invasion difficulty set to Normal. Difficulty level bonus will be removed.")
+			iUnitDifficulty = 0
+		elseif(iInvasionDifficulty == 3) then
+			print("Invasion difficulty set to Hard. Unit quantity will increase with difficulty level.")
+			iUnitDifficulty = math.ceil((iDifficulty/2))
+		end
+		if (iPlayerCities < iUnitDifficulty) and (iInvasionDifficulty > 2) then
+			print("Era bonus for barbarian units exceeds the number of player cities. Reducing bonus to player city count.")
+			iUnitDifficulty = iPlayerCities
+		end
+	end
 	-- print("Gathering contient dimensions")
 	local maxY = ContinentDimensions[sCivTypeName].maxY
 	local spanY = ContinentDimensions[sCivTypeName].spanY
@@ -430,13 +457,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern Africa
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Atlantic coast
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, ZuluBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_ZULU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_ZULU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -445,13 +472,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Indian coast
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, ZuluBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_ZULU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_ZULU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -463,13 +490,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--North African coast
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Maghreb
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaliBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MALI", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NUBIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -478,13 +505,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Libya
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, NubianBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MALI", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NUBIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -496,25 +523,25 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 		elseif(not bIsCoastalCamp) then
 			if campPlot:GetFeatureType() == GameInfo.Features["FEATURE_JUNGLE"].Index then
 				--Any plot with a jungle
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, KongoBarbarianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_KONGO", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_KONGO", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, KongoBarbarianTribe)
 				end
 			elseif(campPlot:GetY() < lowerHalf) then
 				--Subsaharan Africa
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, ZuluBarbarianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_ZULU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_ZULU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, ZuluBarbarianTribe)
 				end
@@ -522,25 +549,25 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--North Africa
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--West Africa
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaliBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MALI", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NUBIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaliBarbarianTribe)
 					end
 				else
 					--East Africa
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, NubianBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_ETHIOPIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NUBIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, NubianBarbarianTribe)
 					end
@@ -553,7 +580,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern Asia
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Middle East
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionMiddleEastAncient)
 						elseif (iEra == 2) then
@@ -565,7 +592,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAMLUK", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PERSIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -574,13 +601,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Indochina
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, VaruBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_DOMREY", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VOI_CHIEN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -592,7 +619,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Northern Asia
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Central Asia
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionCentralAsiaAncient)
 						elseif (iEra == 2) then
@@ -604,7 +631,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SCYTHIAN", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SCYTHIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_TAGMA", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -612,7 +639,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, ScythianBarbarianTribe)
 					end
 				else
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEastAsiaAncient)
 						elseif (iEra == 2) then
@@ -624,7 +651,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_EASTASIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -639,18 +666,18 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Middle East
 					if campPlot:GetFeatureType() == GameInfo.Features["FEATURE_JUNGLE"].Index then
-						if InvasionCamp then
+						if InvasionPlayerID then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, VaruBarbarianTribe)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_DOMREY", (1 + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VOI_CHIEN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						else
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, VaruBarbarianTribe)
 						end
 					else
-						if InvasionCamp then
+						if InvasionPlayerID then
 							if (iEra == 1) then
 								iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionMiddleEastAncient)
 							elseif (iEra == 2) then
@@ -662,20 +689,20 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAMLUK", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PERSIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						else
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, PersianBarbarianTribe)
 						end
 					end
 				else
 					--Indochina
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, VaruBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VOI_CHIEN", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_DOMREY", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, VaruBarbarianTribe)
 					end
@@ -683,13 +710,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 			else
 				--Northern Asia
 				if campPlot:GetFeatureType() == GameInfo.Features["FEATURE_JUNGLE"].Index then
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, VaruBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARU", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VOI_CHIEN", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARU", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_DOMREY", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, VaruBarbarianTribe)
 					end
@@ -697,7 +724,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					--Central Asia / Middle East
 					if not ((campPlot:GetTerrainType() == GameInfo.Terrains["TERRAIN_GRASS_HILLS"].Index) or (campPlot:GetTerrainType() == GameInfo.Terrains["TERRAIN_PLAINS_HILLS"].Index) or (campPlot:GetTerrainType() == GameInfo.Terrains["TERRAIN_DESERT_HILLS"].Index)) then
 						--Flatlands
-						if InvasionCamp then
+						if InvasionPlayerID then
 							if (iEra == 1) then
 								iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionCentralAsiaAncient)
 							elseif (iEra == 2) then
@@ -709,13 +736,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SCYTHIAN", (1 + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SCYTHIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_TAGMA", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						else
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, ScythianBarbarianTribe)
 						end
 					else
 						--Hills
-						if InvasionCamp then
+						if InvasionPlayerID then
 							if (iEra == 1) then
 								iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionMiddleEastAncient)
 							elseif (iEra == 2) then
@@ -727,7 +754,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAMLUK", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PERSIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						else
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, PersianBarbarianTribe)
 						end
@@ -736,7 +763,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					--East Asia
 					if not ((campPlot:GetFeatureType() == GameInfo.Features["FEATURE_FOREST"].Index) or (campPlot:GetFeatureType() == GameInfo.Features["FEATURE_FLOODPLAINS"].Index) or (campPlot:GetFeatureType() == GameInfo.Features["FEATURE_FLOODPLAINS_GRASSLAND"].Index) or (campPlot:GetFeatureType() == GameInfo.Features["FEATURE_FLOODPLAINS_PLAINS"].Index) or (campPlot:GetFeatureType() == GameInfo.Features["FEATURE_MARSH"].Index) or (campPlot:GetTerrainClassType() == GameInfo.TerrainClasses["TERRAIN_CLASS_TUNDRA"].Index) or (campPlot:GetTerrainClassType() == GameInfo.TerrainClasses["TERRAIN_CLASS_SNOW"].Index)) then
 						--Plots without features, and northern terrain
-						if InvasionCamp then
+						if InvasionPlayerID then
 							if (iEra == 1) then
 								iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEasternSteppeAncient)
 							elseif (iEra == 2) then
@@ -748,13 +775,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_LIGHTCAV", (1 + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						else
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, MongolBarbarianTribe)
 						end
 					else
 						--Features present on plot
-						if InvasionCamp then
+						if InvasionPlayerID then
 							if (iEra == 1) then
 								iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEastAsiaAncient)
 							elseif (iEra == 2) then
@@ -766,7 +793,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 							pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_EASTASIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+							InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						else
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, EastAsianBarbarianTribe)
 						end
@@ -780,13 +807,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern Australia
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Western Australia
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, AustralianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -795,13 +822,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--NSW & Victoria
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, AustralianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -813,13 +840,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Northern Australia
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Northern Territories
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, AustralianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -828,13 +855,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Queensland
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, AustralianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -846,25 +873,25 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 		elseif(not bIsCoastalCamp) then
 			if (campPlot:GetY() < lowerHalf) then
 				--Southern Australia
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, AustralianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, AustralianTribe)
 				end
 			else
 				--Northern Australia
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, AustralianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AUSTRALIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, AustralianTribe)
 				end
@@ -876,7 +903,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern Europe
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Western Mediterranean
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEuropeWestAncient)
 						elseif (iEra == 2) then
@@ -888,7 +915,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CELTIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -897,7 +924,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Eastern Mediterranean
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEuropeEastAncient)
 						elseif (iEra == 2) then
@@ -909,7 +936,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -919,7 +946,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				end
 			else
 				--Northern Europe
-				if InvasionCamp then
+				if InvasionPlayerID then
 					if (iEra == 1) then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEuropeNorthAncient)
 					elseif (iEra == 2) then
@@ -931,7 +958,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					--Spawn Naval Units
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -944,7 +971,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern Europe
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Western Mediterranean
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEuropeWestAncient)
 						elseif (iEra == 2) then
@@ -956,7 +983,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CELTIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, CelticBarbarianTribe)
@@ -966,7 +993,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Eastern Mediterranean
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEuropeEastAncient)
 						elseif (iEra == 2) then
@@ -978,7 +1005,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, BalkansBarbarianTribe)
 					end
@@ -987,7 +1014,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Northern Europe
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Western Europe
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEuropeNorthAncient)
 						elseif (iEra == 2) then
@@ -999,7 +1026,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CELTIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, CelticBarbarianTribe)
@@ -1009,7 +1036,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Eastern Europe
-					if InvasionCamp then
+					if InvasionPlayerID then
 						if (iEra == 1) then
 							iBarbarianTribe = SpawnBarbarianTribe(campPlot, InvasionEuropeNorthAncient)
 						elseif (iEra == 2) then
@@ -1021,7 +1048,7 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SLAVIC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_VARANGIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SlavicBarbarianTribe)
 					end
@@ -1030,38 +1057,38 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 		end
 	elseif(sCivTypeName == "CONTINENT_GREENLANDIA") then
 		if bIsCoastalCamp then
-			if InvasionCamp then
+			if InvasionPlayerID then
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, ThuleTribe)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
-				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 			else
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, ThuleTribe)
 			end
 		elseif(not bIsCoastalCamp) then
-			if InvasionCamp then
+			if InvasionPlayerID then
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, ThuleTribe)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_INUIT", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 			else
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, ThuleTribe)
 			end
 		end
 	elseif(sCivTypeName == "CONTINENT_MADAGASCARIA") then
 		if bIsCoastalCamp then
-			if InvasionCamp then
+			if InvasionPlayerID then
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
-				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 			else
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 			end
 		elseif(not bIsCoastalCamp) then
-			if InvasionCamp then
+			if InvasionPlayerID then
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAORI", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 			else
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 			end
@@ -1072,13 +1099,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern NA
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Pacific Coast
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, AztecBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AZTEC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAYA", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -1087,13 +1114,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Atlantic Coast
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, AztecBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AZTEC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAYA", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -1105,13 +1132,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Northern NA
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Alaska / PNW
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, CreeBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CREE", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CREE", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -1120,13 +1147,13 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 					end
 				else
 					--Quebec
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, CreeBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CREE", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CREE", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 						--Spawn Naval Units
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", iEra, campPlot:GetIndex(), iRange)
@@ -1138,37 +1165,37 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 		elseif(not bIsCoastalCamp) then
 			if (campPlot:GetY() < lowerHalf) then
 				--Southern NA
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, AztecBarbarianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_AZTEC", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAYA", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, AztecBarbarianTribe)
 				end
 			else
 				--Northern NA
 				if not ((campPlot:GetFeatureType() == GameInfo.Features["FEATURE_FOREST"].Index) or (campPlot:GetFeatureType() == GameInfo.Features["FEATURE_JUNGLE"].Index) or (campPlot:GetFeatureType() == GameInfo.Features["FEATURE_MARSH"].Index) or (campPlot:GetTerrainClassType() == GameInfo.TerrainClasses["TERRAIN_CLASS_TUNDRA"].Index) or (campPlot:GetTerrainClassType() == GameInfo.TerrainClasses["TERRAIN_CLASS_SNOW"].Index)) then
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, ComancheBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_COMANCHE", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_COMANCHE", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, ComancheBarbarianTribe)
 					end
 				else
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, CreeBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CREE", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_CREE", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, CreeBarbarianTribe)
 					end
@@ -1181,21 +1208,21 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern Pacific
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Fiji
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 					end
 				else
 					--Easter Island
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 					end
@@ -1204,21 +1231,21 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Northern Pacific
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Guam
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 					end
 				else
 					--Hawaii
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 					end
@@ -1227,19 +1254,19 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 		elseif(not bIsCoastalCamp) then
 			if (campPlot:GetY() < lowerHalf) then
 				--Southern Pacific
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAORI", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 				end
 			else
 				--Northern Pacific
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAORI", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 				end
@@ -1251,25 +1278,25 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern Siberia
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Central Russia
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 					end
 				else
 					--Far Eastern Russia
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 					end
@@ -1278,25 +1305,25 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Northern Siberia
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Central Russia
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 					end
 				else
 					--Far Eastern Russia
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 					end
@@ -1305,25 +1332,25 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 		elseif(not bIsCoastalCamp) then
 			if (campPlot:GetY() < lowerHalf) then
 				--Southern Siberia
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 				end
 			else
 				--Northern Siberia
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MONGOL", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, SiberianBarbarianTribe)
 				end
@@ -1335,25 +1362,25 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Southern SA
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Pacific Coast
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, PatagonianBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PATAGONIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PATAGONIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, PatagonianBarbarianTribe)
 					end
 				else
 					--Atlantic Coast
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, PatagonianBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PATAGONIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PATAGONIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, PatagonianBarbarianTribe)
 					end
@@ -1362,25 +1389,25 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 				--Northern SA
 				if ((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX))) then
 					--Colombian Coast
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, IncanBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SOUTHAM", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_INCAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, IncanBarbarianTribe)
 					end
 				else
 					--North Brazilian Coast
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SouthAmericanTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SOUTHAM", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAYA", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SouthAmericanTribe)
 					end
@@ -1389,37 +1416,37 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 		elseif(not bIsCoastalCamp) then
 			if (campPlot:GetY() < lowerHalf) then
 				--Southern SA
-				if InvasionCamp then
+				if InvasionPlayerID then
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, PatagonianBarbarianTribe)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PATAGONIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 					pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_PATAGONIAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+					InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 				else
 					iBarbarianTribe = SpawnBarbarianTribe(campPlot, PatagonianBarbarianTribe)
 				end
 			else
 				--Northern SA
 				if not ((campPlot:GetFeatureType() == GameInfo.Features["FEATURE_FOREST"].Index) or (campPlot:GetFeatureType() == GameInfo.Features["FEATURE_JUNGLE"].Index) or (campPlot:GetFeatureType() == GameInfo.Features["FEATURE_MARSH"].Index)) or (((campPlot:GetX() < rightHalf) and (campPlot:GetX() >= baseX)) or ((baseX > rightHalf) and ((campPlot:GetX() < rightHalf) or (campPlot:GetX() >= baseX)))) then
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, IncanBarbarianTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SOUTHAM", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_INCAN", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, IncanBarbarianTribe)
 					end
 				else
-					if InvasionCamp then
+					if InvasionPlayerID then
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SouthAmericanTribe)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SUPPORT", iEra, campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SIEGE", (1 + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_SOUTHAM", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
 						pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAYA", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+						InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 					else
 						iBarbarianTribe = SpawnBarbarianTribe(campPlot, SouthAmericanTribe)
 					end
@@ -1428,19 +1455,19 @@ function SpawnUniqueBarbarians(campPlot, sCivTypeName)
 		end
 	elseif(sCivTypeName == "CONTINENT_ZEALANDIA") then
 		if bIsCoastalCamp then
-			if InvasionCamp then
+			if InvasionPlayerID then
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_MELEE", iEra, campPlot:GetIndex(), iRange)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_NAVAL_RANGED", (1 + iEra), campPlot:GetIndex(), iRange)
-				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 			else
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 			end
 		elseif(not bIsCoastalCamp) then
-			if InvasionCamp then
+			if InvasionPlayerID then
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 				pBarbManager:CreateTribeUnits(iBarbarianTribe, "CLASS_BARB_MAORI", (iUnitDifficulty + iEra), campPlot:GetIndex(), iRange)
-				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionCamp)
+				InvadeFromPlot(campPlot, iBarbarianTribe, InvasionPlayerID)
 			else
 				iBarbarianTribe = SpawnBarbarianTribe(campPlot, MaoriBarbarianTribe)
 			end

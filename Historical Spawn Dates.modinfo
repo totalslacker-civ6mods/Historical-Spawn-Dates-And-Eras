@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mod id="684731c5-4837-427d-9378-0c58e1201325" version="1.5.2">
+<Mod id="684731c5-4837-427d-9378-0c58e1201325" version="1.5.3">
 	<Properties>
 		<Name>LOC_HISTORICAL_SPAWN_DATES_TITLE</Name>
 		<Teaser>LOC_HISTORICAL_SPAWN_DATES_TEASER</Teaser>
@@ -160,19 +160,19 @@
 				<Value>1</Value>
 			</ConfigurationValueMatches>
 		</Criteria>	
-		<Criteria id="HSD_Comandantes">
-			<ConfigurationValueMatches>
-				<Group>Map</Group>
-				<ConfigurationId>Comandantes</ConfigurationId>
-				<Value>1</Value>
-			</ConfigurationValueMatches>
-			<ConfigurationValueMatches>
-				<Group>Map</Group>
-				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
-				<Value>1</Value>
-			</ConfigurationValueMatches>
-			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
-		</Criteria>
+		<!-- <Criteria id="HSD_Comandantes"> -->
+			<!-- <ConfigurationValueMatches> -->
+				<!-- <Group>Map</Group> -->
+				<!-- <ConfigurationId>Comandantes</ConfigurationId> -->
+				<!-- <Value>1</Value> -->
+			<!-- </ConfigurationValueMatches> -->
+			<!-- <ConfigurationValueMatches> -->
+				<!-- <Group>Map</Group> -->
+				<!-- <ConfigurationId>HistoricalSpawnDates</ConfigurationId> -->
+				<!-- <Value>1</Value> -->
+			<!-- </ConfigurationValueMatches> -->
+			<!-- <LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable> -->
+		<!-- </Criteria> -->
 		<Criteria id="HSD_Comandantes_1">
 			<ConfigurationValueMatches>
 				<Group>Map</Group>
@@ -389,12 +389,6 @@
 			<File>Data/RagingBarbarians.sql</File>
 			<File>Data/RagingBarbarians.xml</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes">
-           	<Properties>
-				<LoadOrder>110</LoadOrder>
-           	</Properties>
-			<File>Data/Comandantes.sql</File>
-		</UpdateDatabase>
 		<UpdateDatabase id="HSD_Comandantes" criteria="HSD_Comandantes_1">
            	<Properties>
 				<LoadOrder>110</LoadOrder>
@@ -574,7 +568,6 @@
 		<File>Data/ModSupport.sql</File>
 		<File>Data/IsolatedCivs.sql</File>
 		<File>Data/LoyalHarbors.sql</File>
-		<File>Data/Comandantes.sql</File>
 		<File>Data/GamePlay.sql</File>
 		<File>Data/GamePlay.xml</File>
 		<File>Data/Comandantes_1.sql</File>

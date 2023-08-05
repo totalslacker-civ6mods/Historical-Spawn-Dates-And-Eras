@@ -96,6 +96,7 @@ local bUniqueSpawnZones			= MapConfiguration.GetValue("UniqueSpawnZones") or fal
 local bIgnoreGovernor			= MapConfiguration.GetValue("IgnoreGovernor") or false
 local bOverrideSpawn			= MapConfiguration.GetValue("OverrideSpawn") or false
 local iUnitListType				= MapConfiguration.GetValue("UnitList") or 1 -- 1 = Static Unit List, 0 = Dynamic Unit List
+local iSettlerEras				= MapConfiguration.GetValue("SettlerBonus") or 1 -- 0 = Era Based, 1 = Average City Count, 2 = None
 
 print("bHistoricalSpawnDates is "..tostring(bHistoricalSpawnDates))
 print("bHistoricalSpawnEras is "..tostring(bHistoricalSpawnEras))
@@ -2399,6 +2400,99 @@ function FindClosestStartingPlotByContinent(startingPlot)
 	return selectedPlot
 end
 
+function FindClosestInvasionPlotByContinent(startingPlot)	
+	local selectedPlot = startingPlot
+	local pContinentType = startingPlot:GetContinentType()
+	local continentPlots = {}
+	local newInvasionPlots = {}
+	local iNumAreaPlots = 0
+	local tContinents = Map.GetContinentsInUse()
+	for i, iContinent in ipairs(tContinents) do
+		-- print("Starting continent is "..tostring(GameInfo.Continents[pContinentType].ContinentType)..", checking continent is "..tostring(GameInfo.Continents[iContinent].ContinentType))
+		if (GameInfo.Continents[iContinent].ContinentType == GameInfo.Continents[pContinentType].ContinentType) then
+			-- print("Starting continent matches")
+			continentPlots = Map.GetContinentPlots(iContinent)
+			-- print("Number of continent plots is "..tostring(#continentPlots))
+		end
+	end
+	--Check the plots in table continentPlots to create the list of new invasion plots
+	for j, iPlotIndex in ipairs(continentPlots) do
+		local pPlot = Map.GetPlotByIndex(iPlotIndex)
+		if pPlot then
+			local impassable = true
+			local isOwned = true
+			local isBarbarianPlot = false
+			if pPlot:IsImpassable() ~= nil then impassable = pPlot:IsImpassable() end
+			if pPlot:IsOwned() ~= nil then isOwned = pPlot:IsOwned() end
+			if not impassable and not isOwned then
+				local iCityDistance = FindClosestCityDistance(pPlot:GetX(), pPlot:GetY())
+				if iCityDistance > 3 then
+					local plotImprovementIndex = pPlot:GetImprovementType()
+					if GameInfo.Improvements[plotImprovementIndex] then
+						-- print("Plot improvement detected: "..tostring(GameInfo.Improvements[plotImprovementIndex].ImprovementType))
+						-- print("Barbarian camp value is: "..tostring(GameInfo.Improvements[plotImprovementIndex].BarbarianCamp))
+						if (GameInfo.Improvements[plotImprovementIndex].BarbarianCamp == 1) or (GameInfo.Improvements[plotImprovementIndex].ImprovementType == "IMPROVEMENT_BARBARIAN_CAMP") then
+							isBarbarianPlot = true
+							-- print("Barbarian camp detected in plot! Cannot spawn on an existing camp.")
+						end
+					end
+					if not isBarbarianPlot then
+						table.insert(newInvasionPlots, pPlot)
+						-- print("New invasion plot found")
+						-- print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))
+						-- print("iCityDistance: "..tostring(iCityDistance))
+					end						
+				end
+			end		
+		end
+	end
+	--Fallback if no new invasion plots are found
+	if (#newInvasionPlots < 1) and continentPlots then
+		-- print("No distant invasion plots found on this continent. Attempting final pass without city distance check.")
+		for j, iPlotIndex in ipairs(continentPlots) do
+			local pPlot = Map.GetPlotByIndex(iPlotIndex)
+			if pPlot then
+				local impassable = true
+				local isOwned = true
+				if pPlot:IsImpassable() ~= nil then impassable = pPlot:IsImpassable() end
+				if pPlot:IsOwned() ~= nil then isOwned = pPlot:IsOwned() end
+				if not impassable and not isOwned then
+					local plotImprovementIndex = pPlot:GetImprovementType()
+					if GameInfo.Improvements[plotImprovementIndex] then
+						-- print("Plot improvement detected: "..tostring(GameInfo.Improvements[plotImprovementIndex].ImprovementType))
+						-- print("Barbarian camp value is: "..tostring(GameInfo.Improvements[plotImprovementIndex].BarbarianCamp))
+						if (GameInfo.Improvements[plotImprovementIndex].BarbarianCamp == 1) or (GameInfo.Improvements[plotImprovementIndex].ImprovementType == "IMPROVEMENT_BARBARIAN_CAMP") then
+							isBarbarianPlot = true
+							-- print("Barbarian camp detected in plot! Cannot spawn on an existing camp.")
+						end
+					end
+					if not isBarbarianPlot then
+						table.insert(newInvasionPlots, pPlot)
+						-- print("New invasion plot found (final pass)")
+						-- print("Plot: "..tostring(pPlot:GetX())..", "..tostring(pPlot:GetY()))
+					end	
+				end		
+			end
+		end		
+	end
+	--Score the table/list of new invasion plots
+	local plotScore = -100
+	for j, pPlot in ipairs(newInvasionPlots) do
+		if pPlot then
+			local iScore = ScorePlotsByDistance(pPlot, startingPlot)
+			if iScore > plotScore then 
+				plotScore = iScore 
+				selectedPlot = pPlot
+			end
+		end
+	end
+	if selectedPlot == startingPlot then
+		print("WARNING: A new invasion plot could not be found, returning false")
+		selectedPlot = false
+	end
+	return selectedPlot
+end
+
 --Give all players with HSD the Code of Laws civic to prevent issues with choosing a policy before spawning
 --Use different methods for AI and Human players to prevent popups and allow the AI to progress
 --Left the option open to give isolated players more starting civics in the code below
@@ -3976,13 +4070,25 @@ function SetCurrentBonuses()
 	
 		end
 	end
-	
+	--print("Checking settler bonus based on Advanced Setup menu option")
+	if (iSettlerEras == 0) then
+		settlersBonus 	= Game.GetEras():GetCurrentEra() --Flat rate based on era			
+	elseif(iSettlerEras == 1) then
+		if (playersWithCity > 0) then
+			settlersBonus 	= Round((totalCities-1)/playersWithCity) --Based on average number of cities 
+		else
+			-- print("No cities")
+			settlersBonus = 0
+		end
+	elseif(iSettlerEras == 2) then
+		settlersBonus 	= 0
+	end
+	--print("Setting remaining bonuses")
 	if playersWithCity > 0 then
 		scienceBonus 	= Round(totalScience/playersWithCity)
 		minCivForTech	= playersWithCity*25/100
 		minCivForCivic	= playersWithCity*10/100
 		goldBonus 		= Round(totalGold/playersWithCity)
-		settlersBonus 	= Round((totalCities-1)/playersWithCity)
 		tokenBonus 		= Round(totalToken/playersWithCity)
 		faithBonus		= Round(totalFaith * (gameCurrentEra+1) * 25/100)
 	end
@@ -4142,11 +4248,11 @@ function OnCityInitialized(iPlayer, cityID, x, y)
 		return 
 	end
 	
-	--totalslacker: check for capital for Super Monument
+	--Check for capital for Super Monument
 	local superMonument = false
 	if city == player:GetCities():GetCapitalCity() then superMonument = true end
 	
-	--totalslacker: add era buildings
+	--Add era buildings
 	local eraBuildingSpawn = false
 	local eraBuildingForAll = false
 	if ColonialCivs[CivilizationTypeName] then eraBuildingSpawn = true end
@@ -4191,7 +4297,7 @@ function OnCityInitialized(iPlayer, cityID, x, y)
 		-- end
 	-- end
 	
-	--totalslacker: the line below will prevent every new city after the era limit from spawning units, buildings and population
+	--The line below will prevent every new city after the era limit from spawning units, buildings and population
 	--TODO: conditional based on list ?
 	local eraLimit = CheckEraLimit(player)
 	if eraLimit then 
@@ -4208,6 +4314,28 @@ function OnCityInitialized(iPlayer, cityID, x, y)
 	print("Era = "..tostring(playerEra))
 	print("StartingPopulationCapital = "..tostring(kEraBonuses.StartingPopulationCapital))
 	print("StartingPopulationOtherCities = "..tostring(kEraBonuses.StartingPopulationOtherCities))
+	
+	if (player:GetCities():GetCount() == 1) and (city == player:GetCities():GetCapitalCity()) then
+		print("Spawning builders when first city is founded...")
+		for kUnits in GameInfo.MajorStartingUnits() do
+			if (GameInfo.Eras[kUnits.Era].Index == gameCurrentEra) and (kUnits.Unit == "UNIT_BUILDER") and not kUnits.AiOnly then
+				local numUnit = math.max(kUnits.Quantity, 1)	
+				for i = 0, numUnit - 1, 1 do
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, kUnits.Unit, cityPlot:GetX(), cityPlot:GetY())
+					print(" - "..tostring(kUnits.Unit).." = "..tostring(numUnit))
+				end
+			end
+			if not player:IsHuman() then
+				if (GameInfo.Eras[kUnits.Era].Index == gameCurrentEra) and (kUnits.Unit == "UNIT_BUILDER") and kUnits.AiOnly then
+					local numUnit = math.max(kUnits.Quantity, 1)	
+					for i = 0, numUnit - 1, 1 do
+						UnitManager.InitUnitValidAdjacentHex(iPlayer, kUnits.Unit, cityPlot:GetX(), cityPlot:GetY())
+						print(" - "..tostring(kUnits.Unit).." = "..tostring(numUnit))
+					end
+				end
+			end
+		end	
+	end
 	
 	if kEraBonuses.StartingPopulationCapital and (city == player:GetCities():GetCapitalCity()) then 
 		if iDifficulty < 5 then
@@ -4486,7 +4614,7 @@ function Invasions_SpawnUniqueInvasion(iPlayer)
 		local pCapital = pPlayer:GetCities():GetCapitalCity()
 		if pCapital then
 			local cityPlot = Map.GetPlot(pCapital:GetX(), pCapital:GetY())
-			local campPlot = FindClosestStartingPlotByContinent(cityPlot)
+			local campPlot = FindClosestInvasionPlotByContinent(cityPlot)
 			local continentIndex = cityPlot:GetContinentType()
 			local ContinentType = GameInfo.Continents[continentIndex].ContinentType
 			if not GameInfo.BarbarianTribes["TRIBE_MELEE"] then

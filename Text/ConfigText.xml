@@ -23,7 +23,7 @@
       <Text>Raging Barbarians Mode</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_RAGING_BARBARIANS_DESCRIPTION" Language="en_US">
-      <Text>Barbarian camps have historical names and spawn unique units based on the continent and game era. These units are weaker versions of civilization unique units and can be viewed from the Civilopedia. Tribe name visible on unit tooltip.[ENDCOLOR][NEWLINE][NEWLINE]For Earth maps. Detects the following continents: Africa, Asia, Australia, Greenlandia, Madagascaria, North America, South America, Oceania, Siberia, Zealandia[NEWLINE][NEWLINE][ICON_Bullet]Disabled with Barbarian Clans.[NEWLINE][NEWLINE][ICON_Bullet][COLOR_Civ6Red]Requires all DLC and Expansions![NEWLINE]</Text>
+      <Text>Barbarian camps have historical names and spawn unique units based on the continent and game era. These units are weaker versions of civilization unique units and can be viewed from the Civilopedia. Tribe name visible on unit tooltip.[ENDCOLOR][NEWLINE][NEWLINE]For Earth maps. Detects the following continents: Africa, Asia, Australia, Europe, Greenlandia, Madagascaria, North America, South America, Oceania, Siberia, Zealandia[NEWLINE][NEWLINE][ICON_Bullet]Disabled with Barbarian Clans.[NEWLINE][NEWLINE][ICON_Bullet][COLOR_Civ6Red]Requires all DLC and Expansions![NEWLINE]</Text>
     </Replace>
  	<Replace Tag="LOC_HSD_INVASIONS_NAME" Language="en_US">
       <Text>Barbarian Invasions</Text>
@@ -317,6 +317,36 @@
     </Replace>
 	<Replace Tag="LOC_HSD_CONVERT_MODE_DESCRIPTION" Language="en_US">
       <Text>Destroy and recreate cities upon conversion. The new player will be marked as the original owner of all cities they convert, including their capital.[NEWLINE][NEWLINE]When this option is disabled, cities are converted using the default game method that conquers the city, inflicting damage and marking the city as originally owned by another player. This can cause new players to not have an original capital. This does not prevent Domination victory.</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_INVASION_DIFFICULTY_SLIDER_NAME" Language="en_US">
+      <Text>Invasion Difficulty</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_INVASION_DIFFICULTY_SLIDER_DESC" Language="en_US">
+      <Text>1 = Easy: Barbarian units always spawn the minimum amount[NEWLINE]2 = Normal: Barbarians receive bonus units based on the era count[NEWLINE]3 = Hard: Barbarian receive bonus units based on the era count and the game difficulty setting (starting at 1 unit on Settler, increasing with difficulty by 1 unit every 2 levels)</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_SETTLER_BONUS_NAME" Language="en_US">
+      <Text>Settler Bonus</Text>
+    </Replace>
+	<Replace Tag="LOC_MAP_SETTLER_BONUS_DESC" Language="en_US">
+      <Text>Choose an option for the number of bonus settlers</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_SETTLER_BONUS_ERA_NAME" Language="en_US">
+      <Text>Era Count</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_SETTLER_BONUS_ERA_DESC" Language="en_US">
+      <Text>Number of settlers increases linearly with era count</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_SETTLER_BONUS_CITY_NAME" Language="en_US">
+      <Text>Average City Count</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_SETTLER_BONUS_CITY_DESC" Language="en_US">
+      <Text>Number of settlers is based on the average number of cities owned by other players</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_SETTLER_BONUS_NONE_NAME" Language="en_US">
+      <Text>None</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_SETTLER_BONUS_NONE_DESC" Language="en_US">
+      <Text>No bonus settlers</Text>
     </Replace>
 	<!-- Headers and Footers -->
 	<Replace Tag="LOC_MAP_HSD_HEADER_MAIN_NAME" Language="en_US">
