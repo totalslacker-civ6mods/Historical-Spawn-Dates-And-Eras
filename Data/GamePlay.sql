@@ -4,9 +4,9 @@
 	
 */
 
-INSERT OR REPLACE INTO GlobalParameters (Name, Value) VALUES ('HSD_VERSION', '1.3.1');
+INSERT OR REPLACE INTO GlobalParameters (Name, Value) VALUES ('HSD_VERSION', '1.5.1');
 
-/* Obselete code, leaving for posterity or in case it needs to be used again */
+/* Deprecated */
 
 -- DELETE FROM MajorStartingUnits WHERE Unit="UNIT_SETTLER";
 -- UPDATE StartingBuildings SET Era="ERA_CLASSICAL" WHERE Building="BUILDING_WALLS";

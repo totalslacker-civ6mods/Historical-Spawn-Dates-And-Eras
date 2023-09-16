@@ -83,26 +83,68 @@ function GetMostAdvancedUnit(iPlayer, promotionClass)
 	local pCulture = pPlayer:GetCulture()
 	local playerCivics = {}
 	local iCivicCost = -1
+	local currentEra = Game.GetEras():GetCurrentEra()
 	local selectedUnit = false
 	-- print("Gather list of techs known by player")
-	for kTech in GameInfo.Technologies() do		
+	for kTech in GameInfo.Technologies() do
 		local iTech	= kTech.Index
-		if pScience:HasTech(iTech) then
-			if not playerTechs[iTech] then playerTechs[iTech] = 0 end
-			playerTechs[iTech] = playerTechs[iTech] + 1
+		if bSubtractEra then --Global Variable
+			print("Lesser Era mode detected")
+			print("Current era is "..tostring(currentEra)..". Era index for tech is "..tostring(GameInfo.Eras[kTech.EraType].Index))
+			if (GameInfo.Eras[kTech.EraType].Index > 0) then
+				--Lesser Era mode restricts units to the previous era
+				if (GameInfo.Eras[kTech.EraType].Index < currentEra) then
+					if pScience:HasTech(iTech) then
+						if not playerTechs[iTech] then playerTechs[iTech] = 0 end
+						playerTechs[iTech] = playerTechs[iTech] + 1
+					end
+				end
+			else
+				--Ancient Era techs are always valid
+				if pScience:HasTech(iTech) then
+					if not playerTechs[iTech] then playerTechs[iTech] = 0 end
+					playerTechs[iTech] = playerTechs[iTech] + 1
+				end
+			end
+		else
+			--Default setting. All techs known by the player are valid.
+			if pScience:HasTech(iTech) then
+				if not playerTechs[iTech] then playerTechs[iTech] = 0 end
+				playerTechs[iTech] = playerTechs[iTech] + 1
+			end
 		end
 	end
 	-- print("Gather list of civics known by player")
 	for kCivic in GameInfo.Civics() do		
 		local iCivic = kCivic.Index
-		if pCulture:HasCivic(iCivic) then
-			if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
-			playerCivics[iCivic] = playerCivics[iCivic] + 1
+		if bSubtractEra then --Global Variable
+			print("Lesser Era mode detected")
+			print("Current era is "..tostring(currentEra)..". Era index for civic is "..tostring(GameInfo.Eras[kCivic.EraType].Index))
+			if (GameInfo.Eras[kCivic.EraType].Index > 0) then
+				--Lesser Era mode restricts units to the previous era
+				if (GameInfo.Eras[kCivic.EraType].Index < currentEra) then
+					if pCulture:HasCivic(iCivic) then
+						if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
+						playerCivics[iCivic] = playerCivics[iCivic] + 1
+					end
+				end
+			else
+				--Ancient Era civics are always valid
+				if pCulture:HasCivic(iCivic) then
+					if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
+					playerCivics[iCivic] = playerCivics[iCivic] + 1
+				end
+			end
+		else
+			--Default setting. All civics known by the player are valid.
+			if pCulture:HasCivic(iCivic) then
+				if not playerCivics[iCivic] then playerCivics[iCivic] = 0 end
+				playerCivics[iCivic] = playerCivics[iCivic] + 1
+			end
 		end
 	end
 	-- print("Check prereq tech for all units in promotion class against techs known by player")
 	for kUnit in GameInfo.Units() do
-		-- local iUnit = kUnit.Index
 		if kUnit and kUnit.PromotionClass and (kUnit.PromotionClass == promotionClass) then
 			local bUnitHasTrait = false
 			local bCivHasTrait = false
@@ -168,7 +210,7 @@ function GetMostAdvancedUnit(iPlayer, promotionClass)
 		print("Found most advanced unit: "..tostring(selectedUnit))
 		return selectedUnit
 	else
-		print("WARNING: No unit could be found! Returning boolean false")
+		print("WARNING: No unit could be found! Returning default value for selectedUnit variable (false)")
 		return selectedUnit
 	end
 end
@@ -197,11 +239,15 @@ function StartingUnits_Dynamic(iPlayer, pPlot, currentGameEra, settlersBonus)
 		bEraMod_6T = true 
 		print("Historical Spawn Dates has detected the 6T Era Mod. Era values will be adjusted where necessary.")
 	end
+	if bSubtractEra then --Global variable
+		print("Lesser Era mode detected. Era values will be reduced by 1.")
+		currentEra = currentEra - 1
+	end
 	if bEraMod_6T and (currentEra > 1) then
 		currentEra = currentEra - 1
 	end
 	--print("Subtract number of player cities from settler bonus")
-	if settlersBonus and (settlersBonus > 0)  then
+	if pPlayer:IsMajor() and settlersBonus and (settlersBonus > 0)  then
 		local pPlayerCities = pPlayer:GetCities()
 		local iCityCount = 0
 		for i, pLoopCity in pPlayerCities:Members() do
@@ -211,6 +257,7 @@ function StartingUnits_Dynamic(iPlayer, pPlot, currentGameEra, settlersBonus)
 		end
 		settlersBonus = settlersBonus - iCityCount
 		if settlersBonus > 0 then
+			print("Bonus number of settlers to spawn is "..tostring(settlersBonus))
 			for i = 0, settlersBonus - 1, 1 do
 				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SETTLER", pPlot:GetX(), pPlot:GetY())
 				print(" - UNIT_SETTLER spawned")
@@ -663,7 +710,7 @@ function StartingUnits_Static(iPlayer, pPlot, currentGameEra, settlersBonus)
 	
 	print(" - Settlers = "..tostring(settlersBonus))
 	if settlersBonus and (settlersBonus > 0)  then
-		local pPlayerCities = pPlayer:GetCities()
+		local pPlayerCities = player:GetCities()
 		local iCityCount = 0
 		for i, pLoopCity in pPlayerCities:Members() do
 			if pLoopCity then
@@ -690,7 +737,7 @@ function StartingUnits_Static(iPlayer, pPlot, currentGameEra, settlersBonus)
 		-- end
 	-- end	
 	
-	if bSubtractEra then
+	if bSubtractEra then --Global Variable
 		currentEra = currentEra - 1
 	end
 	if currentEra == -1 then
@@ -977,7 +1024,8 @@ function CityUnits_Dynamic(iPlayer, pPlot, currentGameEra)
 		print("Do not spawn extra units in converted city for difficulty less than King")
 		return false
 	end
-	if bSubtractEra then
+	if bSubtractEra then --Global variable
+		print("Lesser Era mode detected. Era values will be reduced by 1.")
 		currentEra = currentEra - 1
 	end
 	if currentEra == -1 then
@@ -1139,7 +1187,8 @@ function CityUnits_Static(iPlayer, pPlot, currentGameEra)
 		print("Do not spawn extra units in converted city for difficulty less than King")
 		return false
 	end
-	if bSubtractEra then
+	if bSubtractEra then --Global Variable
+		print("Lesser Era mode detected. Era values will be reduced by 1.")
 		currentEra = currentEra - 1
 	end
 	if currentEra == -1 then
@@ -1280,18 +1329,24 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 			if CivilizationTypeName == "CIVILIZATION_BABYLON_STK" then
 				if GameInfo.Units["UNIT_BABYLONIAN_SABUM_KIBITTUM"] then
 					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_BABYLONIAN_SABUM_KIBITTUM", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_SPEARMAN"]) then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SPEARMAN", pPlot:GetX(), pPlot:GetY())
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end
 			elseif(CivilizationTypeName == "CIVILIZATION_GREECE") then
 				if GameInfo.Units["UNIT_GREEK_HOPLITE"] then
 					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_GREEK_HOPLITE", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_SPEARMAN"]) then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SPEARMAN", pPlot:GetX(), pPlot:GetY())
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end
 			elseif(CivilizationTypeName == "CIVILIZATION_SCYTHIA") then
 				if GameInfo.Units["UNIT_SCYTHIAN_HORSE_ARCHER"] then
 					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SCYTHIAN_HORSE_ARCHER", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_HORSEMAN"]) then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_HORSEMAN", pPlot:GetX(), pPlot:GetY())
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
 				end
@@ -1309,6 +1364,7 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 			end
 		end
+		return true
 	end
 	if currentEra == 1 then
 		--Classical Era
@@ -1316,18 +1372,24 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 			if CivilizationTypeName == "CIVILIZATION_BABYLON_STK" then
 				if GameInfo.Units["UNIT_BABYLONIAN_SABUM_KIBITTUM"] then
 					CreateUnitWithExp("UNIT_BABYLONIAN_SABUM_KIBITTUM", 3, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_SPEARMAN"]) then
+					CreateUnitWithExp("UNIT_SPEARMAN", 1, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end
 			elseif(CivilizationTypeName == "CIVILIZATION_GREECE") then
 				if GameInfo.Units["UNIT_GREEK_HOPLITE"] then
 					CreateUnitWithExp("UNIT_GREEK_HOPLITE", 1, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_SPEARMAN"]) then
+					CreateUnitWithExp("UNIT_SPEARMAN", 1, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end
 			elseif(CivilizationTypeName == "CIVILIZATION_SCYTHIA") then
 				if GameInfo.Units["UNIT_SCYTHIAN_HORSE_ARCHER"] then
 					CreateUnitWithExp("UNIT_SCYTHIAN_HORSE_ARCHER", 2, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_HORSEMAN"]) then
+					CreateUnitWithExp("UNIT_HORSEMAN", 1, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
 				end
@@ -1345,6 +1407,50 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 			end		
 		end
+		return true
+	end
+	if (currentEra == 2) and bEraMod_6T then
+		--Post Classical Era (Requires 6T Eras mod)
+		if bSpawnUniqueUnits then
+			if CivilizationTypeName == "CIVILIZATION_GREECE" then
+				if GameInfo.Units["UNIT_GREEK_HOPLITE"] then
+					CreateUnitWithExp("UNIT_GREEK_HOPLITE", 4, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_SPEARMAN"]) then
+					CreateUnitWithExp("UNIT_SPEARMAN", 4, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_SCYTHIA") then
+				if GameInfo.Units["UNIT_SCYTHIAN_HORSE_ARCHER"] then
+					CreateUnitWithExp("UNIT_SCYTHIAN_HORSE_ARCHER", 4, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_HORSEMAN"]) then
+					CreateUnitWithExp("UNIT_HORSEMAN", 4, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
+				end
+			else
+				if GameInfo.Units["UNIT_JNR_HEAVY_SPEARMAN"] then
+					CreateUnitWithExp("UNIT_JNR_HEAVY_SPEARMAN", 1, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_SPEARMAN"]) then
+					CreateUnitWithExp("UNIT_SPEARMAN", 4, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
+				end
+			end
+		else
+			if GameInfo.Units["UNIT_JNR_HEAVY_SPEARMAN"] then
+				CreateUnitWithExp("UNIT_JNR_HEAVY_SPEARMAN", 1, pPlayerUnits, pPlot)
+			elseif(GameInfo.Units["UNIT_SPEARMAN"]) then
+				CreateUnitWithExp("UNIT_SPEARMAN", 4, pPlayerUnits, pPlot)
+			else
+				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
+			end
+		end
+		return true
+	end
+	if (currentEra > 2) and bEraMod_6T then
+		--Reduce era number to stay in line with default game era unit spawns when 6T Eras is enabled
+		currentEra = currentEra - 1
 	end
 	if currentEra == 2 then
 		--Medieval Era
@@ -1352,6 +1458,8 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 			if CivilizationTypeName == "CIVILIZATION_ZULU" then
 				if GameInfo.Units["UNIT_ZULU_IMPI"] then
 					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_ZULU_IMPI", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_PIKEMAN"]) then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_PIKEMAN", pPlot:GetX(), pPlot:GetY())
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end
@@ -1369,6 +1477,7 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 			end			
 		end
+		return true
 	end
 	if currentEra == 3 then
 		--Renaissance Era
@@ -1376,15 +1485,19 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 			if CivilizationTypeName == "CIVILIZATION_SWEDEN" then
 				if GameInfo.Units["UNIT_SWEDEN_CAROLEAN"] then
 					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_SWEDEN_CAROLEAN", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_PIKE_AND_SHOT"]) then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_PIKE_AND_SHOT", pPlot:GetX(), pPlot:GetY())
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end
 			elseif(CivilizationTypeName == "CIVILIZATION_ZULU") then
 				if GameInfo.Units["UNIT_ZULU_IMPI"] then
 					CreateUnitWithExp("UNIT_ZULU_IMPI", 1, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_PIKE_AND_SHOT"]) then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_PIKE_AND_SHOT", pPlot:GetX(), pPlot:GetY())
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
-				end			
+				end	
 			else
 				if GameInfo.Units["UNIT_PIKE_AND_SHOT"] then
 					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_PIKE_AND_SHOT", pPlot:GetX(), pPlot:GetY())
@@ -1399,6 +1512,7 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 			end		
 		end
+		return true
 	end
 	if currentEra == 4 then
 		--Industrial Era
@@ -1406,29 +1520,38 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 			if CivilizationTypeName == "CIVILIZATION_SWEDEN" then
 				if GameInfo.Units["UNIT_SWEDEN_CAROLEAN"] then
 					CreateUnitWithExp("UNIT_SWEDEN_CAROLEAN", 3, pPlayerUnits, pPlot)
-				else
-					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
-				end
-			elseif(CivilizationTypeName == "CIVILIZATION_ZULU") then
-				if GameInfo.Units["UNIT_ZULU_IMPI"] then
-					CreateUnitWithExp("UNIT_ZULU_IMPI", 3, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_PIKE_AND_SHOT"]) then
+					CreateUnitWithExp("UNIT_PIKE_AND_SHOT", 3, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end	
+			elseif(CivilizationTypeName == "CIVILIZATION_ZULU") then
+				if GameInfo.Units["UNIT_ZULU_IMPI"] then
+					CreateUnitWithExp("UNIT_ZULU_IMPI", 3, pPlayerUnits, pPlot)
+				elseif(GameInfo.Units["UNIT_PIKE_AND_SHOT"]) then
+					CreateUnitWithExp("UNIT_PIKE_AND_SHOT", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
+				end
 			else
-				if GameInfo.Units["UNIT_PIKE_AND_SHOT"] then
+				if GameInfo.Units["UNIT_JNR_RIFLELINE"] then
+					CreateUnitWithExp("UNIT_JNR_RIFLELINE", 1, pPlayerUnits, pPlot)
+				elseif GameInfo.Units["UNIT_PIKE_AND_SHOT"] then
 					CreateUnitWithExp("UNIT_PIKE_AND_SHOT", 3, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end					
 			end
 		else
-			if GameInfo.Units["UNIT_PIKE_AND_SHOT"] then
+			if GameInfo.Units["UNIT_JNR_RIFLELINE"] then
+				CreateUnitWithExp("UNIT_JNR_RIFLELINE", 1, pPlayerUnits, pPlot)
+			elseif GameInfo.Units["UNIT_PIKE_AND_SHOT"] then
 				CreateUnitWithExp("UNIT_PIKE_AND_SHOT", 3, pPlayerUnits, pPlot)
 			else
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 			end			
 		end
+		return true
 	end
 	if currentEra == 5 then
 		--Modern Era
@@ -1437,6 +1560,7 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 		end	
+		return true
 	end
 	if currentEra == 6 then
 		--Atomic Era
@@ -1445,6 +1569,7 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 		end	
+		return true
 	end
 	if currentEra == 7 then
 		--Information Era
@@ -1453,6 +1578,7 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 		end	
+		return true
 	end
 	if currentEra == 8 then
 		--Future Era
@@ -1461,8 +1587,11 @@ function SpawnUnit_AntiCav(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 		end	
+		return true
 	end
-	return
+    -- If the current era is not recognized, print an error message and return false
+    print("Error: Era not recognized!")
+	return false
 end
 
 function SpawnUnit_Cavalry(iPlayer, pPlot, currentEra)
@@ -1540,6 +1669,46 @@ function SpawnUnit_Cavalry(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
 			end		
 		end
+		return true
+	end
+	if (currentEra == 2) and bEraMod_6T then
+		--Post Classical Era (Requires 6T Eras mod)
+		if bSpawnUniqueUnits then
+			if CivilizationTypeName == "CIVILIZATION_INDIA" then
+				if GameInfo.Units["UNIT_INDIAN_VARU"] then
+					CreateUnitWithExp("UNIT_INDIAN_VARU", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_HEAVY_CAVALRY")
+				end	
+			elseif(CivilizationTypeName == "CIVILIZATION_MACEDON") then
+				if GameInfo.Units["UNIT_MACEDONIAN_HETAIROI"] then
+					CreateUnitWithExp("UNIT_MACEDONIAN_HETAIROI", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
+				end	
+			else
+				if GameInfo.Units["UNIT_JNR_CATAPHRACT"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_CATAPHRACT", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_HORSEMAN"])then
+					CreateUnitWithExp("UNIT_HORSEMAN", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
+				end					
+			end
+		else
+			if GameInfo.Units["UNIT_JNR_CATAPHRACT"] then
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_CATAPHRACT", pPlot:GetX(), pPlot:GetY())
+			elseif(GameInfo.Units["UNIT_HORSEMAN"])then
+				CreateUnitWithExp("UNIT_HORSEMAN", 3, pPlayerUnits, pPlot)
+			else
+				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
+			end
+		end
+		return true
+	end
+	if (currentEra > 2) and bEraMod_6T then
+		--Reduce era number to stay in line with default game era unit spawns when 6T Eras is enabled
+		currentEra = currentEra - 1
 	end
 	if currentEra == 2 then
 		--Medieval Era
@@ -1570,7 +1739,7 @@ function SpawnUnit_Cavalry(iPlayer, pPlot, currentEra)
 				end	
 			elseif(CivilizationTypeName == "CIVILIZATION_INDIA") then
 				if GameInfo.Units["UNIT_INDIAN_VARU"] then
-					CreateUnitWithExp("UNIT_INDIAN_VARU", 3, pPlayerUnits, pPlot)
+					CreateUnitWithExp("UNIT_INDIAN_VARU", 6, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_HEAVY_CAVALRY")
 				end
@@ -1582,7 +1751,7 @@ function SpawnUnit_Cavalry(iPlayer, pPlot, currentEra)
 				end
 			elseif(CivilizationTypeName == "CIVILIZATION_MACEDON") then
 				if GameInfo.Units["UNIT_MACEDONIAN_HETAIROI"] then
-					CreateUnitWithExp("UNIT_MACEDONIAN_HETAIROI", 3, pPlayerUnits, pPlot)
+					CreateUnitWithExp("UNIT_MACEDONIAN_HETAIROI", 6, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
 				end
@@ -1612,6 +1781,7 @@ function SpawnUnit_Cavalry(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_HEAVY_CAVALRY")
 			end		
 		end
+		return true
 	end
 	if currentEra == 3 then
 		--Renaissance Era
@@ -1659,19 +1829,24 @@ function SpawnUnit_Cavalry(iPlayer, pPlot, currentEra)
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_ANTI_CAVALRY")
 				end		
 			else
-				if GameInfo.Units["UNIT_KNIGHT"] then
+				if GameInfo.Units["UNIT_JNR_HARQUEBUSIER"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_HARQUEBUSIER", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_KNIGHT"])then
 					CreateUnitWithExp("UNIT_KNIGHT", 3, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_HEAVY_CAVALRY")
 				end
 			end
 		else
-			if GameInfo.Units["UNIT_KNIGHT"] then
+			if GameInfo.Units["UNIT_JNR_HARQUEBUSIER"] then
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_HARQUEBUSIER", pPlot:GetX(), pPlot:GetY())
+			elseif(GameInfo.Units["UNIT_KNIGHT"])then
 				CreateUnitWithExp("UNIT_KNIGHT", 3, pPlayerUnits, pPlot)
 			else
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_HEAVY_CAVALRY")
-			end		
+			end
 		end
+		return true
 	end
 	if currentEra == 4 then
 		--Industrial Era
@@ -1732,6 +1907,7 @@ function SpawnUnit_Cavalry(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
 			end		
 		end
+		return true
 	end
 	if currentEra == 5 then
 		--Modern Era
@@ -1779,32 +1955,39 @@ function SpawnUnit_Cavalry(iPlayer, pPlot, currentEra)
 			else
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
 			end
-		end 
+		end
+		return true
 	end
 	if currentEra == 6 then
 		--Atomic Era
-		if GameInfo.Units["UNIT_HELICOPTER"] then
-			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_HELICOPTER", pPlot:GetX(), pPlot:GetY())
-		else
-			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
-		end
-	end
-	if currentEra == 7 then
-		--Information Era
 		if GameInfo.Units["UNIT_HELICOPTER"] then
 			CreateUnitWithExp("UNIT_HELICOPTER", 1, pPlayerUnits, pPlot)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
 		end
+		return true
 	end
-	if currentEra == 8 then
-		--Future Era
+	if currentEra == 7 then
+		--Information Era
 		if GameInfo.Units["UNIT_HELICOPTER"] then
 			CreateUnitWithExp("UNIT_HELICOPTER", 3, pPlayerUnits, pPlot)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
 		end
+		return true
 	end
+	if currentEra == 8 then
+		--Future Era
+		if GameInfo.Units["UNIT_HELICOPTER"] then
+			CreateUnitWithExp("UNIT_HELICOPTER", 6, pPlayerUnits, pPlot)
+		else
+			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
+		end
+		return true
+	end
+    -- If the current era is not recognized, print an error message and return false
+    print("Error: Era not recognized!")
+	return false
 end
 
 function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
@@ -1840,6 +2023,7 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 			end
 		end
+		return true
 	end
 	if currentEra == 1 then
 		--Classical Era
@@ -1918,6 +2102,94 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 			end	
 		end
+		return true
+	end
+	if (currentEra == 2) and bEraMod_6T then
+		--Post Classical Era (Requires 6T Eras mod)
+		if bSpawnUniqueUnits then
+			if CivilizationTypeName == "CIVILIZATION_GREECE" then
+				if GameInfo.Units["UNIT_GREEK_HOPLITE"] then
+					CreateUnitWithExp("UNIT_GREEK_HOPLITE", 6, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_GAUL") then
+				if GameInfo.Units["UNIT_GAUL_GAESATAE"] then
+					CreateUnitWithExp("UNIT_GAUL_GAESATAE", 6, pPlayerUnits, pPlot)
+				else 
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_KONGO") then
+				if GameInfo.Units["UNIT_KONGO_SHIELD_BEARER"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_KONGO_SHIELD_BEARER", pPlot:GetX(), pPlot:GetY())
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_MACEDON") then
+				if GameInfo.Units["UNIT_MACEDONIAN_HYPASPIST"] then
+					CreateUnitWithExp("UNIT_MACEDONIAN_HYPASPIST", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_MAORI") then
+				if GameInfo.Units["UNIT_MAORI_TOA"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_MAORI_TOA", pPlot:GetX(), pPlot:GetY())
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_MONGOLIA") then
+				if GameInfo.Units["UNIT_HORSEMAN"] then
+					CreateUnitWithExp("UNIT_HORSEMAN", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_LIGHT_CAVALRY")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_NORWAY") then
+				if GameInfo.Units["UNIT_NORWEGIAN_BERSERKER"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_NORWEGIAN_BERSERKER", pPlot:GetX(), pPlot:GetY())
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_PERSIA") then
+				if GameInfo.Units["UNIT_PERSIAN_IMMORTAL"] then
+					CreateUnitWithExp("UNIT_PERSIAN_IMMORTAL", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_ROME") then
+				if GameInfo.Units["UNIT_ROMAN_LEGION"] then
+					CreateUnitWithExp("UNIT_ROMAN_LEGION", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_SCYTHIA") then
+				if GameInfo.Units["UNIT_HORSEMAN"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_HORSEMAN", pPlot:GetX(), pPlot:GetY())
+				else
+					CreateUnitWithExp("UNIT_HORSEMAN", 3, pPlayerUnits, pPlot)
+				end
+			else
+				if GameInfo.Units["UNIT_JNR_LONGSWORDSMAN"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_LONGSWORDSMAN", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_SWORDSMAN"]) then
+					CreateUnitWithExp("UNIT_SWORDSMAN", 3, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+				end
+			end
+		else
+			if GameInfo.Units["UNIT_JNR_LONGSWORDSMAN"] then
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_LONGSWORDSMAN", pPlot:GetX(), pPlot:GetY())
+			elseif(GameInfo.Units["UNIT_SWORDSMAN"]) then
+				CreateUnitWithExp("UNIT_SWORDSMAN", 3, pPlayerUnits, pPlot)
+			else
+				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
+			end	
+		end
+		return true
+	end
+	if (currentEra > 2) and bEraMod_6T then
+		--Reduce era number to stay in line with default game era unit spawns when 6T Eras is enabled
+		currentEra = currentEra - 1
 	end
 	if currentEra == 2 then
 		--Medieval Era
@@ -2012,6 +2284,7 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 			end	
 		end
+		return true
 	end
 	if currentEra == 3 then
 		--Renaissance Era
@@ -2060,6 +2333,7 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 			end	
 		end
+		return true
 	end
 	if currentEra == 4 then
 		--Industrial Era
@@ -2102,6 +2376,7 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 			end
 		end
+		return true
 	end
 	if currentEra == 5 then
 		--Modern Era
@@ -2126,6 +2401,7 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 			end
 		end
+		return true
 	end
 	if currentEra == 6 then
 		--Atomic Era
@@ -2150,6 +2426,7 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 			end	
 		end
+		return true
 	end
 	if currentEra == 7 then
 		--Information Era
@@ -2158,6 +2435,7 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 		end	
+		return true
 	end
 	if currentEra == 8 then
 		--Future Era
@@ -2175,7 +2453,11 @@ function SpawnUnit_Melee(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_MELEE")
 			end	
 		end	
+		return true
 	end
+    -- If the current era is not recognized, print an error message and return false
+    print("Error: Era not recognized!")
+	return false
 end
 
 function SpawnUnit_Ranged(iPlayer, pPlot, currentEra)
@@ -2223,6 +2505,7 @@ function SpawnUnit_Ranged(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 			end
 		end
+		return true
 	end
 	if currentEra == 1 then
 		--Classical Era
@@ -2271,6 +2554,58 @@ function SpawnUnit_Ranged(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 			end			
 		end
+		return true
+	end
+	if (currentEra == 2) and bEraMod_6T then
+		--Post Classical Era (Requires 6T Eras mod)
+		if bSpawnUniqueUnits then
+			if CivilizationTypeName == "CIVILIZATION_EGYPT" then
+				if GameInfo.Units["UNIT_EGYPTIAN_CHARIOT_ARCHER"] then
+					CreateUnitWithExp("UNIT_EGYPTIAN_CHARIOT_ARCHER", 6, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_NUBIA") then
+				if GameInfo.Units["UNIT_NUBIAN_PITATI"] then
+					CreateUnitWithExp("UNIT_NUBIAN_PITATI", 6, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_MAYA") then
+				if GameInfo.Units["UNIT_MAYAN_HULCHE"] then
+					CreateUnitWithExp("UNIT_MAYAN_HULCHE", 6, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
+				end
+			elseif(CivilizationTypeName == "CIVILIZATION_SCYTHIA") then
+				if GameInfo.Units["UNIT_SCYTHIAN_HORSE_ARCHER"] then
+					CreateUnitWithExp("UNIT_SCYTHIAN_HORSE_ARCHER", 6, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
+				end
+			else
+				if GameInfo.Units["UNIT_JNR_COMPOSITE_ARCHER"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_COMPOSITE_ARCHER", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_ARCHER"])then
+					CreateUnitWithExp("UNIT_ARCHER", 6, pPlayerUnits, pPlot)
+				else
+					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
+				end
+			end
+		else
+			if GameInfo.Units["UNIT_JNR_COMPOSITE_ARCHER"] then
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_COMPOSITE_ARCHER", pPlot:GetX(), pPlot:GetY())
+			elseif(GameInfo.Units["UNIT_ARCHER"])then
+				CreateUnitWithExp("UNIT_ARCHER", 6, pPlayerUnits, pPlot)
+			else
+				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
+			end
+		end
+		return true
+	end
+	if (currentEra > 2) and bEraMod_6T then
+		--Reduce era number to stay in line with default game era unit spawns when 6T Eras is enabled
+		currentEra = currentEra - 1
 	end
 	if currentEra == 2 then
 		--Medieval Era
@@ -2307,6 +2642,7 @@ function SpawnUnit_Ranged(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 			end
 		end
+		return true
 	end
 	if currentEra == 3 then
 		--Renaissance Era
@@ -2324,19 +2660,24 @@ function SpawnUnit_Ranged(iPlayer, pPlot, currentEra)
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 				end	
 			else
-				if GameInfo.Units["UNIT_CROSSBOWMAN"] then
+				if GameInfo.Units["UNIT_JNR_ARQUEBUSIER"] then
+					UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_ARQUEBUSIER", pPlot:GetX(), pPlot:GetY())
+				elseif(GameInfo.Units["UNIT_CROSSBOWMAN"])then
 					CreateUnitWithExp("UNIT_CROSSBOWMAN", 3, pPlayerUnits, pPlot)
 				else
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 				end
 			end
 		else
-			if GameInfo.Units["UNIT_CROSSBOWMAN"] then
+			if GameInfo.Units["UNIT_JNR_ARQUEBUSIER"] then
+				UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_ARQUEBUSIER", pPlot:GetX(), pPlot:GetY())
+			elseif(GameInfo.Units["UNIT_CROSSBOWMAN"])then
 				CreateUnitWithExp("UNIT_CROSSBOWMAN", 3, pPlayerUnits, pPlot)
 			else
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 			end
 		end
+		return true
 	end
 	if currentEra == 4 then
 		--Industrial Era
@@ -2369,14 +2710,18 @@ function SpawnUnit_Ranged(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 			end	
 		end
+		return true
 	end
 	if currentEra == 5 then
 		--Modern Era
-		if GameInfo.Units["UNIT_MACHINE_GUN"] then
+		if GameInfo.Units["UNIT_JNR_GATLING_GUN"] then
+			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_GATLING_GUN", pPlot:GetX(), pPlot:GetY())
+		elseif(GameInfo.Units["UNIT_MACHINE_GUN"])then
 			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_MACHINE_GUN", pPlot:GetX(), pPlot:GetY())
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 		end	
+		return true
 	end
 	if currentEra == 6 then
 		--Atomic Era
@@ -2385,36 +2730,50 @@ function SpawnUnit_Ranged(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 		end	
+		return true
 	end
 	if currentEra == 7 then
 		--Information Era
-		if GameInfo.Units["UNIT_MACHINE_GUN"] then
+		if GameInfo.Units["UNIT_JNR_MORTAR"] then
+			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_MORTAR", pPlot:GetX(), pPlot:GetY())
+		elseif(GameInfo.Units["UNIT_MACHINE_GUN"])then
 			CreateUnitWithExp("UNIT_MACHINE_GUN", 3, pPlayerUnits, pPlot)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
 		end	
+		return true
 	end
 	if currentEra == 8 then
 		--Future Era
-		if GameInfo.Units["UNIT_MACHINE_GUN"] then
+		if GameInfo.Units["UNIT_JNR_MORTAR"] then
+			CreateUnitWithExp("UNIT_JNR_MORTAR", 3, pPlayerUnits, pPlot)
+		elseif(GameInfo.Units["UNIT_MACHINE_GUN"])then
 			CreateUnitWithExp("UNIT_MACHINE_GUN", 6, pPlayerUnits, pPlot)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RANGED")
-		end	
+		end
+		return true
 	end
+    -- If the current era is not recognized, print an error message and return false
+    print("Error: Era not recognized!")
+	return false
 end
 
 function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 	local pPlayer = Players[iPlayer]
 	local pPlayerUnits = pPlayer:GetUnits()
 	local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+    -- Check if the player is in the Ancient Era
 	if currentEra == 0 then
-		--Ancient Era
+		-- Ancient Era 
 		if bSpawnUniqueUnits then
+			-- Check for unique units based on civilization
 			if CivilizationTypeName == "CIVILIZATION_CREE" then
 				if GameInfo.Units["UNIT_CREE_OKIHTCITAW"] then
+					-- Spawn the unique Cree unit
 					UnitManager.InitUnit(iPlayer, "UNIT_CREE_OKIHTCITAW", pPlot:GetX(), pPlot:GetY())
 				else
+                    -- Spawn a generic recon unit if the unique unit is not available
 					SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 				end
 			elseif(CivilizationTypeName == "CIVILIZATION_BABYLON_STK") then
@@ -2437,6 +2796,7 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 			end
 		end
+		return true
 	end
 	if currentEra == 1 then
 		--Classical Era
@@ -2467,6 +2827,7 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 			end
 		end
+		return true
 	end
 	if currentEra == 2 then
 		--Medieval Era
@@ -2495,6 +2856,7 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 			end
 		end
+		return true
 	end
 	if currentEra == 3 then
 		--Renaissance Era
@@ -2523,6 +2885,7 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 			end
 		end
+		return true
 	end
 	if currentEra == 4 then
 		--Industrial Era
@@ -2547,6 +2910,7 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 			end
 		end
+		return true
 	end
 	if currentEra == 5 then
 		--Modern Era
@@ -2571,6 +2935,7 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 			end
 		end
+		return true
 	end
 	if currentEra == 6 then
 		--Atomic Era
@@ -2579,6 +2944,7 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 		end
+		return true
 	end
 	if currentEra == 7 then
 		--Information Era
@@ -2587,6 +2953,7 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 		end
+		return true
 	end
 	if currentEra == 8 then
 		--Future Era
@@ -2595,7 +2962,11 @@ function SpawnUnit_Recon(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_RECON")
 		end
+		return true
 	end
+    -- If the current era is not recognized, print an error message and return false
+    print("Error: Era not recognized!")
+	return false
 end
 
 function SpawnUnit_Siege(iPlayer, pPlot, currentEra)
@@ -2609,6 +2980,7 @@ function SpawnUnit_Siege(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 		end
+		return true
 	end
 	if currentEra == 1 then
 		--Classical Era
@@ -2617,6 +2989,20 @@ function SpawnUnit_Siege(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 		end
+		return true
+	end
+	if (currentEra == 2) and bEraMod_6T then
+		--Post Classical Era (Requires 6T Eras mod)
+		if GameInfo.Units["UNIT_CATAPULT"] then
+			CreateUnitWithExp("UNIT_CATAPULT", 3, pPlayerUnits, pPlot)
+		else
+			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
+		end
+		return true
+	end
+	if (currentEra > 2) and bEraMod_6T then
+		--Reduce era number to stay in line with default game era unit spawns when 6T Eras is enabled
+		currentEra = currentEra - 1
 	end
 	if currentEra == 2 then
 		--Medieval Era
@@ -2647,6 +3033,7 @@ function SpawnUnit_Siege(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 			end
 		end
+		return true
 	end
 	if currentEra == 3 then
 		--Renaissance Era
@@ -2677,14 +3064,18 @@ function SpawnUnit_Siege(iPlayer, pPlot, currentEra)
 				SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 			end
 		end
+		return true
 	end
 	if currentEra == 4 then
 		--Industrial Era
-		if GameInfo.Units["UNIT_FIELD_CANNON"] then
+		if GameInfo.Units["UNIT_JNR_SIEGE_CANNON"] then
+			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_SIEGE_CANNON", pPlot:GetX(), pPlot:GetY())
+		elseif(GameInfo.Units["UNIT_FIELD_CANNON"]) then
 			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_FIELD_CANNON", pPlot:GetX(), pPlot:GetY())
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 		end
+		return true
 	end
 	if currentEra == 5 then
 		--Modern Era
@@ -2693,14 +3084,18 @@ function SpawnUnit_Siege(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 		end
+		return true
 	end
 	if currentEra == 6 then
 		--Atomic Era
-		if GameInfo.Units["UNIT_ARTILLERY"] then
+		if GameInfo.Units["UNIT_JNR_MOBILE_ARTILLERY"] then
+			UnitManager.InitUnitValidAdjacentHex(iPlayer, "UNIT_JNR_MOBILE_ARTILLERY", pPlot:GetX(), pPlot:GetY())
+		elseif(GameInfo.Units["UNIT_ARTILLERY"]) then
 			CreateUnitWithExp("UNIT_ARTILLERY", 3, pPlayerUnits, pPlot)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 		end
+		return true
 	end
 	if currentEra == 7 then
 		--Information Era
@@ -2709,6 +3104,7 @@ function SpawnUnit_Siege(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 		end
+		return true
 	end
 	if currentEra == 8 then
 		--Future Era
@@ -2717,5 +3113,9 @@ function SpawnUnit_Siege(iPlayer, pPlot, currentEra)
 		else
 			SpawnUnit(iPlayer, pPlot, currentEra, "PROMOTION_CLASS_SIEGE")
 		end
+		return true
 	end
+    -- If the current era is not recognized, print an error message and return false
+    print("Error: Era not recognized!")
+	return false
 end

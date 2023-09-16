@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS HistoricalSpawnEras_LiteMode
 CREATE TABLE IF NOT EXISTS IsolatedCivs
 	 (	Civilization TEXT NOT NULL UNIQUE);
 	 
-CREATE TABLE IF NOT EXISTS EraBuildingCivs
+CREATE TABLE IF NOT EXISTS ColonialCivs
 	 (	Civilization TEXT NOT NULL UNIQUE);
 	 
 CREATE TABLE IF NOT EXISTS ColonizerCivs

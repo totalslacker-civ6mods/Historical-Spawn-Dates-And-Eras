@@ -4,7 +4,7 @@
 --	totalslacker (2020-2021)
 ------------------------------------------------------------------------------
 
-include("ScriptHSD.lua");
+include("ScriptHSD.lua")
 
 print ("loading InGameHSD.lua")
 
@@ -22,6 +22,79 @@ local defaultAutoEndTurn	= UserConfiguration.GetValue("AutoEndTurn")
 ----------------------------------------------------------------------------------------
 -- Calendar Functions
 ----------------------------------------------------------------------------------------
+
+function GetStandardTimeline(civType)
+	local iStartYear = false
+	-- local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates")
+	local results = DB.Query("SELECT * FROM HistoricalSpawnDates")
+	for i, row in ipairs(results) do
+		if row.Civilization == civType then
+			iStartYear = row.StartYear
+			print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+		end
+	end
+	return iStartYear
+end
+
+function GetTrueHSDTimeline(civType)
+	local iStartYear = false
+	-- local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates_TrueHSD")
+	local results = DB.Query("SELECT * FROM HistoricalSpawnDates_TrueHSD")
+	for i, row in ipairs(results) do
+		if row.Civilization == civType then
+			iStartYear = row.StartYear
+			print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+		end
+	end
+	return iStartYear
+end
+
+function GetLeaderTimeline(civType)
+	local iStartYear = false
+	-- local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnDates_LeaderHSD")
+	local results = DB.Query("SELECT * FROM HistoricalSpawnDates_LeaderHSD")
+	for i, row in ipairs(results) do
+		if row.Civilization == civType then
+			iStartYear = row.StartYear
+			print(tostring(row.Civilization), " spawn year = ", tostring(row.StartYear))
+		end
+	end
+	return iStartYear
+end
+
+function GetEraTimeline(civType)
+	local iStartEra = false
+	-- local results = DB.ConfigurationQuery("SELECT * FROM HistoricalSpawnEras")
+	local results = DB.Query("SELECT * FROM HistoricalSpawnEras")
+	for i, row in ipairs(results) do
+		if row.Civilization == civType then
+			iStartEra = row.Era
+			print(tostring(row.Civilization), " spawn era = ", tostring(row.Era))
+		end
+	end
+	return iStartEra
+end
+
+function GetLitemodeCivs(civType)
+	-- local iStartYear = false
+	-- local iStartEra = false
+	local eligibleForHSD = false
+	local isolated = DB.Query("SELECT * FROM IsolatedCivs")
+	local colonial = DB.Query("SELECT * FROM ColonialCivs")
+	for i, row in ipairs(isolated) do
+		if ((row.Civilization == civType) or ((GameInfo.CivilizationLeaders[civType]) and (row.Civilization == GameInfo.CivilizationLeaders[civType].CivilizationType))) then
+			eligibleForHSD = true
+			print(tostring(row.Civilization), " is an isolated player.")
+		end
+	end
+	for i, row in ipairs(colonial) do
+		if ((row.Civilization == civType) or ((GameInfo.CivilizationLeaders[civType]) and (row.Civilization == GameInfo.CivilizationLeaders[civType].CivilizationType))) then
+			eligibleForHSD = true
+			print(tostring(row.Civilization), " is a colonial player.")
+		end
+	end
+	return eligibleForHSD
+end
 
 function SetTurnYear(iTurn)
 	previousTurnYear 	= Calendar.GetTurnYearForGame( iTurn )
@@ -143,13 +216,6 @@ function CheckCityOriginalCapital(pPlayerID, pCityID)
 	return bOriginalCapital
 end
 
-function GetEraCountdown()
-	local pGameEras:table = Game.GetEras()
-	local nextEraCountdown = pGameEras:GetNextEraCountdown() + 1; -- 0 turns remaining is the last turn, shift by 1 to make sense to non-programmers
-	print("nextEraCountdown is "..tostring(nextEraCountdown))
-	return nextEraCountdown
-end
-
 -- all credit for the code below goes to Tiramasu, taken from the Free City States mod
 function GetPlayerCityUIDatas(pPlayerID, pCityID)
 	local CityUIDataList = {}	
@@ -224,21 +290,47 @@ function GetPlayerCityUIDatas(pPlayerID, pCityID)
 end
 
 ----------------------------------------------------------------------------------------
+-- Support functions for Raging Barbarians mode
+----------------------------------------------------------------------------------------
+
+function GetEraCountdown()
+	local pGameEras:table = Game.GetEras()
+	local nextEraCountdown = pGameEras:GetNextEraCountdown() + 1; -- 0 turns remaining is the last turn, shift by 1 to make sense to non-programmers
+	-- print("nextEraCountdown is "..tostring(nextEraCountdown))
+	return nextEraCountdown
+end
+
+function GetTribeNameType(iBarbarianTribe)
+	local pBarbManager = Game.GetBarbarianManager()
+	local iBarbType = pBarbManager:GetTribeNameType(iBarbarianTribe)
+	print("GetTribeNameType returned iBarbType of "..tostring(iBarbType))
+	return iBarbType
+end
+
+----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
 
 function InitializeHSD_UI()
 	-- Update calendar functions from UI for gameplay scripts
-	Events.TurnEnd.Add( SetTurnYear )
+	-- Events.TurnBegin.Add(SetTurnYear)
+	Events.TurnEnd.Add(SetTurnYear)
+	LuaEvents.SetTurnYear.Add(SetTurnYear)
 	LuaEvents.SetAutoValues.Add(SetAutoValues)
 	LuaEvents.RestoreAutoValues.Add(RestoreAutoValues)
 	LuaEvents.SetStartingEra.Add( SetStartingEra )
 	-- Share UI context functions with gameplay scripts
+	ExposedMembers.GetStandardTimeline = GetStandardTimeline
+	ExposedMembers.GetTrueHSDTimeline = GetTrueHSDTimeline
+	ExposedMembers.GetLeaderTimeline = GetLeaderTimeline
+	ExposedMembers.GetEraTimeline = GetEraTimeline
+	ExposedMembers.GetLitemodeCivs = GetLitemodeCivs
 	ExposedMembers.CheckCity.CheckCityGovernor = CheckCityGovernor
 	ExposedMembers.CheckCityCapital = CheckCityCapital
 	ExposedMembers.CheckCityOriginalCapital = CheckCityOriginalCapital
 	ExposedMembers.GetPlayerCityUIDatas = GetPlayerCityUIDatas
 	ExposedMembers.GetEraCountdown = GetEraCountdown
+	ExposedMembers.GetTribeNameType = GetTribeNameType
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))	

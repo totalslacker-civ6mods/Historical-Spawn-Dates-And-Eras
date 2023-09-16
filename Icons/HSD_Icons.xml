@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<IconTextureAtlases>
+		<Row Name="ICON_ATLAS_GAMEMODE_HSD" IconSize="44" IconsPerRow="1" IconsPerColumn="1" Filename="HSD_Icon.dds"/>
+		<Row Name="ICON_ATLAS_GAMEMODE_HSD_PLAYERITEM" IconSize="44" IconsPerRow="1" IconsPerColumn="1" Filename="HSD_Menu_Icon.dds"/>
+		<Row Name="ICON_ATLAS_GAMEMODE_COLONIZATION" IconSize="44" IconsPerRow="1" IconsPerColumn="1" Filename="ColonizationMode_Icon.dds"/>
+		<Row Name="ICON_ATLAS_GAMEMODE_COLONIZATION_LOYAL_HARBORS" IconSize="44" IconsPerRow="1" IconsPerColumn="1" Filename="ColonizationMode_LoyalHarbors_Icon.dds"/>
+		<Row Name="ICON_ATLAS_GAMEMODE_RAGING_BARARIANS" IconSize="44" IconsPerRow="1" IconsPerColumn="1" Filename="RagingBarbarians_Icon.dds"/>
+		<Row Name="ICON_ATLAS_GAMEMODE_RAGING_BARARIANS_INVASIONS" IconSize="44" IconsPerRow="1" IconsPerColumn="1" Filename="RagingBarbarians_Invasions_Icon.dds"/>
+		<Row Name="ICON_ATLAS_GAMEMODE_HISTORICAL_VICTORY" IconSize="44" IconsPerRow="1" IconsPerColumn="1" Filename="HistoricalVictory_Icon.dds"/>
+	</IconTextureAtlases>
+	<IconDefinitions>
+		<Row Name="ICON_GAMEMODE_HSD" Atlas="ICON_ATLAS_GAMEMODE_HSD" Index="0"/>
+		<Row Name="ICON_GAMEMODE_HSD_PLAYERITEM" Atlas="ICON_ATLAS_GAMEMODE_HSD_PLAYERITEM" Index="0"/>
+		<Row Name="ICON_GAMEMODE_COLONIZATION" Atlas="ICON_ATLAS_GAMEMODE_COLONIZATION" Index="0"/>
+		<Row Name="ICON_GAMEMODE_COLONIZATION_LOYALHARBORS" Atlas="ICON_ATLAS_GAMEMODE_COLONIZATION_LOYAL_HARBORS" Index="0"/>
+		<Row Name="ICON_GAMEMODE_RAGING_BARBARIANS" Atlas="ICON_ATLAS_GAMEMODE_RAGING_BARARIANS" Index="0"/>
+		<Row Name="ICON_GAMEMODE_RAGING_BARBARIANS_INVASIONS" Atlas="ICON_ATLAS_GAMEMODE_RAGING_BARARIANS_INVASIONS" Index="0"/>
+		<Row Name="ICON_GAMEMODE_HISTORICAL_VICTORY" Atlas="ICON_ATLAS_GAMEMODE_HISTORICAL_VICTORY" Index="0"/>
+	</IconDefinitions>
+</GameInfo>

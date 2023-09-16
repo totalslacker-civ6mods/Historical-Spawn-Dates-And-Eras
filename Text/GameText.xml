@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+  <LocalizedText>
+	<!-- BUILDINGS -->
+	<Replace Tag="LOC_BUILDING_CENTER_NAME" Language="en_US">
+      <Text>Era Start Building</Text>
+    </Replace>
+	<Replace Tag="LOC_BUILDING_CENTER_DESCRIPTION" Language="en_US">
+      <Text>Provides bonus yields based on your Civilization's starting Era</Text>
+    </Replace>
+	<Replace Tag="LOC_BUILDING_SUPER_MONUMENT_NAME" Language="en_US">
+      <Text>Super Monument</Text>
+    </Replace>
+	<Replace Tag="LOC_BUILDING_SUPER_MONUMENT_DESCRIPTION" Language="en_US">
+      <Text>Increases Loyalty pressure from all citizens until the Era threshhold for number of cities is reached. Districts cost 50% less to produce in all cities.</Text>
+    </Replace>
+	<!-- TRAITS -->
+	<Replace Tag="LOC_TRAIT_LEADER_ISOLATED" Language="en_US">
+      <Text>Isolated Civilization</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_ISOLATED_DESC" Language="en_US">
+      <Text>Start the game without any bonus technology or civics. [ICON_TradeRoute]Trade Routes to more advanced civilizations grant +1 [ICON_Science]Science for every technology that civilization is ahead of them, and +1 [ICON_Culture]Culture for every civic.</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_COLONIAL" Language="en_US">
+      <Text>Colonial Civilization</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_COLONIAL_DESC" Language="en_US">
+      <Text>Start the game with the Democracy government unlocked. Receive the Era Building in all cities. [ICON_TradeRoute]Trade Routes to more advanced civilizations grant +1 [ICON_Science]Science for every three technologies that civilization is ahead of them, and +1 [ICON_Culture]Culture for every three civics.</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_LOYAL_HARBORS" Language="en_US">
+      <Text>Loyal Harbors</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_LOYAL_HARBORS_DESC" Language="en_US">
+      <Text>Coastal cities on foreign continents with a Harbor district (or unique replacement) will be permanently loyal</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_NAME" Language="en_US">
+      <Text>Historical Spawn Date</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_ERASTART_NAME" Language="en_US">
+      <Text>Starting Era</Text>
+    </Replace>
+	<!-- EVENT POPUPS -->
+	<Replace Tag="LOC_HSD_BARB_INVASION_TITLE" Language="en_US">
+      <Text>Barbarian Invasion!</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_BARB_INVASION_MESSAGE" Language="en_US">
+      <Text>The {1_BarbarianTribe} barbarian hordes grow restless! Drawn by the wealth and luxuries of your empire, they have assembled under a common banner to attack the city of {2_CityName}!</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_LOADING_TITLE" Language="en_US">
+      <Text>Historical Spawn Dates is Loading!</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_LOADING_MESSAGE" Language="en_US">
+      <Text>Leader: {1_LeaderName} [NEWLINE]Starting date: {2_StartDate} [NEWLINE]Please wait until autoplay is complete</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_LOADING_IMAGE_TEXT" Language="en_US">
+      <Text>Your time has not yet come to pass...[NEWLINE]</Text>
+    </Replace>
+	<!-- HISTORICAL VICTORIES -->
+	<Replace Tag="LOC_HSD_VICTORY_INTRO" Language="en_US">
+      <Text>Achieve a [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] by completing all challenges for your civilization to unlock the [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] project. Victory progress can be tracked from the Civilization tabs below. Completing a challenge grants bonus Era Score.[NEWLINE][NEWLINE]</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_NAME" Language="en_US">
+      <Text>Pax Romana</Text>
+    </Replace>
+	<!-- <Replace Tag="LOC_HSD_VICTORY_ROMAN_1_DESC" Language="en_US"> -->
+      <!-- <Text>[NEWLINE]Establish an era of relative peace, cultural flourishing, and infrastructure development across your empire.[NEWLINE][ICON_BOLT]Build the Colosseum, 4 Bath districts, and 15 road plots within your territory by 100AD[NEWLINE]</Text> -->
+    <!-- </Replace> -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DESC" Language="en_US">
+      <Text>[NEWLINE][ICON_BULLET]Build the Colosseum, 4 Bath districts, and 15 road plots within your territory by 100AD[NEWLINE]</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_NAME" Language="en_US">
+      <Text>Imperium Romanum</Text>
+    </Replace>
+	<!-- <Replace Tag="LOC_HSD_VICTORY_ROMAN_2_DESC" Language="en_US"> -->
+      <!-- <Text>[NEWLINE]Lead Rome to recreate the territorial extent and grandeur of the Roman Empire, establishing dominance over the Mediterranean and beyond.[NEWLINE][ICON_BOLT]Control 25% of Europe and 5 cities outside of Europe by 200AD[NEWLINE]</Text> -->
+    <!-- </Replace> -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DESC" Language="en_US">
+      <Text>[NEWLINE][ICON_BULLET]Control 25% of Europe and 5 cities outside of Europe by 200AD[NEWLINE]</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_NAME" Language="en_US">
+      <Text>Scythia et Germania</Text>
+    </Replace>
+	<!-- <Replace Tag="LOC_HSD_VICTORY_ROMAN_3_DESC" Language="en_US"> -->
+      <!-- <Text>[NEWLINE]Lead Rome to recreate the territorial extent and grandeur of the Roman Empire, establishing dominance over the Mediterranean and beyond.[NEWLINE][ICON_BOLT]Control 25% of Europe and 5 cities outside of Europe by 200AD[NEWLINE]</Text> -->
+    <!-- </Replace> -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_DESC" Language="en_US">
+      <Text>[NEWLINE][ICON_BULLET]Control Scythia and Germania by 1000AD[NEWLINE]</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_OVERALL_TOOLTIP" Language="en_US">
+      <Text>[ICON_CAPITAL]Challenges Completed: {1_current}/{2_total}{3_totalVictorySummary}</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_COMPLETED_TOOLTIP" Language="en_US">
+      <Text>[NEWLINE][ICON_BULLET]{1_VictoryName}: {2_year}</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DETAILS_ROW_1" Language="en_US">
+      <Text>Build the Colosseum by 100AD : </Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DETAILS_ROW_2" Language="en_US">
+      <Text>Build 4 Bath districts by 100AD : </Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DETAILS_ROW_3" Language="en_US">
+      <Text>Build 15 roads in your territory by 100AD : </Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DETAILS_ROW_1" Language="en_US">
+      <Text>Control 25% of Europe by 200AD : </Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DETAILS_ROW_2" Language="en_US">
+      <Text>Control 5 cities outside of Europe by 200AD : </Text>
+    </Replace>
+  </LocalizedText>
+</GameData>

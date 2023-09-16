@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<EventPopupData>
+		<Row Type="HSD_RAGING_BARBARIANS_INVASION_WARNING" Title="LOC_HSD_BARB_INVASION_TITLE" Description="LOC_HSD_BARB_INVASION_MESSAGE" FilterCondition="ANY" BackgroundImage="Raging_Barbarians_Invasion_Background.dds" ForegroundImage=""/>
+		<Row Type="HSD_LOADING_POPUP" Title="LOC_HSD_LOADING_TITLE" Description="LOC_HSD_LOADING_MESSAGE" FilterCondition="ANY" BackgroundImage="HSD_Popup.dds" ForegroundImage="" ImageText="LOC_HSD_LOADING_IMAGE_TEXT" />
+	</EventPopupData>
+</GameInfo>
