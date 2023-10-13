@@ -59,38 +59,19 @@
 	<Replace Tag="LOC_HSD_VICTORY_INTRO" Language="en_US">
       <Text>Achieve a [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] by completing all challenges for your civilization to unlock the [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] project. Victory progress can be tracked from the Civilization tabs below. Completing a challenge grants bonus Era Score.[NEWLINE][NEWLINE]</Text>
     </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_NAME" Language="en_US">
-      <Text>Pax Romana</Text>
-    </Replace>
-	<!-- <Replace Tag="LOC_HSD_VICTORY_ROMAN_1_DESC" Language="en_US"> -->
-      <!-- <Text>[NEWLINE]Establish an era of relative peace, cultural flourishing, and infrastructure development across your empire.[NEWLINE][ICON_BOLT]Build the Colosseum, 4 Bath districts, and 15 road plots within your territory by 100AD[NEWLINE]</Text> -->
-    <!-- </Replace> -->
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DESC" Language="en_US">
-      <Text>[NEWLINE][ICON_BULLET]Build the Colosseum, 4 Bath districts, and 15 road plots within your territory by 100AD[NEWLINE]</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_NAME" Language="en_US">
-      <Text>Imperium Romanum</Text>
-    </Replace>
-	<!-- <Replace Tag="LOC_HSD_VICTORY_ROMAN_2_DESC" Language="en_US"> -->
-      <!-- <Text>[NEWLINE]Lead Rome to recreate the territorial extent and grandeur of the Roman Empire, establishing dominance over the Mediterranean and beyond.[NEWLINE][ICON_BOLT]Control 25% of Europe and 5 cities outside of Europe by 200AD[NEWLINE]</Text> -->
-    <!-- </Replace> -->
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DESC" Language="en_US">
-      <Text>[NEWLINE][ICON_BULLET]Control 25% of Europe and 5 cities outside of Europe by 200AD[NEWLINE]</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_NAME" Language="en_US">
-      <Text>Scythia et Germania</Text>
-    </Replace>
-	<!-- <Replace Tag="LOC_HSD_VICTORY_ROMAN_3_DESC" Language="en_US"> -->
-      <!-- <Text>[NEWLINE]Lead Rome to recreate the territorial extent and grandeur of the Roman Empire, establishing dominance over the Mediterranean and beyond.[NEWLINE][ICON_BOLT]Control 25% of Europe and 5 cities outside of Europe by 200AD[NEWLINE]</Text> -->
-    <!-- </Replace> -->
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_DESC" Language="en_US">
-      <Text>[NEWLINE][ICON_BULLET]Control Scythia and Germania by 1000AD[NEWLINE]</Text>
-    </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_OVERALL_TOOLTIP" Language="en_US">
       <Text>[ICON_CAPITAL]Challenges Completed: {1_current}/{2_total}{3_totalVictorySummary}</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_COMPLETED_TOOLTIP" Language="en_US">
       <Text>[NEWLINE][ICON_BULLET]{1_VictoryName}: {2_year}</Text>
+    </Replace>
+	<!-- ROME -->
+	<!-- Victory 1 -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_NAME" Language="en_US">
+      <Text>Pax Romana</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DESC" Language="en_US">
+      <Text>[NEWLINE][ICON_BULLET]Build the Colosseum, 4 Bath districts, and 15 road plots within your territory by 100AD[NEWLINE]</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DETAILS_ROW_1" Language="en_US">
       <Text>Build the Colosseum by 100AD : </Text>
@@ -101,11 +82,38 @@
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DETAILS_ROW_3" Language="en_US">
       <Text>Build 15 roads in your territory by 100AD : </Text>
     </Replace>
+	<!-- Victory 2 -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_NAME" Language="en_US">
+      <Text>Imperium Romanum</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DESC" Language="en_US">
+      <Text>[NEWLINE][ICON_BULLET]Control 20% of land plots in Europe and 5 cities on other continents by 200AD[NEWLINE]</Text>
+    </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DETAILS_ROW_1" Language="en_US">
-      <Text>Control 25% of Europe by 200AD : </Text>
+      <Text>Control 20% of land plots in Europe by 200AD : </Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DETAILS_ROW_2" Language="en_US">
       <Text>Control 5 cities outside of Europe by 200AD : </Text>
+    </Replace>
+	<!-- Victory 3 -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_NAME" Language="en_US">
+      <Text>Mare Nostrum</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_DESC" Language="en_US">
+      <Text>[NEWLINE][ICON_BULLET]Control all plots of a sea territory[NEWLINE]</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_DETAILS_ROW_1" Language="en_US">
+      <Text>Control all plots of a sea territory : </Text>
+    </Replace>
+	<!-- JULIUS CAESAR -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_NAME" Language="en_US">
+      <Text>Veni, Vidi, Vici</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_DESC" Language="en_US">
+      <Text>[NEWLINE][ICON_BULLET]Control all capitals in the southern half of Europe at the end of the Classical Era[NEWLINE]</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_DETAILS_ROW_1" Language="en_US">
+      <Text>Control all capitals in the southern half of Europe at the end of the Classical Era : </Text>
     </Replace>
   </LocalizedText>
 </GameData>

@@ -21,5 +21,11 @@ HSD_Victory_civilizationData = {
 	["CIVILIZATION_BRAZIL"] = {
 			{ victory = 1, objectives = 1 },
 			{ victory = 2, objectives = 1 }
-	}
+	},
+    ["LEADER_JULIUS_CAESAR"] = 
+		{ 
+			{ victory = 1, objectives = 1 },
+			{ victory = 2, objectives = 1 },
+			{ victory = 3, objectives = 1 },
+		},
 }
