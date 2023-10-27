@@ -27,5 +27,5 @@ HSD_Victory_civilizationData = {
 			{ victory = 1, objectives = 1 },
 			{ victory = 2, objectives = 1 },
 			{ victory = 3, objectives = 1 },
-		},
+	}
 }

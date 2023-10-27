@@ -8,7 +8,7 @@
 		
 		<Row ParameterId="GameMode_RAGING_BARBARIANS" Name="LOC_GAMEMODE_RAGING_BARBARIANS_NAME" Description="LOC_GAMEMODE_RAGING_BARBARIANS_DESCRIPTION" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_RAGING_BARBARIANS" NameArrayConfigurationId="GAMEMODES_ENABLED_NAMES" GroupId="GameModes" SortIndex="100"  SupportsSinglePlayer="1" Visible="1" />
 		
-		<Row ParameterId="GameMode_HISTORICAL_VICTORY" Name="LOC_GAMEMODE_HISTORICAL_VICTORY_NAME" Description="LOC_GAMEMODE_HISTORICAL_VICTORY_DESCRIPTION" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="GameMode_HISTORICAL_VICTORY" NameArrayConfigurationId="GAMEMODES_ENABLED_NAMES" GroupId="GameModes" SortIndex="100"  SupportsSinglePlayer="1" Visible="1" />
+		<Row ParameterId="GameMode_HISTORICAL_VICTORY" Name="LOC_GAMEMODE_HISTORICAL_VICTORY_NAME" Description="LOC_GAMEMODE_HISTORICAL_VICTORY_DESCRIPTION" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HISTORICAL_VICTORY" NameArrayConfigurationId="GAMEMODES_ENABLED_NAMES" GroupId="GameModes" SortIndex="100"  SupportsSinglePlayer="1" Visible="1" />
 		
 		<!-- BASE OPTIONS -->
 		<!-- Invisible option to activate mod features. Legacy support for old saves before the game mode option. -->
