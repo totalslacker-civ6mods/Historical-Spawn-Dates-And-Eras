@@ -3574,6 +3574,312 @@ function SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
 	return newStartingPlot
 end
 
+-- ===========================================================================
+-- Trigger: Called at the start of every player's turn (minor and major), including Barbarian and Free cities players
+-- Description: Primary function for spawning players and awarding bonuses
+-- ===========================================================================
+
+function SpawnPlayer_GPT4(iPlayer)
+    local player = Players[iPlayer]
+	local startingPlot = false
+    local bPlayerSpawned = false
+    
+    if not player then
+        print("WARNING: player is nil in SpawnPlayer #" .. tostring(iPlayer))
+        return bPlayerSpawned
+    end
+    
+    local playerID = player:GetID()
+    local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+    local LeaderTypeName = PlayerConfigurations[iPlayer]:GetLeaderTypeName()
+    local spawnYear = spawnDates[LeaderTypeName] or spawnDates[CivilizationTypeName] or defaultStartYear
+    local spawnEra = spawnEras[LeaderTypeName] or spawnEras[CivilizationTypeName] or defaultStartEra
+    local iTurn = Game.GetCurrentGameTurn()
+    local playerEra = player:GetEras():GetEra()
+    local gameEra = Game.GetEras():GetCurrentEra()
+    -- local currentTurnYear = --[[ Calculate the current turn year somehow ]]--
+    -- local previousTurnYear = --[[ Calculate the previous turn year somehow ]]--
+    local isolatedPlayer = isolatedCivs[CivilizationTypeName] or false
+    local colonialPlayer = ColonialCivs[CivilizationTypeName] or false
+    local isMajorPlayer = player:IsMajor()
+    local isBarbarian = player:IsBarbarian()
+    local isFreeCities = (iPlayer == 62)
+
+    if isBarbarian or isFreeCities then
+        return bPlayerSpawned
+    else
+		-- Set starting plot only after barbarians and free cities are excluded
+		startingPlot = player:GetStartingPlot()
+	end
+
+    -- Condition checkers
+    local function shouldGiveEraScore()
+        return (bGoldenAgeSpawn and (spawnEra > gameEra)) or (not bGoldenAgeSpawn and (playerEra < gameEra))
+    end
+
+    local function shouldGiveYearScore()
+        return (bGoldenAgeSpawn and (spawnYear > currentTurnYear)) or (not bGoldenAgeSpawn and (playerEra < gameEra) and (spawnYear > currentTurnYear))
+    end
+	
+	local function shouldGiveStartingCivic()
+		return (bHistoricalSpawnEras and (spawnEra > Game.GetEras():GetCurrentEra())) or (not bHistoricalSpawnEras and (spawnYear > currentTurnYear))
+	end
+
+    -- Spawn logic
+    local function performSpawnLogic()
+        local newStartingPlot = false
+
+        -- Prepare starting plot by removing units
+        if not startingPlot:IsOwned() then
+            local plotUnits = Units.GetUnitsInPlot(startingPlot)
+            if plotUnits and #plotUnits > 0 then
+                MoveStartingPlotUnits(plotUnits, startingPlot)
+            end
+        end
+
+        -- Common spawning code for both era and year based spawning
+		if bApplyBalance then
+			if isMajorPlayer then
+				if isolatedPlayer then
+					newStartingPlot = SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+				else
+					GetStartingBonuses(player)
+					newStartingPlot = SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+				end
+			elseif (not isMajorPlayer) then
+				GetStartingBonuses(player)
+				if bCityStateRevolts then
+					newStartingPlot = SpawnMinorPlayer(iPlayer, startingPlot, newStartingPlot)
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+				else
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+				end
+			end	
+		elseif not bApplyBalance then
+			newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+		end
+
+        -- Spawn any extra units specific to this Civ or start
+        StartingUnits_Extra(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+
+        -- Delete hidden settler now that we have a city or units on the map
+        DeleteUnitsOffMap(iPlayer)
+
+        -- Display in-game notifications
+        ShowSpawnNotifications(iPlayer, startingPlot, newStartingPlot, CivilizationTypeName)
+
+        -- Clear list of revolting cities for notifications and restore UI values for auto-end turn for the human player
+        Notifications_revoltingCityPlots = {}
+
+        if player:IsHuman() then
+            LuaEvents.RestoreAutoValues()
+        end
+
+        return true
+    end
+
+    -- Give era score and starting civics to civilizations before spawn
+    if isMajorPlayer then
+        if (bHistoricalSpawnEras and shouldGiveEraScore()) or (not bHistoricalSpawnEras and shouldGiveYearScore()) then
+            Game:GetEras():ChangePlayerEraScore(playerID, 1)
+        end
+        if shouldGiveStartingCivic() and (iTurn == 1) then
+            GetStartingCivics(iPlayer, isolatedPlayer)
+        end
+    end
+
+    -- Handle era-based spawning or year based
+    if bHistoricalSpawnEras then
+        if spawnEra and spawnEra <= gameCurrentEra then
+            local eraSpawnCheck = Game:GetProperty(playerID .. "EraSpawn" .. spawnEra)
+            if not eraSpawnCheck then
+                Game:SetProperty(playerID .. "EraSpawn" .. spawnEra, 1)
+				print(" - Historical Spawn Dates is spawning ", tostring(CivilizationTypeName), "Start Era = ", tostring(spawnEra), "at", startingPlot:GetX(), startingPlot:GetY())
+                bPlayerSpawned = performSpawnLogic()
+            end
+        end
+    else
+        if spawnYear and (((spawnYear >= previousTurnYear) and (spawnYear < currentTurnYear)) or ((spawnYear <= previousTurnYear) and (iTurn == GameConfiguration.GetStartTurn()))) then
+            Game:SetProperty(playerID .. "_YearSpawn", currentTurnYear)
+			print(" - Historical Spawn Dates is spawning ", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear), "at", startingPlot:GetX(), startingPlot:GetY())
+            bPlayerSpawned = performSpawnLogic()
+        end
+    end
+
+    return bPlayerSpawned
+end
+
+
+function SpawnPlayer_GPT(iPlayer)
+	local player = Players[iPlayer]
+	local bPlayerSpawned = false
+	
+    if not player then
+		print("WARNING: player is nil in SpawnPlayer #" .. tostring(iPlayer))
+		return bPlayerSpawned
+	end
+	
+	local playerID = player:GetID()
+	local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+	local LeaderTypeName = PlayerConfigurations[iPlayer]:GetLeaderTypeName()
+	local spawnYear = spawnDates[LeaderTypeName] or spawnDates[CivilizationTypeName] or defaultStartYear
+	local spawnEra = spawnEras[LeaderTypeName] or spawnEras[CivilizationTypeName] or defaultStartEra
+	local iTurn = Game.GetCurrentGameTurn()
+	local playerEra = player:GetEras():GetEra()
+	local isolatedPlayer = isolatedCivs[CivilizationTypeName] or false
+	local colonialPlayer = ColonialCivs[CivilizationTypeName] or false
+	local isMajorPlayer = player:IsMajor()
+	local isBarbarian = player:IsBarbarian()
+	local isFreeCities = (iPlayer == 62)
+
+	if isBarbarian or isFreeCities then
+		return bPlayerSpawned
+	end
+
+	-- Give era score and starting civics to civilizations before spawn	
+	if bHistoricalSpawnEras and isMajorPlayer then
+		local eraCondition = (bGoldenAgeSpawn and (spawnEra > Game.GetEras():GetCurrentEra())) or (not bGoldenAgeSpawn and (playerEra < currentEra) and (spawnEra > Game.GetEras():GetCurrentEra()))
+		if eraCondition then
+			Game:GetEras():ChangePlayerEraScore(playerID, 1)
+		end
+		if (spawnEra > Game.GetEras():GetCurrentEra()) and (iTurn == 1) then
+			GetStartingCivics(iPlayer, isolatedPlayer)
+		end
+	elseif (not bHistoricalSpawnEras) and isMajorPlayer then
+		local yearCondition = (bGoldenAgeSpawn and (spawnYear > currentTurnYear)) or (not bGoldenAgeSpawn and (playerEra < currentEra) and (spawnYear > currentTurnYear))
+		if yearCondition then
+			Game:GetEras():ChangePlayerEraScore(playerID, 1)
+		end
+		if (spawnYear > currentTurnYear) and (iTurn == 1) then
+			GetStartingCivics(iPlayer, isolatedPlayer)
+		end
+	end
+    
+	-- Handle era-based spawning or year based
+	if bHistoricalSpawnEras and spawnEra and (spawnEra <= gameCurrentEra) then
+		local eraSpawnCheck = Game:GetProperty(playerID .. "EraSpawn" .. spawnEra)
+
+		if not eraSpawnCheck then
+			Game:SetProperty(playerID .. "EraSpawn" .. spawnEra, 1)
+			local startingPlot = player:GetStartingPlot()
+			local newStartingPlot = false
+
+			-- Prepare starting plot by removing units
+			if not startingPlot:IsOwned() then
+				local plotUnits = Units.GetUnitsInPlot(startingPlot)
+				if plotUnits and (#plotUnits > 0) then
+					MoveStartingPlotUnits(plotUnits, startingPlot)
+				end
+			end
+
+			print("----------")
+			print(" - Spawning", tostring(CivilizationTypeName), "Start Era = ", tostring(spawnEra), "at", startingPlot:GetX(), startingPlot:GetY())
+
+			if bApplyBalance then
+				if isMajorPlayer then
+					if isolatedPlayer then
+						newStartingPlot = SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+					else
+						GetStartingBonuses(player)
+						newStartingPlot = SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
+						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+					end
+				elseif (not isMajorPlayer) then
+					GetStartingBonuses(player)
+					if bCityStateRevolts then
+						newStartingPlot = SpawnMinorPlayer(iPlayer, startingPlot, newStartingPlot)
+						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+					else
+						newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+					end
+				end	
+			elseif not bApplyBalance then
+				newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+			end
+
+            -- Spawn any extra units specific to this Civ or start
+            StartingUnits_Extra(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+
+            -- Delete hidden settler now that we have a city or units on the map
+            DeleteUnitsOffMap(iPlayer)
+
+            -- Display in-game notifications
+            ShowSpawnNotifications(iPlayer, startingPlot, newStartingPlot, CivilizationTypeName)
+
+            -- Clear list of revolting cities for notifications and restore UI values for auto-end turn for the human player
+            Notifications_revoltingCityPlots = {}
+
+            if player:IsHuman() then
+                LuaEvents.RestoreAutoValues()
+            end
+
+            bPlayerSpawned = true
+        end
+    elseif (spawnYear and (not bHistoricalSpawnEras) and (((spawnYear >= previousTurnYear) and (spawnYear < currentTurnYear)) or ((spawnYear <= previousTurnYear) and (Game.GetCurrentGameTurn() == GameConfiguration.GetStartTurn())))) then
+		Game:SetProperty(playerID .. "_YearSpawn", currentTurnYear)
+		local startingPlot = player:GetStartingPlot()
+		local newStartingPlot = false
+
+		-- Prepare starting plot by removing units
+		if not startingPlot:IsOwned() then
+			local plotUnits = Units.GetUnitsInPlot(startingPlot)
+			if plotUnits and #plotUnits > 0 then
+				MoveStartingPlotUnits(plotUnits, startingPlot)
+			end
+		end
+
+		print("----------")
+		print(" - Spawning", tostring(CivilizationTypeName), "Start Year = ", tostring(spawnYear), "Previous Turn Year = ", tostring(previousTurnYear), "Current Turn Year = ", tostring(currentTurnYear), "at", startingPlot:GetX(), startingPlot:GetY())
+
+		if bApplyBalance then
+			if isMajorPlayer then
+				if isolatedPlayer then
+					newStartingPlot = SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+				else
+					GetStartingBonuses(player)
+					newStartingPlot = SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+				end
+			elseif (not isMajorPlayer) then
+				GetStartingBonuses(player)
+				if bCityStateRevolts then
+					newStartingPlot = SpawnMinorPlayer(iPlayer, startingPlot, newStartingPlot)
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+				else
+					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+				end
+			end	
+		elseif not bApplyBalance then
+			newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
+		end
+
+		-- Spawn any extra units specific to this Civ or start
+		StartingUnits_Extra(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+
+		-- Delete hidden settler now that we have a city or units on the map
+		DeleteUnitsOffMap(iPlayer)
+
+		-- Display in-game notifications
+		ShowSpawnNotifications(iPlayer, startingPlot, newStartingPlot, CivilizationTypeName)
+
+		-- Clear list of revolting cities for notifications and restore UI values for auto-end turn for the human player
+		Notifications_revoltingCityPlots = {}
+
+		if player:IsHuman() then
+			LuaEvents.RestoreAutoValues()
+		end
+
+		bPlayerSpawned = true
+    end
+
+    return bPlayerSpawned
+end
+
+
 function SpawnPlayer(iPlayer)
 	local player = Players[iPlayer]
 	local bPlayerSpawned = false
@@ -4100,10 +4406,6 @@ function SetCurrentGameEra()
 		gameCurrentEra = Game.GetEras():GetCurrentEra() 
 	end
 end
-
--- if bHistoricalSpawnEras then
-	-- GameEvents.OnGameTurnStarted.Add(SetCurrentGameEra)
--- end
 
 -- ===========================================================================
 -- Functions related to cities, to be called from event hooks related to cities
@@ -4671,7 +4973,8 @@ function OnLoadScreenClosed()
 	ShowLoadingPopup()
 	GetContinentDimensions()
 	GameEvents.OnGameTurnStarted.Add(SetCurrentGameEra)
-	GameEvents.PlayerTurnStarted.Add(SpawnPlayer)
+	-- GameEvents.PlayerTurnStarted.Add(SpawnPlayer)
+		GameEvents.PlayerTurnStarted.Add(SpawnPlayer_GPT4)
 	if bApplyBalance then
 		-- Events.DistrictRemovedFromMap.Add(CityCaptureDistrictRemoved)
 		-- Events.CapitalCityChanged.Add(CapitalWasChanged)
