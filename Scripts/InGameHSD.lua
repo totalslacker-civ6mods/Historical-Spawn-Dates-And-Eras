@@ -20,7 +20,7 @@ local defaultQuickCombat 	= UserConfiguration.GetValue("QuickCombat")
 local defaultAutoEndTurn	= UserConfiguration.GetValue("AutoEndTurn") 
 
 ----------------------------------------------------------------------------------------
--- Calendar Functions
+-- Timeline Functions
 ----------------------------------------------------------------------------------------
 
 function GetStandardTimeline(civType)
@@ -94,6 +94,25 @@ function GetLitemodeCivs(civType)
 		end
 	end
 	return eligibleForHSD
+end
+
+----------------------------------------------------------------------------------------
+-- Calendar Functions
+----------------------------------------------------------------------------------------
+
+function GetCalendarTurnYear(iTurn)
+	local turnYearStr = Calendar.MakeYearStr(iTurn)
+	local isBC = string.find(turnYearStr, "BC") -- Check if the year is BC
+	local gSubString = string.gsub(turnYearStr, "%D", "") -- Remove all non-digit characters to get the year number
+	local turnYearInt = tonumber(gSubString)
+
+	if isBC then
+		turnYearInt = -turnYearInt -- Make the year negative if it's BC
+	end
+	
+	print("GetCalendarTurnYear returned "..tostring(turnYearStr))
+	print("New value is "..tostring(turnYearInt))
+	return turnYearInt
 end
 
 function SetTurnYear(iTurn)
@@ -331,6 +350,7 @@ function InitializeHSD_UI()
 	ExposedMembers.GetPlayerCityUIDatas = GetPlayerCityUIDatas
 	ExposedMembers.GetEraCountdown = GetEraCountdown
 	ExposedMembers.GetTribeNameType = GetTribeNameType
+	ExposedMembers.GetCalendarTurnYear = GetCalendarTurnYear
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))	

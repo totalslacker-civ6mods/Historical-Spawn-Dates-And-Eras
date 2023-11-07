@@ -11,7 +11,7 @@ HSD_Victory_civilizationData = {
 		{ 
 			{ victory = 1, objectives = 3 },
 			{ victory = 2, objectives = 2 },
-			{ victory = 3, objectives = 2 },
+			{ victory = 3, objectives = 1 },
 		},
 	["CIVILIZATION_EGYPT"] = {
 			{ victory = 1, objectives = 3 },

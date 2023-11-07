@@ -486,14 +486,14 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
             local objectiveCount = victories.objectives
             -- local player = Players[PlayerID]
             local victoryStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_".. i)
-			if not victoryStatus then victoryStatus = 0 end -- nil check
+			-- if not victoryStatus then victoryStatus = 0 end -- nil check
 			if (g_LocalPlayer:GetDiplomacy():HasMet(PlayerID)) or (g_LocalPlayer:GetID() == PlayerID) then
 				-- Display victory status
 				detailsText = detailsText .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. CivilizationTypeName .. "_" .. victoryType .. "_NAME" ) .. "[ENDCOLOR] : "
-				if victoryStatus == 0 then
+				if not victoryStatus then
 					-- Not yet completed
 					detailsText = detailsText .. "[ICON_Bolt]"
-				elseif victoryStatus == 1 then
+				elseif victoryStatus >= 0 then
 					-- Completed
 					detailsText = detailsText .. "[ICON_Checksuccess]"
 				else

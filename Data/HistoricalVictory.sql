@@ -9,7 +9,7 @@ INSERT INTO Types(Type, Kind) VALUES
 
 -- Historical Victory Building (unlocks project)
 INSERT INTO Buildings (BuildingType, Name, Description, PrereqDistrict, ObsoleteEra, Cost) VALUES
-	('BUILDING_HISTORICAL_VICTORY' 'LOC_BUILDING_HISTORICAL_VICTORY_NAME', 'LOC_BUILDING_HISTORICAL_VICTORY_DESC', 'DISTRICT_CITY_CENTER', 'ERA_ANCIENT', 1);
+	('BUILDING_HISTORICAL_VICTORY', 'LOC_BUILDING_HISTORICAL_VICTORY_NAME', 'LOC_BUILDING_HISTORICAL_VICTORY_DESC', 'DISTRICT_CITY_CENTER', 'ERA_ANCIENT', 1);
 
 -- Historical Victory Project
 INSERT INTO Projects(ProjectType, Name, ShortName, Description, Cost, CostProgressionModel, MaxPlayerInstances) VALUES

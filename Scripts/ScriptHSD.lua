@@ -1749,80 +1749,6 @@ end
 -- Helper functions used in spawning the player
 -- ===========================================================================
 
-function FindSpawnPlotsByEra_GPT4(startingPlot, iPlayer)
-	local booleanReturnValue = false
-	local permPlots = {} -- Use a table as a set for O(1) lookup times
-	local curPlots = {}
-	local nextPlots = {}
-	local revoltCityPlots = {}
-	local iShortestDistance = gameCurrentEra < 4 and ((4 * (gameCurrentEra + 1)) / 2) or 6
-
-	local function plotAlreadyAdded(plotIndex)
-		return permPlots[plotIndex] ~= nil
-	end
-
-	local function addPlotIfValid(plot)
-		if plot and not plot:IsWater() and not plot:IsImpassable() and not plotAlreadyAdded(plot:GetIndex()) then
-			permPlots[plot:GetIndex()] = true
-			table.insert(curPlots, plot:GetIndex())
-		end
-	end
-
-	local function handleAdjacentPlots(plotList)
-		for _, iPlotIndex in ipairs(plotList) do
-			local pPlot = Map.GetPlotByIndex(iPlotIndex)
-			for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
-				local adjacentPlot = Map.GetAdjacentPlot(pPlot:GetX(), pPlot:GetY(), direction)
-				addPlotIfValid(adjacentPlot)
-			end
-		end
-	end
-
-	addPlotIfValid(startingPlot) -- Add the starting plot
-	handleAdjacentPlots({startingPlot:GetIndex()}) -- Add adjacent plots to starting plot
-
-	while next(curPlots) do -- as long as there are current plots to process
-		nextPlots = {} -- reset next plots for next iteration
-		handleAdjacentPlots(curPlots)
-
-		if #permPlots >= 127 then
-			break -- maximum number of plots reached
-		end
-
-		curPlots, nextPlots = nextPlots, curPlots -- swap curPlots and nextPlots for the next iteration
-	end
-
-	-- Function to check if a city should rebel
-	local function checkForRebellion(pCity, iPlayer)
-		if pCity and (pCity:GetOwner() ~= iPlayer) and (pCity:GetOwner() ~= Players[62]) then
-			local pPlayer = Players[pCity:GetOwner()]
-			if pPlayer:GetCities() and (pPlayer:GetCities():GetCount() > 1) then
-				return CityRebellion(pCity, iPlayer, pCity:GetOwner())
-			end
-		end
-		return false
-	end
-
-	-- Gathering all city plots that may potentially revolt
-	for iPlotIndex in pairs(permPlots) do
-		local pPlot = Map.GetPlotByIndex(iPlotIndex)
-		if pPlot and pPlot:IsCity() then
-			local pCity = Cities.GetCityInPlot(pPlot)
-			if pCity and (pCity:GetOwner() ~= iPlayer) then
-				table.insert(revoltCityPlots, pPlot)
-			end
-		end
-	end
-
-	-- Iterating through potential city plots and checking for rebellion
-	for _, pPlot in ipairs(revoltCityPlots) do
-		local pCity = Cities.GetCityInPlot(pPlot)
-		booleanReturnValue = checkForRebellion(pCity, iPlayer) or booleanReturnValue
-	end
-
-	return booleanReturnValue
-end
-
 function FindSpawnPlotsByEra(startingPlot, iPlayer)
 	local booleanReturnValue = false
 	local permPlots = {}
@@ -2224,63 +2150,109 @@ function ScoreColonyPlotsMostDistant(pPlot, startingPlot)
 	return iScore
 end
 
-function PlayerBuffer_GPT4(startingPlot, iSpawnRange)
+function PlayerBuffer(startingPlot)    
     local newStartingPlots = {}
     local selectedPlot = startingPlot
-    local searchRadius = 3
     local plotScore = -100
     local finalPass = false
-    local tableEmpty = true
+    local range = 3
+
+    local plotPropertiesCache = {}
 	
-	local function FindSuitablePlot(plot)
-		local impassable = plot:IsImpassable()
-		local isWater = plot:IsWater()
-		local isOwned = plot:IsOwned()
-		local isUnit  = plot:IsUnit()
-		return not impassable and not isWater and not isOwned and not isUnit
+    local function isEligiblePlot(plot)
+        -- Assuming these are relatively costly operations,
+        -- caching their results would be beneficial.
+        return not plot:IsImpassable() and
+               not plot:IsWater() and
+               not plot:IsOwned() and
+               not plot:IsUnit()
+    end
+
+    local function getPlotProperties(plot)
+        local key = plot:GetX() .. ":" .. plot:GetY()
+        if not plotPropertiesCache[key] then
+            plotPropertiesCache[key] = {
+                isEligible = isEligiblePlot(plot),
+                distance = FindClosestCityDistance(plot:GetX(), plot:GetY())
+            }
+        end
+        return plotPropertiesCache[key]
+    end
+	
+	-- Check initial 7x7 area excluding starting plot
+    for dx = -range, range do
+        for dy = -range, range do
+            local plot = Map.GetPlotXY(startingPlot:GetX(), startingPlot:GetY(), dx, dy, range)
+            if plot and not (plot:GetX() == startingPlot:GetX() and plot:GetY() == startingPlot:GetY()) then
+				local properties = getPlotProperties(plot)
+				if properties.isEligible and (properties.distance > 3) then
+					-- print("New starting plot found")
+					-- print("Plot: "..tostring(plot:GetX())..", "..tostring(plot:GetY()))
+					-- print("iDistance: "..tostring(properties.distance))							
+					table.insert(newStartingPlots, plot)
+				end
+            end
+        end
+    end
+	
+	-- If no suitable plot is found, increase the range and check only the outer ring of the expanded range
+	if #newStartingPlots == 0 then
+		range = range + 1
+		repeat
+			local foundEligiblePlot = false
+			for dx = -range, range do
+				for dy = -range, range do
+					-- Only check the outer ring of the current range to avoid duplicates
+					if math.abs(dx) == range or math.abs(dy) == range then
+						local otherPlot = Map.GetPlotXY(startingPlot:GetX(), startingPlot:GetY(), dx, dy, range)
+						if otherPlot and not (otherPlot:GetX() == startingPlot:GetX() and otherPlot:GetY() == startingPlot:GetY()) then
+							local properties = getPlotProperties(otherPlot)
+							if properties.isEligible and (finalPass or properties.distance > 3) then
+								-- print("New starting plot found")
+								-- print("Plot: "..tostring(otherPlot:GetX())..", "..tostring(otherPlot:GetY()))
+								-- print("iDistance: "..tostring(properties.distance))							
+								table.insert(newStartingPlots, otherPlot)
+								foundEligiblePlot = true
+								if finalPass then break end -- early exit in final pass if a plot is found
+							end
+						end
+					end
+				end
+				if foundEligiblePlot and finalPass then break end
+			end
+
+			range = range + 1
+			if not foundEligiblePlot then
+				if range > iSpawnRange then
+					if finalPass then break end
+					finalPass = true
+					range = 1
+				end
+			end
+		until foundEligiblePlot
 	end
-
-    while tableEmpty do
-        for dx = -searchRadius, searchRadius do
-            for dy = -searchRadius, searchRadius do
-                local otherPlot = Map.GetPlotXY(startingPlot:GetX(), startingPlot:GetY(), dx, dy, searchRadius)
-                if otherPlot then
-                    if FindSuitablePlot(otherPlot) and (not finalPass or (finalPass and FindClosestCityDistance(otherPlot:GetX(), otherPlot:GetY()) > 3)) then
-                        table.insert(newStartingPlots, otherPlot)
-                        tableEmpty = false
-                    end
-                end
+	
+    -- Score only if new plots were found
+    if #newStartingPlots > 0 then
+        for _, plot in ipairs(newStartingPlots) do
+            local iScore = ScorePlots(plot)
+            if iScore > plotScore then 
+                plotScore = iScore 
+                selectedPlot = plot
             end
         end
-        if tableEmpty then 
-            searchRadius = searchRadius + 1 
-            if searchRadius >= iSpawnRange then
-                if finalPass then break end
-                finalPass = true
-                searchRadius = 3
-            end
-        else
-            break
-        end
     end
-
-    for _, plot in ipairs(newStartingPlots) do
-        local iScore = ScorePlots(plot)
-        if iScore > plotScore then 
-            plotScore = iScore 
-            selectedPlot = plot
-        end
-    end
-
-    if selectedPlot == startingPlot then
-        return nil -- Indicates no suitable plot was found.
-    end
+	
+    -- This is just a log and can be uncommented if needed for debugging.
+    -- if selectedPlot == startingPlot then
+    --     print("WARNING: A new starting plot could not be found, returning original starting plot")
+    -- end
 
     return selectedPlot
 end
 
 --Default function to find a suitable spot for a city nearby. Returns the plot object only. Also used for scout placement
-function PlayerBuffer(startingPlot)	
+function PlayerBuffer_original(startingPlot)	
 	local newStartingPlots = {}
 	local selectedPlot = startingPlot
 	local range = 3
@@ -3235,8 +3207,7 @@ function MoveStartingPlotUnits(plotUnits, startingPlot)
 end
 
 function SpawnMajorPlayer_GPT4(iPlayer, startingPlot, newStartingPlot)
-	-- print("Spawning major player...")
-	print("Spawn" .. (isMajor and "Major" or "Minor") .. "Player initiated for player #" .. tostring(iPlayer))
+	print("SpawnMajorPlayer initiated for player #" .. tostring(iPlayer))
 
     -- Helper function to spawn starting units based on type
     local function spawnStartingUnits(unitListType, plot, player, era, bonus)
@@ -3258,6 +3229,7 @@ function SpawnMajorPlayer_GPT4(iPlayer, startingPlot, newStartingPlot)
             local bufferedPlot = PlayerBuffer(plot)
             handleUnitPlotBuffering(bufferedPlot)
             spawnStartingUnits(unitListType, bufferedPlot, iPlayer, gameCurrentEra, settlersBonus)
+			print("New starting plot found: " .. tostring(bufferedPlot:GetX()) .. ", " .. tostring(bufferedPlot:GetY()))
             return bufferedPlot, false
         end
     end
@@ -3268,7 +3240,6 @@ function SpawnMajorPlayer_GPT4(iPlayer, startingPlot, newStartingPlot)
         if plotUnits and #plotUnits > 0 then
             MoveStartingPlotUnits(plotUnits, plot)
         end
-        print("New starting plot found: " .. tostring(plot:GetX()) .. ", " .. tostring(plot:GetY()))
     end
     
     local pPlotOwnerID = startingPlot:GetOwner()
@@ -3283,6 +3254,7 @@ function SpawnMajorPlayer_GPT4(iPlayer, startingPlot, newStartingPlot)
 
     -- Conversion and spawning logic
     if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1 or pPlotOwnerID == 62) then
+		print("Starting plot is a city. Attempting to convert from previous owner.")
         newStartingPlot, _ = convertOrBufferCity(startingPlot, pPlotOwnerID, iUnitListType)
     elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer and (iOtherPlayerCities > 1 or pPlotOwnerID == 62) then
 		print("Starting plot is owned. Searching for owner city to convert.")
@@ -3471,7 +3443,7 @@ function SpawnMajorPlayer(iPlayer, startingPlot, newStartingPlot)
 end
 
 function SpawnMinorPlayer_GPT4(iPlayer, startingPlot, newStartingPlot)
-    print("SpawnMinorPlayer initiated for player #" .. tostring(iPlayer))
+    print("SpawnMinorPlayer_GPT4 initiated for player #" .. tostring(iPlayer))
 
     local function handleCityConversion(plot)
         local convertedCity = DirectCityConversion(iPlayer, plot)
@@ -3508,6 +3480,7 @@ function SpawnMinorPlayer_GPT4(iPlayer, startingPlot, newStartingPlot)
 
     -- Conversion logic
     if bConvertCities and startingPlot:IsCity() and not bOwnerIsPlayer and (iOtherPlayerCities > 1 or pPlotOwnerID == 62) then
+		print("Starting plot is a city. Attempting to convert from previous owner.")
         newStartingPlot, _ = handleCityConversion(startingPlot)
     elseif bConvertCities and startingPlot:IsOwned() and not bOwnerIsPlayer then
         print("Starting plot is owned. Searching for owner city to convert.")
@@ -3660,6 +3633,84 @@ function SpawnMinorPlayer(iPlayer, startingPlot, newStartingPlot)
 		-- end
 	-- end
 	return newStartingPlot
+end
+
+function SpawnIsolatedPlayer_GPT4(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+    local player = Players[iPlayer]
+    local newStartingPlot = false
+    local bCityTooClose = (FindClosestCityDistance(startingPlot:GetX(), startingPlot:GetY()) < 4)
+    local pPlotOwnerID = startingPlot:GetOwner()
+    local bOwnerIsPlayer = (pPlotOwnerID == iPlayer)
+    local iOtherPlayerCities = 0
+	if Players[pPlotOwnerID] then iOtherPlayerCities = Players[pPlotOwnerID]:GetCities():GetCount() end
+
+    local function shouldConvertCity()
+        return (iOtherPlayerCities > 1) or (pPlotOwnerID == 62)
+    end
+
+    local function handleConversionFailure(plot)
+        local errorString = "Failed to convert city to new player"
+        Notification_FailedSpawn(iPlayer, plot, errorString)
+        local bufferPlot = PlayerBuffer(plot)
+        MoveUnitsFromPlot(bufferPlot)
+        StartingUnits_Isolated(iPlayer, bufferPlot, isolatedSpawn, CivilizationTypeName)
+        return bufferPlot
+    end
+
+    local function convertCity(plot)
+        local convertedCity = DirectCityConversion(iPlayer, plot)
+        if convertedCity then
+            StartingUnits_Isolated(iPlayer, plot, isolatedSpawn, CivilizationTypeName)
+            return plot
+        else
+            return handleConversionFailure(plot)
+        end
+    end
+
+    local function handlePlotOwnership()
+        if bConvertCities and not bOwnerIsPlayer and shouldConvertCity() then
+            if startingPlot:IsCity() then
+                newStartingPlot = convertCity(startingPlot)
+            else
+                local cityFromPlot = FindClosestCityOfPlot(startingPlot)
+                if cityFromPlot then
+                    local cityPlot = Map.GetPlot(cityFromPlot:GetX(), cityFromPlot:GetY())
+                    newStartingPlot = convertCity(cityPlot)
+                else
+                    newStartingPlot = handleConversionFailure(startingPlot)
+                end
+            end
+        elseif startingPlot:IsOwned() and not bOwnerIsPlayer then
+            newStartingPlot = PlayerBuffer(startingPlot)
+            MoveUnitsFromPlot(newStartingPlot)
+            StartingUnits_Isolated(iPlayer, newStartingPlot, isolatedSpawn, CivilizationTypeName)
+        elseif bCityTooClose then
+            StartingUnits_Isolated(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
+        end
+    end
+
+    local function MoveUnitsFromPlot(plot)
+        local plotUnits = Units.GetUnitsInPlot(plot)
+        if plotUnits and #plotUnits > 0 then
+            MoveStartingPlotUnits(plotUnits, plot)
+        end
+    end
+
+    handlePlotOwnership()
+
+    -- Post spawn actions
+    local spawnPlot = newStartingPlot or startingPlot
+    if bSpawnRange then
+        FreeCityRevolt(iPlayer, spawnPlot)
+    else
+        FreeCityRevolt(iPlayer, spawnPlot)
+    end
+
+    if not player:IsHuman() then
+        InitiateInvasions(iPlayer, spawnPlot)
+    end
+
+    return spawnPlot
 end
 
 function SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedSpawn, CivilizationTypeName)
@@ -3955,7 +4006,7 @@ function SpawnPlayer_GPT4(iPlayer)
 		if bApplyBalance then
 			if isMajorPlayer then
 				if isolatedPlayer then
-					newStartingPlot = SpawnIsolatedPlayer(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
+					newStartingPlot = SpawnIsolatedPlayer_GPT4(iPlayer, startingPlot, isolatedPlayer, CivilizationTypeName)
 					newStartingPlot = SpawnStartingCity(iPlayer, startingPlot, newStartingPlot)
 				else
 					GetStartingBonuses(player)

@@ -160,19 +160,18 @@
 				<Value>1</Value>
 			</ConfigurationValueMatches>
 		</Criteria>	
-		<!-- <Criteria id="HSD_Comandantes"> -->
-			<!-- <ConfigurationValueMatches> -->
-				<!-- <Group>Map</Group> -->
-				<!-- <ConfigurationId>Comandantes</ConfigurationId> -->
-				<!-- <Value>1</Value> -->
-			<!-- </ConfigurationValueMatches> -->
-			<!-- <ConfigurationValueMatches> -->
-				<!-- <Group>Map</Group> -->
-				<!-- <ConfigurationId>HistoricalSpawnDates</ConfigurationId> -->
-				<!-- <Value>1</Value> -->
-			<!-- </ConfigurationValueMatches> -->
-			<!-- <LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable> -->
-		<!-- </Criteria> -->
+		<Criteria id="HSD_HistoricalVictory">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_HISTORICAL_VICTORY</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>HistoricalSpawnDates</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>	
 		<Criteria id="HSD_Comandantes_1">
 			<ConfigurationValueMatches>
 				<Group>Map</Group>
@@ -312,7 +311,6 @@
 		<ImportFiles id="HSD_BASE_SCRIPTS" criteria="HSD_Active">
 			<File>Scripts/UnitFunctions.lua</File>
 			<File>Scripts/ScenarioFunctions.lua</File>
-			<File>Scripts/HistoricalVictory_Data.lua</File>
 		</ImportFiles>
 		<UpdateDatabase id="HSD_PRE_COMPONENT">
            	<Properties>
@@ -504,7 +502,18 @@
 		<UpdateIcons id="HSD_Icons">
 			<File>Icons/HSD_Icons.xml</File>
 		</UpdateIcons>
-		<ReplaceUIScript id="HistoricalVictoryRankings" criteria="HSD_Active">
+		<ImportFiles id="HSD_HistoricalVictory" criteria="HSD_HistoricalVictory">
+			<Items>
+				<File>Scripts/HistoricalVictory_Data.lua</File>
+			</Items>
+		</ImportFiles>
+		<AddGameplayScripts id="HSD_HistoricalVictory" criteria="HSD_HistoricalVictory">
+			<Properties>
+				<LoadOrder>400</LoadOrder>
+			</Properties>
+			<File>Scripts/HistoricalVictory_Scripts.lua</File>
+		</AddGameplayScripts>
+		<ReplaceUIScript id="HSD_HistoricalVictory" criteria="HSD_HistoricalVictory">
 		  <Properties>
 			<LoadOrder>100000</LoadOrder>
 			<LuaContext>WorldRankings</LuaContext>
@@ -615,6 +624,7 @@
 		<File>Scripts/UnitFlagManager_RagingBarbarians_MODE.lua</File>
 		<File>Scripts/WorldRankings_HistoricalVictory.lua</File>
 		<File>Scripts/HistoricalVictory_Data.lua</File>
+		<File>Scripts/HistoricalVictory_Scripts.lua</File>
 		<File>Tables/HSD_Eras.sql</File>
 		<File>Tables/HSD_Eras_6T.sql</File>
 		<File>Tables/HSD_LiteMode.sql</File>
