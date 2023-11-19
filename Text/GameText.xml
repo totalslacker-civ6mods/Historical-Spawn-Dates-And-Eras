@@ -57,13 +57,16 @@
     </Replace>
 	<!-- HISTORICAL VICTORIES -->
 	<Replace Tag="LOC_HSD_VICTORY_INTRO" Language="en_US">
-      <Text>Achieve a [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] by completing all challenges for your civilization to unlock the [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] project. Victory progress can be tracked from the Civilization tabs below. Completing a challenge grants bonus Era Score.[NEWLINE][NEWLINE]</Text>
+      <Text>Achieve a [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] by completing all challenges for your civilization to unlock the [COLOR_Civ6Yellow]HISTORICAL VICTORY PROJECT[ENDCOLOR]. Victory progress can be tracked from the Civilization tabs below. Completing a challenge grants bonus Era Score.[NEWLINE][NEWLINE]</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_OVERALL_TOOLTIP" Language="en_US">
       <Text>[ICON_CAPITAL]Challenges Completed: {1_current}/{2_total}{3_totalVictorySummary}</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_COMPLETED_TOOLTIP" Language="en_US">
       <Text>[NEWLINE][ICON_BULLET]{1_VictoryName}: {2_year}</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_OBJECTIVE_STATUS" Language="en_US">
+      <Text>[COLOR_Civ6Yellow] {1_current}/{2_total} [ENDCOLOR]</Text>
     </Replace>
 	<!-- ROME -->
 	<!-- Victory 1 -->

@@ -327,6 +327,40 @@ function GetTribeNameType(iBarbarianTribe)
 end
 
 ----------------------------------------------------------------------------------------
+-- Support functions for Historical Victory Mode
+----------------------------------------------------------------------------------------
+
+function HSD_GetTerritoryCache()
+	local territoryCache = {}
+
+	local nPlots = Map.GetPlotCount();
+	for iPlot = 0,nPlots-1 do
+		local pTerritory = Territories.GetTerritoryAt(iPlot);
+		if pTerritory then
+			local eTerritory = pTerritory:GetID();
+			if territoryCache[eTerritory] then
+				-- Add a new plot
+				table.insert(territoryCache[eTerritory].pPlots, iPlot);
+			else
+				-- Instantiate a new territory
+				territoryCache[eTerritory] = { pPlots = { iPlot } };
+			end
+		end
+	end
+	
+	return territoryCache
+end
+
+function HSD_GetTerritoryID(plotID)
+	local iTerritory = false
+	local territoryObject = Territories.GetTerritoryAt(plotID)
+	if territoryObject then
+		iTerritory = territoryObject:GetID()
+	end
+	return iTerritory
+end
+
+----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
 
@@ -351,6 +385,8 @@ function InitializeHSD_UI()
 	ExposedMembers.GetEraCountdown = GetEraCountdown
 	ExposedMembers.GetTribeNameType = GetTribeNameType
 	ExposedMembers.GetCalendarTurnYear = GetCalendarTurnYear
+	ExposedMembers.HSD_GetTerritoryCache = HSD_GetTerritoryCache
+	ExposedMembers.HSD_GetTerritoryID = HSD_GetTerritoryID
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))	

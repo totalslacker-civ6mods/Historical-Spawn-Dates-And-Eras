@@ -1,12 +1,28 @@
 -- ===========================================================================
 --	Historical Victory Scripts
 -- ===========================================================================
+include("HistoricalVictory_Data");
+
 print("Loading HistoricalVictory_Scripts.lua")
+
+-- ===========================================================================
+-- UI Context from ExposedMembers
+-- ===========================================================================
 
 ExposedMembers.GetPlayerCityUIDatas = {}
 ExposedMembers.GetCalendarTurnYear = {}
+ExposedMembers.HSD_GetTerritoryCache = {}
+ExposedMembers.HSD_GetTerritoryID = {}
 
+-- ===========================================================================
+-- Variables
+-- ===========================================================================
+
+local territoryCache = {} -- Used to track territories detected from UI context
+
+-- ===========================================================================
 -- Helper functions
+-- ===========================================================================
 
 local function GetBuildingCount(iPlayer, buildingType)
 	print("Checking total number of "..tostring(buildingType).." owned by player "..tostring(iPlayer))
@@ -52,34 +68,37 @@ local function GetTotalRoutePlots(iPlayer)
 	return routeCount
 end
 
-local function DistrictTypeCount_EnumerateDistrict(iPlayer, districtType)
-	print("Checking for total number of "..tostring(districtType).." districts.")
+local function GetDistrictLocations(iPlayer, districtType)
 	local player = Players[iPlayer]
 	local playerCities = player:GetCities()
-	local districtCount = 0
-	
-	if not GameInfo.Districts[districtType] then
-		print("WARNING: District type "..tostring(districtType).." not detected.")
-		return districtCount
+	local districtLocations = {}
+	local districtInfo = GameInfo.Districts[districtType]
+
+	if not districtInfo then
+		print("WARNING: District type " .. tostring(districtType) .. " not detected in game database!")
+		return districtLocations
 	end
-	
+
+	local districtIndex = districtInfo.Index
+
 	for _, city in playerCities:Members() do
+		local cityID = city:GetID()
 		local districts = city:GetDistricts()
-		if (districts ~= nil) then
-			local iX, iY = districts:GetDistrictLocation(GameInfo.Districts[districtType].Index)
-			if (iX ~= nil and iY ~= nil) then
-				local districtPlot = Map.GetPlot(iX, iY)
-				if (districtPlot ~= nil) then
-					districtCount = districtCount + 1
+		if districts ~= nil then
+			local districtX, districtY = districts:GetDistrictLocation(districtIndex)
+			if districtX ~= nil and districtY ~= nil then
+				if not districtLocations[cityID] then
+					districtLocations[cityID] = {}
 				end
+				table.insert(districtLocations[cityID], {districtX, districtY})
 			end
 		end
 	end
-	
-	return districtCount
+
+	return districtLocations
 end
 
-local function DistrictTypeCount_HasDistrict(iPlayer, districtType)
+local function GetDistrictTypeCount(iPlayer, districtType)
 	print("Checking for total number of "..tostring(districtType).." districts.")
 	local player = Players[iPlayer]
 	local playerCities = player:GetCities()
@@ -104,6 +123,112 @@ local function DistrictTypeCount_HasDistrict(iPlayer, districtType)
 	end
 	
 	return districtCount
+end
+
+-- Helper function to check if the civilization controls the required percentage of land area
+function GetPercentLandArea_ContinentType(playerID, continentName, percent)
+    print("Checking land area control for player " .. tostring(playerID) .. " on continent " .. continentName)
+    local totalContinentPlots = 0
+    local controlledPlots = 0
+	local tContinents = Map.GetContinentsInUse()
+	
+	for i,iContinent in ipairs(tContinents) do
+		if (GameInfo.Continents[iContinent].ContinentType == continentName) then
+			print("Continent type is "..tostring(GameInfo.Continents[iContinent].ContinentType))
+			local continentPlotIndexes = Map.GetContinentPlots(iContinent)
+			for _, plotID in ipairs(continentPlotIndexes) do
+				local continentPlot = Map.GetPlotByIndex(plotID)
+				if continentPlot:IsOwned() and continentPlot:GetOwner() == playerID then
+					controlledPlots = controlledPlots + 1
+				end
+				totalContinentPlots = totalContinentPlots + 1
+			end
+		end
+	end
+
+    if totalContinentPlots == 0 then
+        print("No plots found for the specified continent.")
+        return false
+    end
+
+    local controlledPercent = (controlledPlots / totalContinentPlots) * 100
+    controlledPercent = math.floor(controlledPercent * 10 + 0.5) / 10 -- Round to one decimal place
+    print("Player "..tostring(playerID).." controls " .. tostring(controlledPercent) .. " percent of the continent.")
+    
+    return controlledPercent >= percent
+end
+
+
+-- Helper function to check if the civilization controls the required number of cities outside a region
+function ControlsCitiesOutOfRegion(playerID, region, count)
+    -- Implement the logic to determine the number of cities outside the specified region.
+    -- Return true if the player controls at least the specified number of cities.
+end
+
+-- Helper function to check if the civilization controls all plots of a territory
+function ControlsTerritory(iPlayer :number, territoryType :string, minimumSize :number)
+    print("Checking for " .. territoryType .. " territory...")
+    local player = Players[iPlayer]
+    local playerCities = player:GetCities()
+    local territoryOwnership = false
+    local territoryIDs = {}
+
+    local function isTargetTerritoryType(plot)
+        if territoryType == "SEA" then
+            return plot:IsWater()
+        elseif territoryType == "DESERT" then
+            return plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_DESERT"].Index
+        elseif territoryType == "MOUNTAIN" then
+            return plot:IsMountain()
+        end
+        -- Add more conditions for other territory types
+        return false
+    end
+
+    for _, city in playerCities:Members() do
+        local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(iPlayer, city:GetID())
+        for _, kCityUIDatas in pairs(CityUIDataList) do
+            for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                local iTerritory = false
+                local territoryInstance = false
+
+                if isTargetTerritoryType(plot) then
+                    iTerritory = ExposedMembers.HSD_GetTerritoryID(kCoordinates.plotID)
+                    if iTerritory then
+                        territoryInstance = territoryCache[iTerritory]
+                        if territoryInstance and (#territoryInstance.pPlots > minimumSize) and (not territoryIDs[iTerritory]) then
+                            territoryIDs[iTerritory] = true
+                            print("Adding territory #"..tostring(iTerritory).." to table.")
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    for territoryID, _ in pairs(territoryIDs) do
+        print("Territory ID is "..tostring(territoryID))
+        local territoryPlots = territoryCache[territoryID].pPlots
+        local ownershipCount = 0
+
+        for _, iPlot in ipairs(territoryPlots) do
+			local plot = Map.GetPlotByIndex(iPlot)
+			local plotOwnerID = plot:GetOwner()
+			-- print("iPlot is "..tostring(iPlot))
+			-- print("plotOwnerID is "..tostring(plotOwnerID))
+            if plotOwnerID == iPlayer then 
+                ownershipCount = ownershipCount + 1
+            end
+        end
+
+        if ownershipCount == #territoryPlots then
+            print(territoryType .. " territory controlled!")
+            territoryOwnership = true
+        end
+    end
+
+    return territoryOwnership
 end
 
 -- Set property to match building player when a wonder is built
@@ -147,7 +272,7 @@ function GetHistoricalVictoryConditions(iPlayer)
 					player:SetProperty("HSD_HISTORICAL_VICTORY_1_OBJECTIVE_1", 1)
 				end
 				-- Control 4 Bath Districts (1 city center for testing)
-				local districtCount = DistrictTypeCount_HasDistrict(iPlayer, "DISTRICT_CITY_CENTER")
+				local districtCount = GetDistrictTypeCount(iPlayer, "DISTRICT_CITY_CENTER")
 				if districtCount > 0 then
 					player:SetProperty("HSD_HISTORICAL_VICTORY_1_OBJECTIVE_2", 1)
 				end
@@ -170,5 +295,70 @@ function GetHistoricalVictoryConditions(iPlayer)
 	end
 end
 
-Events.WonderCompleted.Add(HSD_HistoricalVictory_WonderConstructed)
-GameEvents.PlayerTurnStarted.Add(GetHistoricalVictoryConditions)
+-- Helper function to evaluate and track all types of objectives
+function EvaluateObjectives(player, condition)
+    local objectivesMet = true
+    local playerID = player:GetID()
+
+    for index, obj in ipairs(condition.objectives) do
+        local objectiveMet = false
+        local propertyKey = "HSD_HISTORICAL_VICTORY_" .. condition.index .. "_OBJECTIVE_" .. index
+
+        if obj.type == "BUILDING" and GetBuildingCount(playerID, obj.id) >= obj.count then
+            objectiveMet = true
+        elseif obj.type == "DISTRICT" and GetDistrictTypeCount(playerID, obj.id) >= obj.count then
+            objectiveMet = true
+        elseif obj.type == "ROAD" and GetTotalRoutePlots(playerID) >= obj.count then
+            objectiveMet = true
+        elseif obj.type == "LAND_AREA" and GetPercentLandArea_ContinentType(playerID, obj.region, obj.percent) then
+            objectiveMet = true
+        elseif obj.type == "OUT_OF_REGION_CITIES" and ControlsCitiesOutOfRegion(playerID, obj.region, obj.count) then
+            objectiveMet = true
+        elseif obj.type == "TERRITORY_CONTROL" and ControlsTerritory(playerID, obj.territory, obj.minimumSize) then
+            objectiveMet = true
+        end
+
+        -- Set property for this specific objective
+        player:SetProperty(propertyKey, objectiveMet and 1 or 0)
+
+        -- If any objective is not met, objectivesMet becomes false
+        objectivesMet = objectivesMet and objectiveMet
+    end
+
+    return objectivesMet
+end
+
+-- Main function
+function GetHistoricalVictoryConditions(iPlayer)
+    local player = Players[iPlayer]
+	if (player:GetCities():GetCount() < 1) or (player:IsBarbarian() or iPlayer == 62) then
+		return
+	end
+    local civType = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+    local currentYear = ExposedMembers.GetCalendarTurnYear(Game.GetCurrentGameTurn())
+    
+    for index, condition in ipairs(HSD_victoryConditionsConfig[civType] or {}) do
+        local isTimeConditionMet = condition.year == nil or currentYear <= condition.year
+        local victoryPropertyName = "HSD_HISTORICAL_VICTORY_" .. index
+        local victoryAlreadySet = player:GetProperty(victoryPropertyName)
+
+        if isTimeConditionMet and not victoryAlreadySet then
+            if EvaluateObjectives(player, condition) then
+                -- If all objectives are met, set the main victory property
+                player:SetProperty(victoryPropertyName, Game.GetCurrentGameTurn())
+                -- Add to victory score
+                local victoryScore = player:GetProperty("HSD_HISTORICAL_VICTORY_SCORE") or 0
+                player:SetProperty("HSD_HISTORICAL_VICTORY_SCORE", victoryScore + condition.score)
+            end
+        end
+    end
+end
+
+function HSD_InitVictoryMode()
+	print("Initializing HistoricalVictory_Scripts.lua")
+	territoryCache = ExposedMembers.HSD_GetTerritoryCache()
+	Events.WonderCompleted.Add(HSD_HistoricalVictory_WonderConstructed)
+	GameEvents.PlayerTurnStarted.Add(GetHistoricalVictoryConditions)
+end
+
+Events.LoadScreenClose.Add(HSD_InitVictoryMode)

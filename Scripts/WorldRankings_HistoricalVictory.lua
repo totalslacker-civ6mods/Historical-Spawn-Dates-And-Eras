@@ -7,33 +7,13 @@
 -- ===========================================================================
 include("WorldRankings");
 include("HistoricalVictory_Data");
+
 print("Loading Historical Victory World Rankings replace UI...")
 -- ===========================================================================
 -- Constants
 -- ===========================================================================
 -- Victory project for the Historical Victory Mode
 local PROJECT_HISTORICAL_VICTORY = GameInfo.Projects["PROJECT_HISTORICAL_VICTORY"].Index
-
--- Insert Civilizations or Leaders into this table for custom historical victories
--- Civs or Leaders not in this table will use the generic conditions
--- This table tracks the index and objective count for each challenge, to be used to generate text and check properties
--- local HSD_Victory_civilizationData = {
-    -- ["CIVILIZATION_ROME"] = 
-		-- { 
-			-- { victory = 1, objectives = 3 },
-			-- { victory = 2, objectives = 2 },
-			-- { victory = 3, objectives = 2 },
-		-- },
-	-- ["CIVILIZATION_EGYPT"] = {
-			-- { victory = 1, objectives = 3 },
-			-- { victory = 2, objectives = 3 },
-			-- { victory = 3, objectives = 3 },
-	-- },
-	-- ["CIVILIZATION_BRAZIL"] = {
-			-- { victory = 1, objectives = 1 },
-			-- { victory = 2, objectives = 1 }
-	-- }
--- }
 
 local PADDING_GENERIC_ITEM_BG:number = 25;
 local SIZE_GENERIC_ITEM_MIN_Y:number = 54;
@@ -133,11 +113,11 @@ g_victoryData.VICTORY_HISTORICAL_VICTORY = {
 			CivilizationTypeName = LeaderTypeName
 		end
 		-- Check if player has historical victory conditions
-		if not HSD_Victory_civilizationData[CivilizationTypeName] then
-			if HSD_Victory_civilizationData[PlayerConfigurations[p:GetID()]:GetCivilizationTypeName()] then
+		if not HSD_victoryCivilizationData[CivilizationTypeName] then
+			if HSD_victoryCivilizationData[PlayerConfigurations[p:GetID()]:GetCivilizationTypeName()] then
 				-- print("Leader not detected on historical victory list, defaulting to Civilization victory")
 				CivilizationTypeName = PlayerConfigurations[p:GetID()]:GetCivilizationTypeName()
-			elseif(HSD_Victory_civilizationData[PlayerConfigurations[p:GetID()]:GetLeaderTypeName()])then
+			elseif(HSD_victoryCivilizationData[PlayerConfigurations[p:GetID()]:GetLeaderTypeName()])then
 				-- print("Civilization not detected on historical victory list, defaulting to Leader victory")
 				CivilizationTypeName = PlayerConfigurations[p:GetID()]:GetLeaderTypeName()
 			else
@@ -456,22 +436,22 @@ end
 
 function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, PlayerID: number)
 	local player = Players[PlayerID]
-	local LeaderTypeName = HSD_Victory_civilizationData[PlayerConfigurations[PlayerID]:GetLeaderTypeName()]
+	local LeaderTypeName = HSD_victoryCivilizationData[PlayerConfigurations[PlayerID]:GetLeaderTypeName()]
 	-- Check if leader victories are enabled and change to the leader name instead
 	if MapConfiguration.GetValue("HSD_LEADER_VICTORIES") then
 		CivilizationTypeName = LeaderTypeName
 	end
 	-- Check if the CivilizationTypeName is in the list for predefined victory objectives
-    local civilizationInfo = HSD_Victory_civilizationData[CivilizationTypeName]
+    local civilizationInfo = HSD_victoryCivilizationData[CivilizationTypeName]
 	if not civilizationInfo then
-		if HSD_Victory_civilizationData[PlayerConfigurations[PlayerID]:GetCivilizationTypeName()] then
+		if HSD_victoryCivilizationData[PlayerConfigurations[PlayerID]:GetCivilizationTypeName()] then
 			-- print("Leader not detected on historical victory list, defaulting to Civilization victory")
 			CivilizationTypeName = PlayerConfigurations[PlayerID]:GetCivilizationTypeName()
-			civilizationInfo = HSD_Victory_civilizationData[CivilizationTypeName]
-		elseif(HSD_Victory_civilizationData[PlayerConfigurations[PlayerID]:GetLeaderTypeName()])then
+			civilizationInfo = HSD_victoryCivilizationData[CivilizationTypeName]
+		elseif(HSD_victoryCivilizationData[PlayerConfigurations[PlayerID]:GetLeaderTypeName()])then
 			-- print("Civilization not detected on historical victory list, defaulting to Leader victory")
 			CivilizationTypeName = PlayerConfigurations[PlayerID]:GetLeaderTypeName()
-			civilizationInfo = HSD_Victory_civilizationData[CivilizationTypeName]
+			civilizationInfo = HSD_victoryCivilizationData[CivilizationTypeName]
 		else
 			-- print("Civilization and Leader not detected on historical victory list, defaulting to Generic victory")
 			CivilizationTypeName = "GENERIC"
@@ -1174,7 +1154,7 @@ end
 
 function GetHistoricHeader(details:string, CivilizationTypeName:string)
 	-- Check if the CivilizationTypeName of the player is in the list for historical victories
-    local civilizationInfo = HSD_Victory_civilizationData[CivilizationTypeName]
+    local civilizationInfo = HSD_victoryCivilizationData[CivilizationTypeName]
     if civilizationInfo then
 		-- Iterate three times to generate the formatted header text for each of the three victory types.
 		-- Concatenate victory type name and description to the 'details' string, with proper color formatting.
