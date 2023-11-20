@@ -23,6 +23,23 @@ local territoryCache = {} -- Used to track territories detected from UI context
 -- ===========================================================================
 -- Helper functions
 -- ===========================================================================
+local function GetUnitCount(playerID, unitType)
+    print("Checking number of " .. tostring(unitType) .. " units for player " .. tostring(playerID))
+    local player = Players[playerID]
+    local playerUnits = player:GetUnits()
+    local count = 0
+
+    for _, unit in playerUnits:Members() do
+		-- print("unitType is "..tostring(unit:GetType()))
+        if unit:GetType() == GameInfo.Units[unitType].Index then
+            count = count + 1
+        end
+    end
+
+    print("Player " .. tostring(playerID) .. " owns " .. tostring(count) .. " " .. tostring(unitType) .. " units.")
+    return count
+end
+
 
 local function GetBuildingCount(iPlayer, buildingType)
 	print("Checking total number of "..tostring(buildingType).." owned by player "..tostring(iPlayer))
@@ -155,7 +172,8 @@ function GetPercentLandArea_ContinentType(playerID, continentName, percent)
     controlledPercent = math.floor(controlledPercent * 10 + 0.5) / 10 -- Round to one decimal place
     print("Player "..tostring(playerID).." controls " .. tostring(controlledPercent) .. " percent of the continent.")
     
-    return controlledPercent >= percent
+    -- return controlledPercent >= percent
+	return controlledPercent
 end
 
 
@@ -231,10 +249,12 @@ function ControlsTerritory(iPlayer :number, territoryType :string, minimumSize :
     return territoryOwnership
 end
 
--- Set property to match building player when a wonder is built
+-- Set property to match player when a wonder is built
 function HSD_HistoricalVictory_WonderConstructed(iX, iY, buildingIndex, playerIndex, cityID, iPercentComplete, iUnknown)
-	if buildingIndex == GameInfo.Buildings["BUILDING_COLOSSEUM"].Index then
-		Game:SetProperty("HSD_WONDER_COLOSSEUM", playerIndex)
+	if buildingIndex == GameInfo.Buildings["BUILDING_APADANA"].Index then
+		Game:SetProperty("HSD_WONDER_BUILDING_APADANA", playerIndex)
+	elseif buildingIndex == GameInfo.Buildings["BUILDING_COLOSSEUM"].Index then
+		Game:SetProperty("HSD_WONDER_BUILDING_COLOSSEUM", playerIndex)
 	end
 end
 
@@ -302,24 +322,53 @@ function EvaluateObjectives(player, condition)
 
     for index, obj in ipairs(condition.objectives) do
         local objectiveMet = false
+		local current = 0
+		local total = 0
         local propertyKey = "HSD_HISTORICAL_VICTORY_" .. condition.index .. "_OBJECTIVE_" .. index
 
-        if obj.type == "BUILDING" and GetBuildingCount(playerID, obj.id) >= obj.count then
-            objectiveMet = true
-        elseif obj.type == "DISTRICT" and GetDistrictTypeCount(playerID, obj.id) >= obj.count then
-            objectiveMet = true
-        elseif obj.type == "ROAD" and GetTotalRoutePlots(playerID) >= obj.count then
-            objectiveMet = true
-        elseif obj.type == "LAND_AREA" and GetPercentLandArea_ContinentType(playerID, obj.region, obj.percent) then
-            objectiveMet = true
-        elseif obj.type == "OUT_OF_REGION_CITIES" and ControlsCitiesOutOfRegion(playerID, obj.region, obj.count) then
-            objectiveMet = true
-        elseif obj.type == "TERRITORY_CONTROL" and ControlsTerritory(playerID, obj.territory, obj.minimumSize) then
-            objectiveMet = true
-        end
+        -- if obj.type == "BUILDING" and GetBuildingCount(playerID, obj.id) >= obj.count then
+            -- objectiveMet = true
+        -- elseif obj.type == "DISTRICT" and GetDistrictTypeCount(playerID, obj.id) >= obj.count then
+            -- objectiveMet = true
+        -- elseif obj.type == "ROAD" and GetTotalRoutePlots(playerID) >= obj.count then
+            -- objectiveMet = true
+        -- elseif obj.type == "LAND_AREA" and GetPercentLandArea_ContinentType(playerID, obj.region, obj.percent) then
+            -- objectiveMet = true
+        -- elseif obj.type == "OUT_OF_REGION_CITIES" and ControlsCitiesOutOfRegion(playerID, obj.region, obj.count) then
+            -- objectiveMet = true
+        -- elseif obj.type == "TERRITORY_CONTROL" and ControlsTerritory(playerID, obj.territory, obj.minimumSize) then
+            -- objectiveMet = true
+        -- end
+		
+		if obj.type == "BUILDING" then
+			current = GetBuildingCount(playerID, obj.id)
+			total = obj.count
+		elseif obj.type == "DISTRICT" then
+			current = GetDistrictTypeCount(playerID, obj.id)
+			total = obj.count
+		elseif obj.type == "ROAD" then
+			current = GetTotalRoutePlots(playerID)
+			total = obj.count
+		elseif obj.type == "LAND_AREA" then
+			current = GetPercentLandArea_ContinentType(playerID, obj.region, obj.percent)
+			total = obj.percent
+		elseif obj.type == "OUT_OF_REGION_CITIES" then
+			-- current = ControlsCitiesOutOfRegion(playerID, obj.region, obj.count)
+			total = obj.count
+		elseif obj.type == "TERRITORY_CONTROL" then
+			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
+			total = 1
+		elseif obj.type == "UNIT" then
+			current = GetUnitCount(playerID, obj.id)
+			total = obj.count
+		end
+		
+		if current >= total then
+			objectiveMet = true
+		end
 
         -- Set property for this specific objective
-        player:SetProperty(propertyKey, objectiveMet and 1 or 0)
+		player:SetProperty(propertyKey, {current = current, total = total, objectiveMet = objectiveMet})
 
         -- If any objective is not met, objectivesMet becomes false
         objectivesMet = objectivesMet and objectiveMet
