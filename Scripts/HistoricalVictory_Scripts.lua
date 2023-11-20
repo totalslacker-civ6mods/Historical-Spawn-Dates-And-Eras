@@ -11,6 +11,7 @@ print("Loading HistoricalVictory_Scripts.lua")
 
 ExposedMembers.GetPlayerCityUIDatas = {}
 ExposedMembers.GetCalendarTurnYear = {}
+ExposedMembers.CheckCityOriginalCapital = {}
 ExposedMembers.HSD_GetTerritoryCache = {}
 ExposedMembers.HSD_GetTerritoryID = {}
 
@@ -23,6 +24,23 @@ local territoryCache = {} -- Used to track territories detected from UI context
 -- ===========================================================================
 -- Helper functions
 -- ===========================================================================
+local function GetOccupiedCapitals(playerID)
+    print("Checking number of occupied capitals for player " .. tostring(playerID))
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local count = 0
+
+    for _, city in playerCities:Members() do
+		-- print("city name is "..tostring(city:GetName()))
+        if ExposedMembers.CheckCityOriginalCapital(playerID, city:GetID()) then
+            count = count + 1
+        end
+    end
+
+    print("Player " .. tostring(playerID) .. " owns " .. tostring(count) .. " occupied capitals.")
+    return count
+end
+
 local function GetUnitCount(playerID, unitType)
     print("Checking number of " .. tostring(unitType) .. " units for player " .. tostring(playerID))
     local player = Players[playerID]
@@ -183,6 +201,22 @@ function ControlsCitiesOutOfRegion(playerID, region, count)
     -- Return true if the player controls at least the specified number of cities.
 end
 
+function GetCitiesOnForeignContinents(playerID)
+    local player = Players[playerID]
+    local capital = player:GetCities():GetCapitalCity()
+    local capitalContinentID = capital:GetContinentType()
+    local foreignCityCount = 0
+
+    for _, city in player:GetCities():Members() do
+        if city:GetContinentType() ~= capitalContinentID then
+            foreignCityCount = foreignCityCount + 1
+        end
+    end
+
+    print("Player " .. tostring(playerID) .. " owns " .. tostring(foreignCityCount) .. " cities on foreign continents.")
+    return foreignCityCount
+end
+
 -- Helper function to check if the civilization controls all plots of a territory
 function ControlsTerritory(iPlayer :number, territoryType :string, minimumSize :number)
     print("Checking for " .. territoryType .. " territory...")
@@ -325,20 +359,6 @@ function EvaluateObjectives(player, condition)
 		local current = 0
 		local total = 0
         local propertyKey = "HSD_HISTORICAL_VICTORY_" .. condition.index .. "_OBJECTIVE_" .. index
-
-        -- if obj.type == "BUILDING" and GetBuildingCount(playerID, obj.id) >= obj.count then
-            -- objectiveMet = true
-        -- elseif obj.type == "DISTRICT" and GetDistrictTypeCount(playerID, obj.id) >= obj.count then
-            -- objectiveMet = true
-        -- elseif obj.type == "ROAD" and GetTotalRoutePlots(playerID) >= obj.count then
-            -- objectiveMet = true
-        -- elseif obj.type == "LAND_AREA" and GetPercentLandArea_ContinentType(playerID, obj.region, obj.percent) then
-            -- objectiveMet = true
-        -- elseif obj.type == "OUT_OF_REGION_CITIES" and ControlsCitiesOutOfRegion(playerID, obj.region, obj.count) then
-            -- objectiveMet = true
-        -- elseif obj.type == "TERRITORY_CONTROL" and ControlsTerritory(playerID, obj.territory, obj.minimumSize) then
-            -- objectiveMet = true
-        -- end
 		
 		if obj.type == "BUILDING" then
 			current = GetBuildingCount(playerID, obj.id)
@@ -352,8 +372,11 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "LAND_AREA" then
 			current = GetPercentLandArea_ContinentType(playerID, obj.region, obj.percent)
 			total = obj.percent
-		elseif obj.type == "OUT_OF_REGION_CITIES" then
-			-- current = ControlsCitiesOutOfRegion(playerID, obj.region, obj.count)
+		elseif obj.type == "OCCUPIED_CAPITAL_COUNT" then
+			current = GetOccupiedCapitals(playerID)
+			total = obj.count
+		elseif obj.type == "FOREIGN_CONTINENT_CITIES" then
+			current = GetCitiesOnForeignContinents(playerID)
 			total = obj.count
 		elseif obj.type == "TERRITORY_CONTROL" then
 			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
@@ -361,9 +384,14 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "UNIT" then
 			current = GetUnitCount(playerID, obj.id)
 			total = obj.count
+		elseif obj.type == "WONDER_BUILT" then
+			current = Game:GetProperty("HSD_WONDER_"..tostring(obj.id)) or -1 --nil check
+			total = playerID
 		end
 		
-		if current >= total then
+		if obj.type == "WONDER_BUILT" then -- Special case as we are checking a property which contains a player ID
+			objectiveMet = current == total
+		elseif current >= total then
 			objectiveMet = true
 		end
 

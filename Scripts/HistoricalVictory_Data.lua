@@ -43,7 +43,7 @@ HSD_victoryConditionsConfig = {
             year = -450,
             objectives = {
                 {type = "UNIT", id = "UNIT_PERSIAN_IMMORTAL", count = 5},
-                {type = "CAPITAL_CONTROL_COUNT", count = 2},
+                {type = "OCCUPIED_CAPITAL_COUNT", count = 2},
             },
             score = 1 -- Score awarded for completing this set of objectives
         },
@@ -86,7 +86,7 @@ HSD_victoryConditionsConfig = {
             year = 200,
             objectives = {
                 {type = "LAND_AREA", region = "CONTINENT_EUROPE", percent = 20},
-                {type = "OUT_OF_REGION_CITIES", region = "CONTINENT_EUROPE", count = 5},
+                {type = "FOREIGN_CONTINENT_CITIES", region = "CONTINENT_EUROPE", count = 5},
             },
             score = 1 -- Score awarded for completing this set of objectives
         },

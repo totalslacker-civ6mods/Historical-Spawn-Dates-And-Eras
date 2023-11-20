@@ -235,6 +235,10 @@ function CheckCityOriginalCapital(pPlayerID, pCityID)
 	return bOriginalCapital
 end
 
+----------------------------------------------------------------------------------------
+-- Get city data from UI context, such as plots owned, to pass to in-game context
+----------------------------------------------------------------------------------------
+
 -- all credit for the code below goes to Tiramasu, taken from the Free City States mod
 function GetPlayerCityUIDatas(pPlayerID, pCityID)
 	local CityUIDataList = {}	
