@@ -15,6 +15,20 @@
       <Text>[COLOR_Civ6Yellow] {1_current}/{2_total}[ENDCOLOR]</Text>
     </Replace>
 	<!-- CIVILIZATION VICTORY TEXT -->
+	<!-- NORWAY -->
+	<!-- Victory 1 -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_NAME" Language="en_US">
+	  <Text>The Viking Age</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_DESC" Language="en_US">
+	  <Text>[NEWLINE][ICON_BULLET]Pillage 30 times with the Viking Longship unique unit[NEWLINE]</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_DETAILS_ROW_1" Language="en_US">
+	  <Text>Viking Longship pillage count : </Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_FLOATER_1" Language="en_US">
+	  <Text>Viking Longship pillage count: {1_pillageCount}</Text>
+	</Replace>
 	<!-- PERSIA -->
 	<!-- Victory 1 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_1_NAME" Language="en_US">

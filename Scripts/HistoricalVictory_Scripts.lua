@@ -41,6 +41,24 @@ local function GetOccupiedCapitals(playerID)
     return count
 end
 
+local function GetSuzeraintyCount(playerID)
+    local suzerainCount = 0
+
+    local playerDiplomacy = Players[playerID]:GetDiplomacy()
+
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        local otherPlayer = Players[otherPlayerID]
+        if otherPlayer:IsMinor() then
+            local suzerainID = otherPlayer:GetInfluence():GetSuzerain()
+            if suzerainID == playerID then
+                suzerainCount = suzerainCount + 1
+            end
+        end
+    end
+
+    return suzerainCount
+end
+
 local function GetUnitCount(playerID, unitType)
     print("Checking number of " .. tostring(unitType) .. " units for player " .. tostring(playerID))
     local player = Players[playerID]
@@ -79,6 +97,35 @@ local function GetBuildingCount(iPlayer, buildingType)
 	end
 	
 	return buildingCount
+end
+
+local function GetImprovementCount(iPlayer, improvementType)
+	print("Checking for total number of "..tostring(improvementType).." owned by player "..tostring(iPlayer))
+	local player = Players[iPlayer]
+	local playerCities = player:GetCities()
+	local improvementCount = 0
+	
+    if not GameInfo.Improvements[improvementType] then
+        print("Improvement type " .. tostring(improvementType) .. " not found in GameInfo.")
+        return false
+    end
+
+    local improvementIndex = GameInfo.Improvements[improvementType].Index
+	
+	for _, city in playerCities:Members() do
+		local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(iPlayer, city:GetID())
+		for _,kCityUIDatas in pairs(CityUIDataList) do
+			for _,kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+				local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+				if plot and plot:GetImprovementType() == improvementIndex then
+					improvementCount = improvementCount + 1
+					print("Improvement detected. Total count is "..tostring(improvementCount))
+				end
+			end
+		end
+	end
+	
+	return improvementCount
 end
 
 local function GetTotalRoutePlots(iPlayer)
@@ -161,7 +208,7 @@ local function GetDistrictTypeCount(iPlayer, districtType)
 end
 
 -- Helper function to check if the civilization controls the required percentage of land area
-function GetPercentLandArea_ContinentType(playerID, continentName, percent)
+local function GetPercentLandArea_ContinentType(playerID, continentName, percent)
     print("Checking land area control for player " .. tostring(playerID) .. " on continent " .. continentName)
     local totalContinentPlots = 0
     local controlledPlots = 0
@@ -194,14 +241,7 @@ function GetPercentLandArea_ContinentType(playerID, continentName, percent)
 	return controlledPercent
 end
 
-
--- Helper function to check if the civilization controls the required number of cities outside a region
-function ControlsCitiesOutOfRegion(playerID, region, count)
-    -- Implement the logic to determine the number of cities outside the specified region.
-    -- Return true if the player controls at least the specified number of cities.
-end
-
-function GetCitiesOnForeignContinents(playerID)
+local function GetCitiesOnForeignContinents(playerID)
     local player = Players[playerID]
     local capital = player:GetCities():GetCapitalCity()
     local capitalContinentID = capital:GetContinentType()
@@ -218,7 +258,7 @@ function GetCitiesOnForeignContinents(playerID)
 end
 
 -- Helper function to check if the civilization controls all plots of a territory
-function ControlsTerritory(iPlayer :number, territoryType :string, minimumSize :number)
+local function ControlsTerritory(iPlayer :number, territoryType :string, minimumSize :number)
     print("Checking for " .. territoryType .. " territory...")
     local player = Players[iPlayer]
     local playerCities = player:GetCities()
@@ -283,6 +323,9 @@ function ControlsTerritory(iPlayer :number, territoryType :string, minimumSize :
     return territoryOwnership
 end
 
+-- ===========================================================================
+-- EVENT HOOKS
+-- ===========================================================================
 -- Set property to match player when a wonder is built
 function HSD_HistoricalVictory_WonderConstructed(iX, iY, buildingIndex, playerIndex, cityID, iPercentComplete, iUnknown)
 	if buildingIndex == GameInfo.Buildings["BUILDING_APADANA"].Index then
@@ -291,6 +334,29 @@ function HSD_HistoricalVictory_WonderConstructed(iX, iY, buildingIndex, playerIn
 		Game:SetProperty("HSD_WONDER_BUILDING_COLOSSEUM", playerIndex)
 	end
 end
+--TODO: Add a check for victory conditions being present (based on Civ, leader, menu options)
+function HSD_HistoricalVictory_OnPillage(UnitOwner, UnitId, ImprovementType, BuildingType)
+	local player = Players[UnitOwner]
+	if (player and player:IsBarbarian() == false) then
+		local unit = player:GetUnits():FindID(UnitId)
+		local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+		if CivilizationTypeName == "CIVILIZATION_NORWAY" then
+			-- Viking Age: pillage 30 times with longship
+			local unitTypeHash = unit:GetTypeHash()
+			if(unitTypeHash == GameInfo.Units["UNIT_NORWEGIAN_LONGSHIP"].Index) then
+				local pillageCount = player:GetProperty("HSD_VIKING_LONGSHIP_PILLAGE_COUNT") or 0 -- nil check
+				pillageCount = pillageCount + 1
+				player:SetProperty("HSD_VIKING_LONGSHIP_PILLAGE_COUNT", pillageCount)
+				local message = Locale.Lookup("LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_FLOATER_1", pillageCount)
+				Game.AddWorldViewText(0, message, unit:GetX(), unit:GetY())
+			end
+		end
+	end
+end
+
+-- ===========================================================================
+-- PRIMARY FUNCTIONS
+-- ===========================================================================
 
 -- Called at the start of every player's turn
 function GetHistoricalVictoryConditions(iPlayer)
@@ -431,10 +497,15 @@ function GetHistoricalVictoryConditions(iPlayer)
     end
 end
 
+-- ===========================================================================
+-- INITIALIZATION
+-- ===========================================================================
+
 function HSD_InitVictoryMode()
 	print("Initializing HistoricalVictory_Scripts.lua")
 	territoryCache = ExposedMembers.HSD_GetTerritoryCache()
 	Events.WonderCompleted.Add(HSD_HistoricalVictory_WonderConstructed)
+	GameEvents.OnPillage.Add(HSD_HistoricalVictory_OnPillage)
 	GameEvents.PlayerTurnStarted.Add(GetHistoricalVictoryConditions)
 end
 
