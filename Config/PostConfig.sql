@@ -183,3 +183,55 @@ INSERT OR REPLACE INTO GameModePlayerItemOverrides (GameModeType, Domain, Civili
 INSERT OR REPLACE INTO GameModePlayerItemOverrides (GameModeType, Domain, CivilizationType, LeaderType, Type, Icon, Name, Description, SortIndex)
 	SELECT	'GAMEMODE_HSD', Domain, CivilizationType, LeaderType, 'HSD_UNIQUE_SPAWN_PLAYER', 'ICON_GAMEMODE_HSD_PLAYERITEM', 'LOC_HSD_UNIQUE_SPAWN_PLAYER_NAME', "LOC_HSD_UNIQUE_SPAWN_PLAYER_DESCRIPTION", 8
 	FROM Players WHERE Domain='Players:Expansion2_Players' AND EXISTS (SELECT * FROM UniqueSpawnZones WHERE Civilization = CivilizationType);
+	
+-- Historical Victories List
+
+-- INSERT OR REPLACE INTO GameModePlayerItemOverrides (GameModeType, Domain, CivilizationType, LeaderType, Type, Icon, Name, Description, SortIndex)
+	-- SELECT	'GAMEMODE_HSD', Domain, CivilizationType, LeaderType, 'HSD_HISTORICAL_VICTORY_PLAYER', 'ICON_GAMEMODE_HSD_PLAYERITEM', CivilizationType, LeaderType, 8
+	-- FROM Players WHERE Domain='Players:Expansion2_Players' AND EXISTS (SELECT * FROM CivilizationVictories WHERE Civilization = CivilizationType);
+	
+-- INSERT INTO GameModePlayerItemOverrides (GameModeType, Domain, CivilizationType, LeaderType, Type, Icon, Name, Description, SortIndex)
+	-- SELECT	'GAMEMODE_HSD', 'Players:Expansion2_Players', Civilization, Leader, 'HSD_HISTORICAL_VICTORY_PLAYER', 'ICON_GAMEMODE_HSD_PLAYERITEM', VictoryName, VictoryDescription, 8
+	-- FROM CivilizationVictories;
+	
+-- INSERT OR REPLACE INTO GameModePlayerItemOverrides (GameModeType, Domain, CivilizationType, LeaderType, Type, Icon, Name, Description, SortIndex)
+-- SELECT
+    -- 'GAMEMODE_HSD',
+    -- p.Domain,
+    -- p.CivilizationType,
+    -- p.LeaderType,
+    -- 'HSD_HISTORICAL_VICTORY_PLAYER',
+    -- 'ICON_GAMEMODE_HSD_PLAYERITEM',
+    -- cv.VictoryName,
+    -- cv.VictoryDescription,
+    -- 8
+-- FROM 
+    -- Players p
+-- INNER JOIN 
+    -- CivilizationVictories cv ON p.CivilizationType = cv.Civilization
+-- WHERE 
+    -- p.Domain = 'Players:Expansion2_Players'
+    -- AND EXISTS (
+        -- SELECT * 
+        -- FROM CivilizationVictories 
+        -- WHERE Civilization = p.CivilizationType
+    -- );
+
+-- INSERT OR REPLACE INTO GameModePlayerItemOverrides (GameModeType, Domain, CivilizationType, LeaderType, Type, Icon, Name, Description, SortIndex)
+-- SELECT
+    -- 'GAMEMODE_HSD',
+    -- p.Domain,
+    -- p.CivilizationType,
+    -- p.LeaderType,
+    -- 'HSD_HISTORICAL_VICTORY_PLAYER',
+    -- 'ICON_GAMEMODE_HSD_PLAYERITEM',
+    -- cv.VictoryName,
+    -- cv.VictoryDescription,
+    -- 8
+-- FROM 
+    -- CivilizationVictories cv
+-- INNER JOIN 
+    -- Players p ON cv.Civilization = p.CivilizationType
+-- WHERE 
+    -- p.Domain = 'Players:Expansion2_Players';
+

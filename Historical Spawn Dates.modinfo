@@ -582,6 +582,7 @@
 		</UpdateDatabase>
 		<UpdateText id="HSD_SETTING_LOC">
 			<File>Text/ConfigText.xml</File>
+			<File>Text/HistoricalVictoryText.xml</File>
 		</UpdateText>
 		<UpdateIcons id="HSD_RagingBarbarians_Icons" criteria="HSD_RagingBarbarians">
 			<Properties>
@@ -594,6 +595,12 @@
 				<File>RagingBarbarians.dep</File>
 			</Items>
         </ModArt>
+		<UpdateDatabase id="HSD_HistoricalVictory" >
+			<Properties>
+				<LoadOrder>55</LoadOrder>
+			</Properties>
+			<File>Data/HistoricalVictory_FrontEnd.sql</File>
+		</UpdateDatabase>
 	</FrontEndActions>
 	<Files>
 		<File>ArtDefs/Units.artdef</File>
@@ -617,6 +624,7 @@
 		<File>Data/Traits_StandardHSD.sql</File>
 		<File>Data/Traits_EraStart.sql</File>
 		<File>Data/HistoricalVictory.sql</File>
+		<File>Data/HistoricalVictory_FrontEnd.sql</File>
 		<File>Config/Config.xml</File>
 		<File>Config/PostConfig.sql</File>
 		<File>Scripts/InGameHSD.xml</File>

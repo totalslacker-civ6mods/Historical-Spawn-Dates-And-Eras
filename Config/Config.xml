@@ -240,6 +240,7 @@
 		<Row QueryId="HSD_PlayerItemOverrides_RestrictedPlayer"/>
 		<Row QueryId="HSD_PlayerItemOverrides_PeacefulPlayer"/>
 		<Row QueryId="HSD_PlayerItemOverrides_UniqueSpawnPlayer"/>
+		<Row QueryId="HSD_PlayerItemOverrides_HistoricalVictories"/>
 	</PlayerItemOverrideQueries>
 	<Queries>
 		<Row QueryId="HSD_PlayerItemOverrides_Standard" SQL="SELECT * FROM GameModePlayerItemOverrides WHERE GameModeType = 'GAMEMODE_HSD' AND Type = 'HSD_STANDARD'"/>
@@ -252,6 +253,7 @@
 		<Row QueryId="HSD_PlayerItemOverrides_RestrictedPlayer" SQL="SELECT * FROM GameModePlayerItemOverrides WHERE GameModeType = 'GAMEMODE_HSD' AND Type = 'HSD_RESTRICTED_PLAYER'"/>
 		<Row QueryId="HSD_PlayerItemOverrides_PeacefulPlayer" SQL="SELECT * FROM GameModePlayerItemOverrides WHERE GameModeType = 'GAMEMODE_HSD' AND Type = 'HSD_PEACEFUL_PLAYER'"/>
 		<Row QueryId="HSD_PlayerItemOverrides_UniqueSpawnPlayer" SQL="SELECT * FROM GameModePlayerItemOverrides WHERE GameModeType = 'GAMEMODE_HSD' AND Type = 'HSD_UNIQUE_SPAWN_PLAYER'"/>
+		<Row QueryId="HSD_PlayerItemOverrides_HistoricalVictories" SQL="SELECT * FROM GameModePlayerItemOverrides WHERE GameModeType = 'GAMEMODE_HSD' AND Type = 'HSD_HISTORICAL_VICTORY_PLAYER'"/>
 	</Queries>
 	<QueryCriteria>
 		<Row QueryId="HSD_PlayerItemOverrides_Standard" ConfigurationGroup="Map" ConfigurationId="SpawnDateTables" Operator="Equals" ConfigurationValue="0"/>
@@ -264,5 +266,6 @@
 		<Row QueryId="HSD_PlayerItemOverrides_RestrictedPlayer" ConfigurationGroup="Map" ConfigurationId="RestrictSpawnZone" Operator="Equals" ConfigurationValue="1"/>
 		<Row QueryId="HSD_PlayerItemOverrides_PeacefulPlayer" ConfigurationGroup="Map" ConfigurationId="PeacefulSpawns" Operator="Equals" ConfigurationValue="1"/>
 		<Row QueryId="HSD_PlayerItemOverrides_UniqueSpawnPlayer" ConfigurationGroup="Map" ConfigurationId="UniqueSpawnZones" Operator="Equals" ConfigurationValue="1"/>
+		<Row QueryId="HSD_PlayerItemOverrides_HistoricalVictories" ConfigurationGroup="Game" ConfigurationId="GAMEMODE_HISTORICAL_VICTORY" Operator="Equals" ConfigurationValue="1"/>
 	</QueryCriteria>
 </GameInfo>

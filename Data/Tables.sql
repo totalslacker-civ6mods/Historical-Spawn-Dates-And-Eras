@@ -43,3 +43,10 @@ CREATE TABLE IF NOT EXISTS PeacefulSpawns
 	 
 CREATE TABLE IF NOT EXISTS UniqueSpawnZones
 	 (	Civilization TEXT NOT NULL UNIQUE);
+	 
+CREATE TABLE IF NOT EXISTS CivilizationVictories (
+    Civilization TEXT,
+	Leader TEXT,
+    VictoryName TEXT,
+    VictoryDescription TEXT
+);
