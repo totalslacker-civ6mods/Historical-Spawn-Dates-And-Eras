@@ -76,6 +76,37 @@ local function GetUnitCount(playerID, unitType)
     return count
 end
 
+local function GetBorderingCitiesCount(iPlayer)
+    local player = Players[iPlayer]
+    local playerCities = player:GetCities()
+    local borderingCityCount = 0
+
+    for _, city in playerCities:Members() do
+        local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(iPlayer, city:GetID())
+        for _, kCityUIDatas in pairs(CityUIDataList) do
+            for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+				local isBorderCity = false
+                local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                if plot then
+                    for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
+                        local adjacentPlot = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), direction)
+                        if adjacentPlot and adjacentPlot:IsOwned() and adjacentPlot:GetOwner() ~= iPlayer then
+                            borderingCityCount = borderingCityCount + 1
+							isBorderCity = true
+                            print("City bordering another player's territory detected. Total count is " .. tostring(borderingCityCount))
+                            break -- Once a border is found, no need to check other plots for this city
+                        end
+                    end
+                end
+				if isBorderCity then
+					break -- City already counted, move to next city
+				end
+            end
+        end
+    end
+
+    return borderingCityCount
+end
 
 local function GetBuildingCount(iPlayer, buildingType)
 	print("Checking total number of "..tostring(buildingType).." owned by player "..tostring(iPlayer))
@@ -323,17 +354,79 @@ local function ControlsTerritory(iPlayer :number, territoryType :string, minimum
     return territoryOwnership
 end
 
+function HasMoreTechsThanContinentMinimum(playerID, continentName)
+    local player = Players[playerID]
+    local playerTechs = player:GetTechs()
+    local playerTechCount = playerTechs:GetNumTechsResearched()
+	local continentTechMinimum = 0
+
+    -- Find players on the specified continent
+    local playersOnContinent = {}
+    for _, otherPlayer in ipairs(PlayerManager.GetAlive()) do
+		if otherPlayer:GetCities():GetCount() > 0 then
+			for _, city in otherPlayer:GetCities():Members() do
+				if city:GetContinentType() == GameInfo.Continents[continentName].Index then
+					table.insert(playersOnContinent, otherPlayer)
+					break -- Found a city on the continent, no need to check other cities of this player
+				end
+			end
+		end
+    end
+
+    -- Compare tech counts
+    for _, otherPlayer in ipairs(playersOnContinent) do
+        if otherPlayer:GetID() ~= playerID then
+            local otherPlayerTechs = otherPlayer:GetTechs()
+            local otherPlayerTechCount = otherPlayerTechs:GetNumTechsResearched()
+			if continentTechMinimum == 0 then
+				-- Set initial tech count for continent
+				continentTechMinimum = otherPlayerTechCount
+			end
+			if otherPlayerTechCount < continentTechMinimum then
+				-- Set lowest tech count for continent
+				continentTechMinimum = otherPlayerTechCount
+			end
+        end
+    end
+
+    return playerTechCount, continentTechMinimum
+end
+
+function IsPlayerCityHighestPopulation(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local highestPopulation = 0
+	local playerHighestPopulation = 0
+    
+    -- Get highest population of all cities
+    for _, otherPlayer in ipairs(PlayerManager.GetAlive()) do
+		if playerCities:GetCount() > 0 then
+			for _, city in otherPlayer:GetCities():Members() do
+				highestPopulation = math.max(highestPopulation, city:GetPopulation())
+			end
+		end
+    end
+
+    -- Get highest population of player cities
+    for _, city in playerCities:Members() do
+		if city:GetPopulation() > playerHighestPopulation then
+			playerHighestPopulation = city:GetPopulation()
+		end
+    end
+
+    return playerHighestPopulation, highestPopulation
+end
+
 -- ===========================================================================
 -- EVENT HOOKS
 -- ===========================================================================
 -- Set property to match player when a wonder is built
 function HSD_HistoricalVictory_WonderConstructed(iX, iY, buildingIndex, playerIndex, cityID, iPercentComplete, iUnknown)
-	if buildingIndex == GameInfo.Buildings["BUILDING_APADANA"].Index then
-		Game:SetProperty("HSD_WONDER_BUILDING_APADANA", playerIndex)
-	elseif buildingIndex == GameInfo.Buildings["BUILDING_COLOSSEUM"].Index then
-		Game:SetProperty("HSD_WONDER_BUILDING_COLOSSEUM", playerIndex)
-	end
+	local buildingInfo = GameInfo.Buildings[buildingIndex]
+	local wonderKey = "HSD_WONDER_" .. tostring(buildingInfo.BuildingType)
+	Game:SetProperty(wonderKey, playerIndex)
 end
+
 --TODO: Add a check for victory conditions being present (based on Civ, leader, menu options)
 function HSD_HistoricalVictory_OnPillage(UnitOwner, UnitId, ImprovementType, BuildingType)
 	local player = Players[UnitOwner]
@@ -425,8 +518,12 @@ function EvaluateObjectives(player, condition)
 		local current = 0
 		local total = 0
         local propertyKey = "HSD_HISTORICAL_VICTORY_" .. condition.index .. "_OBJECTIVE_" .. index
+		local isPropertyObjective = false
 		
-		if obj.type == "BUILDING" then
+		if obj.type == "BORDERING_CITY_COUNT" then
+			current = GetBorderingCitiesCount(playerID)
+			total = obj.count
+		elseif obj.type == "BUILDING" then
 			current = GetBuildingCount(playerID, obj.id)
 			total = obj.count
 		elseif obj.type == "DISTRICT" then
@@ -444,19 +541,30 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "FOREIGN_CONTINENT_CITIES" then
 			current = GetCitiesOnForeignContinents(playerID)
 			total = obj.count
+		elseif obj.type == "HIGHEST_CITY_POPULATION" then
+			current, total = IsPlayerCityHighestPopulation(playerID)
+		elseif obj.type == "MINIMUM_CONTINENT_TECH_COUNT" then
+			current, total = HasMoreTechsThanContinentMinimum(playerID, obj.continent)
 		elseif obj.type == "TERRITORY_CONTROL" then
 			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
 			total = 1
 		elseif obj.type == "UNIT" then
 			current = GetUnitCount(playerID, obj.id)
 			total = obj.count
+		elseif obj.type == "UNIT_KILL_COUNT" then
+			isPropertyObjective = true
+			current = Game:GetProperty("HSD_UNIT_KILL_COUNT_"..tostring(obj.id)) or 0
+			total = obj.count
 		elseif obj.type == "WONDER_BUILT" then
+			isPropertyObjective= true
 			current = Game:GetProperty("HSD_WONDER_"..tostring(obj.id)) or -1 --nil check
 			total = playerID
 		end
 		
-		if obj.type == "WONDER_BUILT" then -- Special case as we are checking a property which contains a player ID
+		if isPropertyObjective then
 			objectiveMet = current == total
+		elseif obj.type == "MINIMUM_CONTINENT_TECH_COUNT" then
+			objectiveMet = current > total
 		elseif current >= total then
 			objectiveMet = true
 		end
@@ -479,13 +587,15 @@ function GetHistoricalVictoryConditions(iPlayer)
 	end
     local civType = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
     local currentYear = ExposedMembers.GetCalendarTurnYear(Game.GetCurrentGameTurn())
+	local gameEra = Game.GetEras():GetCurrentEra()
     
     for index, condition in ipairs(HSD_victoryConditionsConfig[civType] or {}) do
         local isTimeConditionMet = condition.year == nil or currentYear <= condition.year
+		local isEraConditionMet = condition.era == nil or GameInfo.Eras[condition.era].Index == gameEra
         local victoryPropertyName = "HSD_HISTORICAL_VICTORY_" .. index
         local victoryAlreadySet = player:GetProperty(victoryPropertyName)
 
-        if isTimeConditionMet and not victoryAlreadySet then
+        if isTimeConditionMet and isEraConditionMet and not victoryAlreadySet then
             if EvaluateObjectives(player, condition) then
                 -- If all objectives are met, set the main victory property
                 player:SetProperty(victoryPropertyName, Game.GetCurrentGameTurn())
