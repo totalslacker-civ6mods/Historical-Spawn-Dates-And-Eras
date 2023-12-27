@@ -541,6 +541,62 @@ local function HSD_HistoricalVictory_OnUnitKilled(killedPlayerID, killedUnitID, 
     end
 end
 
+local function HSD_HistoricalVictory_TechCompleted(ePlayer, eTech)
+    print("ePlayer = " .. tostring(ePlayer) .. ", eTech = " .. tostring(eTech))
+    local player = Players[ePlayer]
+    
+    if player then
+        local playerCitiesCount = player:GetCities():GetCount()
+        if playerCitiesCount >= 1 then
+            local techInfo = GameInfo.Technologies[eTech]
+            if techInfo then
+                local techKey = "HSD_" .. tostring(techInfo.TechnologyType)
+                -- Check if the tech has not already been recorded
+                if not Game:GetProperty(techKey) then
+                    Game:SetProperty(techKey, ePlayer)
+                    print("Recorded " .. techKey .. " as first completed by player " .. tostring(ePlayer))
+                else
+                    print("Tech " .. techKey .. " already recorded for another player.")
+                end
+            else
+                print("Error: Tech information not found for eTech = " .. tostring(eTech))
+            end
+        else
+            print("Player " .. tostring(ePlayer) .. " does not have any cities, ignoring tech completion.")
+        end
+    else
+        print("Error: Player not found for ePlayer = " .. tostring(ePlayer))
+    end
+end
+
+local function HSD_HistoricalVictory_CivicCompleted(ePlayer, eCivic)
+    print("ePlayer = " .. tostring(ePlayer) .. ", eCivic = " .. tostring(eCivic))
+    local player = Players[ePlayer]
+    
+    if player then
+        local playerCitiesCount = player:GetCities():GetCount()
+        if playerCitiesCount >= 1 then
+            local civicInfo = GameInfo.Civics[eCivic]
+            if civicInfo then
+                local civicKey = "HSD_" .. tostring(civicInfo.CivicType)
+                if not Game:GetProperty(civicKey) then
+                    Game:SetProperty(civicKey, ePlayer)
+                    print("Recorded " .. civicKey .. " as first completed by player " .. tostring(ePlayer))
+                else
+                    print("Civic " .. civicKey .. " already recorded for another player.")
+                end
+            else
+                print("Error: Civic information not found for eCivic = " .. tostring(eCivic))
+            end
+        else
+            print("Player " .. tostring(ePlayer) .. " does not have any cities, ignoring civic completion.")
+        end
+    else
+        print("Error: Player not found for ePlayer = " .. tostring(ePlayer))
+    end
+end
+
+
 -- ===========================================================================
 -- PRIMARY FUNCTIONS
 -- ===========================================================================
@@ -717,6 +773,8 @@ end
 function HSD_InitVictoryMode()
 	print("Initializing HistoricalVictory_Scripts.lua")
 	territoryCache = ExposedMembers.HSD_GetTerritoryCache()
+	Events.CivicCompleted.Add(HSD_HistoricalVictory_CivicCompleted)
+	Events.ResearchCompleted.Add(HSD_HistoricalVictory_TechCompleted)
 	Events.WonderCompleted.Add(HSD_HistoricalVictory_WonderConstructed)
 	Events.UnitKilledInCombat.Add(HSD_HistoricalVictory_OnUnitKilled)
 	GameEvents.OnPillage.Add(HSD_HistoricalVictory_OnPillage)
