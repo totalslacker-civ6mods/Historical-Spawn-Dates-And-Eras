@@ -108,6 +108,37 @@ local function GetBorderingCitiesCount(iPlayer)
     return borderingCityCount
 end
 
+local function GetCityAdjacentToRiverCount(playerID)
+    local player = Players[playerID]
+    if not player then
+        print("Invalid player ID: " .. tostring(playerID))
+        return 0
+    end
+
+    local playerCities = player:GetCities()
+    local riverAdjacentCityCount = 0
+
+    for _, city in playerCities:Members() do
+        local cityX, cityY = city:GetX(), city:GetY()
+        local cityPlot = Map.GetPlot(cityX, cityY)
+
+        if cityPlot:IsRiver() then
+            riverAdjacentCityCount = riverAdjacentCityCount + 1
+        else
+            -- Check adjacent plots if the city center is not directly on a river
+            for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
+                local adjacentPlot = Map.GetAdjacentPlot(cityX, cityY, direction)
+                if adjacentPlot and adjacentPlot:IsRiver() then
+                    riverAdjacentCityCount = riverAdjacentCityCount + 1
+                    break -- Found a river adjacent plot, no need to check further
+                end
+            end
+        end
+    end
+
+    return riverAdjacentCityCount
+end
+
 local function GetBuildingCount(iPlayer, buildingType)
 	print("Checking total number of "..tostring(buildingType).." owned by player "..tostring(iPlayer))
 	local player = Players[iPlayer]
@@ -179,6 +210,53 @@ local function GetTotalRoutePlots(iPlayer)
 	end
 	
 	return routeCount
+end
+
+local function GetWonderAdjacentImprovement(playerID, wonderType, improvementType)
+    print("Checking for " .. tostring(wonderType) .. " adjacent to " .. tostring(improvementType) .. " for player #" .. tostring(playerID))
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    
+    if not GameInfo.Buildings[wonderType] then
+        print("Wonder type " .. tostring(wonderType) .. " not found in GameInfo.")
+        return false
+    end
+
+    if not GameInfo.Improvements[improvementType] then
+        print("Improvement type " .. tostring(improvementType) .. " not found in GameInfo.")
+        return false
+    end
+
+    local wonderIndex = GameInfo.Buildings[wonderType].Index
+    local improvementIndex = GameInfo.Improvements[improvementType].Index
+
+    for _, city in playerCities:Members() do
+        if city:GetBuildings():HasBuilding(wonderIndex) then
+			local wonderX, wonderY = city:GetBuildings():GetBuildingLocation(wonderIndex)
+			if not wonderX or not wonderY then
+				local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(playerID, city:GetID())
+				for _,kCityUIDatas in pairs(CityUIDataList) do
+					for _,kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+						local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+						print("Plot wonder type is "..tostring(plot:GetWonderType()))
+						if (plot:GetWonderType() == wonderIndex) and plot:IsWonderComplete() then
+							wonderX, wonderY = plot:GetX(), plot:GetY()
+						end
+					end
+				end
+			end
+            for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
+                local adjacentPlot = Map.GetAdjacentPlot(wonderX, wonderY, direction)
+                if adjacentPlot and adjacentPlot:GetImprovementType() == improvementIndex then
+                    print("Found " .. improvementType .. " adjacent to " .. wonderType)
+                    return true
+                end
+            end
+        end
+    end
+
+    print("No " .. improvementType .. " found adjacent to " .. wonderType)
+    return false
 end
 
 local function GetDistrictLocations(iPlayer, districtType)
@@ -421,17 +499,17 @@ end
 -- EVENT HOOKS
 -- ===========================================================================
 -- Set property to match player when a wonder is built
-function HSD_HistoricalVictory_WonderConstructed(iX, iY, buildingIndex, playerIndex, cityID, iPercentComplete, iUnknown)
+local function HSD_HistoricalVictory_WonderConstructed(iX, iY, buildingIndex, playerIndex, cityID, iPercentComplete, iUnknown)
 	local buildingInfo = GameInfo.Buildings[buildingIndex]
 	local wonderKey = "HSD_WONDER_" .. tostring(buildingInfo.BuildingType)
 	Game:SetProperty(wonderKey, playerIndex)
 end
 
 --TODO: Add a check for victory conditions being present (based on Civ, leader, menu options)
-function HSD_HistoricalVictory_OnPillage(UnitOwner, UnitId, ImprovementType, BuildingType)
+local function HSD_HistoricalVictory_OnPillage(UnitOwner, unitID, ImprovementType, BuildingType)
 	local player = Players[UnitOwner]
 	if (player and player:IsBarbarian() == false) then
-		local unit = player:GetUnits():FindID(UnitId)
+		local unit = player:GetUnits():FindID(unitID)
 		local CivilizationTypeName = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
 		if CivilizationTypeName == "CIVILIZATION_NORWAY" then
 			-- Viking Age: pillage 30 times with longship
@@ -445,6 +523,22 @@ function HSD_HistoricalVictory_OnPillage(UnitOwner, UnitId, ImprovementType, Bui
 			end
 		end
 	end
+end
+
+local function HSD_HistoricalVictory_OnUnitKilled(killedPlayerID, killedUnitID, playerID, unitID)
+    local player = Players[playerID]
+    if player and not player:IsBarbarian() then
+        local unit = player:GetUnits():FindID(unitID)
+        if unit then
+            local unitTypeName = unit:GetUnitType()
+            local unitKillCount = player:GetProperty("HSD_"..tostring(unitTypeName).."_KILL_COUNT") or 0
+            unitKillCount = unitKillCount + 1
+            player:SetProperty("HSD_"..tostring(unitTypeName).."_KILL_COUNT", unitKillCount)
+            -- TODO: Display in-game popup text
+        else
+			print("WARNING: OnUnitKilled did not detect a unit!")
+		end
+    end
 end
 
 -- ===========================================================================
@@ -526,11 +620,17 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "BUILDING" then
 			current = GetBuildingCount(playerID, obj.id)
 			total = obj.count
+		elseif obj.type == "CITY_ADJACENT_TO_RIVER_COUNT" then
+			current = GetCityAdjacentToRiverCount(playerID)
+			total = obj.count
 		elseif obj.type == "DISTRICT" then
 			current = GetDistrictTypeCount(playerID, obj.id)
 			total = obj.count
 		elseif obj.type == "ROAD" then
 			current = GetTotalRoutePlots(playerID)
+			total = obj.count
+		elseif obj.type == "IMPROVEMENT" then
+			current = GetImprovementCount(playerID, obj.id)
 			total = obj.count
 		elseif obj.type == "LAND_AREA" then
 			current = GetPercentLandArea_ContinentType(playerID, obj.region, obj.percent)
@@ -553,11 +653,14 @@ function EvaluateObjectives(player, condition)
 			total = obj.count
 		elseif obj.type == "UNIT_KILL_COUNT" then
 			isPropertyObjective = true
-			current = Game:GetProperty("HSD_UNIT_KILL_COUNT_"..tostring(obj.id)) or 0
+			current = player:GetProperty("HSD_"..tostring(obj.id).."_KILL_COUNT") or 0
 			total = obj.count
+		elseif obj.type == "WONDER_ADJACENT" then
+			current = GetWonderAdjacentImprovement(playerID, obj.id, obj.adjacentImprovement) and 1 or 0
+			total = 1
 		elseif obj.type == "WONDER_BUILT" then
 			isPropertyObjective= true
-			current = Game:GetProperty("HSD_WONDER_"..tostring(obj.id)) or -1 --nil check
+			current = Game:GetProperty("HSD_WONDER_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
 		end
 		
@@ -615,6 +718,7 @@ function HSD_InitVictoryMode()
 	print("Initializing HistoricalVictory_Scripts.lua")
 	territoryCache = ExposedMembers.HSD_GetTerritoryCache()
 	Events.WonderCompleted.Add(HSD_HistoricalVictory_WonderConstructed)
+	Events.UnitKilledInCombat.Add(HSD_HistoricalVictory_OnUnitKilled)
 	GameEvents.OnPillage.Add(HSD_HistoricalVictory_OnPillage)
 	GameEvents.PlayerTurnStarted.Add(GetHistoricalVictoryConditions)
 end

@@ -36,6 +36,44 @@ HSD_victoryCivilizationData = {
 }
 
 HSD_victoryConditionsConfig = {
+
+    CIVILIZATION_EGYPT = {
+        {
+			id = "MONUMENTS_OF_THE_PHARAOHS",
+			index = "1",
+            year = -2000,
+			era = nil,
+            objectives = {
+                {type = "WONDER_BUILT", id = "BUILDING_PYRAMID"},
+                {type = "IMPROVEMENT", id = "IMPROVEMENT_SPHINX", count = 1},
+				{type = "WONDER_ADJACENT", id = "BUILDING_PYRAMID", adjacentImprovement = "IMPROVEMENT_SPHINX"},
+            },
+            score = 1
+        },
+        {
+            id = "THE_NEW_KINGDOM",
+			index = "2",
+            year = -1200,
+			era = nil,
+            objectives = {
+                {type = "CITY_ADJACENT_TO_RIVER_COUNT", count = 5},
+            },
+            score = 1
+        },
+        {
+            id = "EPIC_OF_GILGAMESH",
+			index = "3",
+			year = nil,
+			era = "ERA_ANCIENT",
+            objectives = {
+                {type = "UNIT_KILL_COUNT", id = "UNIT_SUMERIAN_WAR_CART", count = 10},
+				{type = "GREAT_WORK_COUNT", id = "GREATWORKOBJECT_WRITING" count = 1},
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+	
     CIVILIZATION_GAUL = {
         {
 			id = "DRUIDIC_LORE",
@@ -70,6 +108,7 @@ HSD_victoryConditionsConfig = {
         },
 		-- end of victory conditions
     },
+	
     CIVILIZATION_MAYA = {
         {
 			id = "CHICHEN_ITZA",
@@ -103,11 +142,13 @@ HSD_victoryConditionsConfig = {
         },
 		-- end of victory conditions
     },
+	
     CIVILIZATION_PERSIA = {
         {
 			id = "THE_IMMORTALS",
 			index = "1",
             year = -450,
+			era = nil,
             objectives = {
                 {type = "UNIT", id = "UNIT_PERSIAN_IMMORTAL", count = 5},
                 {type = "OCCUPIED_CAPITAL_COUNT", count = 2},
@@ -118,6 +159,7 @@ HSD_victoryConditionsConfig = {
             id = "ACHAEMENID_ARCHITECTURE",
 			index = "2",
             year = -350,
+			era = nil,
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_APADANA"},
                 {type = "IMPROVEMENT", id = "IMPROVEMENT_PAIRIDAEZA", count = 5},
@@ -128,6 +170,7 @@ HSD_victoryConditionsConfig = {
             id = "KING_OF_KINGS",
 			index = "3",
 			year = nil,
+			era = nil,
             objectives = {
                 {type = "SUZERAINTY_COUNT", count = 5},
             },
@@ -135,6 +178,7 @@ HSD_victoryConditionsConfig = {
         },
 		-- end of victory conditions
     },
+	
 	CIVILIZATION_ROME = {
         {
 			id = "PAX_ROMANA",
@@ -168,6 +212,43 @@ HSD_victoryConditionsConfig = {
                 {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 6},
             },
             score = 1 -- Score awarded for completing this set of objectives
+        },
+		-- end of victory conditions
+    },
+	
+    CIVILIZATION_SUMERIA = {
+        {
+			id = "CRADLE_OF_CIVILIZATION",
+			index = "1",
+            year = nil,
+			era = nil,
+            objectives = {
+                {type = "FIRST_TECH_RESEARCHED", id = "TECH_WRITING"},
+                {type = "FIRST_CIVIC_RESEARCHED", id = "CIVIC_EARLY_EMPIRE"},
+            },
+            score = 1
+        },
+        {
+            id = "SUMERIAN_RENAISSANCE",
+			index = "2",
+            year = nil,
+			era = "ERA_ANCIENT",
+            objectives = {
+                {type = "WONDER_BUILT", id = "BUILDING_ETEMENANKI"},
+                {type = "IMPROVEMENT", id = "IMPROVEMENT_ZIGGURAT", count = 3},
+            },
+            score = 1
+        },
+        {
+            id = "EPIC_OF_GILGAMESH",
+			index = "3",
+			year = nil,
+			era = "ERA_ANCIENT",
+            objectives = {
+                {type = "UNIT_KILL_COUNT", id = "UNIT_SUMERIAN_WAR_CART", count = 10},
+				{type = "GREAT_WORK_COUNT", id = "GREATWORKOBJECT_WRITING" count = 1},
+            },
+            score = 1
         },
 		-- end of victory conditions
     },
