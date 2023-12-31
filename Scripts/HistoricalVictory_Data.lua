@@ -4,45 +4,56 @@
 print("Loading HistoricalVictory_Data.lua")
 
 -- Insert Civilizations or Leaders into this table for custom historical victories
+-- Leader data is used if present, otherwise civilization data will be used
 -- Civs or Leaders not in this table will use the generic conditions
 -- This table tracks the index and objective count for each challenge, to be used to generate text and check properties
-HSD_victoryCivilizationData = {
-	["CIVILIZATION_PERSIA"] = {
-			{ victory = 1, objectives = 2 },
-			{ victory = 2, objectives = 2 },
-			{ victory = 3, objectives = 1 },
-	},
-    ["CIVILIZATION_ROME"] = 
-		{ 
-			{ victory = 1, objectives = 3 },
-			{ victory = 2, objectives = 2 },
-			{ victory = 3, objectives = 1 },
-		},
-	["CIVILIZATION_EGYPT"] = {
-			{ victory = 1, objectives = 3 },
-			{ victory = 2, objectives = 3 },
-			{ victory = 3, objectives = 3 },
-	},
-	["CIVILIZATION_BRAZIL"] = {
-			{ victory = 1, objectives = 1 },
-			{ victory = 2, objectives = 1 }
-	},
-    ["LEADER_JULIUS_CAESAR"] = 
-		{ 
-			{ victory = 1, objectives = 1 },
-			{ victory = 2, objectives = 1 },
-			{ victory = 3, objectives = 1 },
-	}
-}
 
 HSD_victoryConditionsConfig = {
+
+    -- LEADERS
+    LEADER_GORGO = {
+        {
+			id = "THERMOPYLAE",
+			index = "1",
+            year = nil,
+			era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "UNIT_KILL_COUNT", id = "UNIT_GREEK_HOPLITE", count = 10},
+            },
+            score = 1
+        },
+        {
+            id = "DORIC_COLUMNS",
+			index = "2",
+            year = nil,
+			era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "WONDER_BUILT", id = "BUILDING_STATUE_OF_ZEUS"},
+                {type = "UNLOCK_ALL_ERA_CIVICS", id = "ERA_CLASSICAL"}, -- TODO
+            },
+            score = 1
+        },
+        {
+            id = "PELOPONNESIAN_LEAGUE",
+			index = "3",
+			year = nil,
+			era = nil,
+            objectives = {
+                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_GREEK_HOPLITE", count = 2}, -- TODO
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
+    -- CIVILIZATIONS
 
     CIVILIZATION_EGYPT = {
         {
 			id = "MONUMENTS_OF_THE_PHARAOHS",
 			index = "1",
-            year = -2000,
-			era = nil,
+            year = nil,
+			era = "ERA_ANCIENT",
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_PYRAMID"},
                 {type = "IMPROVEMENT", id = "IMPROVEMENT_SPHINX", count = 1},
@@ -53,21 +64,20 @@ HSD_victoryConditionsConfig = {
         {
             id = "THE_NEW_KINGDOM",
 			index = "2",
-            year = -1200,
-			era = nil,
+            year = nil,
+			era = "ERA_CLASSICAL",
             objectives = {
-                {type = "CITY_ADJACENT_TO_RIVER_COUNT", count = 5},
+                {type = "CITY_WITH_FLOODPLAIN_COUNT", count = 5}, --TODO
             },
             score = 1
         },
         {
-            id = "EPIC_OF_GILGAMESH",
+            id = "SUN_GOD_ATEN",
 			index = "3",
 			year = nil,
-			era = "ERA_ANCIENT",
+			era = nil,
             objectives = {
-                {type = "UNIT_KILL_COUNT", id = "UNIT_SUMERIAN_WAR_CART", count = 10},
-				{type = "GREAT_WORK_COUNT", id = "GREATWORKOBJECT_WRITING" count = 1},
+                {type = "FIRST_GREAT_PERSON_CLASS", id = "GREAT_PERSON_CLASS_PROPHET"},
             },
             score = 1
         },
@@ -108,6 +118,41 @@ HSD_victoryConditionsConfig = {
         },
 		-- end of victory conditions
     },
+
+    CIVILIZATION_GREECE = {
+        {
+			id = "CLASSICAL_AGE",
+			index = "1",
+            year = nil,
+			era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "WONDER_BUILT", id = "BUILDING_ORACLE"},
+				{type = "WONDER_BUILT", id = "BUILDING_COLOSSUS"},
+            },
+            score = 1
+        },
+        {
+            id = "CRADLE_OF_THE_WEST",
+			index = "2",
+            year = nil,
+            era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "GREAT_PEOPLE_ACTIVATED", count = 4},
+            },
+            score = 1 
+        },
+        {
+            id = "KOINE_GREEK",
+			index = "3",
+			year = nil,
+			era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "DISTRICT_ON_NUM_CONTINENTS", id = "DISTRICT_ACROPOLIS", count = 3},
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
 	
     CIVILIZATION_MAYA = {
         {
@@ -137,6 +182,40 @@ HSD_victoryConditionsConfig = {
 			era = "ERA_INDUSTRIAL",
             objectives = {
                 {type = "MINIMUM_CONTINENT_TECH_COUNT", continent = "CONTINENT_EUROPE"},
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
+    CIVILIZATION_NORWAY = {
+        {
+			id = "VIKING_AGE",
+			index = "1",
+            year = nil,
+			era = nil,
+            objectives = {
+                {type = "UNIT_PILLAGE_COUNT", id = "UNIT_NORWEGIAN_LONGSHIP", count = 30},
+            },
+            score = 1
+        },
+        {
+            id = "FJORD_FORTRESSES",
+			index = "2",
+            year = nil,
+            era = "ERA_MEDIEVAL",
+            objectives = {
+                {type = "FJORD_FORTRESSES"},
+            },
+            score = 1 
+        },
+        {
+            id = "LAND_OF_THE_MIDNIGHT_SUN",
+			index = "3",
+			year = nil,
+			era = "ERA_RENAISSANCE",
+            objectives = {
+                {type = "6_POP_CITY_ABOVE_ARCTIC", count = 5},
             },
             score = 1
         },
@@ -179,6 +258,41 @@ HSD_victoryConditionsConfig = {
 		-- end of victory conditions
     },
 	
+    CIVILIZATION_PHOENICIA = {
+        {
+			id = "MERCANTILE_EMPIRE",
+			index = "1",
+            year = nil,
+			era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "MOST_TRADE_ROUTES_END_ERA"},
+            },
+            score = 1
+        },
+        {
+            id = "REFUGEES_OF_TYRE",
+			index = "2",
+            year = nil,
+			era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "PROJECT_COMPLETED", id = "PROJECT_COTHON_CAPITAL_MOVE"},
+                {type = "CITY_ADJACENT_TO_CAPITAL_SEA_COUNT", count = 5},
+            },
+            score = 1
+        },
+        {
+            id = "PHOENICIAN_VOYAGES",
+			index = "3",
+			year = nil,
+			era = "ERA_MEDIEVAL",
+            objectives = {
+                {type = "CIRCUMNAVIGATE_HOME_CONTINENT"},
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
 	CIVILIZATION_ROME = {
         {
 			id = "PAX_ROMANA",
@@ -198,7 +312,7 @@ HSD_victoryConditionsConfig = {
             year = 200,
 			era = nil,
             objectives = {
-                {type = "LAND_AREA", region = "CONTINENT_EUROPE", percent = 20},
+                {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
                 {type = "FOREIGN_CONTINENT_CITIES", count = 5},
             },
             score = 1 -- Score awarded for completing this set of objectives
@@ -246,7 +360,7 @@ HSD_victoryConditionsConfig = {
 			era = "ERA_ANCIENT",
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_SUMERIAN_WAR_CART", count = 10},
-				{type = "GREAT_WORK_COUNT", id = "GREATWORKOBJECT_WRITING" count = 1},
+				{type = "FIRST_GREAT_PERSON_CLASS", id = "GREAT_PERSON_CLASS_WRITER"},
             },
             score = 1
         },

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
   <LocalizedText>
+	<!-- ------------------------>
 	<!-- WORLD RANKINGS SCREEN -->
+	<!-- ------------------------>
 	<Replace Tag="LOC_HSD_VICTORY_INTRO" Language="en_US">
       <Text>Achieve a [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] by completing all challenges for your civilization to unlock the [COLOR_Civ6Yellow]HISTORICAL VICTORY PROJECT[ENDCOLOR]. Victory progress can be tracked from the Civilization tabs below. Completing a challenge grants bonus Era Score.[NEWLINE][NEWLINE]</Text>
     </Replace>
@@ -14,7 +16,23 @@
 	<Replace Tag="LOC_HSD_OBJECTIVE_STATUS" Language="en_US">
       <Text>[COLOR_Civ6Yellow] {1_current}/{2_total}[ENDCOLOR]</Text>
     </Replace>
+	
+	<!-- --------------->
+	<!-- FLOATER TEXT -->
+	<!-- --------------->
+	<Replace Tag="LOC_HSD_PILLAGE_FLOATER" Language="en_US">
+	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR] : {2_unitTypeName} pillage count: {3_unitPillageCount}/{4_totalCount}</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_KILL_FLOATER" Language="en_US">
+	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : {2_unitTypeName} kill count: {3_unitKillCount}/{4_totalCount}</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_WONDER_CONSTRUCTED_FLOATER" Language="en_US">
+	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : Construct the {2_buildingTypeName}</Text>
+	</Replace>
+	
+	<!-- ---------------------------->
 	<!-- CIVILIZATION VICTORY TEXT -->
+	<!-- ---------------------------->
 	
 	<!-- GAUL -->
 	<!-- Victory 1 -->
@@ -93,9 +111,6 @@
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_DETAILS_ROW_1" Language="en_US">
 	  <Text>Viking Longship pillage count</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_FLOATER_1" Language="en_US">
-	  <Text>Viking Longship pillage count: {1_pillageCount}</Text>
 	</Replace>
 	
 	<!-- PERSIA -->
@@ -176,6 +191,13 @@
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_DETAILS_ROW_1" Language="en_US">
       <Text>Control all plots of a sea territory</Text>
     </Replace>
+	
+	<!-- INSERT CIVILIZATION VICTORY TEXT ABOVE -->
+	
+	<!-- ------------------------>
+	<!-- LEADER VICTORY TEXT ---->
+	<!-- ------------------------>
+	
 	<!-- JULIUS CAESAR -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_NAME" Language="en_US">
       <Text>Veni, Vidi, Vici</Text>
@@ -186,5 +208,11 @@
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_DETAILS_ROW_1" Language="en_US">
       <Text>Control all capitals in the southern half of Europe at the end of the Classical Era : </Text>
     </Replace>
+	
+	<!-- INSERT LEADER VICTORY TEXT ABOVE -->
+	
+	<!-- ------>
+	<!-- END -->
+	<!-- ------>
   </LocalizedText>
 </GameData>

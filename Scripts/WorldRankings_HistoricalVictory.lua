@@ -436,40 +436,47 @@ end
 
 function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, PlayerID: number)
 	local player = Players[PlayerID]
-	local LeaderTypeName = HSD_victoryConditionsConfig[PlayerConfigurations[PlayerID]:GetLeaderTypeName()]
+	local defaultTypeName = CivilizationTypeName
+	local victoryConditions = Game:GetProperty("HSD_PlayerVictoryConditions") or {}
+	-- local victoriesForPlayer = victoryConditions[PlayerID] or {}
+
+	-- local LeaderTypeName = HSD_victoryConditionsConfig[PlayerConfigurations[PlayerID]:GetLeaderTypeName()]
+	-- local playerTypeName = LeaderTypeName
+
 	-- Check if leader victories are enabled and change to the leader name instead
-	if MapConfiguration.GetValue("HSD_LEADER_VICTORIES") then
-		CivilizationTypeName = LeaderTypeName
-	end
+	-- if MapConfiguration.GetValue("bCivilizationVictory") then
+	-- 	playerTypeName = CivilizationTypeName
+	-- end
+
 	-- Check if the CivilizationTypeName is in the list for predefined victory objectives
-    local civilizationInfo = HSD_victoryConditionsConfig[CivilizationTypeName]
+    -- local civilizationInfo = HSD_victoryConditionsConfig[playerTypeName] -- TODO: Delete
+	local civilizationInfo = victoryConditions[PlayerID] -- TODO: Generic condition not working because players get empty tables
 	if not civilizationInfo then
 		if HSD_victoryConditionsConfig[PlayerConfigurations[PlayerID]:GetCivilizationTypeName()] then
 			-- print("Leader not detected on historical victory list, defaulting to Civilization victory")
-			CivilizationTypeName = PlayerConfigurations[PlayerID]:GetCivilizationTypeName()
-			civilizationInfo = HSD_victoryConditionsConfig[CivilizationTypeName]
+			defaultTypeName = PlayerConfigurations[PlayerID]:GetCivilizationTypeName()
+			civilizationInfo = HSD_victoryConditionsConfig[defaultTypeName]
 		elseif(HSD_victoryConditionsConfig[PlayerConfigurations[PlayerID]:GetLeaderTypeName()])then
 			-- print("Civilization not detected on historical victory list, defaulting to Leader victory")
-			CivilizationTypeName = PlayerConfigurations[PlayerID]:GetLeaderTypeName()
-			civilizationInfo = HSD_victoryConditionsConfig[CivilizationTypeName]
+			defaultTypeName = PlayerConfigurations[PlayerID]:GetLeaderTypeName()
+			civilizationInfo = HSD_victoryConditionsConfig[defaultTypeName]
 		else
 			-- print("Civilization and Leader not detected on historical victory list, defaulting to Generic victory")
-			CivilizationTypeName = "GENERIC"
+			defaultTypeName = "GENERIC_CIVILIZATION"
 			-- Don't update civilizationInfo, using generic conditions
 		end
 	end
     if civilizationInfo then		
 		-- Iterate through victories
         for i, victories in ipairs(civilizationInfo) do
-		
+			local playerTypeName = victories.playerTypeName
             local victoryType = victories.index
             local objectiveCount = #victories.objectives
-            -- local player = Players[PlayerID]
             local victoryStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_".. i)
 			-- if not victoryStatus then victoryStatus = 0 end -- nil check
 			if (g_LocalPlayer:GetDiplomacy():HasMet(PlayerID)) or (g_LocalPlayer:GetID() == PlayerID) then
 				-- Display victory status
-				detailsText = detailsText .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. CivilizationTypeName .. "_" .. victoryType .. "_NAME" ) .. "[ENDCOLOR] : "
+				detailsText = detailsText .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_NAME" ) .. "[ENDCOLOR] : "
 				if not victoryStatus then
 					-- Not yet completed
 					detailsText = detailsText .. "[ICON_Bolt]"
@@ -486,9 +493,9 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 			end
 			
 			-- Iterate through individual victory objectives
-			for i = 1, objectiveCount do
+			for j = 1, objectiveCount do 
 			
-				local objectiveStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_" .. victoryType .. "_OBJECTIVE_" .. i)
+				local objectiveStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_" .. victoryType .. "_OBJECTIVE_" .. j)
 				local current = 0
 				local total = 0
 				local objectiveMet = false
@@ -506,7 +513,7 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 				
 				if (g_LocalPlayer:GetDiplomacy():HasMet(PlayerID)) or (g_LocalPlayer:GetID() == PlayerID) then
 					-- Display objective status
-					detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. CivilizationTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. i) .. " : "
+					detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. j) .. " : "
 					if (objectiveStatus == 0) or (current < total) then
 						-- Not yet completed
 						detailsText = detailsText .. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .. " [ICON_Bolt]"
@@ -533,7 +540,7 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 			-- Display generic victory status for all players
 			if (g_LocalPlayer:GetDiplomacy():HasMet(PlayerID)) or (g_LocalPlayer:GetID() == PlayerID) then
 				-- Display victory status
-				detailsText = detailsText .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. CivilizationTypeName .. "_" .. victoryType .. "_NAME" ) .. "[ENDCOLOR] : "
+				detailsText = detailsText .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. defaultTypeName .. "_" .. victoryType .. "_NAME" ) .. "[ENDCOLOR] : "
 				if victoryStatus == 0 then
 					-- Not yet completed
 					detailsText = detailsText .. "[ICON_Bolt]"
@@ -555,7 +562,7 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 				-- Only display generic objectives for the human player
 				if (g_LocalPlayer:GetID() == PlayerID) then
 					-- Display objective status
-					detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. CivilizationTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. i)
+					detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. defaultTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. i)
 					if objectiveStatus == 0 then
 						-- Not yet completed
 						detailsText = detailsText .. "[ICON_Bolt]"
