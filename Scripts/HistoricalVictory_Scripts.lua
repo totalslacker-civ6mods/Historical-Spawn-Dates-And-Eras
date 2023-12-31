@@ -253,17 +253,17 @@ local function GetCityAdjacentToRiverCount(playerID)
         local cityX, cityY = city:GetX(), city:GetY()
         local cityPlot = Map.GetPlot(cityX, cityY)
 
-        if cityPlot:IsRiver() then
+        if cityPlot:IsRiver() or cityPlot:IsRiverAdjacent() then
             riverAdjacentCityCount = riverAdjacentCityCount + 1
         else
             -- Check adjacent plots if the city center is not directly on a river
-            for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
-                local adjacentPlot = Map.GetAdjacentPlot(cityX, cityY, direction)
-                if adjacentPlot and adjacentPlot:IsRiver() then
-                    riverAdjacentCityCount = riverAdjacentCityCount + 1
-                    break -- Found a river adjacent plot, no need to check further
-                end
-            end
+            -- for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
+            --     local adjacentPlot = Map.GetAdjacentPlot(cityX, cityY, direction)
+            --     if adjacentPlot and adjacentPlot:IsRiver() then
+            --         riverAdjacentCityCount = riverAdjacentCityCount + 1
+            --         break -- Found a river adjacent plot, no need to check further
+            --     end
+            -- end
         end
     end
 
@@ -851,12 +851,15 @@ function EvaluateObjectives(player, condition)
 		local current = 0
 		local total = 0
         local propertyKey = "HSD_HISTORICAL_VICTORY_" .. condition.index .. "_OBJECTIVE_" .. index
-		local isPropertyObjective = false
+		local isPlayerProperty = false
+        local isEqual = false
+        local isGreaterThan = false
+        local isLesserThan = false
 		
 		if obj.type == "BORDERING_CITY_COUNT" then
 			current = GetBorderingCitiesCount(playerID)
 			total = obj.count
-		elseif obj.type == "BUILDING" then
+		elseif obj.type == "BUILDING_COUNT" then
 			current = GetBuildingCount(playerID, obj.id)
 			total = obj.count
 		elseif obj.type == "CITY_ADJACENT_TO_RIVER_COUNT" then
@@ -865,68 +868,70 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "CITY_WITH_FEATURE_COUNT" then
 			current = GetCitiesWithFeatureCount(playerID, obj.id) or 0
 			total = obj.count
-		elseif obj.type == "DISTRICT" then
+		elseif obj.type == "DISTRICT_COUNT" then
 			current = GetDistrictTypeCount(playerID, obj.id)
 			total = obj.count
 		elseif obj.type == "FIRST_CIVIC_RESEARCHED" then
-			isPropertyObjective = true
+			isPlayerProperty = true
 			current = player:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
 		elseif obj.type == "FIRST_GREAT_PERSON_CLASS" then
-			isPropertyObjective = true
+			isPlayerProperty = true
 			current = player:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
 		elseif obj.type == "FIRST_TECH_RESEARCHED" then
-			isPropertyObjective = true
+			isPlayerProperty = true
 			current = player:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
-		elseif obj.type == "ROAD" then
-			current = GetTotalRoutePlots(playerID)
-			total = obj.count
-		elseif obj.type == "IMPROVEMENT" then
-			current = GetImprovementCount(playerID, obj.id) or -1
-			total = obj.count
-		elseif obj.type == "LAND_AREA_HOME_CONTINENT" then
-			current = GetPercentLandArea_HomeContinent(playerID, obj.percent) or -1
-			total = obj.percent
-		elseif obj.type == "OCCUPIED_CAPITAL_COUNT" then
-			current = GetOccupiedCapitals(playerID)
-			total = obj.count
 		elseif obj.type == "FOREIGN_CONTINENT_CITIES" then
 			current = GetCitiesOnForeignContinents(playerID)
 			total = obj.count
 		elseif obj.type == "HIGHEST_CITY_POPULATION" then
 			current, total = IsPlayerCityHighestPopulation(playerID)
+		elseif obj.type == "IMPROVEMENT_COUNT" then
+			current = GetImprovementCount(playerID, obj.id) or -1
+			total = obj.count
+		elseif obj.type == "LAND_AREA_HOME_CONTINENT" then
+			current = GetPercentLandArea_HomeContinent(playerID, obj.percent) or -1
+			total = obj.percent
 		elseif obj.type == "MINIMUM_CONTINENT_TECH_COUNT" then
+            isGreaterThan = true
 			current, total = HasMoreTechsThanContinentMinimum(playerID, obj.continent)
+		elseif obj.type == "OCCUPIED_CAPITAL_COUNT" then
+			current = GetOccupiedCapitals(playerID)
+			total = obj.count
+		elseif obj.type == "ROUTE_COUNT" then
+			current = GetTotalRoutePlots(playerID)
+			total = obj.count
 		elseif obj.type == "SUZERAINTY_COUNT" then
 			current = GetSuzeraintyCount(playerID)
 			total = obj.count
 		elseif obj.type == "TERRITORY_CONTROL" then
 			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
 			total = 1
-		elseif obj.type == "UNIT" then
+		elseif obj.type == "UNIT_COUNT" then
 			current = GetUnitCount(playerID, obj.id)
 			total = obj.count
 		elseif obj.type == "UNIT_KILL_COUNT" then
-			isPropertyObjective = true
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_KILL_COUNT") or 0
 			total = obj.count
-		elseif obj.type == "WONDER_ADJACENT" then
-			current = GetWonderAdjacentImprovement(playerID, obj.id, obj.adjacentImprovement) and 1 or 0
+		elseif obj.type == "WONDER_ADJACENT_IMPROVEMENT" then
+			current = GetWonderAdjacentImprovement(playerID, obj.wonder, obj.improvement) and 1 or 0
 			total = 1
 		elseif obj.type == "WONDER_BUILT" then
-			isPropertyObjective = true
+			isPlayerProperty = true
 			current = Game:GetProperty("HSD_WONDER_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
 		end
 		
-		if isPropertyObjective then
+		if isPlayerProperty or isEqual then
 			objectiveMet = current == total
-		elseif obj.type == "MINIMUM_CONTINENT_TECH_COUNT" then
+		elseif isGreaterThan then
 			objectiveMet = current > total
-		elseif current >= total then
-			objectiveMet = true
+		elseif isLesserThan then
+			objectiveMet = current < total
+		else
+			objectiveMet = current >= total
 		end
 
         -- Set property for this specific objective

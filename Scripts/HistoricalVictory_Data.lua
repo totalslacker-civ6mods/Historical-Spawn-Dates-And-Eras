@@ -11,6 +11,41 @@ print("Loading HistoricalVictory_Data.lua")
 HSD_victoryConditionsConfig = {
 
     -- LEADERS
+    LEADER_CLEOPATRA_ALT = {
+        {
+			id = "PTOLEMAIC_DYNASTY",
+			index = "1",
+            year = nil,
+			era = nil,
+            objectives = {
+                {type = "2_WONDERS_IN_CITY", firstID = "BUILDING_GREAT_LIGHTHOUSE", secondID = "BUILDING_GREAT_LIBRARY"}, -- TODO
+            },
+            score = 1
+        },
+        {
+            id = "ALEXANDRIAN_KINGDOM",
+			index = "2",
+            year = nil,
+			era = nil,
+            objectives = {
+                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 1},
+                {type = "TERRITORY_CONTROL", territory = "DESERT", minimumSize = 1},
+            },
+            score = 1
+        },
+        {
+            id = "NILE DELTA",
+			index = "3",
+			year = -30,
+			era = nil,
+            objectives = {
+                {type = "NUM_CITIES_POP_SIZE", cityNum = 3, popNum = 10}, -- TODO
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
     LEADER_GORGO = {
         {
 			id = "THERMOPYLAE",
@@ -40,6 +75,45 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_GREEK_HOPLITE", count = 2}, -- TODO
+                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_GREEK_HOPLITE", count = 5}, -- TODO
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
+    LEADER_RAMSES = {
+        {
+			id = "MONUMENTS_OF_THE_PHARAOHS",
+			index = "1",
+            year = nil,
+			era = "ERA_ANCIENT",
+            objectives = {
+                {type = "WONDER_BUILT", id = "BUILDING_PYRAMID"},
+                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_SPHINX", count = 1},
+				{type = "WONDER_ADJACENT", id = "BUILDING_PYRAMID", adjacentImprovement = "IMPROVEMENT_SPHINX"},
+            },
+            score = 1
+        },
+        {
+            id = "THE_NEW_KINGDOM",
+			index = "2",
+            year = nil,
+			era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "CITY_WITH_FLOODPLAIN_COUNT", count = 5}, --TODO
+                {type = "UNIT_KILL_COUNT", id = "UNIT_EGYPTIAN_CHARIOT_ARCHER", count = 20},
+            },
+            score = 1
+        },
+        {
+            id = "KARNAK",
+			index = "3",
+			year = nil,
+			era = nil,
+            objectives = {
+                {type = "FIRST_GREAT_PERSON_CLASS", id = "GREAT_PERSON_CLASS_PROPHET"},
+                {type = "FIRST_BUILDING_CONSTRUCTED", id = "BUILDING_LIBRARY"},
             },
             score = 1
         },
@@ -56,8 +130,8 @@ HSD_victoryConditionsConfig = {
 			era = "ERA_ANCIENT",
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_PYRAMID"},
-                {type = "IMPROVEMENT", id = "IMPROVEMENT_SPHINX", count = 1},
-				{type = "WONDER_ADJACENT", id = "BUILDING_PYRAMID", adjacentImprovement = "IMPROVEMENT_SPHINX"},
+                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_SPHINX", count = 1},
+				{type = "WONDER_ADJACENT_IMPROVEMENT", wonder = "BUILDING_PYRAMID", improvement = "IMPROVEMENT_SPHINX"},
             },
             score = 1
         },
@@ -91,8 +165,8 @@ HSD_victoryConditionsConfig = {
             year = -250,
 			era = nil,
             objectives = {
-                {type = "BUILDING", id = "BUILDING_ORACLE"},
-				{type = "BUILDING", id = "BUILDING_STONEHENGE"},
+                {type = "BUILDING_COUNT", id = "BUILDING_ORACLE", count = 1},
+				{type = "BUILDING_COUNT", id = "BUILDING_STONEHENGE", count = 1},
             },
             score = 1
         },
@@ -137,7 +211,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_CLASSICAL",
             objectives = {
-                {type = "GREAT_PEOPLE_ACTIVATED", count = 4},
+                {type = "GREAT_PEOPLE_ACTIVATED", count = 4}, -- TODO
             },
             score = 1 
         },
@@ -147,7 +221,7 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = "ERA_CLASSICAL",
             objectives = {
-                {type = "DISTRICT_ON_NUM_CONTINENTS", id = "DISTRICT_ACROPOLIS", count = 3},
+                {type = "DISTRICT_ON_NUM_CONTINENTS", id = "DISTRICT_ACROPOLIS", count = 3}, -- TODO
             },
             score = 1
         },
@@ -229,8 +303,8 @@ HSD_victoryConditionsConfig = {
             year = -450,
 			era = nil,
             objectives = {
-                {type = "UNIT", id = "UNIT_PERSIAN_IMMORTAL", count = 5},
-                {type = "OCCUPIED_CAPITAL_COUNT", count = 2},
+                {type = "UNIT_COUNT", id = "UNIT_PERSIAN_IMMORTAL", count = 5},
+                {type = "OCCUPIED_CAPITAL_COUNT", count = 3},
             },
             score = 1
         },
@@ -241,7 +315,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_APADANA"},
-                {type = "IMPROVEMENT", id = "IMPROVEMENT_PAIRIDAEZA", count = 5},
+                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_PAIRIDAEZA", count = 5},
             },
             score = 1
         },
@@ -300,9 +374,9 @@ HSD_victoryConditionsConfig = {
             year = 100,
 			era = nil,
             objectives = {
-                {type = "UNIT", id = "UNIT_WARRIOR", count = 1},
-                {type = "DISTRICT", id = "DISTRICT_CITY_CENTER", count = 1},
-                {type = "ROAD", count = 1},
+                {type = "UNIT_COUNT", id = "UNIT_WARRIOR", count = 1},
+                {type = "DISTRICT_COUNT", id = "DISTRICT_CITY_CENTER", count = 1},
+                {type = "ROUTE_COUNT", count = 1},
             },
             score = 1 -- Score awarded for completing this set of objectives
         },
@@ -349,7 +423,7 @@ HSD_victoryConditionsConfig = {
 			era = "ERA_ANCIENT",
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_ETEMENANKI"},
-                {type = "IMPROVEMENT", id = "IMPROVEMENT_ZIGGURAT", count = 3},
+                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_ZIGGURAT", count = 3},
             },
             score = 1
         },
