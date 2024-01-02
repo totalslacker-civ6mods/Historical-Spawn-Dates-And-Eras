@@ -364,6 +364,26 @@ function HSD_GetTerritoryID(plotID)
 	return iTerritory
 end
 
+function HSD_GetTotalIncomingRoutes(playerID)
+    local totalIncomingRoutes = 0
+    local player = Players[playerID]
+
+    if player then
+        local playerCities = player:GetCities()
+        for _, city in playerCities:Members() do
+            local incomingRoutes = city:GetTrade():GetIncomingRoutes()
+            for _, route in ipairs(incomingRoutes) do
+                if route.OriginCityPlayer ~= playerID then -- Check if route is from a foreign city
+                    totalIncomingRoutes = totalIncomingRoutes + 1
+                end
+            end
+        end
+    end
+
+    return totalIncomingRoutes
+end
+
+
 ----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
@@ -391,6 +411,7 @@ function InitializeHSD_UI()
 	ExposedMembers.GetCalendarTurnYear = GetCalendarTurnYear
 	ExposedMembers.HSD_GetTerritoryCache = HSD_GetTerritoryCache
 	ExposedMembers.HSD_GetTerritoryID = HSD_GetTerritoryID
+	ExposedMembers.HSD_GetTotalIncomingRoutes = HSD_GetTotalIncomingRoutes
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))	

@@ -18,7 +18,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = nil,
             objectives = {
-                {type = "2_WONDERS_IN_CITY", firstID = "BUILDING_GREAT_LIGHTHOUSE", secondID = "BUILDING_GREAT_LIBRARY"}, -- TODO
+                {type = "2_WONDERS_IN_CITY", firstID = "BUILDING_GREAT_LIGHTHOUSE", secondID = "BUILDING_GREAT_LIBRARY"},
             },
             score = 1
         },
@@ -34,12 +34,12 @@ HSD_victoryConditionsConfig = {
             score = 1
         },
         {
-            id = "NILE DELTA",
+            id = "NILE_DELTA",
 			index = "3",
 			year = -30,
 			era = nil,
             objectives = {
-                {type = "NUM_CITIES_POP_SIZE", cityNum = 3, popNum = 10}, -- TODO
+                {type = "NUM_CITIES_POP_SIZE", cityNum = 3, popNum = 10},
             },
             score = 1
         },
@@ -64,7 +64,7 @@ HSD_victoryConditionsConfig = {
 			era = "ERA_CLASSICAL",
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_STATUE_OF_ZEUS"},
-                {type = "UNLOCK_ALL_ERA_CIVICS", id = "ERA_CLASSICAL"}, -- TODO
+                {type = "UNLOCK_ALL_ERA_CIVICS", id = "ERA_CLASSICAL"},
             },
             score = 1
         },
@@ -74,7 +74,7 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = nil,
             objectives = {
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_GREEK_HOPLITE", count = 2}, -- TODO
+                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_GREEK_HOPLITE", count = 2},
                 {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_GREEK_HOPLITE", count = 5}, -- TODO
             },
             score = 1
@@ -113,7 +113,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "FIRST_GREAT_PERSON_CLASS", id = "GREAT_PERSON_CLASS_PROPHET"},
-                {type = "FIRST_BUILDING_CONSTRUCTED", id = "BUILDING_LIBRARY"},
+                {type = "FIRST_BUILDING_CONSTRUCTED", id = "BUILDING_TEMPLE"},
             },
             score = 1
         },
@@ -136,22 +136,22 @@ HSD_victoryConditionsConfig = {
             score = 1
         },
         {
-            id = "THE_NEW_KINGDOM",
+            id = "NILE_KINGDOM",
 			index = "2",
             year = nil,
-			era = "ERA_CLASSICAL",
+			era = nil,
             objectives = {
-                {type = "CITY_WITH_FLOODPLAIN_COUNT", count = 5}, --TODO
+                {type = "CONTROL_ALL_CAPITAL_ADJACENT_RIVER"}, --TODO
             },
             score = 1
         },
         {
-            id = "SUN_GOD_ATEN",
+            id = "BREADBASKET_OF_ANCIENT_WORLD",
 			index = "3",
-			year = nil,
+			year = -30,
 			era = nil,
             objectives = {
-                {type = "FIRST_GREAT_PERSON_CLASS", id = "GREAT_PERSON_CLASS_PROPHET"},
+                {type = "MOST_ACTIVE_TRADEROUTES_ALL"},
             },
             score = 1
         },
@@ -279,7 +279,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_MEDIEVAL",
             objectives = {
-                {type = "FJORD_FORTRESSES"},
+                {type = "FJORD_FORTRESSES"}, -- TODO
             },
             score = 1 
         },
@@ -289,7 +289,7 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = "ERA_RENAISSANCE",
             objectives = {
-                {type = "6_POP_CITY_ABOVE_ARCTIC", count = 5},
+                {type = "6_POP_CITY_ABOVE_ARCTIC", count = 5}, -- TODO
             },
             score = 1
         },
@@ -338,8 +338,9 @@ HSD_victoryConditionsConfig = {
 			index = "1",
             year = nil,
 			era = "ERA_CLASSICAL",
+            eraLimit = "END_ERA",
             objectives = {
-                {type = "MOST_TRADE_ROUTES_END_ERA"},
+                {type = "MOST_OUTGOING_TRADE_ROUTES"},
             },
             score = 1
         },
@@ -349,8 +350,8 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = "ERA_CLASSICAL",
             objectives = {
-                {type = "PROJECT_COMPLETED", id = "PROJECT_COTHON_CAPITAL_MOVE"},
-                {type = "CITY_ADJACENT_TO_CAPITAL_SEA_COUNT", count = 5},
+                {type = "PROJECT_COMPLETED", id = "PROJECT_COTHON_CAPITAL_MOVE"}, -- TODO
+                {type = "CITY_ADJACENT_TO_CAPITAL_SEA_COUNT", count = 5}, -- TODO
             },
             score = 1
         },
@@ -360,7 +361,7 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = "ERA_MEDIEVAL",
             objectives = {
-                {type = "CIRCUMNAVIGATE_HOME_CONTINENT"},
+                {type = "CIRCUMNAVIGATE_HOME_CONTINENT"}, -- TODO
             },
             score = 1
         },
@@ -411,7 +412,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = nil,
             objectives = {
-                {type = "FIRST_TECH_RESEARCHED", id = "TECH_WRITING"},
+                {type = "FIRST_BUILDING_CONSTRUCTED", id = "BUILDING_LIBRARY"},
                 {type = "FIRST_CIVIC_RESEARCHED", id = "CIVIC_EARLY_EMPIRE"},
             },
             score = 1

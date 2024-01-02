@@ -11,9 +11,11 @@ print("Loading HistoricalVictory_Scripts.lua")
 
 ExposedMembers.GetPlayerCityUIDatas = {}
 ExposedMembers.GetCalendarTurnYear = {}
+ExposedMembers.GetEraCountdown = {}
 ExposedMembers.CheckCityOriginalCapital = {}
 ExposedMembers.HSD_GetTerritoryCache = {}
 ExposedMembers.HSD_GetTerritoryID = {}
+ExposedMembers.HSD_GetTotalIncomingRoutes = {}
 
 -- ===========================================================================
 -- Variables
@@ -58,6 +60,7 @@ local function CacheVictoryConditions()
                 index = condition.index,
                 year = condition.year or nil,
                 era = condition.era or nil,
+                eraLimit = condition.eraLimit or nil,
                 objectives = condition.objectives,
                 score = condition.score
             }
@@ -117,6 +120,43 @@ end
 -- ===========================================================================
 -- Victory Conditions
 -- ===========================================================================
+
+local function AreTwoWondersInSameCity(playerID, firstWonderID, secondWonderID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+
+    if not GameInfo.Buildings[firstWonderID] or not GameInfo.Buildings[secondWonderID] then
+        return false
+    end
+
+    for _, city in playerCities:Members() do
+        local cityBuildings = city:GetBuildings()
+
+        local hasFirstWonder = cityBuildings:HasBuilding(GameInfo.Buildings[firstWonderID].Index)
+        local hasSecondWonder = cityBuildings:HasBuilding(GameInfo.Buildings[secondWonderID].Index)
+
+        if hasFirstWonder and hasSecondWonder then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function GetNumCitiesWithPopulation(playerID, requiredCityNum, requiredPopulation)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local citiesMeetingCriteria = 0
+
+    for _, city in playerCities:Members() do
+        if city:GetPopulation() >= requiredPopulation then
+            citiesMeetingCriteria = citiesMeetingCriteria + 1
+        end
+    end
+
+    return citiesMeetingCriteria
+end
+
 
 local function GetCitiesWithFeatureCount(playerID, featureType)
     local player = Players[playerID]
@@ -447,6 +487,20 @@ local function GetDistrictTypeCount(iPlayer, districtType)
 	return districtCount
 end
 
+local function GetFullyUpgradedUnitsCount(playerID, unitType, requiredCount)
+    local player = Players[playerID]
+    local playerUnits = player:GetUnits()
+    local count = 0
+
+    for i, unit in playerUnits:Members() do
+        if unit:GetType() == unitType and unit:GetExperience():GetLevel() == unit:GetExperience():GetMaxLevel() then
+            count = count + 1
+        end
+    end
+
+    return count
+end
+
 -- Helper function to check if the civilization controls the required percentage of land area
 local function GetPercentLandArea_ContinentType(playerID, continentName, percent)
     print("Checking land area control for player " .. tostring(playerID) .. " on continent " .. continentName)
@@ -637,6 +691,75 @@ function HasMoreTechsThanContinentMinimum(playerID, continentName)
     return playerTechCount, continentTechMinimum
 end
 
+local function GetOutgoingRoutesCount(playerID)
+    local highestTradeRouteCount = 0
+
+    -- Count outgoing trade routes for the player
+    local playerOutgoingRoutes = Players[playerID]:GetTrade():CountOutgoingRoutes()
+    print("playerOutgoingRoutes = "..tostring(playerOutgoingRoutes))
+
+    -- Get highest outgoing route count among all other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        if otherPlayerID ~= playerID then
+            if IsHistoricalVictoryPlayer(otherPlayerID) and HasPlayerSpawned(otherPlayerID) then
+                local otherPlayerOutgoingRoutes = Players[otherPlayerID]:GetTrade():CountOutgoingRoutes()
+                if otherPlayerOutgoingRoutes > highestTradeRouteCount then
+                    highestTradeRouteCount = otherPlayerOutgoingRoutes
+                end
+            end
+
+        end
+    end
+
+    return playerOutgoingRoutes, highestTradeRouteCount
+end
+
+local function GetTradeRoutesCount(playerID)
+    local highestTradeRouteCount = 0
+
+    -- Count total number of routes for the player
+    local playerOutgoingRoutes = Players[playerID]:GetTrade():CountOutgoingRoutes()
+    print("playerOutgoingRoutes = "..tostring(playerOutgoingRoutes))
+    local playerIncomingRoutes = ExposedMembers.HSD_GetTotalIncomingRoutes(playerID)
+    print("playerIncomingRoutes = "..tostring(playerIncomingRoutes))
+    local playerTradeRoutes = playerOutgoingRoutes + playerIncomingRoutes
+
+    -- Get highest route count among all other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        if otherPlayerID ~= playerID then
+            if IsHistoricalVictoryPlayer(otherPlayerID) and HasPlayerSpawned(otherPlayerID) then
+                local otherPlayerOutgoingRoutes = Players[otherPlayerID]:GetTrade():CountOutgoingRoutes()
+                local otherplayerIncomingRoutes = ExposedMembers.HSD_GetTotalIncomingRoutes(otherPlayerID)
+                local otherPlayerTradeRoutes = otherPlayerOutgoingRoutes + otherplayerIncomingRoutes
+                if otherPlayerTradeRoutes > highestTradeRouteCount then
+                    highestTradeRouteCount = otherPlayerTradeRoutes
+                end
+            end
+
+        end
+    end
+
+    return playerTradeRoutes, highestTradeRouteCount
+end
+
+local function HasUnlockedAllCivicsForEra(playerID, eraType)
+    local player = Players[playerID]
+    local playerCulture = player:GetCulture()
+
+    -- Loop through all civics and check if each civic in the specified era is unlocked
+    for civic in GameInfo.Civics() do
+        if civic.EraType == eraType then
+            if not playerCulture:HasCivic(civic.Index) then
+                -- If even one civic in the era is not unlocked, return false
+                return false
+            end
+        end
+    end
+
+    -- All civics in the era are unlocked
+    return true
+end
+
 function IsPlayerCityHighestPopulation(playerID)
     local player = Players[playerID]
     local playerCities = player:GetCities()
@@ -665,7 +788,31 @@ end
 -- ===========================================================================
 -- EVENT HOOKS
 -- ===========================================================================
--- Set property to match player when a wonder is built
+
+local function HSD_OnBuildingConstructed(playerID, cityID, buildingID, plotID, bOriginalConstruction)
+    local buildingInfo = GameInfo.Buildings[buildingID]
+    local buildingKey = "HSD_" .. tostring(buildingInfo.BuildingType)
+    if not Game:GetProperty(buildingKey) then
+        Game:SetProperty(buildingKey, playerID)
+        print("Recorded " .. buildingInfo.BuildingType .. " as first completed by player " .. tostring(playerID))
+
+        -- Check if the building completion is part of any active victory conditions
+        local victoryConditions = Game:GetProperty("HSD_PlayerVictoryConditions") or {}
+        local conditionsForPlayer = victoryConditions[playerID] or {}
+        for _, victoryCondition in ipairs(conditionsForPlayer) do
+            for _, objective in ipairs(victoryCondition.objectives) do
+                if (objective.type == "FIRST_BUILDING_CONSTRUCTED") and (objective.id == buildingInfo.BuildingType) then
+                    local iX, iY = Map.GetPlotByIndex(plotID):GetX(), Map.GetPlotByIndex(plotID):GetY()
+                    -- Display in-game popup text
+                    local message = Locale.Lookup("LOC_HSD_BUILDING_CONSTRUCTED_FLOATER", "LOC_HSD_VICTORY_"..tostring(victoryCondition.playerTypeName).."_"..tostring(victoryCondition.index).."_NAME", Locale.Lookup(buildingInfo.Name))
+                    Game.AddWorldViewText(0, message, iX, iY)
+                    break
+                end
+            end
+        end
+    end
+end
+
 local function HSD_OnWonderConstructed(iX, iY, buildingIndex, playerIndex, cityID, iPercentComplete, iUnknown)
     if iPercentComplete == 100 then  -- Ensure the wonder is fully constructed
         local buildingInfo = GameInfo.Buildings[buildingIndex]
@@ -856,7 +1003,10 @@ function EvaluateObjectives(player, condition)
         local isGreaterThan = false
         local isLesserThan = false
 		
-		if obj.type == "BORDERING_CITY_COUNT" then
+		if obj.type == "2_WONDERS_IN_CITY" then
+			current = AreTwoWondersInSameCity(playerID, obj.firstID, obj.secondID) and 1 or 0
+			total = 1
+        elseif obj.type == "BORDERING_CITY_COUNT" then
 			current = GetBorderingCitiesCount(playerID)
 			total = obj.count
 		elseif obj.type == "BUILDING_COUNT" then
@@ -871,6 +1021,10 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "DISTRICT_COUNT" then
 			current = GetDistrictTypeCount(playerID, obj.id)
 			total = obj.count
+		elseif obj.type == "FIRST_BUILDING_CONSTRUCTED" then
+			isPlayerProperty = true
+			current = player:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
+			total = playerID
 		elseif obj.type == "FIRST_CIVIC_RESEARCHED" then
 			isPlayerProperty = true
 			current = player:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
@@ -886,6 +1040,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "FOREIGN_CONTINENT_CITIES" then
 			current = GetCitiesOnForeignContinents(playerID)
 			total = obj.count
+		elseif obj.type == "FULLY_UPGRADE_UNIT_COUNT" then
+			current = GetFullyUpgradedUnitsCount(playerID, obj.id, obj.count)
+			total = obj.count
 		elseif obj.type == "HIGHEST_CITY_POPULATION" then
 			current, total = IsPlayerCityHighestPopulation(playerID)
 		elseif obj.type == "IMPROVEMENT_COUNT" then
@@ -897,6 +1054,15 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "MINIMUM_CONTINENT_TECH_COUNT" then
             isGreaterThan = true
 			current, total = HasMoreTechsThanContinentMinimum(playerID, obj.continent)
+		elseif obj.type == "MOST_ACTIVE_TRADEROUTES_ALL" then
+            isGreaterThan = true
+			current, total = GetTradeRoutesCount(playerID)
+		elseif obj.type == "MOST_OUTGOING_TRADE_ROUTES" then
+            isGreaterThan = true
+			current, total = GetOutgoingRoutesCount(playerID)
+		elseif obj.type == "NUM_CITIES_POP_SIZE" then
+			current = GetNumCitiesWithPopulation(playerID, obj.cityNum, obj.popNum)
+			total = obj.cityNum
 		elseif obj.type == "OCCUPIED_CAPITAL_COUNT" then
 			current = GetOccupiedCapitals(playerID)
 			total = obj.count
@@ -915,6 +1081,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "UNIT_KILL_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_KILL_COUNT") or 0
 			total = obj.count
+		elseif obj.type == "UNLOCK_ALL_ERA_CIVICS" then
+			current = HasUnlockedAllCivicsForEra(playerID, obj.id) and 1 or 0
+			total = 1
 		elseif obj.type == "WONDER_ADJACENT_IMPROVEMENT" then
 			current = GetWonderAdjacentImprovement(playerID, obj.wonder, obj.improvement) and 1 or 0
 			total = 1
@@ -958,12 +1127,13 @@ function GetHistoricalVictoryConditions(iPlayer)
 	local gameEra = Game.GetEras():GetCurrentEra()
 
     for index, condition in ipairs(conditionsForPlayer or {}) do
-        local isTimeConditionMet = condition.year == nil or currentYear <= condition.year
-		local isEraConditionMet = condition.era == nil or GameInfo.Eras[condition.era].Index == gameEra
+        local isTimeConditionMet = condition.year == nil or (currentYear <= condition.year)
+		local isEraConditionMet = condition.era == nil or (GameInfo.Eras[condition.era].Index == gameEra)
+        local isEraLimitMet = condition.eraLimit == nil or ((condition.eraLimit == "END_ERA") and (ExposedMembers.GetEraCountdown() == 1))
         local victoryPropertyName = "HSD_HISTORICAL_VICTORY_" .. index
         local victoryAlreadySet = player:GetProperty(victoryPropertyName)
 
-        if isTimeConditionMet and isEraConditionMet and not victoryAlreadySet then
+        if isTimeConditionMet and isEraConditionMet and isEraLimitMet and not victoryAlreadySet then
             if EvaluateObjectives(player, condition) then
                 -- If all objectives are met, set the main victory property
                 player:SetProperty(victoryPropertyName, Game.GetCurrentGameTurn())
@@ -1005,6 +1175,7 @@ function HSD_InitVictoryMode()
 	Events.ResearchCompleted.Add(HSD_OnTechCompleted)
 	Events.WonderCompleted.Add(HSD_OnWonderConstructed)
 	Events.UnitKilledInCombat.Add(HSD_OnUnitKilled)
+    GameEvents.BuildingConstructed.Add(HSD_OnBuildingConstructed)
 	GameEvents.OnGreatPersonActivated.Add(HSD_OnGreatPersonActivated)
 	GameEvents.OnPillage.Add(HSD_OnPillage)
 	GameEvents.PlayerTurnStarted.Add(GetHistoricalVictoryConditions)

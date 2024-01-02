@@ -27,7 +27,10 @@
 	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : {2_unitTypeName} kill count: {3_unitKillCount}/{4_totalCount}</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_WONDER_CONSTRUCTED_FLOATER" Language="en_US">
-	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : Construct the {2_buildingTypeName}</Text>
+	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : Build the {2_buildingTypeName}</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_BUILDING_CONSTRUCTED_FLOATER" Language="en_US">
+	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : Build the first {2_buildingTypeName}</Text>
 	</Replace>
 	
 	<!-- ---------------------------->
