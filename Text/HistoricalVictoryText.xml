@@ -14,7 +14,7 @@
       <Text>[NEWLINE][ICON_BULLET]{1_VictoryName}: {2_year}</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_OBJECTIVE_STATUS" Language="en_US">
-      <Text>[COLOR_Civ6Yellow] {1_current}/{2_total}[ENDCOLOR]</Text>
+      <Text>{1_current}/{2_total}</Text>
     </Replace>
 	
 	<!-- --------------->
@@ -31,6 +31,23 @@
 	</Replace>
 	<Replace Tag="LOC_HSD_BUILDING_CONSTRUCTED_FLOATER" Language="en_US">
 	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : Build the first {2_buildingTypeName}</Text>
+	</Replace>
+	
+	<!-- ----------------->
+	<!-- OBJECTIVE TEXT -->
+	<!-- ----------------->
+	
+	<Replace Tag="LOC_HSD_BORDERING_CITY_COUNT" Language="en_US">
+	  <Text>Own {1_count} cities bordering other players</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_IMPROVEMENT_COUNT" Language="en_US">
+	  <Text>Own {2_count} {1_improvementTypeName} improvements</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_UNIT_COUNT" Language="en_US">
+	  <Text>Own {2_count} {1_unitTypeName} units</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_TERRITORY_CONTROL" Language="en_US">
+	  <Text>Control a named {1_territoryTypeName} of at least {2_minSize} plots</Text>
 	</Replace>
 	
 	<!-- ---------------------------->
@@ -200,6 +217,32 @@
 	<!-- ------------------------>
 	<!-- LEADER VICTORY TEXT ---->
 	<!-- ------------------------>
+	
+	<!-- GORGO -->
+	<!-- Victory 1 -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_1_NAME" Language="en_US">
+      <Text>Thermopylae</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_1_DESC" Language="en_US">
+      <Text>Kill 10 units with the Hoplite unique unit</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_1_DETAILS_ROW_1" Language="en_US">
+      <Text>Control all capitals in the southern half of Europe at the end of the Classical Era : </Text>
+    </Replace>
+	<!-- Victory 2 -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_2_NAME" Language="en_US">
+      <Text>Doric Columns</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_2_DESC" Language="en_US">
+      <Text>Build the Statue of Zeus and unlock all Classical Civics by the end of the Classical Era</Text>
+    </Replace>
+	<!-- Victory 3 -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_3_NAME" Language="en_US">
+      <Text>Peloponnesian League</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_3_DESC" Language="en_US">
+      <Text>Fully upgrade 2 Hoplite unique units and conquer 5 cities with Hoplites</Text>
+    </Replace>
 	
 	<!-- JULIUS CAESAR -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_NAME" Language="en_US">

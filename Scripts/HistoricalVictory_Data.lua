@@ -375,9 +375,10 @@ HSD_victoryConditionsConfig = {
             year = 100,
 			era = nil,
             objectives = {
-                {type = "UNIT_COUNT", id = "UNIT_WARRIOR", count = 1},
-                {type = "DISTRICT_COUNT", id = "DISTRICT_CITY_CENTER", count = 1},
-                {type = "ROUTE_COUNT", count = 1},
+                -- {type = "UNIT_COUNT", id = "UNIT_WARRIOR", count = 1},
+                -- {type = "DISTRICT_COUNT", id = "DISTRICT_CITY_CENTER", count = 1},
+                -- {type = "ROUTE_COUNT", count = 1},
+                {type = "UNIT_COUNT", id = "UNIT_ROMAN_LEGION", count = 1},
             },
             score = 1 -- Score awarded for completing this set of objectives
         },
@@ -387,8 +388,9 @@ HSD_victoryConditionsConfig = {
             year = 200,
 			era = nil,
             objectives = {
-                {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
-                {type = "FOREIGN_CONTINENT_CITIES", count = 5},
+                -- {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
+                -- {type = "FOREIGN_CONTINENT_CITIES", count = 5},
+                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_MINE", count = 1},
             },
             score = 1 -- Score awarded for completing this set of objectives
         },
@@ -398,7 +400,8 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = nil,
             objectives = {
-                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 6},
+                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
+                -- {type = "BORDERING_CITY_COUNT", count = 1},
             },
             score = 1 -- Score awarded for completing this set of objectives
         },

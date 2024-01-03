@@ -9,6 +9,64 @@ include("WorldRankings");
 include("HistoricalVictory_Data");
 
 print("Loading Historical Victory World Rankings replace UI...")
+
+-- ===========================================================================
+-- Helper Functions for Historical Victory Mode
+-- ===========================================================================
+local function GetObjectiveDetails(objective)
+    local detailsText = ""
+	local type = objective.type
+	if type == "BORDERING_CITY_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "IMPROVEMENT_COUNT" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Improvements[objective.id].Name), objective.count)
+    elseif type == "TERRITORY_CONTROL" then
+		local territoryTypeName = ""
+		if objective.territory == "SEA" then
+			territoryTypeName = "sea"
+		elseif objective.territory == "DESERT" then
+			territoryTypeName = "desert"
+		elseif objective.territory == "MOUNTAIN" then
+			territoryTypeName = "mountain range"
+		end
+		detailsText = Locale.Lookup("LOC_HSD_"..type, territoryTypeName, objective.minimumSize)
+    elseif type == "UNIT_COUNT" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
+	else
+		detailsText = "Generic victory details text"
+	end
+	return detailsText
+end
+
+local function GetVictoryTimeLimit(victory)
+	local detailsText = false
+	local year = victory.year
+	local era = victory.era
+	local eraLimit = victory.eraLimit
+	if year then
+		if year < 0 then
+			year = year*(-1)
+			year = tostring(year).."BC"
+		elseif year >= 0 then
+			year = tostring(year).."AD"
+		end
+		detailsText = tostring(year)
+	end
+	if era then
+		if detailsText then
+			detailsText = detailsText..", "
+		end
+		if eraLimit and (eraLimit == "END_ERA") then
+			detailsText = "End of "
+		end
+		detailsText = Locale.Lookup(GameInfo.Eras[era].Name)
+	end
+	if not detailsText then
+		detailsText = ""
+	end
+	return detailsText
+end
+
 -- ===========================================================================
 -- Constants
 -- ===========================================================================
@@ -109,22 +167,32 @@ g_victoryData.VICTORY_HISTORICAL_VICTORY = {
 		end
 		local totalVictorySummary:string = ""
 		-- Check if leader victories are enabled and change to the leader name instead
-		if MapConfiguration.GetValue("HSD_LEADER_VICTORIES") then
-			CivilizationTypeName = LeaderTypeName
-		end
-		-- Check if player has historical victory conditions
-		if not HSD_victoryConditionsConfig[CivilizationTypeName] then
-			if HSD_victoryConditionsConfig[PlayerConfigurations[p:GetID()]:GetCivilizationTypeName()] then
-				-- print("Leader not detected on historical victory list, defaulting to Civilization victory")
-				CivilizationTypeName = PlayerConfigurations[p:GetID()]:GetCivilizationTypeName()
-			elseif(HSD_victoryConditionsConfig[PlayerConfigurations[p:GetID()]:GetLeaderTypeName()])then
-				-- print("Civilization not detected on historical victory list, defaulting to Leader victory")
-				CivilizationTypeName = PlayerConfigurations[p:GetID()]:GetLeaderTypeName()
-			else
-				-- print("Civilization and Leader not detected on historical victory list, defaulting to Generic victory")
-				CivilizationTypeName = "GENERIC"
+        local victoryConditions = Game:GetProperty("HSD_PlayerVictoryConditions") or {}
+        local civilizationInfo = victoryConditions[p:GetID()] or {}
+		local playerTypeName = CivilizationTypeName
+		if civilizationInfo then
+			-- Iterate through victories
+			for _, victories in ipairs(civilizationInfo) do
+				playerTypeName = victories.playerTypeName
+				break
 			end
 		end
+		-- if MapConfiguration.GetValue("CivilizationVictoryOnly") then
+		-- 	CivilizationTypeName = LeaderTypeName
+		-- end
+		-- Check if player has historical victory conditions
+		-- if not HSD_victoryConditionsConfig[CivilizationTypeName] then
+		-- 	if HSD_victoryConditionsConfig[PlayerConfigurations[p:GetID()]:GetCivilizationTypeName()] then
+		-- 		-- print("Leader not detected on historical victory list, defaulting to Civilization victory")
+		-- 		CivilizationTypeName = PlayerConfigurations[p:GetID()]:GetCivilizationTypeName()
+		-- 	elseif(HSD_victoryConditionsConfig[PlayerConfigurations[p:GetID()]:GetLeaderTypeName()])then
+		-- 		-- print("Civilization not detected on historical victory list, defaulting to Leader victory")
+		-- 		CivilizationTypeName = PlayerConfigurations[p:GetID()]:GetLeaderTypeName()
+		-- 	else
+		-- 		-- print("Civilization and Leader not detected on historical victory list, defaulting to Generic victory")
+		-- 		CivilizationTypeName = "GENERIC"
+		-- 	end
+		-- end
 		-- Check if the player has completed any challenges and set them to the default value if not detected
 		local  firstGoal = p:GetProperty("HSD_HISTORICAL_VICTORY_1"); if firstGoal == nil then firstGoal = 0 end;
 		local  secondGoal = p:GetProperty("HSD_HISTORICAL_VICTORY_2"); if secondGoal == nil then secondGoal = 0 end;
@@ -141,21 +209,21 @@ g_victoryData.VICTORY_HISTORICAL_VICTORY = {
 				local projectTurn = p:GetProperty("HSD_HISTORICAL_VICTORY_1")
 				if projectTurn == nil then projectTurn = nTurn end
 				local projectDate:string = Calendar.MakeYearStr(projectTurn);
-				strFirstChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(CivilizationTypeName).."_1_NAME"), projectDate) 
+				strFirstChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(playerTypeName).."_1_NAME"), projectDate) 
 				table.insert(completed, strFirstChallenge)
 			end
 			if hasSecondGoal == 1 then 
 				local projectTurn = p:GetProperty("HSD_HISTORICAL_VICTORY_2")
 				if projectTurn == nil then projectTurn = nTurn end
 				local projectDate:string = Calendar.MakeYearStr(projectTurn);
-				strSecondChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(CivilizationTypeName).."_2_NAME"), projectDate)
+				strSecondChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(playerTypeName).."_2_NAME"), projectDate)
 				table.insert(completed, strSecondChallenge)
 			end
 			if hasThirdGoal == 1 then 
 				local projectTurn = p:GetProperty("HSD_HISTORICAL_VICTORY_3")
 				if projectTurn == nil then projectTurn = nTurn end
 				local projectDate:string = Calendar.MakeYearStr(projectTurn);
-				strThirdChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(CivilizationTypeName).."_3_NAME"), projectDate)
+				strThirdChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(playerTypeName).."_3_NAME"), projectDate)
 				table.insert(completed, strThirdChallenge)
 			end
 		end
@@ -472,19 +540,24 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 			local playerTypeName = victories.playerTypeName
             local victoryType = victories.index
             local objectiveCount = #victories.objectives
+			local objectiveTable = victories.objectives
             local victoryStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_".. i)
 			-- if not victoryStatus then victoryStatus = 0 end -- nil check
 			if (g_LocalPlayer:GetDiplomacy():HasMet(PlayerID)) or (g_LocalPlayer:GetID() == PlayerID) then
 				-- Display victory status
-				detailsText = detailsText .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_NAME" ) .. "[ENDCOLOR] : "
+				-- detailsText = detailsText .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_NAME" ) .. "[ENDCOLOR] : "
+				detailsText = detailsText .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_NAME" ) .. "[ENDCOLOR] : [COLOR:NeutralCS]" .. GetVictoryTimeLimit(victories) .."[ENDCOLOR]"
 				if not victoryStatus then
 					-- Not yet completed
 					detailsText = detailsText .. "[ICON_Bolt]"
+				elseif victoryStatus == -1 then
+					-- Failed
+					detailsText = detailsText .. "[ICON_Checkfail]"
 				elseif victoryStatus >= 0 then
 					-- Completed
 					detailsText = detailsText .. "[ICON_Checksuccess]"
 				else
-					-- Failed
+					-- Unknown
 					detailsText = detailsText .. "[ICON_Checkfail]"
 				end
 				detailsText = detailsText .. "[NEWLINE]"
@@ -493,7 +566,8 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 			end
 			
 			-- Iterate through individual victory objectives
-			for j = 1, objectiveCount do 
+			-- for j = 1, objectiveCount do 
+			for j, objective in ipairs(objectiveTable) do 
 			
 				local objectiveStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_" .. victoryType .. "_OBJECTIVE_" .. j)
 				local current = 0
@@ -513,13 +587,14 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 				
 				if (g_LocalPlayer:GetDiplomacy():HasMet(PlayerID)) or (g_LocalPlayer:GetID() == PlayerID) then
 					-- Display objective status
-					detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. j) .. " : "
+					-- detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. j) .. " : "
+					detailsText = detailsText .. GetObjectiveDetails(objective) .. " : "
 					if (objectiveStatus == 0) or (current < total) then
 						-- Not yet completed
-						detailsText = detailsText .. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .. " [ICON_Bolt]"
+						detailsText = detailsText .."[COLOR_Civ6Red] ".. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .."[ENDCOLOR]".. " [ICON_Bolt]"
 					elseif objectiveMet then
 						-- Completed
-						detailsText = detailsText .. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .. " [ICON_Checksuccess]"
+						detailsText = detailsText .."[COLOR_Civ6Yellow] ".. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .."[ENDCOLOR]".. " [ICON_Checksuccess]"
 					else
 						-- Failed
 						detailsText = detailsText .. "[ICON_Checkfail]"
@@ -1118,7 +1193,18 @@ function ViewHistorical(victoryType:string)
 		local details = Locale.Lookup("LOC_HSD_VICTORY_INTRO")
 		local player = Players[Game:GetLocalPlayer()]
 		local CivilizationTypeName = PlayerConfigurations[player:GetID()]:GetCivilizationTypeName()
-		details = GetHistoricHeader(details, CivilizationTypeName)
+		local defaultTypeName = CivilizationTypeName
+		local victoryConditions = Game:GetProperty("HSD_PlayerVictoryConditions")
+		local civilizationInfo = victoryConditions[player:GetID()]
+		local playerTypeName = defaultTypeName
+		if civilizationInfo then		
+			-- Iterate through victories
+			for _, victories in ipairs(civilizationInfo) do
+				playerTypeName = victories.playerTypeName
+				break
+			end
+		end
+		details = GetHistoricHeader(details, playerTypeName)
 		PopulateGenericHeader(RealizeGenericStackSize, victoryInfo.Name, nil, details, ICON_GENERIC);
     end
 
@@ -1173,21 +1259,21 @@ function ViewHistorical(victoryType:string)
 	RealizeGenericStackSize();
 end
 
-function GetHistoricHeader(details:string, CivilizationTypeName:string)
+function GetHistoricHeader(details:string, playerTypeName:string)
 	-- Check if the CivilizationTypeName of the player is in the list for historical victories
-    local civilizationInfo = HSD_victoryConditionsConfig[CivilizationTypeName]
+    local civilizationInfo = HSD_victoryConditionsConfig[playerTypeName]
     if civilizationInfo then
 		-- Iterate three times to generate the formatted header text for each of the three victory types.
 		-- Concatenate victory type name and description to the 'details' string, with proper color formatting.
 		-- The names and descriptions are dynamically retrieved based on the CivilizationTypeName and the iteration index (i).
         for i = 1, 3 do
-            details = details .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. CivilizationTypeName .. "_" .. i .. "_NAME") .. "[ENDCOLOR][NEWLINE][ICON_BULLET]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. CivilizationTypeName .. "_" .. i .. "_DESC") .. "[NEWLINE]"
+            details = details .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_NAME") .. "[ENDCOLOR][NEWLINE][ICON_BULLET]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_DESC") .. "[NEWLINE]"
         end
     else
         print("WARNING: GetHistoricHeader() did not detect a predefined Civilization. Using generic Civ details...")
-        for i = 1, 3 do
-            details = details .. Locale.Lookup("LOC_HSD_VICTORY_GENERIC_" .. i .. "_NAME") .. Locale.Lookup("LOC_HSD_VICTORY_GENERIC_" .. i .. "_DESC")
-        end
+        -- for i = 1, 3 do
+        --     details = details .. Locale.Lookup("LOC_HSD_VICTORY_GENERIC_" .. i .. "_NAME") .. Locale.Lookup("LOC_HSD_VICTORY_GENERIC_" .. i .. "_DESC")
+        -- end
     end
     
     return details

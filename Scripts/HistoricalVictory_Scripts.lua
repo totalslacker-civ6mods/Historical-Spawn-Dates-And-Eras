@@ -21,6 +21,7 @@ ExposedMembers.HSD_GetTotalIncomingRoutes = {}
 -- Variables
 -- ===========================================================================
 
+local iVictoryScoreToWin = 3
 local territoryCache = {} -- Used to track territories detected from UI context
 local iFreeCitiesPlayerID = PlayerManager.GetFreeCitiesPlayerID()
 local bCivilizationVictory = MapConfiguration.GetValue("CivilizationVictoryOnly")
@@ -32,13 +33,15 @@ local function GetVictoryPlayerType(playerID)
     local CivilizationTypeName = PlayerConfigurations[playerID]:GetCivilizationTypeName()
     local LeaderTypeName = PlayerConfigurations[playerID]:GetLeaderTypeName()
     local playerTypeName = LeaderTypeName
-    if not HSD_victoryConditionsConfig[LeaderTypeName] or bCivilizationVictory then
+    if bCivilizationVictory or not HSD_victoryConditionsConfig[playerTypeName] then
         -- Use the civ victory if the leader victory is not defined, or if civilization victory mode is enabled
         playerTypeName = CivilizationTypeName
+        print("Leader not detected in historical victory table. Using civilization value.")
     end
     if not HSD_victoryConditionsConfig[playerTypeName] then
         playerTypeName = "GENERIC_CIVILIZATION"
     end
+    print("GetVictoryPlayerType returned "..tostring(playerTypeName))
     return playerTypeName
 end
 
@@ -1142,25 +1145,24 @@ function GetHistoricalVictoryConditions(iPlayer)
                 player:SetProperty("HSD_HISTORICAL_VICTORY_SCORE", victoryScore + condition.score)
             end
         end
+        if not victoryAlreadySet and ((not isTimeConditionMet) or ((not isEraConditionMet) and (GameInfo.Eras[condition.era].Index < gameEra))) then
+            -- Objectives failed
+            player:SetProperty(victoryPropertyName, -1)
+        end
     end
-    
---     for index, condition in ipairs(HSD_victoryConditionsConfig[civType] or {}) do
---         local isTimeConditionMet = condition.year == nil or currentYear <= condition.year
--- 		local isEraConditionMet = condition.era == nil or GameInfo.Eras[condition.era].Index == gameEra
---         local victoryPropertyName = "HSD_HISTORICAL_VICTORY_" .. index
---         local victoryAlreadySet = player:GetProperty(victoryPropertyName)
 
---         if isTimeConditionMet and isEraConditionMet and not victoryAlreadySet then
---             if EvaluateObjectives(player, condition) then
---                 -- If all objectives are met, set the main victory property
---                 player:SetProperty(victoryPropertyName, Game.GetCurrentGameTurn())
---                 -- Add to victory score
---                 local victoryScore = player:GetProperty("HSD_HISTORICAL_VICTORY_SCORE") or 0
---                 player:SetProperty("HSD_HISTORICAL_VICTORY_SCORE", victoryScore + condition.score)
---             end
---         end
---     end
-
+    -- Create victory building if score threshold is reached
+    local totalVictoryScore = player:GetProperty("HSD_HISTORICAL_VICTORY_SCORE")
+    if totalVictoryScore and totalVictoryScore >= iVictoryScoreToWin then
+		local victoryProjectBuilding = "BUILDING_HISTORICAL_VICTORY"
+		if GameInfo.Buildings[victoryProjectBuilding] then
+            local capital = player:GetCities():GetCapitalCity()
+			local cityBuildQueue = capital:GetBuildQueue()
+            if not capital:GetBuildings():HasBuilding(victoryProjectBuilding) then
+                cityBuildQueue:CreateIncompleteBuilding(GameInfo.Buildings[victoryProjectBuilding].Index, 100)
+            end
+		end	
+    end
 end
 
 -- ===========================================================================
