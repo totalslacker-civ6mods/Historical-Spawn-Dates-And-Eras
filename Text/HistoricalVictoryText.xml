@@ -1,11 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
   <LocalizedText>
+  	<!-- -------------->
+	<!-- VICTORY TEXT-->
+	<!-- -------------->
+	<Replace Tag="LOC_HISTORICAL_VICTORY_NAME" Language="en_US">
+      <Text>Historical Victory</Text>
+    </Replace>
+	<Replace Tag="LOC_HISTORICAL_VICTORY_DESC" Language="en_US">
+      <Text>The history books will be rewritten, for we have not just achieved our greatest deeds, we have surpassed them. Let all other civilizations stand in awe of our historic triumphs!</Text>
+    </Replace>
+	
+  	<!-- --------------->
+	<!-- BUILDING TEXT-->
+	<!-- --------------->
+	<Replace Tag="LOC_BUILDING_HISTORICAL_VICTORY_NAME" Language="en_US">
+		<Text>Historical Victory Marker</Text>
+	</Replace>
+	<Replace Tag="LOC_BUILDING_HISTORICAL_VICTORY_DESC" Language="en_US">
+		<Text>This building unlocks the Historical Victory Project for a player and is granted after completing all three Historical Victories.</Text>
+	</Replace>
+	<Replace Tag="LOC_PROJECT_HISTORICAL_VICTORY_NAME" Language="en_US">
+		<Text>Historical Victory Project</Text>
+	</Replace>
+	<Replace Tag="LOC_PROJECT_HISTORICAL_VICTORY_NAME_SHORT" Language="en_US">
+		<Text>Historical Victory Project</Text>
+	</Replace>
+	<Replace Tag="LOC_PROJECT_HISTORICAL_VICTORY_DESC" Language="en_US">
+		<Text>Grant the Historical Victory when completed. Can only be built after meeting the Historical Victory requirements for the Civilization.</Text>
+	</Replace>
+  
+  	<!-- -------------------------->
+	<!-- ADVANCED SETUP MENU TEXT-->
+	<!-- -------------------------->
+	<Replace Tag="LOC_HSD_HISTORICAL_VICTORY_NAME" Language="en_US">
+      <Text>Historical Victory</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_HISTORICAL_VICTORY_DESC" Language="en_US">
+      <Text>Historical Victory Available</Text>
+    </Replace>
+	
+  	<!-- -------------------------->
+	<!-- POPUP TEXT-->
+	<!-- -------------------------->
+	<Replace Tag="LOC_HSD_EVENT_HISTORICAL_VICTORY_TITLE" Language="en_US">
+      <Text>Historical Victory Completed</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_EVENT_HISTORICAL_VICTORY_MESSAGE" Language="en_US">
+      <Text>Victory: [COLOR_Civ6Yellow]{1_victoryName}[ENDCOLOR][NEWLINE]Leader: [COLOR:ButtonCS]{3_leaderName}[ENDCOLOR][NEWLINE]Year: [COLOR:ButtonCS]{2_year}[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_EVENT_HISTORICAL_VICTORY_UNLOCKED_TITLE" Language="en_US">
+      <Text>All Historical Victories Completed</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_EVENT_HISTORICAL_VICTORY_UNLOCKED_MESSAGE" Language="en_US">
+      <Text>All Historical Victories have been completed by [COLOR:ButtonCS]{1_leaderName}[ENDCOLOR]![NEWLINE]The [COLOR_Civ6Yellow]Historical Victory Project[ENDCOLOR] is now available. Complete the project to claim the final [COLOR_Civ6Yellow]Historical Victory[ENDCOLOR] and end the game!</Text>
+    </Replace>
+	
 	<!-- ------------------------>
 	<!-- WORLD RANKINGS SCREEN -->
 	<!-- ------------------------>
 	<Replace Tag="LOC_HSD_VICTORY_INTRO" Language="en_US">
-      <Text>Achieve a [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] by completing all challenges for your civilization to unlock the [COLOR_Civ6Yellow]HISTORICAL VICTORY PROJECT[ENDCOLOR]. Victory progress can be tracked from the Civilization tabs below. Completing a challenge grants bonus Era Score.[NEWLINE][NEWLINE]</Text>
+      <Text>Achieve a [COLOR_Civ6Yellow]HISTORICAL VICTORY[ENDCOLOR] by completing all challenges for your civilization to unlock the [COLOR_Civ6Yellow]HISTORICAL VICTORY PROJECT[ENDCOLOR]. Victory progress can be tracked from the Civilization tabs below.[NEWLINE][NEWLINE]</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_OVERALL_TOOLTIP" Language="en_US">
       <Text>[ICON_CAPITAL]Challenges Completed: {1_current}/{2_total}{3_totalVictorySummary}</Text>
@@ -36,180 +91,238 @@
 	<!-- ----------------->
 	<!-- OBJECTIVE TEXT -->
 	<!-- ----------------->
+
 	
+	<Replace Tag="LOC_HSD_2_WONDERS_IN_CITY" Language="en_US">
+	  <Text>Own the {1_firstWonderType} and {2_firstWonderType} wonders in the same city</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_6_POP_CITY_ABOVE_ARCTIC" Language="en_US">
+	  <Text>Have a city with a population of at least {1_count} above the Arctic Circle</Text>
+	</Replace>
+
 	<Replace Tag="LOC_HSD_BORDERING_CITY_COUNT" Language="en_US">
 	  <Text>Own {1_count} cities bordering other players</Text>
 	</Replace>
+
+	<Replace Tag="LOC_HSD_BUILDING_COUNT" Language="en_US">
+	  <Text>Own {2_count} {1_buildingTypeName} buildings</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_CIRCUMNAVIGATE_HOME_CONTINENT" Language="en_US">
+	  <Text>Circumnavigate your home continent</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_CITY_ADJACENT_TO_CAPITAL_SEA_COUNT" Language="en_US">
+	  <Text>Have {1_count} coastal cities on the named sea adjacent to your capital</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_CITY_WITH_FLOODPLAIN_COUNT" Language="en_US">
+	  <Text>Own {1_count} cities with floodplains</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_CONTROL_ALL_CAPITAL_ADJACENT_RIVER" Language="en_US">
+	  <Text>Control all river tiles adjacent to your capital</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_DISTRICT_COUNT" Language="en_US">
+	  <Text>Own {2_count} {1_districtTypeName} districts</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_DISTRICT_ON_NUM_CONTINENTS" Language="en_US">
+	  <Text>Own {2_count} {1_districtTypeName} districts on {3_count} different continents</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_FJORD_FORTRESSES" Language="en_US">
+	  <Text>Have {1_count} Fjord Fortresses</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_FIRST_BUILDING_CONSTRUCTED" Language="en_US">
+	  <Text>Construct the {1_buildingTypeName} first</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_FIRST_CIVIC_RESEARCHED" Language="en_US">
+	  <Text>Research the {1_civicTypeName} civic first</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_FIRST_GREAT_PERSON_CLASS" Language="en_US">
+	  <Text>Recruit the first {1_greatPersonClassTypeName} Great Person</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_FIRST_TECH_RESEARCHED" Language="en_US">
+	  <Text>Research the {1_technologyTypeName} technology first</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_FOREIGN_CONTINENT_CITIES" Language="en_US">
+	  <Text>Own {1_count} cities on foreign continents</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_FULLY_UPGRADE_UNIT_COUNT" Language="en_US">
+	  <Text>Fully upgrade {2_count} {1_unitTypeName} units</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_GREAT_PEOPLE_ACTIVATED" Language="en_US">
+	  <Text>Activate {1_count} Great People</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_HIGHEST_CITY_POPULATION" Language="en_US">
+	  <Text>Have the highest population city</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_IMPROVEMENT_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_improvementTypeName} improvements</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_LAND_AREA_HOME_CONTINENT" Language="en_US">
+	  <Text>Own {1_percent}% of the land on your home continent</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MINIMUM_CONTINENT_TECH_COUNT" Language="en_US">
+	  <Text>Own {1_count} technologies from the {2_continentTypeName} continent</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_MOST_ACTIVE_TRADEROUTES_ALL" Language="en_US">
+	  <Text>Have the most active trade routes with all civilizations</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_MOST_OUTGOING_TRADE_ROUTES" Language="en_US">
+	  <Text>Have the most outgoing trade routes</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_NUM_CITIES_POP_SIZE" Language="en_US">
+	  <Text>Own {1_cityNum} cities with a population of at least {2_popNum}</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_PROJECT_COMPLETED" Language="en_US">
+	  <Text>Complete the {1_projectTypeName} project</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_ROUTE_COUNT" Language="en_US">
+	  <Text>Own {1_count} route plots</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_SUZERAINTY_COUNT" Language="en_US">
+	  <Text>Establish Suzerainty over {1_count} city-states</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_TERRITORY_CONTROL" Language="en_US">
+	  <Text>Control a named {1_territoryTypeName} of at least {2_minSize} plots</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_UNIT_CONQUER_CITY_COUNT" Language="en_US">
+	  <Text>Conquer {2_count} cities with {1_unitTypeName} units</Text>
+	</Replace>
+
 	<Replace Tag="LOC_HSD_UNIT_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_unitTypeName} units</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_TERRITORY_CONTROL" Language="en_US">
-	  <Text>Control a named {1_territoryTypeName} of at least {2_minSize} plots</Text>
+
+	<Replace Tag="LOC_HSD_UNIT_KILL_COUNT" Language="en_US">
+	  <Text>Kill {2_count} units with the {1_unitTypeName}</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_UNIT_PILLAGE_COUNT" Language="en_US">
+	  <Text>Pillage {2_count} times with the {1_unitTypeName}</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_UNLOCK_ALL_ERA_CIVICS" Language="en_US">
+	  <Text>Unlock all civics from the {1_eraTypeName}</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_WONDER_ADJACENT" Language="en_US">
+	  <Text>Build the {1_buildingTypeName} wonder adjacent to a {2_adjacentImprovementTypeName} improvement</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_WONDER_ADJACENT_IMPROVEMENT" Language="en_US">
+	  <Text>Build the {1_buildingTypeName} wonder adjacent to a {2_improvementTypeName} improvement</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_WONDER_BUILT" Language="en_US">
+	  <Text>Build the {1_buildingTypeName} wonder</Text>
+	</Replace>
+
+	<Replace Tag="LOC_HSD_GENERIC_VICTORY_DETAILS_TEXT" Language="en_US">
+	  <Text>Generic victory details text for type: {1_type}</Text>
 	</Replace>
 	
 	<!-- ---------------------------->
 	<!-- CIVILIZATION VICTORY TEXT -->
 	<!-- ---------------------------->
 	
+	<!-- EGYPT -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_EGYPT_1_NAME" Language="en_US">
+	  <Text>Monuments of the Pharoahs</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_EGYPT_2_NAME" Language="en_US">
+	  <Text>Nile Kingdom</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_EGYPT_3_NAME" Language="en_US">
+	  <Text>Breadbasket of the Ancient World</Text>
+	</Replace>
+
 	<!-- GAUL -->
-	<!-- Victory 1 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_1_NAME" Language="en_US">
-	  <Text>Druidic Lore</Text>
+	  <Text>Classical Age</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_1_DESC" Language="en_US">
-	  <Text>Control the Stonehenge and Oracle wonders by 250BC</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_1_DETAILS_ROW_1" Language="en_US">
-	  <Text>Control the Stonehenge wonder by 250BC</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_1_DETAILS_ROW_2" Language="en_US">
-	  <Text>Control the Oracle wonder by 250BC</Text>
-	</Replace>
-	<!-- Victory 2 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_2_NAME" Language="en_US">
 	  <Text>Celtic Migrations</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_2_DESC" Language="en_US">
-	  <Text>Control 5 cities that border other players by 50BC</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_2_DETAILS_ROW_1" Language="en_US">
-	  <Text>Control 5 cities that border other players by 50BC</Text>
-	</Replace>
-	<!-- Victory 3 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_3_NAME" Language="en_US">
-	  <Text>Gallic Warriors</Text>
+	  <Text>Painted Warriors</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_3_DESC" Language="en_US">
-	  <Text>Kill 20 units with the Gaesatae unique unit</Text>
+	
+	<!-- GREECE -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GREECE_1_NAME" Language="en_US">
+	  <Text>The Classical Age</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_3_DETAILS_ROW_1" Language="en_US">
-	  <Text>Kill 20 units with the Gaesatae unique unit</Text>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GREECE_2_NAME" Language="en_US">
+	  <Text>Cradle of the West</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GREECE_3_NAME" Language="en_US">
+	  <Text>Koine Greek</Text>
 	</Replace>
 	
 	<!-- MAYA -->
-	<!-- Victory 1 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_1_NAME" Language="en_US">
 	  <Text>Chichen Itza</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_1_DESC" Language="en_US">
-	  <Text>Build the Chichen Itza wonder</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_1_DETAILS_ROW_1" Language="en_US">
-	  <Text>Build the Chichen Itza wonder</Text>
-	</Replace>
-	<!-- Victory 2 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_2_NAME" Language="en_US">
 	  <Text>House of the K'uhul Ajaw</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_2_DESC" Language="en_US">
-	  <Text>Control the city with the highest population in the world by the end of the Medieval Era</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_2_DETAILS_ROW_1" Language="en_US">
-	  <Text>Control the city with the highest population in the world by the end of the Medieval Era</Text>
-	</Replace>
-	<!-- Victory 3 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_3_NAME" Language="en_US">
 	  <Text>Long Count Calendar</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_3_DESC" Language="en_US">
-	  <Text>Have more technologies than a European civilization by the end of the Industrial Era</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_MAYA_3_DETAILS_ROW_1" Language="en_US">
-	  <Text>Have more technologies than a European civilization by the end of the Industrial Era</Text>
-	</Replace>
 	
 	<!-- NORWAY -->
-	<!-- Victory 1 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_NAME" Language="en_US">
 	  <Text>The Viking Age</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_DESC" Language="en_US">
-	  <Text>Pillage 30 times with the Viking Longship unique unit</Text>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_2_NAME" Language="en_US">
+	  <Text>Fjord Fortresses</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_1_DETAILS_ROW_1" Language="en_US">
-	  <Text>Viking Longship pillage count</Text>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_3_NAME" Language="en_US">
+	  <Text>Land of the Midnight Sun</Text>
 	</Replace>
 	
 	<!-- PERSIA -->
-	<!-- Victory 1 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_1_NAME" Language="en_US">
 	  <Text>The Immortals</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_1_DESC" Language="en_US">
-	  <Text>Have at least 5 Immortal unique units and control at least 2 other capitals by 450 BC</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_1_DETAILS_ROW_1" Language="en_US">
-	  <Text>Have at least 5 Immortal unique units by 450 BC</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_1_DETAILS_ROW_2" Language="en_US">
-	  <Text>Control at least 2 other capitals by 450 BC</Text>
-	</Replace>
-	<!-- Victory 2 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_2_NAME" Language="en_US">
 	  <Text>Achaemenid Architecture</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_2_DESC" Language="en_US">
-	  <Text>Build the Apadana Wonder and at least 3 Pairidaeza (Persian unique improvement) by 350 BC</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_2_DETAILS_ROW_1" Language="en_US">
-	  <Text>Build the Apadana Wonder by 350 BC</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_2_DETAILS_ROW_2" Language="en_US">
-	  <Text>Build at least 3 Pairidaeza by 350 BC</Text>
-	</Replace>
-	<!-- Victory 3 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_3_NAME" Language="en_US">
 	  <Text>King of Kings</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_3_DESC" Language="en_US">
-	  <Text>Be the Suzerain of at least 5 city-states at the same time</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_3_DETAILS_ROW_1" Language="en_US">
-	  <Text>Suzerain of at least 5 city-states</Text>
-	</Replace>
 	
 	<!-- ROME -->
-	<!-- Victory 1 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_NAME" Language="en_US">
       <Text>Pax Romana</Text>
     </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DESC" Language="en_US">
-      <Text>Build the Colosseum, 4 Bath districts, and 15 road plots within your territory by 100AD</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DETAILS_ROW_1" Language="en_US">
-      <Text>Build the Colosseum by 100AD</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DETAILS_ROW_2" Language="en_US">
-      <Text>Build 4 Bath districts by 100AD</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_1_DETAILS_ROW_3" Language="en_US">
-      <Text>Build 15 roads in your territory by 100AD</Text>
-    </Replace>
-	<!-- Victory 2 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_NAME" Language="en_US">
       <Text>Imperium Romanum</Text>
     </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DESC" Language="en_US">
-      <Text>Control 20% of land plots in Europe and 5 cities on other continents by 200AD</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DETAILS_ROW_1" Language="en_US">
-      <Text>Control 20% of land plots in Europe by 200AD</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_2_DETAILS_ROW_2" Language="en_US">
-      <Text>Control 5 cities outside of Europe by 200AD</Text>
-    </Replace>
-	<!-- Victory 3 -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_NAME" Language="en_US">
       <Text>Mare Nostrum</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_DESC" Language="en_US">
-      <Text>Control all plots of a sea territory</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_ROME_3_DETAILS_ROW_1" Language="en_US">
-      <Text>Control all plots of a sea territory</Text>
     </Replace>
 	
 	<!-- INSERT CIVILIZATION VICTORY TEXT ABOVE -->
@@ -218,41 +331,48 @@
 	<!-- LEADER VICTORY TEXT ---->
 	<!-- ------------------------>
 	
+	<!-- CLEOPATRA (ALT) -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_CLEOPATRA_ALT_1_NAME" Language="en_US">
+      <Text>Ptolemaic Dynasty</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_CLEOPATRA_ALT_2_NAME" Language="en_US">
+      <Text>Alexandrian Kingdom</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_CLEOPATRA_ALT_3_NAME" Language="en_US">
+      <Text>Nile Delta</Text>
+    </Replace>
+	
 	<!-- GORGO -->
-	<!-- Victory 1 -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_1_NAME" Language="en_US">
       <Text>Thermopylae</Text>
     </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_1_DESC" Language="en_US">
-      <Text>Kill 10 units with the Hoplite unique unit</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_1_DETAILS_ROW_1" Language="en_US">
-      <Text>Control all capitals in the southern half of Europe at the end of the Classical Era : </Text>
-    </Replace>
-	<!-- Victory 2 -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_2_NAME" Language="en_US">
       <Text>Doric Columns</Text>
     </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_2_DESC" Language="en_US">
-      <Text>Build the Statue of Zeus and unlock all Classical Civics by the end of the Classical Era</Text>
-    </Replace>
-	<!-- Victory 3 -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_3_NAME" Language="en_US">
       <Text>Peloponnesian League</Text>
-    </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_3_DESC" Language="en_US">
-      <Text>Fully upgrade 2 Hoplite unique units and conquer 5 cities with Hoplites</Text>
     </Replace>
 	
 	<!-- JULIUS CAESAR -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_NAME" Language="en_US">
-      <Text>Veni, Vidi, Vici</Text>
+      <Text>Veni</Text>
     </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_DESC" Language="en_US">
-      <Text>Control all capitals in the southern half of Europe at the end of the Classical Era</Text>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_2_NAME" Language="en_US">
+      <Text>Vidi</Text>
     </Replace>
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_DETAILS_ROW_1" Language="en_US">
-      <Text>Control all capitals in the southern half of Europe at the end of the Classical Era : </Text>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_3_NAME" Language="en_US">
+      <Text>Vici</Text>
+    </Replace>
+	
+	<!-- RAMSES -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_RAMSES_1_NAME" Language="en_US">
+      <Text>Monuments of the Pharaohs</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_RAMSES_2_NAME" Language="en_US">
+      <Text>The New Kingdom</Text>
+    </Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_RAMSES_3_NAME" Language="en_US">
+      <Text>Karnak</Text>
     </Replace>
 	
 	<!-- INSERT LEADER VICTORY TEXT ABOVE -->

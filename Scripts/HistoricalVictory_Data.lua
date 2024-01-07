@@ -75,7 +75,42 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_GREEK_HOPLITE", count = 2},
-                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_GREEK_HOPLITE", count = 5}, -- TODO
+                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_GREEK_HOPLITE", count = 5},
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
+	LEADER_JULIUS_CAESAR = {
+        {
+			id = "GALLIC_WARS",
+			index = "1",
+            year = -50,
+			era = nil,
+            objectives = {
+                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_ROMAN_FORT", count = 5},
+                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_ROMAN_LEGION", count = 5},
+            },
+            score = 1
+        },
+        {
+            id = "BREAD_AND_CIRCUSES",
+			index = "2",
+            year = nil,
+			era = nil,
+            objectives = {
+                {type = "WONDER_BUILT_CITIES_IN_RANGE", id = "BUILDING_COLOSSEUM", count = 6, range = 6}, -- TODO
+            },
+            score = 1
+        },
+        {
+            id = "DICTATOR_PERPETUO",
+			index = "3",
+			year = nil,
+			era = nil,
+            objectives = {
+                {type = "UNIT_CONQUER_CITY_COUNT_WITH_ARMY", id = "SEA", count = 8}, -- TODO
             },
             score = 1
         },
@@ -91,7 +126,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_PYRAMID"},
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_SPHINX", count = 1},
-				{type = "WONDER_ADJACENT", id = "BUILDING_PYRAMID", adjacentImprovement = "IMPROVEMENT_SPHINX"},
+				{type = "WONDER_ADJACENT_IMPROVEMENT", wonder = "BUILDING_PYRAMID", improvement = "IMPROVEMENT_SPHINX"},
             },
             score = 1
         },
@@ -181,7 +216,7 @@ HSD_victoryConditionsConfig = {
             score = 1 
         },
         {
-            id = "GALLIC_WARRIORS",
+            id = "PAINTED_WARRIORS",
 			index = "3",
 			year = nil,
 			era = nil,
@@ -375,24 +410,24 @@ HSD_victoryConditionsConfig = {
             year = 100,
 			era = nil,
             objectives = {
-                -- {type = "UNIT_COUNT", id = "UNIT_WARRIOR", count = 1},
-                -- {type = "DISTRICT_COUNT", id = "DISTRICT_CITY_CENTER", count = 1},
-                -- {type = "ROUTE_COUNT", count = 1},
-                {type = "UNIT_COUNT", id = "UNIT_ROMAN_LEGION", count = 1},
+                -- {type = "WONDER_BUILT", id = "BUILDING_COLOSSEUM"},
+                -- {type = "DISTRICT_COUNT", id = "DISTRICT_BATH", count = 4},
+                -- {type = "ROUTE_COUNT", count = 15},
+                {type = "ROUTE_COUNT", count = 1},
             },
-            score = 1 -- Score awarded for completing this set of objectives
+            score = 1
         },
         {
             id = "IMPERIUM_ROMANUM",
 			index = "2",
-            year = 200,
-			era = nil,
+            year = nil,
+			era = "ERA_CLASSICAL",
             objectives = {
                 -- {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
                 -- {type = "FOREIGN_CONTINENT_CITIES", count = 5},
-                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_MINE", count = 1},
+                {type = "ROUTE_COUNT", count = 1},
             },
-            score = 1 -- Score awarded for completing this set of objectives
+            score = 1
         },
         {
             id = "MARE_NOSTRUM",
@@ -400,10 +435,10 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = nil,
             objectives = {
-                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
-                -- {type = "BORDERING_CITY_COUNT", count = 1},
+                -- {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
+                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_ROMAN_LEGION", count = 5},
             },
-            score = 1 -- Score awarded for completing this set of objectives
+            score = 1
         },
 		-- end of victory conditions
     },

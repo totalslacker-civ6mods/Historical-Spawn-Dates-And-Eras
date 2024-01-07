@@ -35,7 +35,7 @@
       <Text>Historical Victory Mode</Text>
     </Replace>
  	<Replace Tag="LOC_GAMEMODE_HISTORICAL_VICTORY_DESCRIPTION" Language="en_US">
-      <Text>Civilizations receive three unique victory conditions based on their historical acheivements and failures. These consist of multiple objectives that must be completed for each victory condition. Completing an entire victory conditon awards era score. Completing all three victory conditions unlocks the Historical Victory project which can be completed at any time to claim the victory.</Text>
+      <Text>Civilizations and Leaders receive three unique Historical Victories. These consist of multiple objectives that must be completed for each victory condition. Completing all three victories unlocks the Historical Victory project which can be completed at any time to claim the victory.</Text>
     </Replace>
  	<Replace Tag="LOC_MAP_HSD_ADVANCED_OPTIONS_NAME" Language="en_US">
       <Text>Show Advanced Options</Text>

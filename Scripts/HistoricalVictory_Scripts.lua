@@ -27,7 +27,7 @@ local iFreeCitiesPlayerID = PlayerManager.GetFreeCitiesPlayerID()
 local bCivilizationVictory = MapConfiguration.GetValue("CivilizationVictoryOnly")
 
 -- ===========================================================================
--- Helper functions
+-- Cache Functions
 -- ===========================================================================
 local function GetVictoryPlayerType(playerID)
     local CivilizationTypeName = PlayerConfigurations[playerID]:GetCivilizationTypeName()
@@ -72,6 +72,28 @@ local function CacheVictoryConditions()
 
     -- Store the cached conditions for later use
     Game:SetProperty("HSD_PlayerVictoryConditions", playerVictoryConditions)
+end
+
+-- ===========================================================================
+-- Helper functions
+-- ===========================================================================
+
+function ConvertYearToAnnoDomini(currentTurnYear)
+	local calendarDateBC = false
+	local calendarTurnString = "nil"
+	if (currentTurnYear < 0) then
+		-- print("Converting negative year number to calendar date")
+		calendarDateBC = currentTurnYear*(-1)
+		if calendarDateBC then
+			calendarTurnString = tostring(calendarDateBC).."BC"
+			-- print("Current turn year is "..tostring(currentTurnYear)..". Converted to calendar year is "..tostring(calendarDateBC))
+		else
+			calendarTurnString = tostring(currentTurnYear)
+		end
+	else
+		calendarTurnString = tostring(currentTurnYear).."AD"
+	end
+	return calendarTurnString
 end
 
 local function DoesPlayerHaveVictoryCondition(playerID, conditionID)
@@ -336,7 +358,7 @@ local function GetBuildingCount(iPlayer, buildingType)
 end
 
 local function GetImprovementCount(iPlayer, improvementType)
-	print("Checking for total number of "..tostring(improvementType).." owned by player "..tostring(iPlayer))
+	-- print("Checking for total number of "..tostring(improvementType).." owned by player "..tostring(iPlayer))
 	local player = Players[iPlayer]
 	local playerCities = player:GetCities()
 	local improvementCount = 0
@@ -355,7 +377,7 @@ local function GetImprovementCount(iPlayer, improvementType)
 				local plot = Map.GetPlotByIndex(kCoordinates.plotID)
 				if plot and plot:GetImprovementType() == improvementIndex then
 					improvementCount = improvementCount + 1
-					print("Improvement detected. Total count is "..tostring(improvementCount))
+					-- print("Improvement detected. Total count is "..tostring(improvementCount))
 				end
 			end
 		end
@@ -365,7 +387,7 @@ local function GetImprovementCount(iPlayer, improvementType)
 end
 
 local function GetTotalRoutePlots(iPlayer)
-	print("Checking for total number of route plots owned by player "..tostring(iPlayer))
+	-- print("Checking for total number of route plots owned by player "..tostring(iPlayer))
 	local player = Players[iPlayer]
 	local playerCities = player:GetCities()
 	local routeCount = 0
@@ -377,7 +399,7 @@ local function GetTotalRoutePlots(iPlayer)
 				local plot = Map.GetPlotByIndex(kCoordinates.plotID)
 				if plot:IsRoute() then
 					routeCount = routeCount + 1
-					print("plot isRoute detected. Total count is "..tostring(routeCount))
+					-- print("plot isRoute detected. Total count is "..tostring(routeCount))
 				end
 			end
 		end
@@ -577,7 +599,8 @@ end
 local function GetCitiesOnForeignContinents(playerID)
     local player = Players[playerID]
     local capital = player:GetCities():GetCapitalCity()
-    local capitalContinentID = capital:GetContinentType()
+    local iX, iY = capital:GetX(), capital:GetY()
+    local capitalContinentID = Map.GetPlot(iX, iY):GetContinentType()
     local foreignCityCount = 0
 
     for _, city in player:GetCities():Members() do
@@ -816,6 +839,86 @@ local function HSD_OnBuildingConstructed(playerID, cityID, buildingID, plotID, b
     end
 end
 
+-- function HSD_OnCityConquered(capturerID,  ownerID, cityID , cityX, cityY)
+--     print("HSD_OnCityConquered detected")
+--     local player = Players[capturerID]
+--     local bIsValid = false
+--     local plot = Map.GetPlot(cityX, cityY)
+    
+--     local function GetPlotUnitsAndSetProperty(unitPlot)
+--         if unitPlot and (unitPlot:GetUnitCount() > 0) then
+--             for _, unit in ipairs(Units.GetUnitsInPlot(unitPlot)) do
+--                 if(unit ~= nil) then
+--                     if unit:GetOwner() == capturerID then
+--                         local unitTypeName = GameInfo.Units[unit:GetType()].UnitType
+--                         local unitKey = "HSD_"..tostring(unitTypeName).."_CONQUER_COUNT"
+--                         local conquerCount = player:GetProperty(unitKey) or 0
+--                         conquerCount = conquerCount + 1
+--                         player:SetProperty(unitKey, conquerCount)
+--                         bIsValid = true
+--                     end
+--                 end
+--             end
+--         end
+--     end
+
+--     local unitsOnPlot = GetPlotUnitsAndSetProperty(plot)
+    
+--     if(bIsValid == false) then
+--         -- Check adjacent plots
+--         for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
+--             local adjacentPlot = Map.GetAdjacentPlot(cityX, cityY, direction);
+--             if (adjacentPlot ~= nil and bIsValid ~= true) then
+--                 local unitsOnAdjacentPlot = GetPlotUnitsAndSetProperty(adjacentPlot)
+--             end
+--         end
+--     end
+-- end
+
+local function HSD_OnCityConquered(capturerID, ownerID, cityID, cityX, cityY)
+    print("HSD_OnCityConquered detected")
+    local player = Players[capturerID]
+    local countedUnitTypes = {}
+
+    local function IsMilitaryUnit(unit)
+        local unitType = unit:GetType()
+        local unitInfo = GameInfo.Units[unitType]
+        return (unitInfo.FormationClass == "FORMATION_CLASS_LAND_COMBAT") or (unitInfo.FormationClass == "FORMATION_CLASS_NAVAL")
+    end
+
+    local function ProcessUnit(unit)
+        if unit and unit:GetOwner() == capturerID and IsMilitaryUnit(unit) then
+            local unitTypeName = GameInfo.Units[unit:GetType()].UnitType
+            if not countedUnitTypes[unitTypeName] then
+                local unitKey = "HSD_"..tostring(unitTypeName).."_CONQUER_COUNT"
+                local conquerCount = player:GetProperty(unitKey) or 0
+                conquerCount = conquerCount + 1
+                player:SetProperty(unitKey, conquerCount)
+                countedUnitTypes[unitTypeName] = true
+            end
+        end
+    end
+
+    local function GetPlotUnits(unitPlot)
+        if unitPlot and unitPlot:GetUnitCount() > 0 then
+            for _, unit in ipairs(Units.GetUnitsInPlot(unitPlot)) do
+                ProcessUnit(unit)
+            end
+        end
+    end
+
+    GetPlotUnits(Map.GetPlot(cityX, cityY)) -- Process units on the city plot
+
+    -- Check adjacent plots
+    for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
+        local adjacentPlot = Map.GetAdjacentPlot(cityX, cityY, direction)
+        if adjacentPlot then
+            GetPlotUnits(adjacentPlot)
+        end
+    end
+end
+
+
 local function HSD_OnWonderConstructed(iX, iY, buildingIndex, playerIndex, cityID, iPercentComplete, iUnknown)
     if iPercentComplete == 100 then  -- Ensure the wonder is fully constructed
         local buildingInfo = GameInfo.Buildings[buildingIndex]
@@ -861,7 +964,7 @@ local function HSD_OnGreatPersonActivated(UnitOwner, unitID, GreatPersonType, Gr
             Game:SetProperty(greatPersonKey, UnitOwner)
             print("Recorded first activation of great person class " .. greatPersonClassInfo.GreatPersonClassType .. " by player " .. tostring(UnitOwner))
         else
-            print(greatPersonClassInfo.GreatPersonClassType .. " has already been activated by another player.")
+            -- print(greatPersonClassInfo.GreatPersonClassType .. " has already been activated by another player.")
         end
     else
         print("Error: GreatPersonClass not found for " .. tostring(GreatPersonClass))
@@ -869,12 +972,16 @@ local function HSD_OnGreatPersonActivated(UnitOwner, unitID, GreatPersonType, Gr
 end
 
 local function HSD_OnPillage(UnitOwner, unitID, ImprovementType, BuildingType)
+    -- print("HSD_OnPillage detected...")
+    -- print("Pillaging player is #"..tostring(UnitOwner))
     local player = Players[UnitOwner]
     if player and IsHistoricalVictoryPlayer(UnitOwner) then
+        -- print("Player is a historical victory player")
         local unit = player:GetUnits():FindID(unitID)
         if unit then
             -- Set pillage count for unitType as player property
-            local unitTypeName = unit:GetUnitType()
+            local unitTypeName = GameInfo.Units[unit:GetType()].UnitType
+            -- print("unitTypeName is "..tostring(unitTypeName))
             local unitPillageCount = player:GetProperty("HSD_"..tostring(unitTypeName).."_PILLAGE_COUNT") or 0
             unitPillageCount = unitPillageCount + 1
             player:SetProperty("HSD_"..tostring(unitTypeName).."_PILLAGE_COUNT", unitPillageCount)
@@ -901,12 +1008,17 @@ local function HSD_OnPillage(UnitOwner, unitID, ImprovementType, BuildingType)
 end
 
 local function HSD_OnUnitKilled(killedPlayerID, killedUnitID, playerID, unitID)
+    -- print("HSD_OnUnitKilled detected...")
+    -- print("Killing player is #"..tostring(playerID))
     local player = Players[playerID]
     if player and IsHistoricalVictoryPlayer(playerID) then
-        local unit = player:GetUnits():FindID(unitID)
+        -- print("Player is a historical victory player")
+        -- local unit = player:GetUnits():FindID(unitID)
+        local unit = UnitManager.GetUnit(playerID, unitID)
         if unit then
             -- Set kill count for unitType as player property
-            local unitTypeName = unit:GetUnitType()
+            local unitTypeName = GameInfo.Units[unit:GetType()].UnitType
+            -- print("unitTypeName is "..tostring(unitTypeName))
             local unitKillCount = player:GetProperty("HSD_"..tostring(unitTypeName).."_KILL_COUNT") or 0
             unitKillCount = unitKillCount + 1
             player:SetProperty("HSD_"..tostring(unitTypeName).."_KILL_COUNT", unitKillCount)
@@ -1078,11 +1190,17 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "TERRITORY_CONTROL" then
 			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
 			total = 1
+		elseif obj.type == "UNIT_CONQUER_CITY_COUNT" then
+			current = player:GetProperty("HSD_"..tostring(obj.id).."_CONQUER_COUNT") or 0
+			total = obj.count
 		elseif obj.type == "UNIT_COUNT" then
 			current = GetUnitCount(playerID, obj.id)
 			total = obj.count
 		elseif obj.type == "UNIT_KILL_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_KILL_COUNT") or 0
+			total = obj.count
+		elseif obj.type == "UNIT_PILLAGE_COUNT" then
+			current = player:GetProperty("HSD_"..tostring(obj.id).."_PILLAGE_COUNT") or 0
 			total = obj.count
 		elseif obj.type == "UNLOCK_ALL_ERA_CIVICS" then
 			current = HasUnlockedAllCivicsForEra(playerID, obj.id) and 1 or 0
@@ -1122,17 +1240,18 @@ function GetHistoricalVictoryConditions(iPlayer)
 	if not IsHistoricalVictoryPlayer(iPlayer) or not HasPlayerSpawned(iPlayer) then
 		return
 	end
-    local civType = PlayerConfigurations[iPlayer]:GetCivilizationTypeName()
+    local LeaderTypeName = PlayerConfigurations[iPlayer]:GetLeaderTypeName()
     local victoryConditionsCache = Game:GetProperty("HSD_PlayerVictoryConditions") or {}
     local conditionsForPlayer = victoryConditionsCache[iPlayer] or {}
 
     local currentYear = ExposedMembers.GetCalendarTurnYear(Game.GetCurrentGameTurn())
+    local annoDominiYear = ConvertYearToAnnoDomini(currentYear)
 	local gameEra = Game.GetEras():GetCurrentEra()
 
     for index, condition in ipairs(conditionsForPlayer or {}) do
         local isTimeConditionMet = condition.year == nil or (currentYear <= condition.year)
 		local isEraConditionMet = condition.era == nil or (GameInfo.Eras[condition.era].Index == gameEra)
-        local isEraLimitMet = condition.eraLimit == nil or ((condition.eraLimit == "END_ERA") and (ExposedMembers.GetEraCountdown() == 1))
+        local isEraLimitMet = condition.eraLimit == nil or ((condition.eraLimit == "END_ERA") and (ExposedMembers.GetEraCountdown() > 0))
         local victoryPropertyName = "HSD_HISTORICAL_VICTORY_" .. index
         local victoryAlreadySet = player:GetProperty(victoryPropertyName)
 
@@ -1143,6 +1262,19 @@ function GetHistoricalVictoryConditions(iPlayer)
                 -- Add to victory score
                 local victoryScore = player:GetProperty("HSD_HISTORICAL_VICTORY_SCORE") or 0
                 player:SetProperty("HSD_HISTORICAL_VICTORY_SCORE", victoryScore + condition.score)
+                -- Generate popup
+                local eventKey = GameInfo.EventPopupData["HSD_HISTORICAL_VICTORY_POPUP"].Type
+                local eventEffectString = Locale.Lookup("LOC_HSD_EVENT_HISTORICAL_VICTORY_MESSAGE", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(condition.playerTypeName).."_"..tostring(condition.index).."_NAME"), tostring(annoDominiYear), Locale.Lookup(GameInfo.Leaders[LeaderTypeName].Name))
+                -- Show popup to all human players
+                local allPlayerIDs = PlayerManager.GetAliveIDs()
+                for _, playerID in ipairs(allPlayerIDs) do
+                    local otherPlayer = Players[playerID]
+                    if otherPlayer:IsHuman() then
+                        ReportingEvents.Send("EVENT_POPUP_REQUEST", { ForPlayer = playerID, EventKey = eventKey, EventEffect = eventEffectString })
+                    end
+                end
+                -- Show popup to local player
+                -- ReportingEvents.Send("EVENT_POPUP_REQUEST", { ForPlayer = iPlayer, EventKey = eventKey, EventEffect = eventEffectString })
             end
         end
         if not victoryAlreadySet and ((not isTimeConditionMet) or ((not isEraConditionMet) and (GameInfo.Eras[condition.era].Index < gameEra))) then
@@ -1152,16 +1284,25 @@ function GetHistoricalVictoryConditions(iPlayer)
     end
 
     -- Create victory building if score threshold is reached
+    local victoryPropertyName = "HSD_HISTORICAL_VICTORY_PROJECT_GRANTED"
+    local victoryAlreadySet = player:GetProperty(victoryPropertyName)
     local totalVictoryScore = player:GetProperty("HSD_HISTORICAL_VICTORY_SCORE")
-    if totalVictoryScore and totalVictoryScore >= iVictoryScoreToWin then
+    if not victoryAlreadySet and totalVictoryScore and totalVictoryScore >= iVictoryScoreToWin then
 		local victoryProjectBuilding = "BUILDING_HISTORICAL_VICTORY"
 		if GameInfo.Buildings[victoryProjectBuilding] then
             local capital = player:GetCities():GetCapitalCity()
 			local cityBuildQueue = capital:GetBuildQueue()
             if not capital:GetBuildings():HasBuilding(victoryProjectBuilding) then
+                -- Create dummy building to apply effect
                 cityBuildQueue:CreateIncompleteBuilding(GameInfo.Buildings[victoryProjectBuilding].Index, 100)
+                -- Set property
+                player:SetProperty(victoryPropertyName, true)
+                -- Show popup
+                local eventKey = GameInfo.EventPopupData["HSD_HISTORICAL_VICTORY_UNLOCKED_POPUP"].Type
+                local eventEffectString = Locale.Lookup("LOC_HSD_EVENT_HISTORICAL_VICTORY_UNLOCKED_MESSAGE", Locale.Lookup(GameInfo.Leaders[LeaderTypeName].Name))
+                ReportingEvents.Send("EVENT_POPUP_REQUEST", { ForPlayer = iPlayer, EventKey = eventKey, EventEffect = eventEffectString })
             end
-		end	
+		end
     end
 end
 
@@ -1178,6 +1319,7 @@ function HSD_InitVictoryMode()
 	Events.WonderCompleted.Add(HSD_OnWonderConstructed)
 	Events.UnitKilledInCombat.Add(HSD_OnUnitKilled)
     GameEvents.BuildingConstructed.Add(HSD_OnBuildingConstructed)
+    GameEvents.CityConquered.Add(HSD_OnCityConquered)
 	GameEvents.OnGreatPersonActivated.Add(HSD_OnGreatPersonActivated)
 	GameEvents.OnPillage.Add(HSD_OnPillage)
 	GameEvents.PlayerTurnStarted.Add(GetHistoricalVictoryConditions)

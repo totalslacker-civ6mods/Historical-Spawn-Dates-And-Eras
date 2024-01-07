@@ -15,27 +15,86 @@ print("Loading Historical Victory World Rankings replace UI...")
 -- ===========================================================================
 local function GetObjectiveDetails(objective)
     local detailsText = ""
-	local type = objective.type
-	if type == "BORDERING_CITY_COUNT" then
+    local type = objective.type
+
+    if type == "2_WONDERS_IN_CITY" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.firstID, objective.secondID)
+    elseif type == "6_POP_CITY_ABOVE_ARCTIC" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "BORDERING_CITY_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "BUILDING_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name), objective.count)
+    elseif type == "CIRCUMNAVIGATE_HOME_CONTINENT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "CITY_ADJACENT_TO_CAPITAL_SEA_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "CITY_WITH_FLOODPLAIN_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "CONTROL_ALL_CAPITAL_ADJACENT_RIVER" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "DISTRICT_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Districts[objective.id].Name), objective.count)
+    elseif type == "DISTRICT_ON_NUM_CONTINENTS" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Districts[objective.id].Name), objective.count)
+    elseif type == "FJORD_FORTRESSES" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "FIRST_BUILDING_CONSTRUCTED" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name))
+    elseif type == "FIRST_CIVIC_RESEARCHED" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Civics[objective.id].Name))
+    elseif type == "FIRST_GREAT_PERSON_CLASS" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.GreatPersonClasses[objective.id].Name))
+    elseif type == "FIRST_TECH_RESEARCHED" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Technologies[objective.id].Name))
+    elseif type == "FOREIGN_CONTINENT_CITIES" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "FULLY_UPGRADE_UNIT_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
+    elseif type == "GREAT_PEOPLE_ACTIVATED" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "HIGHEST_CITY_POPULATION" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "LAND_AREA_HOME_CONTINENT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.percent)
     elseif type == "IMPROVEMENT_COUNT" then
 		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Improvements[objective.id].Name), objective.count)
+    elseif type == "MINIMUM_CONTINENT_TECH_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.continent)
+    elseif type == "MOST_ACTIVE_TRADEROUTES_ALL" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "MOST_OUTGOING_TRADE_ROUTES" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "NUM_CITIES_POP_SIZE" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.cityNum, objective.popNum)
+    elseif type == "PROJECT_COMPLETED" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Projects[objective.id].Name))
+    elseif type == "ROUTE_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "SUZERAINTY_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "TERRITORY_CONTROL" then
-		local territoryTypeName = ""
-		if objective.territory == "SEA" then
-			territoryTypeName = "sea"
-		elseif objective.territory == "DESERT" then
-			territoryTypeName = "desert"
-		elseif objective.territory == "MOUNTAIN" then
-			territoryTypeName = "mountain range"
-		end
-		detailsText = Locale.Lookup("LOC_HSD_"..type, territoryTypeName, objective.minimumSize)
+        local territoryTypeName = objective.territory:lower()
+        detailsText = Locale.Lookup("LOC_HSD_"..type, territoryTypeName, objective.minimumSize)
+    elseif type == "UNIT_CONQUER_CITY_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
     elseif type == "UNIT_COUNT" then
-		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
-	else
-		detailsText = "Generic victory details text"
-	end
-	return detailsText
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
+    elseif type == "UNIT_KILL_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
+    elseif type == "UNIT_PILLAGE_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
+    elseif type == "UNLOCK_ALL_ERA_CIVICS" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Eras[objective.id].Name))
+    elseif type == "WONDER_ADJACENT_IMPROVEMENT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.wonder].Name), Locale.Lookup(GameInfo.Improvements[objective.improvement].Name))
+    elseif type == "WONDER_BUILT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name))
+    else
+        detailsText = "Generic victory details text for type: " .. type
+    end
+
+    return detailsText
 end
 
 local function GetVictoryTimeLimit(victory)
@@ -54,12 +113,17 @@ local function GetVictoryTimeLimit(victory)
 	end
 	if era then
 		if detailsText then
+			-- Append era after year
 			detailsText = detailsText..", "
+		else
+			-- No year
+			detailsText = ""
 		end
 		if eraLimit and (eraLimit == "END_ERA") then
-			detailsText = "End of "
+			-- Time condition only checked during the era countdown
+			detailsText = detailsText.."End of "
 		end
-		detailsText = Locale.Lookup(GameInfo.Eras[era].Name)
+		detailsText = detailsText .. Locale.Lookup(GameInfo.Eras[era].Name)
 	end
 	if not detailsText then
 		detailsText = ""
@@ -578,9 +642,10 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 					current = objectiveStatus.current
 					total = objectiveStatus.total
 					objectiveMet = objectiveStatus.objectiveMet
-					print("Current: " .. tostring(current))
-					print("Total: " .. tostring(total))
-					print("Objective Met: " .. tostring(objectiveMet))
+					-- print(tostring(objective.type))
+					-- print("Current: " .. tostring(current))
+					-- print("Total: " .. tostring(total))
+					-- print("Objective Met: " .. tostring(objectiveMet))
 				end
 				
 				if not objectiveStatus then objectiveStatus = 0 end -- nil check
@@ -1266,8 +1331,17 @@ function GetHistoricHeader(details:string, playerTypeName:string)
 		-- Iterate three times to generate the formatted header text for each of the three victory types.
 		-- Concatenate victory type name and description to the 'details' string, with proper color formatting.
 		-- The names and descriptions are dynamically retrieved based on the CivilizationTypeName and the iteration index (i).
-        for i = 1, 3 do
-            details = details .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_NAME") .. "[ENDCOLOR][NEWLINE][ICON_BULLET]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_DESC") .. "[NEWLINE]"
+        -- for i = 1, 3 do
+        --     details = details .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_NAME") .. "[ENDCOLOR][NEWLINE][ICON_BULLET]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_DESC") .. "[NEWLINE]"
+		-- end
+		for i, victories in ipairs(civilizationInfo) do	
+			details = details .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_NAME") .. "[ENDCOLOR] : [COLOR:NeutralCS]"..GetVictoryTimeLimit(victories).."[ENDCOLOR][NEWLINE][ICON_BULLET]"
+			local objectives = victories.objectives
+			for i, objective in ipairs(objectives) do
+				local objectiveDetails =  GetObjectiveDetails(objective)
+				details = details .. objectiveDetails .. ". "
+			end
+			details = details .. "[NEWLINE]"
         end
     else
         print("WARNING: GetHistoricHeader() did not detect a predefined Civilization. Using generic Civ details...")

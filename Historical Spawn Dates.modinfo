@@ -491,6 +491,7 @@
 				<File>Icons/HSD_Menu_Icon.dds</File>
 				<File>Icons/HSD_Popup.dds</File>
 				<File>Icons/HistoricalVictory_Icon.dds</File>
+				<File>Icons/HistoricalVictory_Popup.dds</File>
 				<File>Icons/ColonizationMode_Icon.dds</File>
 				<File>Icons/ColonizationMode_LoyalHarbors_Icon.dds</File>
 				<File>Icons/RagingBarbarians_Icon.dds</File>
@@ -520,7 +521,6 @@
 		  </Properties>
 		</ReplaceUIScript>
 		<UpdateText id="HSD_HistoricalVictory_Text" criteria="HSD_HistoricalVictory">
-			<File>Text/HistoricalVictoryText.sql</File>
 			<File>Text/HistoricalVictoryText.xml</File>
 		</UpdateText>
 	</InGameActions>	
@@ -653,6 +653,7 @@
 		<File>Icons/HSD_Icon.dds</File>
 		<File>Icons/HSD_Menu_Icon.dds</File>
 		<File>Icons/HSD_Popup.dds</File>
+		<File>Icons/HistoricalVictory_Popup.dds</File>
 		<File>Icons/HistoricalVictory_Icon.dds</File>
 		<File>Icons/HistoricalVictory_Background.dds</File>
 		<File>Icons/HistoricalVictory_Portrait.dds</File>
@@ -669,7 +670,6 @@
 		<File>Text/RagingBarbarians_Text.xml</File>
 		<File>Text/GameText.xml</File>
 		<File>Text/ConfigText.xml</File>
-		<File>Text/HistoricalVictoryText.sql</File>
 		<File>Text/HistoricalVictoryText.xml</File>
 		<File>Text/Civilopedia.sql</File>
 		<File>Text/CivilopediaText.sql</File>

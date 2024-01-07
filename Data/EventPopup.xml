@@ -3,5 +3,7 @@
 	<EventPopupData>
 		<Row Type="HSD_RAGING_BARBARIANS_INVASION_WARNING" Title="LOC_HSD_BARB_INVASION_TITLE" Description="LOC_HSD_BARB_INVASION_MESSAGE" FilterCondition="ANY" BackgroundImage="Raging_Barbarians_Invasion_Background.dds" ForegroundImage=""/>
 		<Row Type="HSD_LOADING_POPUP" Title="LOC_HSD_LOADING_TITLE" Description="LOC_HSD_LOADING_MESSAGE" FilterCondition="ANY" BackgroundImage="HSD_Popup.dds" ForegroundImage="" ImageText="LOC_HSD_LOADING_IMAGE_TEXT" />
+		<Row Type="HSD_HISTORICAL_VICTORY_POPUP" Title="LOC_HSD_EVENT_HISTORICAL_VICTORY_TITLE" Description="LOC_HSD_EVENT_HISTORICAL_VICTORY_MESSAGE" FilterCondition="ANY" BackgroundImage="HistoricalVictory_Popup.dds" ForegroundImage="" />
+		<Row Type="HSD_HISTORICAL_VICTORY_UNLOCKED_POPUP" Title="LOC_HSD_EVENT_HISTORICAL_VICTORY_UNLOCKED_TITLE" Description="LOC_HSD_EVENT_HISTORICAL_VICTORY_UNLOCKED_MESSAGE" FilterCondition="ANY" BackgroundImage="HistoricalVictory_Popup.dds" ForegroundImage="" />
 	</EventPopupData>
 </GameInfo>

@@ -110,8 +110,8 @@ function GetCalendarTurnYear(iTurn)
 		turnYearInt = -turnYearInt -- Make the year negative if it's BC
 	end
 	
-	print("GetCalendarTurnYear returned "..tostring(turnYearStr))
-	print("New value is "..tostring(turnYearInt))
+	-- print("GetCalendarTurnYear returned "..tostring(turnYearStr))
+	-- print("New value is "..tostring(turnYearInt))
 	return turnYearInt
 end
 
