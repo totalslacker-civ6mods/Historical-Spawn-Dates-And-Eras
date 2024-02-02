@@ -87,6 +87,12 @@
 	<Replace Tag="LOC_HSD_BUILDING_CONSTRUCTED_FLOATER" Language="en_US">
 	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : Build the first {2_buildingTypeName}</Text>
 	</Replace>
+	<Replace Tag="LOC_HSD_PROJECT_COMPLETED_FLOATER" Language="en_US">
+	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : Complete the {2_projectTypeName} project</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_PROJECT_COUNT_FLOATER" Language="en_US">
+	  <Text>[COLOR_Civ6Yellow]{1_playerVictoryName}[ENDCOLOR]  : Complete the {2_projectTypeName} project {3_count} times</Text>
+	</Replace>
 	
 	<!-- ----------------->
 	<!-- OBJECTIVE TEXT -->
@@ -96,14 +102,24 @@
 	<Replace Tag="LOC_HSD_2_WONDERS_IN_CITY" Language="en_US">
 	  <Text>Own the {1_firstWonderType} and {2_firstWonderType} wonders in the same city</Text>
 	</Replace>
+	
 	<Replace Tag="LOC_HSD_6_POP_CITY_ABOVE_ARCTIC" Language="en_US">
 	  <Text>Have a city with a population of at least {1_count} above the Arctic Circle</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_ALL_ACTIVE_ALLIANCES" Language="en_US">
+	  <Text>Have {1_count} alliances</Text>
+	</Replace>
+
 
 	<Replace Tag="LOC_HSD_BORDERING_CITY_COUNT" Language="en_US">
 	  <Text>Own {1_count} cities bordering other players</Text>
 	</Replace>
 
+	<Replace Tag="LOC_HSD_BUILDING_IN_CAPITAL" Language="en_US">
+	  <Text>Build a {1_buildingTypeName} in your capital</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_BUILDING_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_buildingTypeName} buildings</Text>
 	</Replace>
@@ -119,9 +135,17 @@
 	<Replace Tag="LOC_HSD_CITY_WITH_FLOODPLAIN_COUNT" Language="en_US">
 	  <Text>Own {1_count} cities with floodplains</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_COASTAL_CITY_COUNT" Language="en_US">
+	  <Text>Control {1_count} coastal cities</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_CONTROL_ALL_CAPITAL_ADJACENT_RIVER" Language="en_US">
-	  <Text>Control all river tiles adjacent to your capital</Text>
+	  <Text>Control the river adjacent to your capital</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_CITY_COUNT" Language="en_US">
+	  <Text>Control {1_count} cities</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_DISTRICT_COUNT" Language="en_US">
@@ -132,24 +156,32 @@
 	  <Text>Own {2_count} {1_districtTypeName} districts on {3_count} different continents</Text>
 	</Replace>
 
-	<Replace Tag="LOC_HSD_FJORD_FORTRESSES" Language="en_US">
-	  <Text>Have {1_count} Fjord Fortresses</Text>
+	<Replace Tag="LOC_HSD_FEATURE_COUNT" Language="en_US">
+	  <Text>Own {1_count} {2_feature} plots</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_FIRST_ALL_ACTIVE_ALLIANCES" Language="en_US">
+	  <Text>Be the first to have {1_count} alliances</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_FIRST_BUILDING_CONSTRUCTED" Language="en_US">
-	  <Text>Construct the {1_buildingTypeName} first</Text>
+	  <Text>Build the first {1_buildingTypeName}</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_FIRST_CIVIC_RESEARCHED" Language="en_US">
-	  <Text>Research the {1_civicTypeName} civic first</Text>
+	  <Text>First to unlock {1_civicTypeName}</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_FIRST_GREAT_PERSON_CLASS" Language="en_US">
-	  <Text>Recruit the first {1_greatPersonClassTypeName} Great Person</Text>
+	  <Text>Activate the first {1_greatPersonClassTypeName}</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_FIRST_TECH_RESEARCHED" Language="en_US">
-	  <Text>Research the {1_technologyTypeName} technology first</Text>
+	  <Text>First to research {1_technologyTypeName}</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_FIRST_WAR_DECLARED" Language="en_US">
+	  <Text>First war declared</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_FOREIGN_CONTINENT_CITIES" Language="en_US">
@@ -168,6 +200,18 @@
 	  <Text>Have the highest population city</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_HIGHEST_CULTURE" Language="en_US">
+	  <Text>Have the highest culture per turn</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_HIGHEST_TECH_COUNT" Language="en_US">
+	  <Text>Research the most technologies</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_HOLY_CITY_COUNT" Language="en_US">
+	  <Text>Control {1_count} holy cities</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_IMPROVEMENT_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_improvementTypeName} improvements</Text>
 	</Replace>
@@ -181,19 +225,39 @@
 	</Replace>
 
 	<Replace Tag="LOC_HSD_MOST_ACTIVE_TRADEROUTES_ALL" Language="en_US">
-	  <Text>Have the most active trade routes with all civilizations</Text>
+	  <Text>Have the most incoming and outgoing routes</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOST_CITIES_ON_HOME_CONTINENT" Language="en_US">
+	  <Text>Have the most cities on your home continent</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_MOST_OUTGOING_TRADE_ROUTES" Language="en_US">
 	  <Text>Have the most outgoing trade routes</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_NATURAL_WONDER_COUNT" Language="en_US">
+	  <Text>Control {1_count} Natural Wonders</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_NUM_CITIES_POP_SIZE" Language="en_US">
 	  <Text>Own {1_cityNum} cities with a population of at least {2_popNum}</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_OCCUPIED_CAPITAL_COUNT" Language="en_US">
+	  <Text>Control {1_count} occupied capitals</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_PROJECT_COMPLETED" Language="en_US">
 	  <Text>Complete the {1_projectTypeName} project</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_PROJECT_COUNT" Language="en_US">
+	  <Text>Complete the {1_projectTypeName} project {2_count} times</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_RESOURCE_MONOPOLY" Language="en_US">
+	  <Text>Own {2_percent}% of the world's {1_resourceType}</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_ROUTE_COUNT" Language="en_US">
@@ -209,7 +273,7 @@
 	</Replace>
 
 	<Replace Tag="LOC_HSD_UNIT_CONQUER_CITY_COUNT" Language="en_US">
-	  <Text>Conquer {2_count} cities with {1_unitTypeName} units</Text>
+	  <Text>Conquer {2_count} cities with the {1_unitTypeName}</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_UNIT_COUNT" Language="en_US">
@@ -228,16 +292,16 @@
 	  <Text>Unlock all civics from the {1_eraTypeName}</Text>
 	</Replace>
 
-	<Replace Tag="LOC_HSD_WONDER_ADJACENT" Language="en_US">
-	  <Text>Build the {1_buildingTypeName} wonder adjacent to a {2_adjacentImprovementTypeName} improvement</Text>
-	</Replace>
-
 	<Replace Tag="LOC_HSD_WONDER_ADJACENT_IMPROVEMENT" Language="en_US">
-	  <Text>Build the {1_buildingTypeName} wonder adjacent to a {2_improvementTypeName} improvement</Text>
+	  <Text>Build the {1_buildingTypeName} adjacent to a {2_improvementTypeName}</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_WONDER_BUILT" Language="en_US">
 	  <Text>Build the {1_buildingTypeName} wonder</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_WONDER_BUILT_CITIES_IN_RANGE" Language="en_US">
+	  <Text>Build {2_count} cities in {3_range} plots of the {1_buildingTypeName}</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_GENERIC_VICTORY_DETAILS_TEXT" Language="en_US">
@@ -248,6 +312,28 @@
 	<!-- CIVILIZATION VICTORY TEXT -->
 	<!-- ---------------------------->
 	
+	<!-- AZTEC -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_AZTEC_1_NAME" Language="en_US">
+		<Text>Chinampas</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_AZTEC_2_NAME" Language="en_US">
+		<Text>Flower Wars</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_AZTEC_3_NAME" Language="en_US">
+		<Text>Azatlan</Text>
+	</Replace>
+	
+	<!-- BABYLON -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_BABYLON_STK_1_NAME" Language="en_US">
+		<Text>Land of Two Rivers</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_BABYLON_STK_2_NAME" Language="en_US">
+		<Text>Walls of Babylon</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_BABYLON_STK_3_NAME" Language="en_US">
+		<Text>Mesopotamian Wonders</Text>
+	</Replace>
+
 	<!-- EGYPT -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_EGYPT_1_NAME" Language="en_US">
 	  <Text>Monuments of the Pharoahs</Text>
@@ -278,7 +364,7 @@
 	  <Text>Cradle of the West</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GREECE_3_NAME" Language="en_US">
-	  <Text>Koine Greek</Text>
+	  <Text>Philhellenes</Text>
 	</Replace>
 	
 	<!-- MAYA -->
@@ -297,10 +383,21 @@
 	  <Text>The Viking Age</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_2_NAME" Language="en_US">
-	  <Text>Fjord Fortresses</Text>
+	  <Text>Norse Expeditions</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NORWAY_3_NAME" Language="en_US">
 	  <Text>Land of the Midnight Sun</Text>
+	</Replace>
+	
+	<!-- NUBIA -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NUBIA_1_NAME" Language="en_US">
+	  <Text>Kingdom of Gold</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NUBIA_2_NAME" Language="en_US">
+	  <Text>Bowmen of Ta-Seti</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_NUBIA_3_NAME" Language="en_US">
+	  <Text>Monuments of Meroe</Text>
 	</Replace>
 	
 	<!-- PERSIA -->
@@ -312,6 +409,17 @@
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PERSIA_3_NAME" Language="en_US">
 	  <Text>King of Kings</Text>
+	</Replace>
+
+	<!-- PHOENICIA -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PHOENICIA_1_NAME" Language="en_US">
+		<Text>Mercantile Empire</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PHOENICIA_2_NAME" Language="en_US">
+		<Text>Refugees of Tyre</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PHOENICIA_3_NAME" Language="en_US">
+		<Text>Purple Dye Monopoly</Text>
 	</Replace>
 	
 	<!-- ROME -->
@@ -344,7 +452,7 @@
 	
 	<!-- GORGO -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_1_NAME" Language="en_US">
-      <Text>Thermopylae</Text>
+      <Text>Spartan Valor</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_2_NAME" Language="en_US">
       <Text>Doric Columns</Text>
@@ -353,15 +461,26 @@
       <Text>Peloponnesian League</Text>
     </Replace>
 	
+	<!-- HARALD (ALT) -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_HARALD_ALT_1_NAME" Language="en_US">
+		<Text>Great Heathen Army</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_HARALD_ALT_2_NAME" Language="en_US">
+		<Text>Council of the Althing</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_HARALD_ALT_3_NAME" Language="en_US">
+		<Text>Valhalla</Text>
+	</Replace>
+	
 	<!-- JULIUS CAESAR -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_1_NAME" Language="en_US">
-      <Text>Veni</Text>
+      <Text>Gallic Wars</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_2_NAME" Language="en_US">
-      <Text>Vidi</Text>
+      <Text>Bread and Circuses</Text>
     </Replace>
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_JULIUS_CAESAR_3_NAME" Language="en_US">
-      <Text>Vici</Text>
+      <Text>Mare Nostrum</Text>
     </Replace>
 	
 	<!-- RAMSES -->

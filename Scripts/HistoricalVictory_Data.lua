@@ -28,8 +28,8 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = nil,
             objectives = {
-                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 1},
-                {type = "TERRITORY_CONTROL", territory = "DESERT", minimumSize = 1},
+                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 6},
+                {type = "TERRITORY_CONTROL", territory = "DESERT", minimumSize = 6},
             },
             score = 1
         },
@@ -48,12 +48,14 @@ HSD_victoryConditionsConfig = {
 
     LEADER_GORGO = {
         {
-			id = "THERMOPYLAE",
+			id = "SPARTAN_VALOR",
 			index = "1",
             year = nil,
-			era = "ERA_CLASSICAL",
+			era = nil,
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_GREEK_HOPLITE", count = 10},
+                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_GREEK_HOPLITE", count = 1},
+                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_GREEK_HOPLITE", count = 5},
             },
             score = 1
         },
@@ -72,10 +74,45 @@ HSD_victoryConditionsConfig = {
             id = "PELOPONNESIAN_LEAGUE",
 			index = "3",
 			year = nil,
+			era = "ERA_CLASSICAL",
+            objectives = {
+                {type = "SUZERAINTY_COUNT", count = 1},
+                {type = "OCCUPIED_CAPITAL_COUNT", count = 1},
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
+    LEADER_HARALD_ALT = {
+        {
+			id = "GREAT_HEATHEN_ARMY",
+			index = "1",
+            year = nil,
 			era = nil,
             objectives = {
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_GREEK_HOPLITE", count = 2},
-                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_GREEK_HOPLITE", count = 5},
+                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_NORWEGIAN_BERSERKER", count = 5},
+            },
+            score = 1
+        },
+        {
+            id = "COUNCIL_OF_THE_ALTHING",
+			index = "2",
+            year = nil,
+			era = "ERA_MEDIEVAL",
+            objectives = {
+                {type = "SUZERAINTY_COUNT", count = 3},
+            },
+            score = 1
+        },
+        {
+            id = "VALHALLA",
+			index = "3",
+			year = nil,
+			era = "ERA_MEDIEVAL",
+            objectives = {
+                {type = "BUILDING_COUNT", id = "BUILDING_STAVE_CHURCH", count = 5},
+                {type = "HOLY_CITY_COUNT", count = 3},
             },
             score = 1
         },
@@ -90,7 +127,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_ROMAN_FORT", count = 5},
-                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_ROMAN_LEGION", count = 5},
+                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_ROMAN_LEGION", count = 3},
             },
             score = 1
         },
@@ -100,17 +137,17 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = nil,
             objectives = {
-                {type = "WONDER_BUILT_CITIES_IN_RANGE", id = "BUILDING_COLOSSEUM", count = 6, range = 6}, -- TODO
+                {type = "WONDER_BUILT_CITIES_IN_RANGE", id = "BUILDING_COLOSSEUM", count = 6, range = 6},
             },
             score = 1
         },
         {
-            id = "DICTATOR_PERPETUO",
+            id = "MARE_NOSTRUM",
 			index = "3",
 			year = nil,
 			era = nil,
             objectives = {
-                {type = "UNIT_CONQUER_CITY_COUNT_WITH_ARMY", id = "SEA", count = 8}, -- TODO
+                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
             },
             score = 1
         },
@@ -121,34 +158,34 @@ HSD_victoryConditionsConfig = {
         {
 			id = "MONUMENTS_OF_THE_PHARAOHS",
 			index = "1",
-            year = nil,
-			era = "ERA_ANCIENT",
+            year = -1700,
+			era = nil,
             objectives = {
-                {type = "WONDER_BUILT", id = "BUILDING_PYRAMID"},
-                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_SPHINX", count = 1},
-				{type = "WONDER_ADJACENT_IMPROVEMENT", wonder = "BUILDING_PYRAMID", improvement = "IMPROVEMENT_SPHINX"},
+				{type = "WONDER_ADJACENT_IMPROVEMENT", id = "BUILDING_PYRAMIDS", improvement = "IMPROVEMENT_SPHINX"},
             },
             score = 1
         },
         {
             id = "THE_NEW_KINGDOM",
 			index = "2",
-            year = nil,
-			era = "ERA_CLASSICAL",
+            year = -1070,
+			era = nil,
             objectives = {
-                {type = "CITY_WITH_FLOODPLAIN_COUNT", count = 5}, --TODO
-                {type = "UNIT_KILL_COUNT", id = "UNIT_EGYPTIAN_CHARIOT_ARCHER", count = 20},
+                {type = "CITY_COUNT", count = 4},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_EGYPTIAN_CHARIOT_ARCHER", count = 5},
             },
             score = 1
         },
         {
             id = "KARNAK",
 			index = "3",
-			year = nil,
-			era = nil,
+            year = nil,
+			era = "ERA_CLASSICAL",
+            eraLimit = "END_ERA",
             objectives = {
                 {type = "FIRST_GREAT_PERSON_CLASS", id = "GREAT_PERSON_CLASS_PROPHET"},
                 {type = "FIRST_BUILDING_CONSTRUCTED", id = "BUILDING_TEMPLE"},
+                {type = "HIGHEST_CULTURE"},
             },
             score = 1
         },
@@ -157,6 +194,79 @@ HSD_victoryConditionsConfig = {
 
     -- CIVILIZATIONS
 
+    CIVILIZATION_AZTEC = {
+        {
+			id = "CHINAMPAS",
+			index = "1",
+            year = nil,
+			era = "ERA_MEDIEVAL",
+            objectives = {
+                {type = "WONDER_BUILT", id = "BUILDING_HUEY_TEOCALLI"},
+                {type = "HIGHEST_CITY_POPULATION"},
+            },
+            score = 1
+        },
+        {
+            id = "FLOWER_WARS",
+			index = "2",
+            year = nil,
+            era = nil,
+            objectives = {
+                {type = "UNIT_KILL_COUNT", id = "UNIT_AZTEC_EAGLE_WARRIOR", count = 20},
+            },
+            score = 1
+        },
+        {
+            id = "AZATLAN",
+			index = "3",
+			year = nil,
+			era = "ERA_INDUSTRIAL",
+            eraLimt = "END_ERA",
+            objectives = {
+                {type = "MOST_CITIES_ON_HOME_CONTINENT"},
+                {type = "BUILDING_COUNT", id = "BUILDING_TLACHTLI", count = 4},
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
+    CIVILIZATION_BABYLON_STK = {
+        {
+			id = "LAND_OF_TWO_RIVERS",
+			index = "1",
+            year = nil,
+			era = nil,
+            objectives = {
+                {type = "CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL"},
+            },
+            score = 1
+        },
+        {
+            id = "WALLS_OF_BABYLON",
+			index = "2",
+            year = nil,
+            era = "ERA_CLASSICAL",
+            eraLimit = "END_ERA",
+            objectives = {
+                {type = "BUILDING_IN_CAPITAL", id = "BUILDING_CASTLE"},
+            },
+            score = 1
+        },
+        {
+            id = "MESOPOTAMIAN_WONDERS",
+			index = "3",
+			year = nil,
+			era = nil,
+            objectives = {
+                {type = "BUILDING_COUNT", id = "BUILDING_HANGING_GARDENS", count = 1},
+                {type = "BUILDING_COUNT", id = "BUILDING_GREAT_LIBRARY", count = 1},
+            },
+            score = 1
+        },
+		-- end of victory conditions
+    },
+
     CIVILIZATION_EGYPT = {
         {
 			id = "MONUMENTS_OF_THE_PHARAOHS",
@@ -164,9 +274,9 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = "ERA_ANCIENT",
             objectives = {
-                {type = "WONDER_BUILT", id = "BUILDING_PYRAMID"},
+                {type = "WONDER_BUILT", id = "BUILDING_PYRAMIDS"},
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_SPHINX", count = 1},
-				{type = "WONDER_ADJACENT_IMPROVEMENT", wonder = "BUILDING_PYRAMID", improvement = "IMPROVEMENT_SPHINX"},
+				{type = "WONDER_ADJACENT_IMPROVEMENT", id = "BUILDING_PYRAMIDS", improvement = "IMPROVEMENT_SPHINX"},
             },
             score = 1
         },
@@ -176,7 +286,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = nil,
             objectives = {
-                {type = "CONTROL_ALL_CAPITAL_ADJACENT_RIVER"}, --TODO
+                {type = "CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL"},
             },
             score = 1
         },
@@ -184,6 +294,7 @@ HSD_victoryConditionsConfig = {
             id = "BREADBASKET_OF_ANCIENT_WORLD",
 			index = "3",
 			year = -30,
+            yearLimit = "ON_YEAR",
 			era = nil,
             objectives = {
                 {type = "MOST_ACTIVE_TRADEROUTES_ALL"},
@@ -192,7 +303,7 @@ HSD_victoryConditionsConfig = {
         },
 		-- end of victory conditions
     },
-	
+
     CIVILIZATION_GAUL = {
         {
 			id = "DRUIDIC_LORE",
@@ -213,7 +324,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "BORDERING_CITY_COUNT", count = 5},
             },
-            score = 1 
+            score = 1
         },
         {
             id = "PAINTED_WARRIORS",
@@ -245,24 +356,26 @@ HSD_victoryConditionsConfig = {
 			index = "2",
             year = nil,
             era = "ERA_CLASSICAL",
+            eraLimit = "END_ERA",
             objectives = {
-                {type = "GREAT_PEOPLE_ACTIVATED", count = 4}, -- TODO
+                {type = "GREAT_PEOPLE_ACTIVATED", count = 4},
+                {type = "HIGHEST_CULTURE"},
             },
-            score = 1 
+            score = 1
         },
         {
-            id = "KOINE_GREEK",
+            id = "PHILHELLENES",
 			index = "3",
 			year = nil,
-			era = "ERA_CLASSICAL",
+			era = nil,
             objectives = {
-                {type = "DISTRICT_ON_NUM_CONTINENTS", id = "DISTRICT_ACROPOLIS", count = 3}, -- TODO
+                {type = "FIRST_NUM_ACTIVE_ALLIANCES", count = 5},
             },
             score = 1
         },
 		-- end of victory conditions
     },
-	
+
     CIVILIZATION_MAYA = {
         {
 			id = "CHICHEN_ITZA",
@@ -275,22 +388,22 @@ HSD_victoryConditionsConfig = {
             score = 1
         },
         {
-            id = "HOUSE_OF_KUHUL_AJAW",
+            id = "STAR_WARS",
 			index = "2",
             year = nil,
-            era = "ERA_MEDIEVAL",
+            era = nil,
             objectives = {
-                {type = "HIGHEST_CITY_POPULATION"},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_MAYAN_HULCHE", count = 15},
             },
-            score = 1 
+            score = 1
         },
         {
             id = "LONG_COUNT_CALENDAR",
 			index = "3",
-			year = nil,
-			era = "ERA_INDUSTRIAL",
+			year = 2012,
+			era = nil,
             objectives = {
-                {type = "MINIMUM_CONTINENT_TECH_COUNT", continent = "CONTINENT_EUROPE"},
+                {type = "HIGHEST_TECH_COUNT"},
             },
             score = 1
         },
@@ -309,14 +422,14 @@ HSD_victoryConditionsConfig = {
             score = 1
         },
         {
-            id = "FJORD_FORTRESSES",
+            id = "NORSE_EXPEDITIONS",
 			index = "2",
             year = nil,
             era = "ERA_MEDIEVAL",
             objectives = {
-                {type = "FJORD_FORTRESSES"}, -- TODO
+                {type = "NATURAL_WONDER_COUNT", count = 4},
             },
-            score = 1 
+            score = 1
         },
         {
             id = "LAND_OF_THE_MIDNIGHT_SUN",
@@ -324,13 +437,13 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = "ERA_RENAISSANCE",
             objectives = {
-                {type = "6_POP_CITY_ABOVE_ARCTIC", count = 5}, -- TODO
+                {type = "FEATURE_COUNT", id = "FEATURE_ICE", count = 15},
             },
             score = 1
         },
 		-- end of victory conditions
     },
-	
+
     CIVILIZATION_PERSIA = {
         {
 			id = "THE_IMMORTALS",
@@ -366,7 +479,7 @@ HSD_victoryConditionsConfig = {
         },
 		-- end of victory conditions
     },
-	
+
     CIVILIZATION_PHOENICIA = {
         {
 			id = "MERCANTILE_EMPIRE",
@@ -385,18 +498,18 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = "ERA_CLASSICAL",
             objectives = {
-                {type = "PROJECT_COMPLETED", id = "PROJECT_COTHON_CAPITAL_MOVE"}, -- TODO
-                {type = "CITY_ADJACENT_TO_CAPITAL_SEA_COUNT", count = 5}, -- TODO
+                {type = "PROJECT_COUNT", id = "PROJECT_COTHON_CAPITAL_MOVE", count = 1},
+                {type = "COASTAL_CITY_COUNT", count = 5},
             },
             score = 1
         },
         {
-            id = "PHOENICIAN_VOYAGES",
+            id = "PURPLE_DYE_MONOPOLY",
 			index = "3",
 			year = nil,
-			era = "ERA_MEDIEVAL",
+			era = nil,
             objectives = {
-                {type = "CIRCUMNAVIGATE_HOME_CONTINENT"}, -- TODO
+                {type = "RESOURCE_MONOPOLY", id = "RESOURCE_DYES", percent = 60},
             },
             score = 1
         },
@@ -413,7 +526,7 @@ HSD_victoryConditionsConfig = {
                 -- {type = "WONDER_BUILT", id = "BUILDING_COLOSSEUM"},
                 -- {type = "DISTRICT_COUNT", id = "DISTRICT_BATH", count = 4},
                 -- {type = "ROUTE_COUNT", count = 15},
-                {type = "ROUTE_COUNT", count = 1},
+                {type = "WONDER_BUILT_CITIES_IN_RANGE", id = "BUILDING_MONUMENT", count = 6, range = 6},
             },
             score = 1
         },
@@ -425,7 +538,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 -- {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
                 -- {type = "FOREIGN_CONTINENT_CITIES", count = 5},
-                {type = "ROUTE_COUNT", count = 1},
+                {type = "FIRST_WAR_DECLARED"},
             },
             score = 1
         },
@@ -436,13 +549,13 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 -- {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
-                {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_ROMAN_LEGION", count = 5},
+                {type = "FIRST_NUM_ACTIVE_ALLIANCES", count = 5},
             },
             score = 1
         },
 		-- end of victory conditions
     },
-	
+
     CIVILIZATION_SUMERIA = {
         {
 			id = "CRADLE_OF_CIVILIZATION",
@@ -452,6 +565,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "FIRST_BUILDING_CONSTRUCTED", id = "BUILDING_LIBRARY"},
                 {type = "FIRST_CIVIC_RESEARCHED", id = "CIVIC_EARLY_EMPIRE"},
+                {type = "FIRST_WAR_DECLARED"},
             },
             score = 1
         },
@@ -472,7 +586,7 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = "ERA_ANCIENT",
             objectives = {
-                {type = "UNIT_KILL_COUNT", id = "UNIT_SUMERIAN_WAR_CART", count = 10},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_SUMERIAN_WAR_CART", count = 5},
 				{type = "FIRST_GREAT_PERSON_CLASS", id = "GREAT_PERSON_CLASS_WRITER"},
             },
             score = 1

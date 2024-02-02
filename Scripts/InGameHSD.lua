@@ -17,7 +17,7 @@ LuaEvents = ExposedMembers.LuaEvents
 
 local defaultQuickMovement 	= UserConfiguration.GetValue("QuickMovement")
 local defaultQuickCombat 	= UserConfiguration.GetValue("QuickCombat")
-local defaultAutoEndTurn	= UserConfiguration.GetValue("AutoEndTurn") 
+local defaultAutoEndTurn	= UserConfiguration.GetValue("AutoEndTurn")
 
 ----------------------------------------------------------------------------------------
 -- Timeline Functions
@@ -109,7 +109,7 @@ function GetCalendarTurnYear(iTurn)
 	if isBC then
 		turnYearInt = -turnYearInt -- Make the year negative if it's BC
 	end
-	
+
 	-- print("GetCalendarTurnYear returned "..tostring(turnYearStr))
 	-- print("New value is "..tostring(turnYearInt))
 	return turnYearInt
@@ -185,7 +185,7 @@ function CheckCityCapital(pPlayerID, pCityID)
 			end
 		elseif pCity:IsOriginalCapital() and (pCity:GetOriginalOwner() ~= pCity:GetOwner()) then
 			print("Found occupied capital")
-			bCapital = false			
+			bCapital = false
 		elseif pCity:IsCapital() then
 			-- New capital
 			print("Found new capital")
@@ -194,18 +194,18 @@ function CheckCityCapital(pPlayerID, pCityID)
 			-- Other cities
 			print("Found non-capital city")
 			bCapital = false
-		end	
+		end
 	end
 	return bCapital
 end
 
-function CheckCityOriginalCapital(pPlayerID, pCityID)
-	local pPlayer = Players[pPlayerID]
+function CheckCityOriginalCapital(iPlayer, cityID)
+	local pPlayer = Players[iPlayer]
 	local pCity = CityManager.GetCity(iPlayer, cityID)
 	local bOriginalCapital = false
-	-- if pCity:IsOriginalCapital() then 
+	-- if pCity:IsOriginalCapital() then
 		-- print("IsOriginalCapital is "..tostring(pCity:IsOriginalCapital()))
-		-- bOriginalCapital = true 
+		-- bOriginalCapital = true
 	-- end
 	if pPlayer:IsMajor() and pCity then
 		if pCity:IsOriginalCapital() and pCity:GetOriginalOwner() == pCity:GetOwner() then
@@ -221,7 +221,7 @@ function CheckCityOriginalCapital(pPlayerID, pCityID)
 		elseif pCity:IsOriginalCapital() and pCity:GetOriginalOwner() ~= pCity:GetOwner() then
 			local pOriginalOwner = pCity:GetOriginalOwner()
 			print("Found occupied capital")
-			return pOriginalOwner			
+			return pOriginalOwner
 		elseif pCity:IsCapital() then
 			-- New capital
 			print("Found new capital")
@@ -230,7 +230,7 @@ function CheckCityOriginalCapital(pPlayerID, pCityID)
 			-- Other cities
 			print("Found non-capital city")
 			return false
-		end	
+		end
 	end
 	return bOriginalCapital
 end
@@ -241,11 +241,11 @@ end
 
 -- all credit for the code below goes to Tiramasu, taken from the Free City States mod
 function GetPlayerCityUIDatas(pPlayerID, pCityID)
-	local CityUIDataList = {}	
+	local CityUIDataList = {}
 	local pPlayer = Players[pPlayerID]
-	local pCity = pPlayer:GetCities():FindID(pCityID)	
-	if pCity then	
-		local kCityUIDatas :table = {	
+	local pCity = pPlayer:GetCities():FindID(pCityID)
+	if pCity then
+		local kCityUIDatas :table = {
 			iPosX = nil,
 			iPosY = nil,
 			iCityID = nil,
@@ -255,18 +255,18 @@ function GetPlayerCityUIDatas(pPlayerID, pCityID)
 			CityBuildings = {},
 			CityReligions = {},
 			-- CityPlotImprovements = {},
-		}		
+		}
 		--General City Datas:
 		kCityUIDatas.iPosX = pCity:GetX()
-		kCityUIDatas.iPosY = pCity:GetY()		
+		kCityUIDatas.iPosY = pCity:GetY()
 		kCityUIDatas.iCityID = pCity:GetID()
 		kCityUIDatas.sCityName = pCity:GetName()
 		--City Tiles Datas:
-		local kCityPlots :table = Map.GetCityPlots():GetPurchasedPlots( pCity )				
+		local kCityPlots :table = Map.GetCityPlots():GetPurchasedPlots( pCity )
 		for _,plotID in pairs(kCityPlots) do
 			local pPlot:table = Map.GetPlotByIndex(plotID)
 			local kCoordinates:table = {
-				iX = pPlot:GetX(), 
+				iX = pPlot:GetX(),
 				iY = pPlot:GetY(),
 				plotID = pPlot:GetIndex(),
 				plotImprovementIndex = pPlot:GetImprovementType()
@@ -279,20 +279,20 @@ function GetPlayerCityUIDatas(pPlayerID, pCityID)
 			-- table.insert(kCityUIDatas.CityPlotImprovements, kImprovement)
 		end
 		--City District Datas:
-		local pCityDistricts :table	= pCity:GetDistricts()			
+		local pCityDistricts :table	= pCity:GetDistricts()
 		for _, pDistrict in pCityDistricts:Members() do
 			table.insert(kCityUIDatas.CityDistricts, {
-				iPosX = pDistrict:GetX(), 
-				iPosY = pDistrict:GetY(), 
-				iType = pDistrict:GetType(), 
+				iPosX = pDistrict:GetX(),
+				iPosY = pDistrict:GetY(),
+				iType = pDistrict:GetType(),
 				bPillaged = pCityDistricts:IsPillaged(pDistrict:GetType()),
 			})
 		end
 		--City Buildings Datas: (actually these Datas can also be accessed in gameplay context)
 		local pCityBuildings = pCity:GetBuildings()
 		for pBuilding in GameInfo.Buildings() do
-			if( pCityBuildings:HasBuilding(pBuilding.Index) ) then				
-				table.insert(kCityUIDatas.CityBuildings, {				
+			if( pCityBuildings:HasBuilding(pBuilding.Index) ) then
+				table.insert(kCityUIDatas.CityBuildings, {
 					iBuildingID = pBuilding.Index,
 					bIsPillaged = pCityBuildings:IsPillaged(pBuilding.Index),
 				})
@@ -308,7 +308,7 @@ function GetPlayerCityUIDatas(pPlayerID, pCityID)
 		end
 		--Save all City Datas:
 		table.insert(CityUIDataList, kCityUIDatas)
-	end	
+	end
 	return CityUIDataList
 end
 
@@ -351,7 +351,7 @@ function HSD_GetTerritoryCache()
 			end
 		end
 	end
-	
+
 	return territoryCache
 end
 
@@ -383,6 +383,124 @@ function HSD_GetTotalIncomingRoutes(playerID)
     return totalIncomingRoutes
 end
 
+function HSD_GetRiverPlots(plot, plotIndex)
+    print("HSD_GetRiverPlots initiated")
+    local riverPlotIndexes = {}
+	local riverTypeID = -1 -- River IDs are positive. Negative number represents no river detected.
+
+    if plot:IsRiver() then
+        print("River detected on plot")
+        local pRivers = RiverManager.EnumerateRivers(plotIndex)
+        if pRivers then
+            for _, pRiver in pairs(pRivers) do
+				if pRiver.TypeID then
+					riverTypeID = pRiver.TypeID
+				end
+                if pRiver.Edges then
+                    for _, edgeTable in ipairs(pRiver.Edges) do
+                        -- Assuming each edgeTable contains two plot indexes
+                        for _, edgePlotIndex in ipairs(edgeTable) do
+                            -- Add the plot index to the table if it's not already there
+                            if not riverPlotIndexes[edgePlotIndex] then
+                                riverPlotIndexes[edgePlotIndex] = true
+                                print("Added plot index:", edgePlotIndex)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    else
+        print("River not detected on plot")
+    end
+
+    -- Convert the keys of riverPlotIndexes to an array
+    local riverPlotsArray = {}
+    for riverPlotIndex, _ in pairs(riverPlotIndexes) do
+        table.insert(riverPlotsArray, riverPlotIndex)
+    end
+    
+    return riverTypeID, riverPlotsArray
+end
+
+function HSD_GetCultureCounts(playerID)
+	-- Get player culture count
+	local player = Players[playerID]
+	local playerCultureCount = player:GetCulture():GetCultureYield()
+	print("playerCultureCount is "..tostring(playerCultureCount))
+
+	-- Get highest culture count of all other players
+	local highestCultureCount = 0
+	local allPlayerIDs = PlayerManager.GetAliveIDs()
+	for _, otherPlayerID in ipairs(allPlayerIDs) do
+		if otherPlayerID ~= playerID then
+			local otherPlayer = Players[otherPlayerID]
+			local otherCultureCount = otherPlayer:GetCulture():GetCultureYield()
+			if otherCultureCount > highestCultureCount then
+				highestCultureCount = otherCultureCount
+			end
+		end
+	end
+	print("highestCultureCount is "..tostring(highestCultureCount))
+
+	return playerCultureCount, highestCultureCount
+end
+
+function HSD_GetNumTechsResearched(playerID)
+	print("Calling HSD_GetNumTechsResearched...")
+    local player = Players[playerID]
+    if not player then
+        print("Player not found for playerID:", playerID)
+        return 0, 0
+    end
+
+    local playerStats = player:GetStats()
+    local playerTechCount = playerStats:GetNumTechsResearched()
+    local highestTechCount = 0
+
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+		if otherPlayerID ~= playerID then
+			local otherPlayer = Players[otherPlayerID]
+			local otherPlayerStats = otherPlayer:GetStats()
+			local otherPlayerTechCount = otherPlayerStats:GetNumTechsResearched()
+	
+			highestTechCount = math.max(highestTechCount, otherPlayerTechCount)
+		end
+    end
+	print("playerTechCount is "..tostring(playerTechCount)..", highestTechCount is "..tostring(highestTechCount))
+    return playerTechCount, highestTechCount
+end
+
+function HSD_GetHolyCitiesCount(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local holyCityCount = 0
+    local holyCityIDs = {}
+
+    -- Gather IDs of all holy cities
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        local otherPlayer = Players[otherPlayerID]
+        local otherPlayerReligion = otherPlayer:GetReligion()
+        local holyCityID = otherPlayerReligion:GetHolyCityID()
+		-- print("holyCityID is "..tostring(holyCityID))
+		local holyCity = CityManager.GetCity(holyCityID)
+        if holyCity then
+			local cityID = holyCity:GetID()
+            holyCityIDs[cityID] = true
+        end
+    end
+
+    -- Check if any of the player's cities are in the holy city IDs table
+    for _, city in playerCities:Members() do
+        local cityID = city:GetID()
+		-- print("cityID is "..tostring(cityID))
+        if holyCityIDs[cityID] then
+            holyCityCount = holyCityCount + 1
+        end
+    end
+
+    return holyCityCount
+end
 
 ----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
@@ -412,9 +530,13 @@ function InitializeHSD_UI()
 	ExposedMembers.HSD_GetTerritoryCache = HSD_GetTerritoryCache
 	ExposedMembers.HSD_GetTerritoryID = HSD_GetTerritoryID
 	ExposedMembers.HSD_GetTotalIncomingRoutes = HSD_GetTotalIncomingRoutes
+	ExposedMembers.HSD_GetRiverPlots = HSD_GetRiverPlots
+	ExposedMembers.HSD_GetCultureCounts = HSD_GetCultureCounts
+	ExposedMembers.HSD_GetNumTechsResearched = HSD_GetNumTechsResearched
+	ExposedMembers.HSD_GetHolyCitiesCount = HSD_GetHolyCitiesCount
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
-	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))	
+	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))
 	-- Broacast that we're ready to set HSD
 	LuaEvents.InitializeHSD()
 end

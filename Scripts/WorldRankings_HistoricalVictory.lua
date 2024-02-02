@@ -11,6 +11,20 @@ include("HistoricalVictory_Data");
 print("Loading Historical Victory World Rankings replace UI...")
 
 -- ===========================================================================
+-- Helper tables for Historical Victory Mode
+-- ===========================================================================
+
+-- Add victory objective types here to prevent them from displaying their count in-game
+local HideObjectiveCount = {
+	["FIRST_BUILDING_CONSTRUCTED"] = true,
+	["FIRST_CIVIC_RESEARCHED"] = true,
+	["FIRST_GREAT_PERSON_CLASS"] = true,
+	["FIRST_TECH_RESEARCHED"] = true,
+	["WONDER_ADJACENT_IMPROVEMENT"] = true,
+	["WONDER_BUILT"] = true,
+}
+
+-- ===========================================================================
 -- Helper Functions for Historical Victory Mode
 -- ===========================================================================
 local function GetObjectiveDetails(objective)
@@ -21,15 +35,23 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.firstID, objective.secondID)
     elseif type == "6_POP_CITY_ABOVE_ARCTIC" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "ALL_ACTIVE_ALLIANCES" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "BORDERING_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "BUILDING_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name), objective.count)
+    elseif type == "BUILDING_IN_CAPITAL" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name))
     elseif type == "CIRCUMNAVIGATE_HOME_CONTINENT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "CITY_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "CITY_ADJACENT_TO_CAPITAL_SEA_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "CITY_WITH_FLOODPLAIN_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "COASTAL_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "CONTROL_ALL_CAPITAL_ADJACENT_RIVER" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
@@ -37,8 +59,10 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Districts[objective.id].Name), objective.count)
     elseif type == "DISTRICT_ON_NUM_CONTINENTS" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Districts[objective.id].Name), objective.count)
-    elseif type == "FJORD_FORTRESSES" then
-        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "FEATURE_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.id, objective.count)
+    elseif type == "FIRST_ALL_ACTIVE_ALLIANCES" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "FIRST_BUILDING_CONSTRUCTED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name))
     elseif type == "FIRST_CIVIC_RESEARCHED" then
@@ -47,6 +71,8 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.GreatPersonClasses[objective.id].Name))
     elseif type == "FIRST_TECH_RESEARCHED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Technologies[objective.id].Name))
+    elseif type == "FIRST_WAR_DECLARED" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "FOREIGN_CONTINENT_CITIES" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "FULLY_UPGRADE_UNIT_COUNT" then
@@ -55,6 +81,12 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "HIGHEST_CITY_POPULATION" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "HIGHEST_CULTURE" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "HIGHEST_TECH_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "HOLY_CITY_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "LAND_AREA_HOME_CONTINENT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.percent)
     elseif type == "IMPROVEMENT_COUNT" then
@@ -63,12 +95,22 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.continent)
     elseif type == "MOST_ACTIVE_TRADEROUTES_ALL" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "MOST_CITIES_ON_HOME_CONTINENT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "MOST_OUTGOING_TRADE_ROUTES" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "NATURAL_WONDER_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "NUM_CITIES_POP_SIZE" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.cityNum, objective.popNum)
+    elseif type == "OCCUPIED_CAPITAL_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "PROJECT_COMPLETED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Projects[objective.id].Name))
+    elseif type == "PROJECT_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Projects[objective.id].Name), objective.count)
+    elseif type == "RESOURCE_MONOPOLY" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Resources[objective.id].Name), objective.percent)
     elseif type == "ROUTE_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "SUZERAINTY_COUNT" then
@@ -87,19 +129,22 @@ local function GetObjectiveDetails(objective)
     elseif type == "UNLOCK_ALL_ERA_CIVICS" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Eras[objective.id].Name))
     elseif type == "WONDER_ADJACENT_IMPROVEMENT" then
-        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.wonder].Name), Locale.Lookup(GameInfo.Improvements[objective.improvement].Name))
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name), Locale.Lookup(GameInfo.Improvements[objective.improvement].Name))
     elseif type == "WONDER_BUILT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name))
+    elseif type == "WONDER_BUILT_CITIES_IN_RANGE" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name), objective.count, objective.range)
     else
         detailsText = "Generic victory details text for type: " .. type
     end
 
     return detailsText
-end
+end	
 
 local function GetVictoryTimeLimit(victory)
 	local detailsText = false
 	local year = victory.year
+	local yearLimit = victory.yearLimit
 	local era = victory.era
 	local eraLimit = victory.eraLimit
 	if year then
@@ -110,6 +155,12 @@ local function GetVictoryTimeLimit(victory)
 			year = tostring(year).."AD"
 		end
 		detailsText = tostring(year)
+		-- Time condition only checked on year, not before
+		if yearLimit and (yearLimit == "ON_YEAR") then
+			detailsText = "On ".. detailsText
+		else
+			detailsText = "By ".. detailsText
+		end
 	end
 	if era then
 		if detailsText then
@@ -153,7 +204,7 @@ local EARTH_SATELLITE_EXP2_PROJECT_INFOS:table = {
 local MOON_LANDING_EXP2_PROJECT_INFOS:table = {
 	GameInfo.Projects["PROJECT_LAUNCH_MOON_LANDING"]
 };
-local MARS_COLONY_EXP2_PROJECT_INFOS:table = { 
+local MARS_COLONY_EXP2_PROJECT_INFOS:table = {
 	GameInfo.Projects["PROJECT_LAUNCH_MARS_BASE"],
 };
 local EXOPLANET_EXP2_PROJECT_INFOS:table = {
@@ -190,7 +241,7 @@ BASE_GetCulturalVictoryAdditionalSummary = GetCulturalVictoryAdditionalSummary;
 BASE_GatherCultureData = GatherCultureDatam
 
 g_victoryData.VICTORY_DIPLOMATIC = {
-	GetText = function(p) 
+	GetText = function(p)
 		local total = GlobalParameters.DIPLOMATIC_VICTORY_POINTS_REQUIRED;
 		local current = 0;
 		if (p:IsAlive()) then
@@ -211,7 +262,7 @@ g_victoryData.VICTORY_DIPLOMATIC = {
 };
 
 g_victoryData.VICTORY_HISTORICAL_VICTORY = {
-	GetText = function(p) 
+	GetText = function(p)
 		local CivilizationTypeName = PlayerConfigurations[p:GetID()]:GetCivilizationTypeName()
 		local LeaderTypeName = PlayerConfigurations[p:GetID()]:GetLeaderTypeName()
 		local total = 3
@@ -261,29 +312,29 @@ g_victoryData.VICTORY_HISTORICAL_VICTORY = {
 		local  firstGoal = p:GetProperty("HSD_HISTORICAL_VICTORY_1"); if firstGoal == nil then firstGoal = 0 end;
 		local  secondGoal = p:GetProperty("HSD_HISTORICAL_VICTORY_2"); if secondGoal == nil then secondGoal = 0 end;
 		local  thirdGoal = p:GetProperty("HSD_HISTORICAL_VICTORY_3"); if thirdGoal == nil then thirdGoal = 0 end;
-		
+
 		if p:GetStats():GetNumProjectsAdvanced(PROJECT_HISTORICAL_VICTORY) >= 1 or firstGoal >= 1 then hasFirstGoal = 1 end;
 		if p:GetStats():GetNumProjectsAdvanced(PROJECT_HISTORICAL_VICTORY) >= 1 or secondGoal >= 1 then hasSecondGoal = 1 end;
 		if p:GetStats():GetNumProjectsAdvanced(PROJECT_HISTORICAL_VICTORY) >= 1 or thirdGoal >= 1 then hasThirdGoal = 1 end;
 
 		local completed = {}
-		if hasFirstGoal + hasSecondGoal + hasThirdGoal ~= 0 then 
-			
-			if hasFirstGoal == 1 then 
+		if hasFirstGoal + hasSecondGoal + hasThirdGoal ~= 0 then
+
+			if hasFirstGoal == 1 then
 				local projectTurn = p:GetProperty("HSD_HISTORICAL_VICTORY_1")
 				if projectTurn == nil then projectTurn = nTurn end
 				local projectDate:string = Calendar.MakeYearStr(projectTurn);
-				strFirstChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(playerTypeName).."_1_NAME"), projectDate) 
+				strFirstChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(playerTypeName).."_1_NAME"), projectDate)
 				table.insert(completed, strFirstChallenge)
 			end
-			if hasSecondGoal == 1 then 
+			if hasSecondGoal == 1 then
 				local projectTurn = p:GetProperty("HSD_HISTORICAL_VICTORY_2")
 				if projectTurn == nil then projectTurn = nTurn end
 				local projectDate:string = Calendar.MakeYearStr(projectTurn);
 				strSecondChallenge = Locale.Lookup("LOC_HSD_VICTORY_COMPLETED_TOOLTIP", Locale.Lookup("LOC_HSD_VICTORY_"..tostring(playerTypeName).."_2_NAME"), projectDate)
 				table.insert(completed, strSecondChallenge)
 			end
-			if hasThirdGoal == 1 then 
+			if hasThirdGoal == 1 then
 				local projectTurn = p:GetProperty("HSD_HISTORICAL_VICTORY_3")
 				if projectTurn == nil then projectTurn = nTurn end
 				local projectDate:string = Calendar.MakeYearStr(projectTurn);
@@ -291,15 +342,15 @@ g_victoryData.VICTORY_HISTORICAL_VICTORY = {
 				table.insert(completed, strThirdChallenge)
 			end
 		end
-		
+
 		table.sort(completed)
 
 		local totalVictorySummary = VictorySummaryIntro
-		
+
 		for i, v in ipairs(completed) do
 			totalVictorySummary = totalVictorySummary .. v
 		end
-				
+
 		return Locale.Lookup("LOC_HSD_VICTORY_OVERALL_TOOLTIP", current, total, totalVictorySummary);
 	end,
 	GetScore = function(p)
@@ -329,7 +380,7 @@ end
 BASE_PopulateOverallInstance = PopulateOverallInstance;
 function PopulateOverallInstance(instance:table, victoryType:string, typeText:string)
 	BASE_PopulateOverallInstance(instance, victoryType, typeText);
-	
+
 	if victoryType == "VICTORY_HISTORICAL_VICTORY" then
 		color = UI.GetColorValue("COLOR_SELECTED_TEXT");
 		instance.VictoryBanner:SetColor(color);
@@ -340,7 +391,7 @@ function PopulateOverallInstance(instance:table, victoryType:string, typeText:st
 		instance.VictoryBanner:SetColor(color);
 		instance.VictoryLabelGradient:SetColor(color);
 	end
-	
+
 end
 
 
@@ -348,18 +399,18 @@ local m_iTurnsTillCulturalVictory:number = -1;
 
 function PopulateCultureInstance(instance:table, playerData:table)
 	local pPlayer:table = Players[playerData.PlayerID];
-	
+
 	PopulatePlayerInstanceShared(instance, playerData.PlayerID, 7);
 
 	instance.VisitingTourists:SetText(playerData.NumVisitingUs .. "/" .. playerData.NumRequiredTourists);
-	
+
 	--
 	-- Since Tourists can overflow now we gotta take care of that
 	--
-	
+
 	local percentage = playerData.NumVisitingUs / playerData.NumRequiredTourists
 	if percentage > 1 then percentage = 1 end
-	
+
 	instance.TouristsFill:SetPercent(percentage);
 	instance.VisitingUsContainer:SetHide(playerData.PlayerID == g_LocalPlayerID);
 
@@ -453,7 +504,7 @@ function PopulateGenericTeamInstance(instance:table, teamData:table, victoryType
 
 		local detailsText:string = "";
 		local innerRequirements:table = GameEffects.GetRequirementSetInnerRequirements(requirementSetID);
-	
+
 		for _, requirementID in ipairs(innerRequirements) do
 
 			if detailsText ~= "" then
@@ -489,20 +540,20 @@ function PopulateGenericTeamInstance(instance:table, teamData:table, victoryType
 	if itemSize < SIZE_GENERIC_ITEM_MIN_Y then
 		itemSize = SIZE_GENERIC_ITEM_MIN_Y;
 	end
-	
+
 	instance.ButtonFrame:SetSizeY(itemSize);
 end
 
 function PopulateGenericInstance(instance:table, playerData:table, victoryType:string, showTeamDetails:boolean )
 	PopulatePlayerInstanceShared(instance, playerData.PlayerID);
-	
+
 	if showTeamDetails then
 		local requirementSetID:number = Game.GetVictoryRequirements(Players[playerData.PlayerID]:GetTeam(), victoryType);
 		if requirementSetID ~= nil and requirementSetID ~= -1 then
 
 			local detailsText:string = "";
 			local innerRequirements:table = GameEffects.GetRequirementSetInnerRequirements(requirementSetID);
-	
+
 			if innerRequirements ~= nil then
 				for _, requirementID in ipairs(innerRequirements) do
 
@@ -511,7 +562,7 @@ function PopulateGenericInstance(instance:table, playerData:table, victoryType:s
 					end
 
 					local requirementKey:string = GameEffects.GetRequirementTextKey(requirementID, "VictoryProgress");
-					if requirementKey == nil then requirementKey = "nil" end 
+					if requirementKey == nil then requirementKey = "nil" end
 						local requirementText:string = GameEffects.GetRequirementText(requirementID, requirementKey);
 					--else
 					--	local requirementText:string = nil
@@ -548,7 +599,7 @@ function PopulateGenericInstance(instance:table, playerData:table, victoryType:s
 	if itemSize < SIZE_GENERIC_ITEM_MIN_Y then
 		itemSize = SIZE_GENERIC_ITEM_MIN_Y;
 	end
-	
+
 	instance.ButtonBG:SetSizeY(itemSize);
 end
 
@@ -562,7 +613,7 @@ function PopulateHistoricalVictoryInstance(instance:table, playerData:table, vic
 	if itemSize < SIZE_GENERIC_ITEM_MIN_Y then
 		itemSize = SIZE_GENERIC_ITEM_MIN_Y;
 	end
-	
+
 	instance.ButtonBG:SetSizeY(itemSize);
 end
 
@@ -598,7 +649,7 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 			-- Don't update civilizationInfo, using generic conditions
 		end
 	end
-    if civilizationInfo then		
+    if civilizationInfo then
 		-- Iterate through victories
         for i, victories in ipairs(civilizationInfo) do
 			local playerTypeName = victories.playerTypeName
@@ -628,16 +679,16 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 			else
 				-- Unknown player, display nothing
 			end
-			
+
 			-- Iterate through individual victory objectives
-			-- for j = 1, objectiveCount do 
-			for j, objective in ipairs(objectiveTable) do 
-			
+			-- for j = 1, objectiveCount do
+			for j, objective in ipairs(objectiveTable) do
+
 				local objectiveStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_" .. victoryType .. "_OBJECTIVE_" .. j)
 				local current = 0
 				local total = 0
 				local objectiveMet = false
-				
+
 				if objectiveStatus then
 					current = objectiveStatus.current
 					total = objectiveStatus.total
@@ -647,19 +698,26 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 					-- print("Total: " .. tostring(total))
 					-- print("Objective Met: " .. tostring(objectiveMet))
 				end
-				
+
 				if not objectiveStatus then objectiveStatus = 0 end -- nil check
-				
+
 				if (g_LocalPlayer:GetDiplomacy():HasMet(PlayerID)) or (g_LocalPlayer:GetID() == PlayerID) then
 					-- Display objective status
 					-- detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. j) .. " : "
 					detailsText = detailsText .. GetObjectiveDetails(objective) .. " : "
-					if (objectiveStatus == 0) or (current < total) then
+					if not objectiveMet and ((objectiveStatus == 0) or (current <= total) or (current == "None")) then
 						-- Not yet completed
-						detailsText = detailsText .."[COLOR_Civ6Red] ".. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .."[ENDCOLOR]".. " [ICON_Bolt]"
+						if not HideObjectiveCount[objective.type] then
+							detailsText = detailsText.."[COLOR_Civ6Red] ".. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .."[ENDCOLOR]"
+						end
+						detailsText = detailsText.." [ICON_Bolt]"
 					elseif objectiveMet then
 						-- Completed
-						detailsText = detailsText .."[COLOR_Civ6Yellow] ".. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .."[ENDCOLOR]".. " [ICON_Checksuccess]"
+						if not HideObjectiveCount[objective.type] then
+							detailsText = detailsText.."[COLOR_Civ6Yellow] ".. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .."[ENDCOLOR]"
+						end
+						detailsText = detailsText.." [ICON_Checksuccess]"
+						-- detailsText = detailsText .."[COLOR_Civ6Yellow] ".. Locale.Lookup("LOC_HSD_OBJECTIVE_STATUS", current, total) .."[ENDCOLOR]".. " [ICON_Checksuccess]"
 					else
 						-- Failed
 						detailsText = detailsText .. "[ICON_Checkfail]"
@@ -695,7 +753,7 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 			else
 				-- Unknown player, display nothing
 			end
-			
+
 			for i = 1, objectiveCount do
 				local objectiveStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_" .. victoryType .. "_OBJECTIVE_" .. i)
 				if not objectiveStatus then objectiveStatus = 0 end -- nil check
@@ -720,7 +778,7 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 			end
 		end
     end
-    
+
     return detailsText
 end
 
@@ -730,14 +788,14 @@ end
 -- ===========================================================================
 function GetCulturalVictoryAdditionalSummary(pPlayer:table)
 	if (g_LocalPlayer == nil) then
-		return "";	
+		return "";
 	end
 
 	local iPlayerID:number = pPlayer:GetID();
 	local pLocalPlayerCulture:table = g_LocalPlayer:GetCulture();
 	local pOtherPlayerCulture:table = pPlayer:GetCulture();
 	if (pLocalPlayerCulture == nil or pOtherPlayerCulture == nil) then
-		return "";	
+		return "";
 	end
 
 	local tSummaryStrings = {};
@@ -751,7 +809,7 @@ function GetCulturalVictoryAdditionalSummary(pPlayer:table)
 	-- Cultural Dominance summaries
 
 	-- This is us, show the quantity of civs we dominate or that dominate us
-	if (iPlayerID == g_LocalPlayerID) then		
+	if (iPlayerID == g_LocalPlayerID) then
 		local iNumWeDominate:number = 0;
 		local iNumDominateUs:number = 0;
 		for _, iLoopID in ipairs(PlayerManager.GetAliveMajorIDs()) do
@@ -794,13 +852,13 @@ function ViewScience()
 
 	ChangeActiveHeader("VICTORY_TECHNOLOGY", m_ScienceHeaderIM, Controls.ScienceViewHeader);
 	PopulateGenericHeader(RealizeScienceStackSize, SCIENCE_TITLE, "", SCIENCE_DETAILS, SCIENCE_ICON);
-	
+
 	local totalCost:number = 0;
 	local currentProgress:number = 0;
 	local progressText:string = "";
 	local progressResults:table = { 0, 0, 0, 0 }; -- initialize with 3 elements
 	local finishedProjects:table = { {}, {}, {}, {} };
-	
+
 	local bHasSpaceport:boolean = false;
 	if (g_LocalPlayer ~= nil) then
 		for _,district in g_LocalPlayer:GetDistricts():Members() do
@@ -843,7 +901,7 @@ function ViewScience()
 				finishedProjects[2][i] = projectProgress == projectCost;
 			end
 			progressResults[2] = currentProgress / totalCost;
-		
+
 			-- 3rd milestone - mars landing
 			totalCost = 0;
 			currentProgress = 0;
@@ -932,7 +990,7 @@ end
 
 function GetNextStepForScienceProject(pPlayer:table, projectInfos:table, bHasSpaceport:boolean, finishedProjects:table)
 
-	if(not bHasSpaceport) then 
+	if(not bHasSpaceport) then
 		return Locale.Lookup("LOC_WORLD_RANKINGS_SCIENCE_NEXT_STEP_BUILD", Locale.Lookup(SPACE_PORT_DISTRICT_INFO.Name));
 	end
 
@@ -957,9 +1015,9 @@ end
 function PopulateScienceInstance(instance:table, pPlayer:table)
 	local playerID:number = pPlayer:GetID();
 	PopulatePlayerInstanceShared(instance, playerID);
-	
+
 	-- Progress Data to be returned from function
-	local progressData = nil; 
+	local progressData = nil;
 
 	local bHasSpaceport:boolean = false;
 	for _,district in pPlayer:GetDistricts():Members() do
@@ -1057,7 +1115,7 @@ function GetTooltipForScienceProject(pPlayer:table, projectInfos:table, bHasSpac
 
 	-- Only show spaceport for first tooltip
 	if bHasSpaceport ~= nil then
-		if(bHasSpaceport) then 
+		if(bHasSpaceport) then
 			result = result .. "[ICON_CheckmarkBlue]";
 		else
 			result = result .. "[ICON_Bolt]";
@@ -1100,7 +1158,7 @@ function PopulateScienceProgressMeters(instance:table, progressData:table)
 		instance["ObjBar_" .. i]:SetPercent(progressData.projectProgresses[i] / progressData.projectTotals[i]);
 		instance["ObjToggle_ON_" .. i]:SetHide(progressData.projectTotals[i] == 0 or progressData.projectProgresses[i] ~= progressData.projectTotals[i]);
 	end
-	
+
     instance["ObjHidden_5"]:SetHide(true);
     -- if bar 4 is at 100%, light up bar 5
     if ((progressData.projectProgresses[4] >= progressData.projectTotals[4]) and (progressData.projectTotals[4] ~= 0)) then
@@ -1122,7 +1180,7 @@ function PopulateScienceProgressMeters(instance:table, progressData:table)
         instance["ObjBar_5"]:SetPercent(0);
 		instance.ObjBG_5:SetToolTipString(Locale.Lookup("LOC_WORLD_RANKINGS_SCIENCE_NO_LAUNCH"));
     end
-    		
+
 	instance.ObjBG_1:SetToolTipString(GetTooltipForScienceProject(pPlayer, EARTH_SATELLITE_EXP2_PROJECT_INFOS, progressData.bHasSpaceport, progressData.finishedProjects[1]));
 	instance.ObjBG_2:SetToolTipString(GetTooltipForScienceProject(pPlayer, MOON_LANDING_EXP2_PROJECT_INFOS, nil, progressData.finishedProjects[2]));
 	instance.ObjBG_3:SetToolTipString(GetTooltipForScienceProject(pPlayer, MARS_COLONY_EXP2_PROJECT_INFOS, nil, progressData.finishedProjects[3]));
@@ -1140,7 +1198,7 @@ function PopulateTabs()
 	m_MaxExtraTabSize = 0;
 	g_ExtraTabsIM:ResetInstances();
 	g_TabSupportIM:ResetInstances();
-	
+
 	-- Deselect previously selected tab
 	if g_TabSupport then
 		g_TabSupport.SelectTab(nil);
@@ -1228,7 +1286,7 @@ end
 
 function AddExtraTab(label:string, onClickCallback:ifunction)
 	local extraTabInst:table = g_ExtraTabsIM:GetInstance();
-	
+
 	extraTabInst.Button:SetText(label);
 	extraTabInst.Button:RegisterCallback(Mouse.eLClick, OnExtraTabClicked(extraTabInst, onClickCallback));
 
@@ -1262,7 +1320,7 @@ function ViewHistorical(victoryType:string)
 		local victoryConditions = Game:GetProperty("HSD_PlayerVictoryConditions")
 		local civilizationInfo = victoryConditions[player:GetID()]
 		local playerTypeName = defaultTypeName
-		if civilizationInfo then		
+		if civilizationInfo then
 			-- Iterate through victories
 			for _, victories in ipairs(civilizationInfo) do
 				playerTypeName = victories.playerTypeName
@@ -1334,7 +1392,7 @@ function GetHistoricHeader(details:string, playerTypeName:string)
         -- for i = 1, 3 do
         --     details = details .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_NAME") .. "[ENDCOLOR][NEWLINE][ICON_BULLET]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_DESC") .. "[NEWLINE]"
 		-- end
-		for i, victories in ipairs(civilizationInfo) do	
+		for i, victories in ipairs(civilizationInfo) do
 			details = details .. "[COLOR:ButtonCS]" .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. i .. "_NAME") .. "[ENDCOLOR] : [COLOR:NeutralCS]"..GetVictoryTimeLimit(victories).."[ENDCOLOR][NEWLINE][ICON_BULLET]"
 			local objectives = victories.objectives
 			for i, objective in ipairs(objectives) do
@@ -1349,7 +1407,7 @@ function GetHistoricHeader(details:string, playerTypeName:string)
         --     details = details .. Locale.Lookup("LOC_HSD_VICTORY_GENERIC_" .. i .. "_NAME") .. Locale.Lookup("LOC_HSD_VICTORY_GENERIC_" .. i .. "_DESC")
         -- end
     end
-    
+
     return details
 end
 
