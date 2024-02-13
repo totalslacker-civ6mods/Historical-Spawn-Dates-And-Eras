@@ -390,6 +390,28 @@ local function GetUnitCount(playerID, unitType)
     return count
 end
 
+local function GetUnitClassCount(playerID, unitClassType)
+    print("Checking number of " .. tostring(unitClassType) .. " units for player " .. tostring(playerID))
+    local player = Players[playerID]
+    local unitClassCount = 0
+
+    if not player then
+        print("Player not found for playerID: " .. tostring(playerID))
+        return 0
+    end
+
+    local units = player:GetUnits()
+    for _, unit in units:Members() do
+        local unitType = unit:GetType()
+        local unitInfo = GameInfo.Units[unitType]
+        if unitInfo.PromotionClass == unitClassType then
+            unitClassCount = unitClassCount + 1
+        end
+    end
+    print("Player " .. tostring(playerID) .. " owns " .. tostring(unitClassCount) .. " " .. tostring(unitClassType) .. " units.")
+    return unitClassCount
+end
+
 local function GetBorderingCitiesCount(iPlayer)
     local player = Players[iPlayer]
     local playerCities = player:GetCities()
@@ -538,6 +560,35 @@ local function GetImprovementAdjacentPlot(improvementType, plot)
     end
 end
 
+local function GetCitiesWithImprovementCount(playerID, improvementType)
+    print("Checking for cities with improvement: " .. tostring(improvementType) .. " for player " .. tostring(playerID))
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local citiesWithImprovementCount = 0
+
+    if not GameInfo.Improvements[improvementType] then
+        print("Improvement type " .. tostring(improvementType) .. " not found in GameInfo.")
+        return 0 -- Return 0 if the improvement doesn't exist in the database
+    end
+
+    local improvementIndex = GameInfo.Improvements[improvementType].Index
+
+    for _, city in playerCities:Members() do
+        local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(playerID, city:GetID())
+        for _, kCityUIDatas in pairs(CityUIDataList) do
+            for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                if plot and plot:GetImprovementType() == improvementIndex then
+                    citiesWithImprovementCount = citiesWithImprovementCount + 1
+                    break -- Found the improvement in this city, no need to check more plots for this city
+                end
+            end
+        end
+    end
+
+    return citiesWithImprovementCount
+end
+
 local function GetWonderAdjacentImprovement(playerID, wonderType, improvementType)
     print("Checking for " .. tostring(wonderType) .. " adjacent to " .. tostring(improvementType) .. " for player #" .. tostring(playerID))
     local player = Players[playerID]
@@ -642,18 +693,71 @@ local function GetDistrictTypeCount(iPlayer, districtType)
 	return districtCount
 end
 
-local function GetFullyUpgradedUnitsCount(playerID, unitType, requiredCount)
+local function GetFullyUpgradedUnitsCount(playerID, unitType)
     local player = Players[playerID]
     local playerUnits = player:GetUnits()
     local count = 0
 
     for i, unit in playerUnits:Members() do
-        if unit:GetType() == unitType and unit:GetExperience():GetLevel() == unit:GetExperience():GetMaxLevel() then
-            count = count + 1
+        if unit:GetType() == unitType then 
+            local unitLevel = unit:GetExperience():GetLevel()
+            print("Unit is level "..tostring(unitLevel))
+            if unitLevel == 8 then
+                count = count + 1
+            end
         end
     end
 
     return count
+end
+
+local function GetFullyUpgradedUnitClass(playerID, promotionClass)
+    local player = Players[playerID]
+    local playerUnits = player:GetUnits()
+    local count = 0
+
+    for i, unit in playerUnits:Members() do
+        local unitType = unit:GetType()
+        local unitPromotionClass = GameInfo.Units[unitType].PromotionClass
+        if unitPromotionClass == promotionClass then
+            local unitLevel = unit:GetExperience():GetLevel()
+            print("Unit is level "..tostring(unitLevel))
+            if unitLevel == 8 then
+                count = count + 1
+            end
+        end
+    end
+
+    return count
+end
+
+local function GetNumCitiesWithinCapitalRange(playerID, range)
+    local player = Players[playerID]
+    local capitalCity = player:GetCities():GetCapitalCity()
+    if not capitalCity then
+        print("No capital city found for playerID:", playerID)
+        return 0
+    end
+
+    local capitalX, capitalY = capitalCity:GetX(), capitalY:GetY()
+    local citiesInRangeCount = 0
+
+    -- Iterate through all cities owned by the player
+    for _, city in player:GetCities():Members() do
+        -- Exclude the capital city from the count
+        if city:GetID() ~= capitalCity:GetID() then
+            local cityX, cityY = city:GetX(), city:GetY()
+            local distance = Map.GetPlotDistance(capitalX, capitalY, cityX, cityY)
+            
+            -- Increment count if the city is within the specified range
+            if distance <= range then
+                citiesInRangeCount = citiesInRangeCount + 1
+            end
+        end
+    end
+
+    -- Return the count of cities within range, excluding the capital itself
+    return citiesInRangeCount
 end
 
 -- Helper function to check if the civilization controls the required percentage of land area
@@ -916,7 +1020,98 @@ local function HasUnlockedAllCivicsForEra(playerID, eraType)
     return true
 end
 
-function GetHighestCityPopulation(playerID)
+local function GetHighestProduction(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local totalProduction = 0
+    local highestOtherPlayerProduction = 0
+
+    -- Calculate total production for the specified player
+    for _, city in playerCities:Members() do
+        local productionYield = city:GetYield(YieldTypes.PRODUCTION)
+        totalProduction = totalProduction + productionYield
+    end
+
+    -- Compare against production of all other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayer = Players[otherPlayerID]
+            local otherPlayerTotalProduction = 0
+
+            for _, city in otherPlayer:GetCities():Members() do
+                local productionYield = city:GetYield(YieldTypes.PRODUCTION)
+                otherPlayerTotalProduction = otherPlayerTotalProduction + productionYield
+            end
+
+            if otherPlayerTotalProduction > highestOtherPlayerProduction then
+                highestOtherPlayerProduction = otherPlayerTotalProduction
+            end
+        end
+    end
+
+    print("Total Production for PlayerID " .. tostring(playerID) .. ": " .. tostring(totalProduction))
+    print("Highest Production among other players: " .. tostring(highestOtherPlayerProduction))
+
+    return totalProduction, highestOtherPlayerProduction
+end
+
+
+local function GetHighestFaithPerTurn(playerID)
+    -- Get player faith per turn
+    local player = Players[playerID]
+    local playerFaithPerTurn = player:GetReligion():GetFaithYield()
+    print("playerFaithPerTurn is "..tostring(playerFaithPerTurn))
+
+    -- Get highest faith per turn count of all other players
+    local highestFaithPerTurn = 0
+    local allPlayerIDs = PlayerManager.GetAliveMajorIDs()  -- Using GetAliveMajorIDs to exclude city-states and other non-major civs
+    for _, otherPlayerID in ipairs(allPlayerIDs) do
+        if otherPlayerID ~= playerID then
+            local otherPlayer = Players[otherPlayerID]
+            local otherFaithPerTurn = otherPlayer:GetReligion():GetFaithYield()
+            if otherFaithPerTurn > highestFaithPerTurn then
+                highestFaithPerTurn = otherFaithPerTurn
+            end
+        end
+    end
+    print("highestFaithPerTurn is "..tostring(highestFaithPerTurn))
+
+    return playerFaithPerTurn, highestFaithPerTurn
+end
+
+
+local function GetPlayerGold(playerID)
+    local player = Players[playerID]
+    if player then
+        local playerTreasury = player:GetTreasury()
+        local goldAmount = playerTreasury:GetGoldBalance()
+        return goldAmount
+    else
+        print("Invalid player ID: " .. tostring(playerID))
+        return 0
+    end
+end
+
+local function GetHighestGoldPerTurn(playerID)
+    local playerTreasury = Players[playerID]:GetTreasury()
+    local playerGPT = playerTreasury:GetGoldYield() - playerTreasury:GetTotalMaintenance()
+
+    local highestOtherGPT = 0
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherplayerTreasury = Players[otherPlayerID]:GetTreasury()
+            local otherPlayerGPT = otherplayerTreasury:GetGoldYield() - otherplayerTreasury:GetTotalMaintenance()
+
+            if otherPlayerGPT > highestOtherGPT then
+                highestOtherGPT = otherPlayerGPT
+            end
+        end
+    end
+
+    return playerGPT, highestOtherGPT
+end
+
+local function GetHighestCityPopulation(playerID)
     local player = Players[playerID]
     local playerCities = player:GetCities()
     local highestPopulation = 0
@@ -1162,6 +1357,26 @@ local function GetAllianceCount_AllPlayers(targetAllianceCount)
     end
 end
 
+local function GetAllianceLevelCount(playerID)
+    local playerDiplomacy = Players[playerID]:GetDiplomacy()
+    local allianceCount = 0
+    local maximumAllianceLevel = 3
+
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            if playerDiplomacy:HasAlliance(otherPlayerID) then
+                local allianceLevel = playerDiplomacy:GetAllianceLevel()
+                print("Alliance level is "..tostring(allianceLevel))
+                if allianceLevel == maximumAllianceLevel then
+                    allianceCount = allianceCount + 1
+                end
+            end
+        end
+    end
+
+    return allianceCount
+end
+
 local function GetCitiesInRange_Building(playerID, buildingID, range)
     local player = Players[playerID]
     local playerCities = player:GetCities()
@@ -1183,6 +1398,123 @@ local function GetCitiesInRange_Building(playerID, buildingID, range)
 
     return citiesInRangeCount
 end
+
+local function GetReligiousCitiesCount(playerID)
+    local player = Players[playerID]
+    local playerReligionID = player:GetReligion():GetReligionTypeCreated()
+    local playerReligiousCitiesCount = 0
+    local otherReligionsCitiesCounts = {}
+    print("playerReligionID is "..tostring(playerReligionID))
+
+    -- Iterate through all cities on the map
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        local otherPlayer = Players[otherPlayerID]
+        for _, city in otherPlayer:GetCities():Members() do
+            local cityReligion = city:GetReligion()
+            local majorityReligion = cityReligion:GetMajorityReligion()
+            print("majorityReligion is "..tostring(majorityReligion))
+            -- Count cities for player's religion
+            if majorityReligion == playerReligionID then
+                playerReligiousCitiesCount = playerReligiousCitiesCount + 1
+            elseif majorityReligion > 0 then
+                -- Increment count for other religions
+                if not otherReligionsCitiesCounts[majorityReligion] then
+                    otherReligionsCitiesCounts[majorityReligion] = 1
+                else
+                    otherReligionsCitiesCounts[majorityReligion] = otherReligionsCitiesCounts[majorityReligion] + 1
+                end
+            end
+        end
+    end
+
+    -- Find the highest number of cities converted by any single other religion
+    local highestOtherReligionCitiesCount = 0
+    for _, count in pairs(otherReligionsCitiesCounts) do
+        if count > highestOtherReligionCitiesCount then
+            highestOtherReligionCitiesCount = count
+        end
+    end
+
+    return playerReligiousCitiesCount, highestOtherReligionCitiesCount
+end
+
+local function GetContinentsWithMajorityReligion(playerID)
+    local player = Players[playerID]
+    local playerReligionID = player:GetReligion():GetReligionTypeCreated()
+    print("playerReligionID is "..tostring(playerReligionID))
+    if playerReligionID == -1 then
+        print("Player " .. tostring(playerID) .. " does not have a majority religion.")
+        return 0
+    end
+    local continentsWithMajorityReligion = {}
+    local continentReligionCounts = {}
+
+    -- Iterate through all cities on the map
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        local otherPlayer = Players[otherPlayerID]
+        for _, city in otherPlayer:GetCities():Members() do
+            local cityReligion = city:GetReligion()
+            local majorityReligion = cityReligion:GetMajorityReligion()
+            local cityPlot = city:GetPlot()
+            local continentType = cityPlot:GetContinentType()
+
+            -- Initialize continent religion count table
+            if not continentReligionCounts[continentType] then
+                continentReligionCounts[continentType] = {}
+            end
+
+            -- Initialize religion count for the continent
+            if not continentReligionCounts[continentType][majorityReligion] then
+                continentReligionCounts[continentType][majorityReligion] = 1
+            else
+                continentReligionCounts[continentType][majorityReligion] = continentReligionCounts[continentType][majorityReligion] + 1
+            end
+        end
+    end
+
+    -- Determine continents where player's religion is majority
+    for continent, religions in pairs(continentReligionCounts) do
+        local maxReligionCount = 0
+        local maxReligion = nil
+        for religion, count in pairs(religions) do
+            if count > maxReligionCount then
+                maxReligionCount = count
+                maxReligion = religion
+            end
+        end
+        if maxReligion == playerReligionID then
+            table.insert(continentsWithMajorityReligion, continent)
+        end
+    end
+
+    return #continentsWithMajorityReligion
+end
+
+local function GetCitiesFollowingReligion(playerID)
+    local player = Players[playerID]
+    local religionID = player:GetReligion():GetReligionTypeCreated()
+    print("religionID is "..tostring(religionID))
+    if religionID == -1 then
+        print("Player " .. tostring(playerID) .. " does not have a majority religion.")
+    end
+    
+    local citiesFollowingReligion = 0
+    local totalCities = 0
+
+    -- Iterate through player cities
+    for _, city in player:GetCities():Members() do
+        totalCities = totalCities + 1
+        local cityReligion = city:GetReligion():GetMajorityReligion()
+
+        -- Check if the city's majority religion matches the player's majority religion
+        if cityReligion == religionID then
+            citiesFollowingReligion = citiesFollowingReligion + 1
+        end
+    end
+
+    return citiesFollowingReligion, totalCities
+end
+
 
 -- ===========================================================================
 -- EVENT HOOKS
@@ -1282,14 +1614,35 @@ local function HSD_OnCivicCompleted(ePlayer, eCivic)
     end
 end
 
+local function HSD_OnGovernmentChanged(playerID, governmentID)
+    local governmentInfo = GameInfo.Governments[governmentID]
+    local governmentKey = "HSD_" .. tostring(governmentInfo.GovernmentType)
+    -- Only record first player to adopt government of this type
+    if not Game:GetProperty(governmentKey) then
+        Game:SetProperty(governmentKey, playerID)
+        print("Recorded first adoption of government type " .. governmentInfo.GovernmentType .. " by player " .. tostring(playerID))
+    else
+        -- print(governmentInfo.GovernmentType .. " has already been adopted by another player.")
+    end
+end
+
 local function HSD_OnGreatPersonActivated(UnitOwner, unitID, GreatPersonType, GreatPersonClass)
+    local player = Players[UnitOwner]
     local greatPersonClassInfo = GameInfo.GreatPersonClasses[GreatPersonClass]
+    local greatPersonEra = GameInfo.GreatPersonIndividuals[GreatPersonType].EraType
+    print("Great person era is "..tostring(greatPersonEra))
 
     -- Record total number of Great people activated by the player
     local greatPersonCountKey = "HSD_GREAT_PERSON_COUNT_"..tostring(UnitOwner)
     local greatPersonCount = Game:GetProperty(greatPersonCountKey) or 0
     greatPersonCount = greatPersonCount + 1
     Game:SetProperty(greatPersonCountKey, greatPersonCount)
+
+    -- Record total number of Great people activated by the player from this era
+    local greatPersonEraCountKey = "HSD_GREAT_PERSON_ERA_COUNT_"..tostring(greatPersonEra)
+    local greatPersonEraCount = player:GetProperty(greatPersonEraCountKey) or 0
+    greatPersonEraCount = greatPersonEraCount + 1
+    player:SetProperty(greatPersonEraCountKey, greatPersonEraCount)
 
     -- Record first player to activate great person of this type
     if greatPersonClassInfo then
@@ -1346,11 +1699,11 @@ end
 local function HSD_OnProjectCompleted(playerID, cityID, projectID, buildingIndex, iX, iY, bCancelled)
     local player = Players[playerID]
     local projectInfo = GameInfo.Projects[projectID]
-    local projectKey = "HSD_" .. tostring(projectInfo.ProjectType) .. "_PROJECT_COMPLETED"
+    local projectKey = "HSD_" .. tostring(projectInfo.ProjectType) .. "_COMPLETED"
 
-    -- Set turn project was first completed by player
-    if not player:GetProperty(projectKey) then
-        player:SetProperty(projectKey, Game.GetCurrentGameTurn())
+    -- Set turn project was first completed by any player
+    if not Game:GetProperty(projectKey) then
+        Game:SetProperty(projectKey, playerID)
         print("Recorded " .. projectInfo.ProjectType .. " as completed by player " .. tostring(playerID) .. " on turn " .. tostring(Game.GetCurrentGameTurn()))
     end
 
@@ -1528,7 +1881,7 @@ function EvaluateObjectives(player, condition)
 		if obj.type == "2_WONDERS_IN_CITY" then
 			current = AreTwoWondersInSameCity(playerID, obj.firstID, obj.secondID) and 1 or 0
 			total = 1
-		elseif obj.type == "ALL_ACTIVE_ALLIANCES" then
+		elseif obj.type == "ALLIANCE_COUNT" then
 			current = GetAllianceCount(playerID)
 			total = obj.count
         elseif obj.type == "BORDERING_CITY_COUNT" then
@@ -1549,11 +1902,19 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "CITY_WITH_FEATURE_COUNT" then
 			current = GetCitiesWithFeatureCount(playerID, obj.id) or 0
 			total = obj.count
+		elseif obj.type == "CITY_WITH_IMPROVEMENT_COUNT" then
+			current = GetCitiesWithImprovementCount(playerID, obj.id) or 0
+			total = obj.count
 		elseif obj.type == "COASTAL_CITY_COUNT" then
 			current = GetCoastalCityCount(playerID)
 			total = obj.count
 		elseif obj.type == "CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL" then
 			current, total = GetRiverOwnership(playerID)
+		elseif obj.type == "CONVERT_NUM_CONTINENTS" then -- UNTESTED
+			current = GetContinentsWithMajorityReligion(playerID)
+			total = obj.count
+		elseif obj.type == "CONVERT_ALL_CITIES" then -- UNTESTED
+			current, total = GetCitiesFollowingReligion(playerID)
 		elseif obj.type == "DISTRICT_COUNT" then
 			current = GetDistrictTypeCount(playerID, obj.id)
 			total = obj.count
@@ -1568,6 +1929,10 @@ function EvaluateObjectives(player, condition)
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
 		elseif obj.type == "FIRST_CIVIC_RESEARCHED" then
+			isPlayerProperty = true
+			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
+			total = playerID
+		elseif obj.type == "FIRST_GOVERNMENT" then -- UNTESTED
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
@@ -1586,8 +1951,17 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "FOREIGN_CONTINENT_CITIES" then
 			current = GetCitiesOnForeignContinents(playerID)
 			total = obj.count
-		elseif obj.type == "FULLY_UPGRADE_UNIT_COUNT" then
-			current = GetFullyUpgradedUnitsCount(playerID, obj.id, obj.count)
+		elseif obj.type == "FULLY_UPGRADE_UNIT_COUNT" then -- UNTESTED
+			current = GetFullyUpgradedUnitsCount(playerID, obj.id)
+			total = obj.count
+		elseif obj.type == "FULLY_UPGRADE_UNIT_CLASS_COUNT" then -- UNTESTED
+			current = GetFullyUpgradedUnitClass(playerID, obj.id)
+			total = obj.count
+		elseif obj.type == "GREAT_PERSON_ERA_COUNT" then -- UNTESTED
+			current = player:GetProperty("HSD_GREAT_PERSON_ERA_COUNT_"..tostring(obj.id)) or 0
+			total = obj.count
+		elseif obj.type == "GOLD_COUNT" then -- UNTESTED
+			current = GetPlayerGold(playerID)
 			total = obj.count
 		elseif obj.type == "GREAT_PEOPLE_ACTIVATED" then
 			current = Game:GetProperty("HSD_GREAT_PERSON_COUNT_"..tostring(playerID)) or 0
@@ -1598,6 +1972,15 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "HIGHEST_CULTURE" then
             isGreaterThan = true
 			current, total = GetHighestCulture(playerID)
+		elseif obj.type == "HIGHEST_FAITH_PER_TURN" then -- UNTESTED
+            isGreaterThan = true
+			current, total = GetHighestFaithPerTurn(playerID)
+		elseif obj.type == "HIGHEST_GOLD_PER_TURN" then -- UNTESTED
+            isGreaterThan = true
+			current, total = GetHighestGoldPerTurn(playerID)
+		elseif obj.type == "HIGHEST_PRODUCTION" then -- UNTESTED
+            isGreaterThan = true
+			current, total = GetHighestProduction(playerID)
 		elseif obj.type == "HIGHEST_TECH_COUNT" then
             isGreaterThan = true
 			current, total = GetPlayerTechCounts(playerID)
@@ -1610,12 +1993,18 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "LAND_AREA_HOME_CONTINENT" then
 			current = GetPercentLandArea_HomeContinent(playerID, obj.percent) or -1
 			total = obj.percent
+		elseif obj.type == "MAXIMUM_ALLIANCE_LEVEL_COUNT" then -- UNTESTED
+			current = GetAllianceLevelCount(playerID)
+			total = obj.count
 		elseif obj.type == "MINIMUM_CONTINENT_TECH_COUNT" then
             isGreaterThan = true
 			current, total = HasMoreTechsThanContinentMinimum(playerID, obj.continent)
 		elseif obj.type == "MOST_ACTIVE_TRADEROUTES_ALL" then
             isGreaterThan = true
 			current, total = GetTradeRoutesCount(playerID)
+		elseif obj.type == "MOST_CITIES_FOLLOWING_RELIGION" then -- UNTESTED
+            isGreaterThan = true
+			current, total = GetReligiousCitiesCount(playerID)
 		elseif obj.type == "MOST_CITIES_ON_HOME_CONTINENT" then
             isGreaterThan = true
 			current, total = GetCitiesOnHomeContinent(playerID)
@@ -1625,6 +2014,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "NATURAL_WONDER_COUNT" then
 			current = GetNaturalWonderCount(playerID)
 			total = obj.count
+		elseif obj.type == "NUM_CITIES_CAPITAL_RANGE" then -- UNTESTED
+			current = GetNumCitiesWithinCapitalRange(playerID, obj.range)
+			total = obj.count
 		elseif obj.type == "NUM_CITIES_POP_SIZE" then
 			current = GetNumCitiesWithPopulation(playerID, obj.cityNum, obj.popNum)
 			total = obj.cityNum
@@ -1632,8 +2024,9 @@ function EvaluateObjectives(player, condition)
 			current = GetOccupiedCapitals(playerID)
 			total = obj.count
 		elseif obj.type == "PROJECT_COMPLETED" then
-			current = player:GetProperty("HSD_"..tostring(obj.id).."_COMPLETED") and 1 or 0
-			total = 1
+            isPlayerProperty = true
+			current = Game:GetProperty("HSD_"..tostring(obj.id).."_COMPLETED") or -1 --playerID nil check
+			total = playerID
 		elseif obj.type == "PROJECT_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_COUNT") or 0
 			total = obj.count
@@ -1654,6 +2047,9 @@ function EvaluateObjectives(player, condition)
 			total = obj.count
 		elseif obj.type == "UNIT_COUNT" then
 			current = GetUnitCount(playerID, obj.id)
+			total = obj.count
+		elseif obj.type == "UNIT_CLASS_COUNT" then -- UNTESTED
+			current = GetUnitClassCount(playerID, obj.id)
 			total = obj.count
 		elseif obj.type == "UNIT_KILL_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_KILL_COUNT") or 0
@@ -1831,6 +2227,7 @@ function HSD_InitVictoryMode()
     Events.CityProjectCompleted.Add(HSD_OnProjectCompleted)
 	Events.CivicCompleted.Add(HSD_OnCivicCompleted)
     Events.DiplomacyDeclareWar.Add(HSD_OnWarDeclared)
+    Events.GovernmentChanged.Add(HSD_OnGovernmentChanged)
 	Events.ResearchCompleted.Add(HSD_OnTechCompleted)
 	Events.WonderCompleted.Add(HSD_OnWonderConstructed)
 	Events.UnitKilledInCombat.Add(HSD_OnUnitKilled)
