@@ -44,6 +44,8 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name))
     elseif type == "CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "CITY_COUNT_FOREIGN_CONTINENT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "CITY_ADJACENT_TO_CAPITAL_SEA_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "CITY_WITH_FEATURE_COUNT" then
@@ -78,8 +80,6 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Technologies[objective.id].Name))
     elseif type == "FIRST_WAR_DECLARED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
-    elseif type == "FOREIGN_CONTINENT_CITIES" then
-        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "FULLY_UPGRADE_UNIT_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
     elseif type == "FULLY_UPGRADE_UNIT_CLASS_COUNT" then

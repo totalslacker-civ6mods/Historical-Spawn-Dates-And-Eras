@@ -1899,6 +1899,9 @@ function EvaluateObjectives(player, condition)
         elseif obj.type == "CITY_COUNT" then
 			current = GetCitiesCount(playerID)
 			total = obj.count
+		elseif obj.type == "CITY_COUNT_FOREIGN_CONTINENT" then
+			current = GetCitiesOnForeignContinents(playerID)
+			total = obj.count
 		elseif obj.type == "CITY_WITH_FEATURE_COUNT" then
 			current = GetCitiesWithFeatureCount(playerID, obj.id) or 0
 			total = obj.count
@@ -1948,9 +1951,6 @@ function EvaluateObjectives(player, condition)
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
-		elseif obj.type == "FOREIGN_CONTINENT_CITIES" then
-			current = GetCitiesOnForeignContinents(playerID)
-			total = obj.count
 		elseif obj.type == "FULLY_UPGRADE_UNIT_COUNT" then -- UNTESTED
 			current = GetFullyUpgradedUnitsCount(playerID, obj.id)
 			total = obj.count
