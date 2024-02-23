@@ -123,6 +123,82 @@ HSD_victoryConditionsConfig = {
 		-- end of victory conditions
     },
 
+    LEADER_ELEANOR_ENGLAND = {
+        {
+            id = "HUNDRED_YEARS_WAR",
+            index = "1",
+            year = 1450,
+            era = nil,
+            objectives = {
+                {type = "OCCUPIED_CAPITAL_COUNT", count = 2},
+                {type = "LOYALTY_CONVERT_CITY_COUNT", count = 4}, -- TODO
+            },
+            score = 1
+        },
+        {
+            id = "ANGEVIN_DYNASTY",
+            index = "2",
+            year = nil,
+            era = "ERA_MEDIEVAL",
+            objectives = {
+                {type = "HIGHEST_CITY_POPULATION"},
+                {type = "GREAT_WORK_COUNT", count = 8},
+            },
+            score = 1
+        },
+        {
+            id = "THE_CRUSADES",
+            index = "3",
+            year = nil,
+            era = "ERA_MEDIEVAL",
+            objectives = {
+                {type = "HOLY_CITY_COUNT", count = 2},
+                {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 4},
+            },
+            score = 1
+        },
+        -- end of victory conditions
+    },
+
+    LEADER_ELIZABETH = {
+        {
+            id = "ELIZABETHAN_ERA",
+            index = "1",
+            year = nil,
+            era = "ERA_RENAISSANCE",
+            objectives = {
+                {type = "SAME_RELIGION_ALL_CITIES"},
+                {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_WRITING"},
+                {type = "GOLD_COUNT", count = 4000},
+            },
+            score = 1
+        },
+        {
+            id = "AGE_OF_PIRACY",
+            index = "2",
+            year = nil,
+            era = nil,
+            objectives = {
+                {type = "UNIT_PILLAGE_COUNT", id = "UNIT_ENGLISH_SEADOG", count = 20},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_ENGLISH_SEADOG", count = 10},
+            },
+            score = 1
+        },
+        {
+            id = "ROYAL_NAVY",
+            index = "3",
+            year = nil,
+            era = nil,
+            objectives = {
+                {type = "LARGEST_NAVY"}, -- TODO
+                {type = "MOST_OUTGOING_TRADE_ROUTES"},
+                {type = "TRADING_POST_WITH_ALL_PLAYERS"},
+            },
+            score = 1
+        },
+        -- end of victory conditions
+    },
+
     LEADER_GORGO = {
         {
 			id = "SPARTAN_VALOR",
@@ -461,6 +537,46 @@ HSD_victoryConditionsConfig = {
             score = 1
         },
         -- end of victory conditions
+    },
+
+    LEADER_VICTORIA = {
+        {
+			id = "VICTORIAN_ERA",
+			index = "1",
+            year = nil,
+			era = "ERA_INDUSTRIAL",
+            objectives = {
+                {type = "WONDER_BUILT", id = "BUILDING_OXFORD_UNIVERSITY"},
+				{type = "GREAT_PERSON_ERA_COUNT", id = "ERA_INDUSTRIAL", count = 5},
+                {type = "GREAT_WORK_COUNT", count = 20}, -- TODO
+            },
+            score = 1
+        },
+        {
+            id = "INDUSTRIAL_REVOLUTION",
+			index = "2",
+            year = 1860,
+            era = nil,
+            objectives = {
+                {type = "FIRST_TECH_RESEARCHED", id = "TECH_INDUSTRIALIZATION"},
+                {type = "WONDER_BUILT", id = "BUILDING_BIG_BEN"},
+                {type = "BUILDING_COUNT", id = "BUILDING_FACTORY", count = 6},
+            },
+            score = 1
+        },
+        {
+            id = "SUN_NEVER_SETS",
+			index = "3",
+			year = 1920,
+			era = nil,
+            objectives = {
+                {type = "CITY_COUNT_EVERY_CONTINENT", count = 1}, -- TODO
+                {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 10},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_ENGLISH_REDCOAT", count = 20},
+            },
+            score = 1
+        },
+		-- end of victory conditions
     },
 
     LEADER_WU_ZETIAN = {
@@ -1002,7 +1118,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "CITY_COUNT_EVERY_CONTINENT", count = 1}, -- TODO
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 10},
-                {type = "UNIT_KILL_COUNT", id = "UNIT_ENGLISH_REDCOAT", count = 20},
+                {type = "MOST_POWERFUL_NAVY"}, -- TODO
             },
             score = 1
         },
@@ -1482,7 +1598,7 @@ HSD_victoryConditionsConfig = {
             era = "ERA_RENAISSANCE",
             objectives = {
                 {type = "HIGHEST_POPULATION_CITY"},
-                {type = "CONVERT_ALL_CITIES_RELIGION"},
+                {type = "SAME_RELIGION_ALL_CITIES"},
             },
             score = 1
         },
@@ -2011,7 +2127,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "HIGHEST_FAITH_PER_TURN"},
                 {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_RELIC"},
-                {type = "CONVERT_ALL_CITIES_RELIGION"},
+                {type = "CONVERT_ALL_CITIES"},
             },
             score = 1
         },

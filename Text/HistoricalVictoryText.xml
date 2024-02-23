@@ -836,13 +836,13 @@
 	</Replace>
 
 	<!-- SUMERIA -->
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_FRANCE_1_NAME" Language="en_US">
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SUMERIA_1_NAME" Language="en_US">
 	  <Text>Cradle of Civilization</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_FRANCE_2_NAME" Language="en_US">
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SUMERIA_2_NAME" Language="en_US">
 	  <Text>Sumerian Renaissance</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_FRANCE_3_NAME" Language="en_US">
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SUMERIA_3_NAME" Language="en_US">
 	  <Text>Epic of Gilgamesh</Text>
 	</Replace>
 	
@@ -862,6 +862,17 @@
 	<!-- ------------------------>
 	<!-- LEADER VICTORY TEXT ---->
 	<!-- ------------------------>
+	
+	<!-- ABRAHAM_LINCOLN -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ABRAHAM_LINCOLN_1_NAME" Language="en_US">
+		<Text>Land of the Free</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ABRAHAM_LINCOLN_2_NAME" Language="en_US">
+		<Text>Transcontinental Railroad</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ABRAHAM_LINCOLN_3_NAME" Language="en_US">
+		<Text>Arsenal of Democracy</Text>
+	</Replace>
 	
 	<!-- BASIL II -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_BASIL_II_1_NAME" Language="en_US">
@@ -884,6 +895,28 @@
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_CLEOPATRA_ALT_3_NAME" Language="en_US">
       <Text>Nile Delta</Text>
     </Replace>
+	
+	<!-- ELEANOR_ENGLAND -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ELEANOR_ENGLAND_1_NAME" Language="en_US">
+		<Text>Hundred Years War</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ELEANOR_ENGLAND_2_NAME" Language="en_US">
+		<Text>Angevin Dynasty</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ELEANOR_ENGLAND_3_NAME" Language="en_US">
+		<Text>The Crusades</Text>
+	</Replace>
+	
+	<!-- ELIZABETH -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ELIZABETH_1_NAME" Language="en_US">
+		<Text>Elizabethan Era</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ELIZABETH_2_NAME" Language="en_US">
+		<Text>Age of Piracy</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_ELIZABETH_3_NAME" Language="en_US">
+		<Text>Royal Navy</Text>
+	</Replace>
 	
 	<!-- GORGO -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_GORGO_1_NAME" Language="en_US">
@@ -929,17 +962,6 @@
 		<Text>Middle Kingdom</Text>
 	</Replace>
 	
-	<!-- ABRAHAM_LINCOLN -->
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_ABRAHAM_LINCOLN_1_NAME" Language="en_US">
-		<Text>Land of the Free</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_ABRAHAM_LINCOLN_2_NAME" Language="en_US">
-		<Text>Transcontinental Railroad</Text>
-	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_LEADER_ABRAHAM_LINCOLN_3_NAME" Language="en_US">
-		<Text>Arsenal of Democracy</Text>
-	</Replace>
-	
 	<!-- QIN -->
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_QIN_1_NAME" Language="en_US">
 		<Text>Qin Dynasty</Text>
@@ -982,6 +1004,17 @@
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_LEADER_SULEIMAN_ALT_3_NAME" Language="en_US">
 		<Text>Empire of Wealth</Text>
+	</Replace>
+	
+	<!-- VICTORIA -->
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_VICTORIA_1_NAME" Language="en_US">
+	  <Text>Victorian Era</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_VICTORIA_2_NAME" Language="en_US">
+	  <Text>Industrial Revolution</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_LEADER_VICTORIA_3_NAME" Language="en_US">
+	  <Text>Sun Never Sets</Text>
 	</Replace>
 	
 	<!-- WU_ZETIAN -->
