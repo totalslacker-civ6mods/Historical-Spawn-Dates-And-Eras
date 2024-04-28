@@ -502,6 +502,93 @@ function HSD_GetHolyCitiesCount(playerID)
     return holyCityCount
 end
 
+function HSD_GetCitiesWithGovernors(playerID)
+    local player = Players[playerID]
+    local totalCities = 0
+    local citiesWithGovernors = 0
+
+    -- Iterate through the player's cities
+    for _, city in player:GetCities():Members() do
+        totalCities = totalCities + 1
+        local governor = city:GetAssignedGovernor()
+        -- print("Governor assigned: "..tostring(governor))
+        -- Check if the city has an assigned governor
+        if governor then
+            citiesWithGovernors = citiesWithGovernors + 1
+        end
+    end
+
+    return citiesWithGovernors, totalCities
+end
+
+function HSD_GetUnitPromotionLevel(playerID, unitType, promotionLevel)
+    local player = Players[playerID]
+    local playerUnits = player:GetUnits()
+    local count = 0
+
+    for i, unit in playerUnits:Members() do
+		local playerUnitType = GameInfo.Units[unit:GetUnitType()].UnitType
+        print("Unit type is "..tostring(playerUnitType))
+        if playerUnitType == unitType then
+            local unitLevel = unit:GetExperience():GetLevel()
+            print("Unit is level "..tostring(unitLevel))
+            if unitLevel >= promotionLevel then
+                count = count + 1
+            end
+        end
+    end
+
+    return count
+end
+
+function HSD_GetUnitClassLevel(playerID, promotionClass, promotionLevel)
+    local player = Players[playerID]
+    local playerUnits = player:GetUnits()
+    local count = 0
+
+    for i, unit in playerUnits:Members() do
+        local unitType = unit:GetType()
+        local unitPromotionClass = GameInfo.Units[unitType].PromotionClass
+        if unitPromotionClass == promotionClass then
+            local unitLevel = unit:GetExperience():GetLevel()
+            print("Unit is level "..tostring(unitLevel))
+            if unitLevel >= promotionLevel then
+                count = count + 1
+            end
+        end
+    end
+
+    return count
+end
+
+function HSD_GetTourismCounts(playerID)
+    -- Initialize variables to hold tourism counts
+    local playerTourism = 0
+    local highestOtherPlayerTourism = 0
+
+    -- Get the player's tourism
+    local player = Players[playerID]
+    if player then
+        local playerStats = player:GetStats()
+        playerTourism = playerStats:GetTourism()
+    end
+
+    -- Iterate through all other players to find the highest tourism
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayer = Players[otherPlayerID]
+            local otherPlayerStats = otherPlayer:GetStats()
+            local otherTourism = otherPlayerStats:GetTourism()
+
+            if otherTourism > highestOtherPlayerTourism then
+                highestOtherPlayerTourism = otherTourism
+            end
+        end
+    end
+
+    return playerTourism, highestOtherPlayerTourism
+end
+
 ----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
@@ -534,6 +621,10 @@ function InitializeHSD_UI()
 	ExposedMembers.HSD_GetCultureCounts = HSD_GetCultureCounts
 	ExposedMembers.HSD_GetNumTechsResearched = HSD_GetNumTechsResearched
 	ExposedMembers.HSD_GetHolyCitiesCount = HSD_GetHolyCitiesCount
+	ExposedMembers.HSD_GetCitiesWithGovernors = HSD_GetCitiesWithGovernors
+	ExposedMembers.HSD_GetUnitPromotionLevel = HSD_GetUnitPromotionLevel
+	ExposedMembers.HSD_GetUnitClassLevel = HSD_GetUnitClassLevel
+	ExposedMembers.HSD_GetTourismCounts = HSD_GetTourismCounts
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))

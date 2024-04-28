@@ -143,7 +143,7 @@
 	  <Text>Control {1_count} coastal cities</Text>
 	</Replace>
 
-	<Replace Tag="LOC_HSD_CONTROL_ALL_CAPITAL_ADJACENT_RIVER" Language="en_US">
+	<Replace Tag="LOC_HSD_CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL" Language="en_US">
 	  <Text>Control the river adjacent to your capital</Text>
 	</Replace>
 	
@@ -164,7 +164,7 @@
 	</Replace>
 
 	<Replace Tag="LOC_HSD_FEATURE_COUNT" Language="en_US">
-	  <Text>Own {1_count} {2_feature} plots</Text>
+	  <Text>Own {2_count} {1_feature} plots</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_FIRST_NUM_ACTIVE_ALLIANCES" Language="en_US">
@@ -194,13 +194,13 @@
 	<Replace Tag="LOC_HSD_FIRST_WAR_DECLARED" Language="en_US">
 	  <Text>First war declared</Text>
 	</Replace>
-
-	<Replace Tag="LOC_HSD_FULLY_UPGRADE_UNIT_COUNT" Language="en_US">
-	  <Text>Fully upgrade {2_count} {1_unitTypeName} units</Text>
-	</Replace>
 	
 	<Replace Tag="LOC_HSD_GOLD_COUNT" Language="en_US">
 	  <Text>{1_count}[ICON_GOLD] in treasury</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_GOVERNOR_IN_EVERY_CITY" Language="en_US">
+	  <Text>Have a governor in every city</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_GREAT_PEOPLE_ACTIVATED" Language="en_US">
@@ -231,6 +231,10 @@
 	  <Text>Have the highest tech count</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_HIGHEST_TOURISM" Language="en_US">
+	  <Text>Have the highest tourism count</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_HOLY_CITY_COUNT" Language="en_US">
 	  <Text>Control {1_count} holy cities</Text>
 	</Replace>
@@ -255,6 +259,10 @@
 	  <Text>Most incoming and outgoing trade routes</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_MOST_ARCTIC_TERRAIN" Language="en_US">
+	  <Text>Have the most Tundra and Snow plots</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_MOST_CITIES_FOLLOWING_RELIGION" Language="en_US">
 	  <Text>Most cities following religion</Text>
 	</Replace>
@@ -262,9 +270,25 @@
 	<Replace Tag="LOC_HSD_MOST_CITIES_ON_HOME_CONTINENT" Language="en_US">
 	  <Text>Most cities on home continent</Text>
 	</Replace>
-
+	
+	<Replace Tag="LOC_HSD_MOST_HILL_PLOTS" Language="en_US">
+	  <Text>Have the most Hills plots</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_MOST_OUTGOING_TRADE_ROUTES" Language="en_US">
 	  <Text>Most outgoing trade routes</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOST_TERRAIN_TYPE" Language="en_US">
+	  <Text>Have the most {1_terrainType} plots</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOST_UNIT_DOMAIN_TYPE" Language="en_US">
+	  <Text>Have the most {1_domainType} units</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOST_UNIT_FORMATION_CLASS_TYPE" Language="en_US">
+	  <Text>Have the most {1_formationClass} units</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_NATURAL_WONDER_COUNT" Language="en_US">
@@ -298,6 +322,10 @@
 	<Replace Tag="LOC_HSD_ROUTE_COUNT" Language="en_US">
 	  <Text>Own {1_count} route plots</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_ROUTE_TYPE_COUNT" Language="en_US">
+	  <Text>Own {2_count} {1_route} plots</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_SUZERAINTY_COUNT" Language="en_US">
 	  <Text>Establish Suzerainty over {1_count} city-states</Text>
@@ -307,6 +335,10 @@
 	  <Text>Control a named {1_territoryTypeName} of at least {2_minSize} plots</Text>
 	</Replace>
 
+	<Replace Tag="LOC_HSD_TOTAL_LAND_AREA" Language="en_US">
+	  <Text>Control {1_percent}% of land area</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_UNIT_CONQUER_CITY_COUNT" Language="en_US">
 	  <Text>Conquer {2_count} cities with the {1_unitTypeName}</Text>
 	</Replace>
@@ -318,6 +350,10 @@
 	<Replace Tag="LOC_HSD_UNIT_CLASS_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_promotionClassName} units</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_UNIT_CLASS_PROMOTION_LEVEL" Language="en_US">
+	  <Text>Have {2_count} {1_unitTypeName} units at level {3_level}</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_UNIT_KILL_COUNT" Language="en_US">
 	  <Text>Kill {2_count} units with the {1_unitTypeName}</Text>
@@ -325,6 +361,10 @@
 	
 	<Replace Tag="LOC_HSD_UNIT_PILLAGE_COUNT" Language="en_US">
 	  <Text>Pillage {2_count} times with the {1_unitTypeName}</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_UNIT_PROMOTION_LEVEL" Language="en_US">
+	  <Text>Have {2_count} {1_unitTypeName} at level {3_level}</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_UNLOCK_ALL_ERA_CIVICS" Language="en_US">

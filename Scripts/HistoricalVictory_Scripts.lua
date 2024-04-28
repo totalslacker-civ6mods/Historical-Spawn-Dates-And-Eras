@@ -20,6 +20,10 @@ ExposedMembers.HSD_GetRiverPlots = {}
 ExposedMembers.HSD_GetCultureCounts = {}
 ExposedMembers.HSD_GetNumTechsResearched = {}
 ExposedMembers.HSD_GetHolyCitiesCount = {}
+ExposedMembers.HSD_GetCitiesWithGovernors = {}
+ExposedMembers.HSD_GetUnitPromotionLevel = {}
+ExposedMembers.HSD_GetUnitClassLevel = {}
+ExposedMembers.HSD_GetTourismCounts = {}
 
 -- ===========================================================================
 -- Variables
@@ -79,32 +83,32 @@ local function CacheVictoryConditions()
     Game:SetProperty("HSD_PlayerVictoryConditions", playerVictoryConditions)
 end
 
-local function CacheLuxuryResourcePlots()
-    local luxuryResources = {}
+-- local function CacheLuxuryResourcePlots()
+--     local luxuryResources = {}
     
-    -- Iterate through all resources to initialize the luxuryResources table
-    for resource in GameInfo.Resources() do
-        if resource.ResourceClassType == "RESOURCECLASS_LUXURY" then
-            luxuryResources[resource.ResourceType] = {}
-        end
-    end
+--     -- Iterate through all resources to initialize the luxuryResources table
+--     for resource in GameInfo.Resources() do
+--         if resource.ResourceClassType == "RESOURCECLASS_LUXURY" then
+--             luxuryResources[resource.ResourceType] = {}
+--         end
+--     end
 
-    -- Iterate through all plots and store the indexes of luxury resource plots
-    for plotIndex = 0, Map.GetPlotCount() - 1 do
-        local plot = Map.GetPlotByIndex(plotIndex)
-        local resourceType = plot:GetResourceType()
+--     -- Iterate through all plots and store the indexes of luxury resource plots
+--     for plotIndex = 0, Map.GetPlotCount() - 1 do
+--         local plot = Map.GetPlotByIndex(plotIndex)
+--         local resourceType = plot:GetResourceType()
 
-        if resourceType ~= -1 then -- Check if there is a resource on the plot
-            local resourceInfo = GameInfo.Resources[resourceType]
-            if resourceInfo and resourceInfo.ResourceClassType == "RESOURCECLASS_LUXURY" then
-                table.insert(luxuryResources[resourceInfo.ResourceType], plotIndex)
-            end
-        end
-    end
+--         if resourceType ~= -1 then -- Check if there is a resource on the plot
+--             local resourceInfo = GameInfo.Resources[resourceType]
+--             if resourceInfo and resourceInfo.ResourceClassType == "RESOURCECLASS_LUXURY" then
+--                 table.insert(luxuryResources[resourceInfo.ResourceType], plotIndex)
+--             end
+--         end
+--     end
 
-    -- Store the table in a game property for later access
-    Game:SetProperty("HSD_LuxuryResourcePlotIndexes", luxuryResources)
-end
+--     -- Store the table in a game property for later access
+--     Game:SetProperty("HSD_LuxuryResourcePlotIndexes", luxuryResources)
+-- end
 
 local function CacheAllResourcePlots()
     local allResources = {}
@@ -412,6 +416,72 @@ local function GetUnitClassCount(playerID, unitClassType)
     return unitClassCount
 end
 
+local function GetUnitDomainCount(playerID, unitDomain) -- TODO: Change to formation class
+    local playerUnits = Players[playerID]:GetUnits()
+    local playerDomainUnitCount = 0
+    local highestDomainUnitCount = 0
+
+    -- Count domain units for the specified player
+    for _, unit in playerUnits:Members() do
+        if GameInfo.Units[unit:GetType()].Domain == unitDomain then
+            playerDomainUnitCount = playerDomainUnitCount + 1
+        end
+    end
+
+    -- Compare with domain units count of all other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayerDomainUnitCount = 0
+            local otherPlayerUnits = Players[otherPlayerID]:GetUnits()
+            
+            for _, unit in otherPlayerUnits:Members() do
+                if GameInfo.Units[unit:GetType()].Domain == unitDomain then
+                    otherPlayerDomainUnitCount = otherPlayerDomainUnitCount + 1
+                end
+            end
+
+            if otherPlayerDomainUnitCount > highestDomainUnitCount then
+                highestDomainUnitCount = otherPlayerDomainUnitCount
+            end
+        end
+    end
+
+    return playerDomainUnitCount, highestDomainUnitCount
+end
+
+local function GetUnitFormationClassCount(playerID, unitFormationClass)
+    local playerUnits = Players[playerID]:GetUnits()
+    local playerFormationClassUnitCount = 0
+    local highestFormationClassUnitCount = 0
+
+    -- Count FormationClass units for the specified player
+    for _, unit in playerUnits:Members() do
+        if GameInfo.Units[unit:GetType()].FormationClass == unitFormationClass then
+            playerFormationClassUnitCount = playerFormationClassUnitCount + 1
+        end
+    end
+
+    -- Compare with FormationClass units count of all other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayerFormationClassUnitCount = 0
+            local otherPlayerUnits = Players[otherPlayerID]:GetUnits()
+            
+            for _, unit in otherPlayerUnits:Members() do
+                if GameInfo.Units[unit:GetType()].FormationClass == unitFormationClass then
+                    otherPlayerFormationClassUnitCount = otherPlayerFormationClassUnitCount + 1
+                end
+            end
+
+            if otherPlayerFormationClassUnitCount > highestFormationClassUnitCount then
+                highestFormationClassUnitCount = otherPlayerFormationClassUnitCount
+            end
+        end
+    end
+
+    return playerFormationClassUnitCount, highestFormationClassUnitCount
+end
+
 local function GetBorderingCitiesCount(iPlayer)
     local player = Players[iPlayer]
     local playerCities = player:GetCities()
@@ -549,6 +619,28 @@ local function GetTotalRoutePlots(iPlayer)
 	return routeCount
 end
 
+local function GetRouteTypeCount(iPlayer, routeType)
+	print("Checking for number of "..tostring(routeType).." plots owned by player "..tostring(iPlayer))
+	local player = Players[iPlayer]
+	local playerCities = player:GetCities()
+	local routeCount = 0
+
+	for _, city in playerCities:Members() do
+		local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(iPlayer, city:GetID())
+		for _,kCityUIDatas in pairs(CityUIDataList) do
+			for _,kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+				local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+				if plot:IsRoute() and plot:GetRouteType() then
+					routeCount = routeCount + 1
+					-- print(tostring(plot:GetRouteType()).." detected. Total count is "..tostring(routeCount))
+				end
+			end
+		end
+	end
+
+	return routeCount
+end
+
 local function GetImprovementAdjacentPlot(improvementType, plot)
     local improvementIndex = GameInfo.Improvements[improvementType].Index
     for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -589,7 +681,7 @@ local function GetCitiesWithImprovementCount(playerID, improvementType)
     return citiesWithImprovementCount
 end
 
-local function GetWonderAdjacentImprovement(playerID, wonderType, improvementType)
+local function GetWonderAdjacentImprovement(playerID, wonderType, improvementType) -- UNUSED
     print("Checking for " .. tostring(wonderType) .. " adjacent to " .. tostring(improvementType) .. " for player #" .. tostring(playerID))
     local player = Players[playerID]
     local playerCities = player:GetCities()
@@ -636,7 +728,7 @@ local function GetWonderAdjacentImprovement(playerID, wonderType, improvementTyp
     return false
 end
 
-local function GetDistrictLocations(iPlayer, districtType)
+local function GetDistrictLocations(iPlayer, districtType) -- UNUSED
 	local player = Players[iPlayer]
 	local playerCities = player:GetCities()
 	local districtLocations = {}
@@ -693,44 +785,6 @@ local function GetDistrictTypeCount(iPlayer, districtType)
 	return districtCount
 end
 
-local function GetFullyUpgradedUnitsCount(playerID, unitType)
-    local player = Players[playerID]
-    local playerUnits = player:GetUnits()
-    local count = 0
-
-    for i, unit in playerUnits:Members() do
-        if unit:GetType() == unitType then 
-            local unitLevel = unit:GetExperience():GetLevel()
-            print("Unit is level "..tostring(unitLevel))
-            if unitLevel == 8 then
-                count = count + 1
-            end
-        end
-    end
-
-    return count
-end
-
-local function GetFullyUpgradedUnitClass(playerID, promotionClass)
-    local player = Players[playerID]
-    local playerUnits = player:GetUnits()
-    local count = 0
-
-    for i, unit in playerUnits:Members() do
-        local unitType = unit:GetType()
-        local unitPromotionClass = GameInfo.Units[unitType].PromotionClass
-        if unitPromotionClass == promotionClass then
-            local unitLevel = unit:GetExperience():GetLevel()
-            print("Unit is level "..tostring(unitLevel))
-            if unitLevel == 8 then
-                count = count + 1
-            end
-        end
-    end
-
-    return count
-end
-
 local function GetNumCitiesWithinCapitalRange(playerID, range)
     local player = Players[playerID]
     local capitalCity = player:GetCities():GetCapitalCity()
@@ -739,7 +793,7 @@ local function GetNumCitiesWithinCapitalRange(playerID, range)
         return 0
     end
 
-    local capitalX, capitalY = capitalCity:GetX(), capitalY:GetY()
+    local capitalX, capitalY = capitalCity:GetX(), capitalCity:GetY()
     local citiesInRangeCount = 0
 
     -- Iterate through all cities owned by the player
@@ -760,8 +814,31 @@ local function GetNumCitiesWithinCapitalRange(playerID, range)
     return citiesInRangeCount
 end
 
--- Helper function to check if the civilization controls the required percentage of land area
-local function GetPercentLandArea_ContinentType(playerID, continentName, percent)
+local function GetPercentLandArea(playerID)
+    local totalLandTiles = 0
+    local playerLandTiles = 0
+
+    -- Iterate through all the tiles on the map
+    for iPlot = 0, Map.GetPlotCount() - 1 do
+        local plot = Map.GetPlotByIndex(iPlot)
+        if plot and not plot:IsWater() then -- Check if the tile is land
+            totalLandTiles = totalLandTiles + 1
+            if plot:IsOwned() and plot:GetOwner() == playerID then
+                playerLandTiles = playerLandTiles + 1
+            end
+        end
+    end
+
+    if totalLandTiles == 0 then
+        print("Error: No land tiles found on the map.")
+        return 0
+    else
+        local ownershipPercentage = (playerLandTiles / totalLandTiles) * 100
+        return ownershipPercentage
+    end
+end
+
+local function GetPercentLandArea_ContinentType(playerID, continentName, percent) -- UNUSED
     print("Checking land area control for player " .. tostring(playerID) .. " on continent " .. continentName)
     local totalContinentPlots = 0
     local controlledPlots = 0
@@ -794,7 +871,6 @@ local function GetPercentLandArea_ContinentType(playerID, continentName, percent
 	return controlledPercent
 end
 
--- Helper function to check if the civilization controls the required percentage of land area on their home continent
 local function GetPercentLandArea_HomeContinent(playerID, percent)
     local player = Players[playerID]
     local capital = player:GetCities():GetCapitalCity()
@@ -847,7 +923,7 @@ local function GetCitiesOnForeignContinents(playerID)
     return foreignCityCount
 end
 
--- Helper function to check if the civilization controls all plots of a territory
+-- Helper function to check if the civilization controls all plots of a named territory
 local function ControlsTerritory(iPlayer, territoryType, minimumSize)
     print("Checking for " .. territoryType .. " territory...")
     local player = Players[iPlayer]
@@ -859,7 +935,7 @@ local function ControlsTerritory(iPlayer, territoryType, minimumSize)
         if territoryType == "SEA" then
             return plot:IsWater()
         elseif territoryType == "DESERT" then
-            return plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_DESERT"].Index
+            return ((plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_DESERT"].Index) or (plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_DESERT_HILLS"].Index))
         elseif territoryType == "MOUNTAIN" then
             return plot:IsMountain()
         end
@@ -913,7 +989,154 @@ local function ControlsTerritory(iPlayer, territoryType, minimumSize)
     return territoryOwnership
 end
 
-function HasMoreTechsThanContinentMinimum(playerID, continentName)
+local function GetTerrainCounts(playerID, terrainType)
+    local playerTerrainCount = 0
+    local highestTerrainCount = 0
+
+    local terrainIndex = GameInfo.Terrains[terrainType] and GameInfo.Terrains[terrainType].Index
+    if not terrainIndex then
+        print("Invalid terrain type: " .. tostring(terrainType))
+        return 0, 0
+    end
+
+    -- Function to check if a plot has the specified terrain
+    local function hasSpecifiedTerrain(plot)
+        return plot:GetTerrainType() == terrainIndex
+    end
+
+    -- Check player's cities
+    local playerCities = Players[playerID]:GetCities()
+    for _, city in playerCities:Members() do
+        local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(playerID, city:GetID())
+        for _, kCityUIDatas in pairs(CityUIDataList) do
+            for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                if plot and hasSpecifiedTerrain(plot) then
+                    playerTerrainCount = playerTerrainCount + 1
+                end
+            end
+        end
+    end
+
+    -- Check other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayerCities = Players[otherPlayerID]:GetCities()
+            local otherPlayerTerrainCount = 0
+            for _, city in otherPlayerCities:Members() do
+                local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(otherPlayerID, city:GetID())
+                for _, kCityUIDatas in pairs(CityUIDataList) do
+                    for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                        local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                        if plot and hasSpecifiedTerrain(plot) then
+                            otherPlayerTerrainCount = otherPlayerTerrainCount + 1
+                        end
+                    end
+                end
+            end
+            highestTerrainCount = math.max(highestTerrainCount, otherPlayerTerrainCount)
+        end
+    end
+
+    return playerTerrainCount, highestTerrainCount
+end
+
+local function GetArcticTerrainCounts(playerID)
+    local playerTundraSnowCount = 0
+    local highestOtherPlayerTundraSnowCount = 0
+    local otherPlayersTundraSnowCounts = {}
+
+    local function checkIfTundraOrSnow(plot)
+        return plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_TUNDRA"].Index or 
+               plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_TUNDRA_HILLS"].Index or 
+               plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_TUNDRA_MOUNTAIN"].Index or
+               plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_SNOW"].Index or 
+               plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_SNOW_HILLS"].Index or 
+               plot:GetTerrainType() == GameInfo.Terrains["TERRAIN_SNOW_MOUNTAIN"].Index
+    end
+
+    local playerCities = Players[playerID]:GetCities()
+    for _, city in playerCities:Members() do
+        local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(playerID, city:GetID())
+        for _, kCityUIDatas in pairs(CityUIDataList) do
+            for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                if plot and checkIfTundraOrSnow(plot) then
+                    playerTundraSnowCount = playerTundraSnowCount + 1
+                end
+            end
+        end
+    end
+
+    -- Checking for other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayerCities = Players[otherPlayerID]:GetCities()
+            local otherPlayerTundraSnowCount = 0
+            for _, city in otherPlayerCities:Members() do
+                local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(otherPlayerID, city:GetID())
+                for _, kCityUIDatas in pairs(CityUIDataList) do
+                    for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                        local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                        if plot and checkIfTundraOrSnow(plot) then
+                            otherPlayerTundraSnowCount = otherPlayerTundraSnowCount + 1
+                        end
+                    end
+                end
+            end
+            otherPlayersTundraSnowCounts[otherPlayerID] = otherPlayerTundraSnowCount
+            highestOtherPlayerTundraSnowCount = math.max(highestOtherPlayerTundraSnowCount, otherPlayerTundraSnowCount)
+        end
+    end
+
+    return playerTundraSnowCount, highestOtherPlayerTundraSnowCount
+end
+
+local function GetHillsCount(playerID)
+    local playerHillsCount = 0
+    local highestOtherPlayerHillsCount = 0
+
+    local function checkIfHills(plot)
+        return plot:IsHills()
+    end
+
+    local playerCities = Players[playerID]:GetCities()
+    for _, city in playerCities:Members() do
+        local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(playerID, city:GetID())
+        for _, kCityUIDatas in pairs(CityUIDataList) do
+            for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                if plot and checkIfHills(plot) then
+                    playerHillsCount = playerHillsCount + 1
+                end
+            end
+        end
+    end
+
+    -- Checking for other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayerCities = Players[otherPlayerID]:GetCities()
+            local otherPlayerHillsCount = 0
+            for _, city in otherPlayerCities:Members() do
+                local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(otherPlayerID, city:GetID())
+                for _, kCityUIDatas in pairs(CityUIDataList) do
+                    for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                        local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                        if plot and checkIfHills(plot) then
+                            otherPlayerHillsCount = otherPlayerHillsCount + 1
+                        end
+                    end
+                end
+            end
+            highestOtherPlayerHillsCount = math.max(highestOtherPlayerHillsCount, otherPlayerHillsCount)
+        end
+    end
+
+    return playerHillsCount, highestOtherPlayerHillsCount
+end
+
+local function HasMoreTechsThanContinentMinimum(playerID, continentName)
     local player = Players[playerID]
     local playerTechs = player:GetTechs()
     local playerTechCount = playerTechs:GetNumTechsResearched()
@@ -1144,6 +1367,11 @@ end
 local function GetPlayerTechCounts(playerID)
     local playerTechCount, highestTechCount = ExposedMembers.HSD_GetNumTechsResearched(playerID)
     return playerTechCount, highestTechCount
+end
+
+local function GetTourismCounts(playerID)
+    local playerTourismCount, highestTourismCount = ExposedMembers.HSD_GetTourismCounts(playerID)
+    return playerTourismCount, highestTourismCount
 end
 
 local function IsBuildingInCapital(playerID, buildingType)
@@ -1386,8 +1614,8 @@ local function GetCitiesInRange_Building(playerID, buildingID, range)
     -- Iterate through player's cities to find the city with the specified building
     for _, city in playerCities:Members() do
         if city:GetBuildings():HasBuilding(buildingIndex) then
-            local buildingPlot = city:GetBuildings():GetBuildingLocation(buildingIndex)
-
+            local buildingPlotIndex = city:GetBuildings():GetBuildingLocation(buildingIndex)
+            local buildingPlot = Map.GetPlotByIndex(buildingPlotIndex)
             -- Get the building's plot coordinates
             if buildingPlot then
                 local buildingX, buildingY = buildingPlot:GetX(), buildingPlot:GetY()
@@ -1514,7 +1742,6 @@ local function GetCitiesFollowingReligion(playerID)
 
     return citiesFollowingReligion, totalCities
 end
-
 
 -- ===========================================================================
 -- EVENT HOOKS
@@ -1935,7 +2162,7 @@ function EvaluateObjectives(player, condition)
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
-		elseif obj.type == "FIRST_GOVERNMENT" then -- UNTESTED
+		elseif obj.type == "FIRST_GOVERNMENT" then
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
@@ -1951,18 +2178,14 @@ function EvaluateObjectives(player, condition)
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
-		elseif obj.type == "FULLY_UPGRADE_UNIT_COUNT" then -- UNTESTED
-			current = GetFullyUpgradedUnitsCount(playerID, obj.id)
-			total = obj.count
-		elseif obj.type == "FULLY_UPGRADE_UNIT_CLASS_COUNT" then -- UNTESTED
-			current = GetFullyUpgradedUnitClass(playerID, obj.id)
-			total = obj.count
 		elseif obj.type == "GREAT_PERSON_ERA_COUNT" then -- UNTESTED
 			current = player:GetProperty("HSD_GREAT_PERSON_ERA_COUNT_"..tostring(obj.id)) or 0
 			total = obj.count
-		elseif obj.type == "GOLD_COUNT" then -- UNTESTED
+		elseif obj.type == "GOLD_COUNT" then
 			current = GetPlayerGold(playerID)
 			total = obj.count
+		elseif obj.type == "GOVERNOR_IN_EVERY_CITY" then
+			current, total = ExposedMembers.HSD_GetCitiesWithGovernors(playerID)
 		elseif obj.type == "GREAT_PEOPLE_ACTIVATED" then
 			current = Game:GetProperty("HSD_GREAT_PERSON_COUNT_"..tostring(playerID)) or 0
 			total = obj.count
@@ -1984,6 +2207,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "HIGHEST_TECH_COUNT" then
             isGreaterThan = true
 			current, total = GetPlayerTechCounts(playerID)
+		elseif obj.type == "HIGHEST_TOURISM" then
+            isGreaterThan = true
+			current, total = GetTourismCounts(playerID)
 		elseif obj.type == "HOLY_CITY_COUNT" then
 			current = ExposedMembers.HSD_GetHolyCitiesCount(playerID)
             total = obj.count
@@ -2002,19 +2228,34 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "MOST_ACTIVE_TRADEROUTES_ALL" then
             isGreaterThan = true
 			current, total = GetTradeRoutesCount(playerID)
+		elseif obj.type == "MOST_ARCTIC_TERRAIN" then
+            isGreaterThan = true
+			current, total = GetArcticTerrainCounts(playerID)
 		elseif obj.type == "MOST_CITIES_FOLLOWING_RELIGION" then -- UNTESTED
             isGreaterThan = true
 			current, total = GetReligiousCitiesCount(playerID)
 		elseif obj.type == "MOST_CITIES_ON_HOME_CONTINENT" then
             isGreaterThan = true
 			current, total = GetCitiesOnHomeContinent(playerID)
+		elseif obj.type == "MOST_HILL_PLOTS" then
+            isGreaterThan = true
+			current, total = GetHillsCount(playerID)
 		elseif obj.type == "MOST_OUTGOING_TRADE_ROUTES" then
             isGreaterThan = true
 			current, total = GetOutgoingRoutesCount(playerID)
+		elseif obj.type == "MOST_TERRAIN_TYPE" then
+            isGreaterThan = true
+			current, total = GetTerrainCounts(playerID, obj.id)
+		elseif obj.type == "MOST_UNIT_DOMAIN_TYPE" then
+            isGreaterThan = true
+			current, total = GetUnitDomainCount(playerID, obj.id)
+		elseif obj.type == "MOST_UNIT_FORMATION_CLASS_TYPE" then
+            isGreaterThan = true
+			current, total = GetUnitFormationClassCount(playerID, obj.id)
 		elseif obj.type == "NATURAL_WONDER_COUNT" then
 			current = GetNaturalWonderCount(playerID)
 			total = obj.count
-		elseif obj.type == "NUM_CITIES_CAPITAL_RANGE" then -- UNTESTED
+		elseif obj.type == "NUM_CITIES_CAPITAL_RANGE" then
 			current = GetNumCitiesWithinCapitalRange(playerID, obj.range)
 			total = obj.count
 		elseif obj.type == "NUM_CITIES_POP_SIZE" then
@@ -2036,12 +2277,18 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "ROUTE_COUNT" then
 			current = GetTotalRoutePlots(playerID)
 			total = obj.count
+		elseif obj.type == "ROUTE_TYPE_COUNT" then
+			current = GetRouteTypeCount(playerID, obj.id)
+			total = obj.count
 		elseif obj.type == "SUZERAINTY_COUNT" then
 			current = GetSuzeraintyCount(playerID)
 			total = obj.count
 		elseif obj.type == "TERRITORY_CONTROL" then
 			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
 			total = 1
+		elseif obj.type == "TOTAL_LAND_AREA" then
+			current = GetPercentLandArea(playerID)
+			total = obj.percent
 		elseif obj.type == "UNIT_CONQUER_CITY_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_CONQUER_COUNT") or 0
 			total = obj.count
@@ -2051,11 +2298,17 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "UNIT_CLASS_COUNT" then -- UNTESTED
 			current = GetUnitClassCount(playerID, obj.id)
 			total = obj.count
+		elseif obj.type == "UNIT_CLASS_PROMOTION_LEVEL" then -- UNTESTED
+			current = ExposedMembers.HSD_GetUnitClassLevel(playerID, obj.id, obj.count)
+			total = obj.count
 		elseif obj.type == "UNIT_KILL_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_KILL_COUNT") or 0
 			total = obj.count
 		elseif obj.type == "UNIT_PILLAGE_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_PILLAGE_COUNT") or 0
+			total = obj.count
+		elseif obj.type == "UNIT_PROMOTION_LEVEL" then
+			current = ExposedMembers.HSD_GetUnitPromotionLevel(playerID, obj.id, obj.level)
 			total = obj.count
 		elseif obj.type == "UNLOCK_ALL_ERA_CIVICS" then
 			current = HasUnlockedAllCivicsForEra(playerID, obj.id) and 1 or 0

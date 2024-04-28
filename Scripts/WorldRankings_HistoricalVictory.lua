@@ -54,7 +54,7 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count, objective.id)
     elseif type == "COASTAL_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
-    elseif type == "CONTROL_ALL_CAPITAL_ADJACENT_RIVER" then
+    elseif type == "CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "CONVERT_NUM_CONTINENTS" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
@@ -65,7 +65,7 @@ local function GetObjectiveDetails(objective)
     elseif type == "DISTRICT_ON_NUM_CONTINENTS" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Districts[objective.id].Name), objective.count)
     elseif type == "FEATURE_COUNT" then
-        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.id, objective.count)
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Features[objective.id].Name), objective.count)
     elseif type == "FIRST_NUM_ACTIVE_ALLIANCES" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "FIRST_BUILDING_CONSTRUCTED" then
@@ -80,12 +80,10 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Technologies[objective.id].Name))
     elseif type == "FIRST_WAR_DECLARED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
-    elseif type == "FULLY_UPGRADE_UNIT_COUNT" then
-        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
-    elseif type == "FULLY_UPGRADE_UNIT_CLASS_COUNT" then
-        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.UnitPromotionClasses[objective.id].Name), objective.count)
     elseif type == "GOLD_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "GOVERNOR_IN_EVERY_CITY" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "GREAT_PEOPLE_ACTIVATED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "GREAT_PERSON_ERA_COUNT" then
@@ -102,6 +100,8 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "HIGHEST_TECH_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "HIGHEST_TOURISM" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "HOLY_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "LAND_AREA_HOME_CONTINENT" then
@@ -114,12 +114,22 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.continent)
     elseif type == "MOST_ACTIVE_TRADEROUTES_ALL" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "MOST_ARCTIC_TERRAIN" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "MOST_CITIES_FOLLOWING_RELIGION" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "MOST_CITIES_ON_HOME_CONTINENT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "MOST_HILL_PLOTS" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "MOST_OUTGOING_TRADE_ROUTES" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+    elseif type == "MOST_TERRAIN_TYPE" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Terrains[objective.id].Name))
+    elseif type == "MOST_UNIT_DOMAIN_TYPE" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.id)
+    elseif type == "MOST_UNIT_FORMATION_CLASS_TYPE" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.UnitFormationClasses[objective.id].Name))
     elseif type == "NATURAL_WONDER_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "NUM_CITIES_CAPITAL_RANGE" then
@@ -136,21 +146,29 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Resources[objective.id].Name), objective.percent)
     elseif type == "ROUTE_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "ROUTE_TYPE_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Routes[objective.id].Name), objective.count)
     elseif type == "SUZERAINTY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "TERRITORY_CONTROL" then
         local territoryTypeName = objective.territory:lower()
         detailsText = Locale.Lookup("LOC_HSD_"..type, territoryTypeName, objective.minimumSize)
+    elseif type == "TOTAL_LAND_AREA" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.percent)
     elseif type == "UNIT_CONQUER_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
     elseif type == "UNIT_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
     elseif type == "UNIT_CLASS_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.UnitPromotionClasses[objective.id].Name), objective.count)
+    elseif type == "UNIT_CLASS_PROMOTION_LEVEL" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.UnitPromotionClasses[objective.id].Name), objective.count, objective.level)
     elseif type == "UNIT_KILL_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
     elseif type == "UNIT_PILLAGE_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)
+    elseif type == "UNIT_PROMOTION_LEVEL" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count, objective.level)
     elseif type == "UNLOCK_ALL_ERA_CIVICS" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Eras[objective.id].Name))
     elseif type == "WONDER_ADJACENT_IMPROVEMENT" then

@@ -29,7 +29,7 @@ HSD_victoryConditionsConfig = {
             year = 1890,
             era = nil,
             objectives = {
-                {type = "ROUTE_TYPE_COUNT", id = "ROUTE_RAILROAD", count = 50}, -- TODO
+                {type = "ROUTE_TYPE_COUNT", id = "ROUTE_RAILROAD", count = 50},
                 {type = "DISTRICT_COUNT", id = "DISTRICT_CANAL", count = 5},
             },
             score = 1
@@ -190,7 +190,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "LARGEST_NAVY"}, -- TODO
+                {type = "MOST_UNIT_FORMATION_CLASS_TYPE", id = "FORMATION_CLASS_NAVAL"},
                 {type = "MOST_OUTGOING_TRADE_ROUTES"},
                 {type = "TRADING_POST_WITH_ALL_PLAYERS"},
             },
@@ -207,7 +207,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_GREEK_HOPLITE", count = 10},
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_GREEK_HOPLITE", count = 2},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_GREEK_HOPLITE", count = 2, level = 8},
                 {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_GREEK_HOPLITE", count = 5},
             },
             score = 1
@@ -246,7 +246,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_NORWEGIAN_BERSERKER", count = 5},
                 {type = "UNIT_PILLAGE_COUNT", id = "UNIT_NORWEGIAN_BERSERKER", count = 10},
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_NORWEGIAN_BERSERKER", count = 1},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_NORWEGIAN_BERSERKER", count = 1, level = 8},
             },
             score = 1
         },
@@ -610,7 +610,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_SPY", count = 1},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_SPY", count = 1, level = 3},
                 {type = "COMPLETE_ALL_ESPIONAGE_MISSIONS"}, -- TODO
             },
             score = 1
@@ -950,7 +950,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_BIOSPHERE"},
                 {type = "NATIONAL_PARK_COUNT", count = 5},
-                {type = "MOST_ARCTIC_TERRAIN"}, -- TODO
+                {type = "MOST_ARCTIC_TERRAIN"},
             },
             score = 1
         },
@@ -1002,7 +1002,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_GREAT_WALL", count = 20},
                 {type = "NUM_CITIES_CAPITAL_RANGE", count = 6, range = 6},
-                {type = "HIGHEST_TOURISM"}, -- TODO
+                {type = "HIGHEST_TOURISM"},
             },
             score = 1
         },
@@ -1016,7 +1016,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_CREE_OKIHTCITAW", count = 1},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_CREE_OKIHTCITAW", count = 1, level = 8},
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_MEKEWAP", count = 10},
                 {type = "MOST_TERRAIN_TYPE", id = "TERRAIN_PLAINS"},
             },
@@ -1156,7 +1156,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_ETHIOPIAN_OROMO_CAVALRY", count = 20},
-                {type = "MOST_HILL_PLOTS"}, -- TODO
+                {type = "MOST_HILL_PLOTS"},
             },
             score = 1
         },
@@ -1301,7 +1301,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "DISTRICT_COUNT", id = "DISTRICT_HANSA", count = 5},
                 {type = "GREAT_PEOPLE_ACTIVATED", count = 4},
-                {type = "FULLY_UPGRADE_UNIT_CLASS_COUNT", id = "PROMOTION_CLASS_NAVAL_RAIDER", count = 2},
+                {type = "UNIT_CLASS_PROMOTION_LEVEL", id = "PROMOTION_CLASS_NAVAL_RAIDER", count = 2, level = 8},
             },
             score = 1
         },
@@ -1532,7 +1532,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_JAPANESE_SAMURAI", count = 20},
                 {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_JAPANESE_SAMURAI", count = 5},
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_JAPANESE_SAMURAI", count = 1},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_JAPANESE_SAMURAI", count = 1, level = 8},
             },
             score = 1
         },
@@ -1544,7 +1544,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "BUILDING_COUNT", id = "BUILDING_ELECTRONICS_FACTORY", count = 3},
                 {type = "HIGHEST_TECH_COUNT"},
-                {type = "MOST_UNIT_DOMAIN_TYPE", id = "DOMAIN_SEA"}, -- TODO
+                {type = "MOST_UNIT_DOMAIN_TYPE", id = "DOMAIN_SEA"},
             },
             score = 1
         },
@@ -1638,7 +1638,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "FIRST_TECH_RESEARCHED", id = "TECH_PRINTING"},
                 {type = "HIGHEST_TECH_COUNT"},
-                {type = "GOVERNOR_IN_EVERY_CITY"}, --TODO
+                {type = "GOVERNOR_IN_EVERY_CITY"},
             },
             score = 1
         },
@@ -1659,7 +1659,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "UNIT_UPGRADE_LEVEL", id = "UNIT_ROCK_BAND", level = 4}, --TODO
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_ROCK_BAND", count = 1, level = 4},
             },
             score = 1
         },
@@ -1685,7 +1685,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "GREAT_PERSON_TYPE_COUNT", id = "GREAT_PERSON_CLASS_GENERAL", count = 6},
                 {type = "UNIT_KILL_COUNT", id = "UNIT_MACEDONIAN_HETAIROI", count = 20},
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_MACEDONIAN_HYPASPIST", count = 1},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_MACEDONIAN_HYPASPIST", count = 1, level = 8},
             },
             score = 1
         },
@@ -1987,7 +1987,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_NUBIAN_PITATI", count = 20},
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_NUBIAN_PITATI", count = 1},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_NUBIAN_PITATI", count = 1, level = 8},
             },
             score = 1
         },
@@ -2206,7 +2206,7 @@ HSD_victoryConditionsConfig = {
                 -- {type = "WONDER_BUILT", id = "BUILDING_COLOSSEUM"},
                 -- {type = "DISTRICT_COUNT", id = "DISTRICT_BATH", count = 4},
                 -- {type = "ROUTE_COUNT", count = 15},
-                {type = "WONDER_BUILT_CITIES_IN_RANGE", id = "BUILDING_MONUMENT", count = 6, range = 6},
+                {type = "MOST_HILL_PLOTS"},
             },
             score = 1
         },
@@ -2218,7 +2218,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 -- {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
                 -- {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 5},
-                {type = "FIRST_GOVERNMENT", id = "GOVERNMENT_CHIEFDOM"},
+                {type = "MOST_TERRAIN_TYPE", id = "TERRAIN_PLAINS"},
             },
             score = 1
         },
@@ -2229,7 +2229,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 -- {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
-                {type = "NUM_CITIES_CAPITAL_RANGE", count = 1, range = 6},
+                {type = "HIGHEST_TOURISM"},
             },
             score = 1
         },
@@ -2255,7 +2255,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "TOTAL_LAND_AREA", percent = 15}, -- TODO
+                {type = "TOTAL_LAND_AREA", percent = 15},
                 {type = "UNIT_KILL_COUNT", id = "UNIT_RUSSIAN_COSSACK", count = 20},
                 {type = "PROJECT_FIRST_COMPLETED", id = "PROJECT_LAUNCH_EARTH_SATELLITE"}, -- TODO
             },
@@ -2296,7 +2296,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_SCOTTISH_HIGHLANDER", count = 10},
-                {type = "FULLY_UPGRADE_UNIT_COUNT", id = "UNIT_SCOTTISH_HIGHLANDER", count = 1},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_SCOTTISH_HIGHLANDER", count = 1, level = 8},
             },
             score = 1
         },
@@ -2334,7 +2334,7 @@ HSD_victoryConditionsConfig = {
             era = "ERA_CLASSICAL",
             objectives = {
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_KURGAN", count = 10},
-                {type = "MOST_TERRAIN_TYPE", id = "TERRAIN_PLAINS"}, -- TODO
+                {type = "MOST_TERRAIN_TYPE", id = "TERRAIN_PLAINS"},
             },
             score = 1
         },
