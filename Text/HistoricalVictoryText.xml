@@ -115,6 +115,10 @@
 	  <Text>Build a {1_buildingTypeName} in capital</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_BUILDING_IN_EVERY_CITY" Language="en_US">
+	  <Text>Build a {1_buildingTypeName} in every city</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_BUILDING_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_buildingTypeName} buildings</Text>
 	</Replace>
@@ -125,6 +129,10 @@
 	
 	<Replace Tag="LOC_HSD_CITY_COUNT" Language="en_US">
 	  <Text>Own {1_count} cities</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_CITY_COUNT_EVERY_CONTINENT" Language="en_US">
+	  <Text>Own {1_count} cities on every continent</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_CITY_COUNT_FOREIGN_CONTINENT" Language="en_US">
@@ -158,9 +166,17 @@
 	<Replace Tag="LOC_HSD_DISTRICT_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_districtTypeName} districts</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_DISTRICT_COUNT_CAPITAL_ADJACENT" Language="en_US">
+	  <Text>Own {1_count} districts adjacent to capital</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_DISTRICT_ON_NUM_CONTINENTS" Language="en_US">
 	  <Text>Own {2_count} {1_districtTypeName} districts on {3_count} continents</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_ENVOYS_WITH_CITY_STATE" Language="en_US">
+	  <Text>At least {1_count} envoys with a city-state</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_FEATURE_COUNT" Language="en_US">
@@ -177,6 +193,10 @@
 
 	<Replace Tag="LOC_HSD_FIRST_CIVIC_RESEARCHED" Language="en_US">
 	  <Text>First to unlock {1_civicTypeName}</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_FIRST_CITY_SIZE" Language="en_US">
+	  <Text>First city of size {1_count}</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_FIRST_GOVERNMENT" Language="en_US">
@@ -209,6 +229,14 @@
 	
 	<Replace Tag="LOC_HSD_GREAT_PERSON_ERA_COUNT" Language="en_US">
 	  <Text>Activate {2_count} Great People from the {1_eraTypeName}</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_GREAT_PERSON_TYPE_COUNT" Language="en_US">
+	  <Text>Earn {2_count} {1_greatPersonClassTypeName}</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_HAPPIEST_POPULATION" Language="en_US">
+	  <Text>Have the highest happiness in every city</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_HIGHEST_CITY_POPULATION" Language="en_US">
@@ -243,8 +271,16 @@
 	  <Text>Own {2_count} {1_improvementTypeName} improvements</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_IMPROVEMENT_YIELD_COUNT" Language="en_US">
+	  <Text>Have {3_count} {2_yield} on a {1_improvementTypeName}</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_LAND_AREA_HOME_CONTINENT" Language="en_US">
 	  <Text>Own {1_percent}% of the land on your home continent</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_LOYALTY_CONVERT_CITY_COUNT" Language="en_US">
+	  <Text>Convert {1_count} cities with loyalty</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_MAXIMUM_ALLIANCE_LEVEL_COUNT" Language="en_US">
@@ -283,6 +319,10 @@
 	  <Text>Have the most {1_terrainType} plots</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_MOST_TERRAIN_CLASS" Language="en_US">
+	  <Text>Have the most {1_terrainClassType} plots</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_MOST_UNIT_DOMAIN_TYPE" Language="en_US">
 	  <Text>Have the most {1_domainType} units</Text>
 	</Replace>
@@ -293,6 +333,10 @@
 	
 	<Replace Tag="LOC_HSD_NATURAL_WONDER_COUNT" Language="en_US">
 	  <Text>Control {1_count} Natural Wonders</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_NUCLEAR_WEAPONS_COUNT" Language="en_US">
+	  <Text>Control {1_count} Nuclear Weapons</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_NUM_CITIES_POP_SIZE" Language="en_US">
@@ -333,6 +377,10 @@
 
 	<Replace Tag="LOC_HSD_TERRITORY_CONTROL" Language="en_US">
 	  <Text>Control a named {1_territoryTypeName} of at least {2_minSize} plots</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_TRADING_POST_IN_EVERY_CITY" Language="en_US">
+	  <Text>Have a trading post in all your cities</Text>
 	</Replace>
 
 	<Replace Tag="LOC_HSD_TOTAL_LAND_AREA" Language="en_US">

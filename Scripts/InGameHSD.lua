@@ -589,6 +589,28 @@ function HSD_GetTourismCounts(playerID)
     return playerTourism, highestOtherPlayerTourism
 end
 
+function HSD_GetPlotYield(plotID, yieldIndex)
+	local plot = Map.GetPlotByIndex(plotID)
+	local plotYield = plot:GetYield(yieldIndex)
+	----------------------------------------------------------------------------------
+	-- totalslacker: Just a test to prove that the plot yields are different in the UI
+	----------------------------------------------------------------------------------
+	-- for row in GameInfo.Yields() do
+	-- 	plotYield = plot:GetYield(row.Index)
+	-- 	print("Yield: ".. tostring(row.YieldType).. " = ".. tostring(plotYield))
+	-- end
+	-- print("plotYield is "..tostring(plotYield))
+	return plotYield
+end
+
+function HSD_GetTradingPost(city, playerID)
+	if city and ((city:GetTrade():HasActiveTradingPost(playerID)) or (city:GetTrade():HasInactiveTradingPost(playerID))) then
+		return true
+	else
+		return false
+	end
+end
+
 ----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
@@ -625,6 +647,8 @@ function InitializeHSD_UI()
 	ExposedMembers.HSD_GetUnitPromotionLevel = HSD_GetUnitPromotionLevel
 	ExposedMembers.HSD_GetUnitClassLevel = HSD_GetUnitClassLevel
 	ExposedMembers.HSD_GetTourismCounts = HSD_GetTourismCounts
+	ExposedMembers.HSD_GetPlotYield = HSD_GetPlotYield
+	ExposedMembers.HSD_GetTradingPost = HSD_GetTradingPost
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))

@@ -16,6 +16,7 @@ ExposedMembers.CheckCityOriginalCapital = {}
 ExposedMembers.HSD_GetTerritoryCache = {}
 ExposedMembers.HSD_GetTerritoryID = {}
 ExposedMembers.HSD_GetTotalIncomingRoutes = {}
+ExposedMembers.HSD_GetTradingPost = {}
 ExposedMembers.HSD_GetRiverPlots = {}
 ExposedMembers.HSD_GetCultureCounts = {}
 ExposedMembers.HSD_GetNumTechsResearched = {}
@@ -24,6 +25,7 @@ ExposedMembers.HSD_GetCitiesWithGovernors = {}
 ExposedMembers.HSD_GetUnitPromotionLevel = {}
 ExposedMembers.HSD_GetUnitClassLevel = {}
 ExposedMembers.HSD_GetTourismCounts = {}
+ExposedMembers.HSD_GetPlotYield = {}
 
 -- ===========================================================================
 -- Variables
@@ -356,10 +358,36 @@ local function GetRiverOwnership(playerID)
     return current, total
 end
 
+local function GetHighestEnvoyCount(playerID)
+    local highestEnvoyCount = 0
+    local player = Players[playerID]
+    if not player then
+        return 0
+    end
+    for _, cityStateID in ipairs(PlayerManager.GetAliveMinorIDs()) do
+        local otherPlayer = Players[cityStateID]
+        local CivilizationTypeName = PlayerConfigurations[cityStateID]:GetCivilizationTypeName()
+        if IsCityState(cityStateID) then
+            local otherPlayerInfluence = otherPlayer:GetInfluence()
+            local envoyCount = 0
+            if otherPlayerInfluence then
+                envoyCount = otherPlayerInfluence:GetTokensReceived(playerID) or 0
+            end
+            if envoyCount then
+                print("Envoy count for "..tostring(CivilizationTypeName).." is "..tostring(envoyCount))
+                if envoyCount > highestEnvoyCount then
+                    highestEnvoyCount = envoyCount
+                    print("Highest envoy count is "..tostring(highestEnvoyCount))
+                end
+            end
+        end
+    end
+    return highestEnvoyCount
+end
 
 local function GetSuzeraintyCount(playerID)
     local suzerainCount = 0
-    local playerDiplomacy = Players[playerID]:GetDiplomacy()
+    -- local playerDiplomacy = Players[playerID]:GetDiplomacy()
     for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
         local otherPlayer = Players[otherPlayerID]
         local CivilizationTypeName = PlayerConfigurations[otherPlayerID]:GetCivilizationTypeName()
@@ -482,6 +510,32 @@ local function GetUnitFormationClassCount(playerID, unitFormationClass)
     return playerFormationClassUnitCount, highestFormationClassUnitCount
 end
 
+local function GetNuclearWeaponCount(playerID)
+    local player = Players[playerID]
+    if not player then
+        print("Invalid player ID")
+        return 0
+    end
+
+    local nuclearCount = 0
+    local thermonuclearCount = 0
+
+    -- Get counts for nuclear weapons
+    local playerUnits = player:GetUnits()
+    for _, unit in playerUnits:Members() do
+        local unitType = GameInfo.Units[unit:GetType()].UnitType
+        if unitType == "UNIT_NUCLEAR_DEVICE" then
+            nuclearCount = nuclearCount + 1
+        elseif unitType == "UNIT_THERMONUCLEAR_DEVICE" then
+            thermonuclearCount = thermonuclearCount + 1
+        end
+    end
+
+    local totalNukes = nuclearCount + thermonuclearCount
+    print("Player " .. playerID .. " has " .. nuclearCount .. " nuclear bombs and " .. thermonuclearCount .. " thermonuclear bombs. Total: " .. totalNukes)
+    return totalNukes
+end
+
 local function GetBorderingCitiesCount(iPlayer)
     local player = Players[iPlayer]
     local playerCities = player:GetCities()
@@ -546,6 +600,50 @@ local function GetCityAdjacentToRiverCount(playerID)
     return riverAdjacentCityCount
 end
 
+local function GetAdjacentDistrictsCapital(playerID)
+    local player = Players[playerID]
+    local capital = player:GetCities():GetCapitalCity()
+    local adjacentDistrictCount = 0
+
+    if capital then
+        local capitalX, capitalY = capital:GetX(), capital:GetY()
+
+        -- Check each of the six adjacent plots for districts
+        for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+            local adjacentPlot = Map.GetAdjacentPlot(capitalX, capitalY, direction)
+            if adjacentPlot and (adjacentPlot:GetDistrictType() ~= -1) then
+                print("District detected adjacent to capital")
+                local adjacentDistrict = CityManager.GetDistrictAt(adjacentPlot:GetX(), adjacentPlot:GetY())
+                if (adjacentDistrict ~= nil) and (adjacentDistrict:GetOwner() == playerID) and (adjacentDistrict:IsComplete()) then
+                    adjacentDistrictCount = adjacentDistrictCount + 1
+                    print(tostring(GameInfo.Districts[adjacentPlot:GetDistrictType()].Name).." detected. Total count is "..tostring(adjacentDistrictCount))
+                end              
+            end
+        end
+    else
+        print("No capital city found for player ID " .. tostring(playerID))
+    end
+
+    return adjacentDistrictCount
+end
+
+local function GetCitiesWithBuilding(playerID, buildingID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local buildingIndex = GameInfo.Buildings[buildingID].Index
+    local cityCountWithBuilding = 0
+    local totalCityCount = 0
+
+    for _, city in playerCities:Members() do
+        totalCityCount = totalCityCount + 1
+        if city:GetBuildings():HasBuilding(buildingIndex) then
+            cityCountWithBuilding = cityCountWithBuilding + 1
+        end
+    end
+
+    return cityCountWithBuilding, totalCityCount
+end
+
 local function GetBuildingCount(iPlayer, buildingType)
 	print("Checking total number of "..tostring(buildingType).." owned by player "..tostring(iPlayer))
 	local player = Players[iPlayer]
@@ -595,6 +693,61 @@ local function GetImprovementCount(iPlayer, improvementType)
 	end
 
 	return improvementCount
+end
+
+local function GetHighestImprovementYield(playerID, improvementType, yieldType)
+    local player = Players[playerID]
+    if not player then
+        print("Invalid player ID")
+        return 0
+    end
+
+    local highestYield = 0
+    local improvementIndex = GameInfo.Improvements[improvementType] and GameInfo.Improvements[improvementType].Index
+    local yieldIndex = GameInfo.Yields[yieldType] and GameInfo.Yields[yieldType].Index
+
+    if not improvementIndex then
+        print("Improvement type " .. tostring(improvementType) .. " not found.")
+        return 0
+    end
+
+    if not yieldIndex then
+        print("Yield type " .. tostring(yieldType) .. " not found.")
+        return 0
+    end
+
+    -- Iterate through all plots owned by the player
+    local playerCities = player:GetCities()
+    for _, city in playerCities:Members() do
+        local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(playerID, city:GetID())
+        for _, kCityUIDatas in pairs(CityUIDataList) do
+            for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                if plot and (plot:GetImprovementType() == improvementIndex) then
+                    -- print("Plot:GetX() = ".. tostring(plot:GetX()) .. ", GetY() = ".. tostring(plot:GetY()))
+                    ---------------------------------------------------------------------------------------
+                    -- totalslacker: Do not use the plot yield value from the game, use the one from the UI
+                    ---------------------------------------------------------------------------------------
+                    -- local plotYield = plot:GetYield(yieldIndex)
+                    -- for row in GameInfo.Yields() do
+                    --     plotYield = plot:GetYield(row.Index)
+                    --     print("Yield: ".. tostring(row.YieldType).. " = ".. tostring(plotYield))
+                    -- end
+					-- print("plotYield is "..tostring(plotYield))
+                    -----------------------------------------------
+                    -- totalslacker: Get the plot yield from the UI
+                    -----------------------------------------------
+                    local plotYield = ExposedMembers.HSD_GetPlotYield(plot:GetIndex(), yieldIndex)
+                    if plotYield > highestYield then
+                        highestYield = plotYield
+                    end
+                end
+            end
+        end
+    end
+
+    print("Highest yield from " .. improvementType .. " for " .. yieldType .. " is: " .. highestYield)
+    return highestYield
 end
 
 local function GetTotalRoutePlots(iPlayer)
@@ -906,6 +1059,42 @@ local function GetPercentLandArea_HomeContinent(playerID, percent)
 	return controlledPercent
 end
 
+local function GetCityCountPerContinent(playerID, requiredCityCount)
+    local player = Players[playerID]
+    local continentsWithCities = {} -- Track continents with enough cities for this player
+    local continentCityCounts = {} -- Count cities per continent for this player
+    local allContinents = Map.GetContinentsInUse() -- Get all continents in use
+    local totalContinentCount = 0
+
+    -- Initialize continent counts
+    for _, continentID in ipairs(allContinents) do
+        continentCityCounts[continentID] = 0
+        totalContinentCount = totalContinentCount + 1
+        print("Total Continents: ".. tostring(totalContinentCount))
+    end
+
+    -- Count cities per continent for the specified player
+    local playerCities = player:GetCities()
+    for _, city in playerCities:Members() do
+        local plot = city:GetPlot()
+        local continentID = plot:GetContinentType()
+        if continentCityCounts[continentID] ~= nil then
+            continentCityCounts[continentID] = continentCityCounts[continentID] + 1
+            print("Total Cities on continent: ".. tostring(continentCityCounts[continentID]))
+        end
+    end
+
+    -- Check continents meeting the required city count
+    for continentID, count in pairs(continentCityCounts) do
+        if count >= requiredCityCount then
+            table.insert(continentsWithCities, continentID)
+        end
+    end
+
+    -- Return the count of continents with the required number of cities and the total number of continents
+    return #continentsWithCities, totalContinentCount
+end
+
 local function GetCitiesOnForeignContinents(playerID)
     local player = Players[playerID]
     local capital = player:GetCities():GetCapitalCity()
@@ -1039,6 +1228,61 @@ local function GetTerrainCounts(playerID, terrainType)
     end
 
     return playerTerrainCount, highestTerrainCount
+end
+
+local function GetTerrainClassCounts(playerID, terrainClassType)
+    local playerTerrainCount = 0
+    local highestOtherPlayerTerrainCount = 0
+
+    -- Retrieve all terrain types that belong to the specified terrain class
+    local terrainTypes = {}
+    for row in GameInfo.TerrainClass_Terrains() do
+        if row.TerrainClassType == terrainClassType then
+            local terrainIndex = GameInfo.Terrains[row.TerrainType].Index
+            print("Terrain type: ".. tostring(row.TerrainType)..", index = "..tostring(terrainIndex))
+            terrainTypes[terrainIndex] = true -- Store in a table as keys for quick lookup
+        end
+    end
+
+    -- Check if any terrain type was found
+    if next(terrainTypes) == nil then
+        print("No terrains found for terrain class type: " .. tostring(terrainClassType))
+        return 0, 0
+    end
+
+    local function countPlayerTerrains(player)
+        local count = 0
+        local playerCities = player:GetCities()
+        for _, city in playerCities:Members() do
+            local CityUIDataList = ExposedMembers.GetPlayerCityUIDatas(player:GetID(), city:GetID())
+            for _, kCityUIDatas in pairs(CityUIDataList) do
+                for _, kCoordinates in pairs(kCityUIDatas.CityPlotCoordinates) do
+                    local plot = Map.GetPlotByIndex(kCoordinates.plotID)
+                    if plot and terrainTypes[plot:GetTerrainType()] then
+                        count = count + 1
+                    end
+                end
+            end
+        end
+        return count
+    end
+
+    -- Count terrains for the specified player
+    local localPlayer = Players[playerID]
+    playerTerrainCount = countPlayerTerrains(localPlayer)
+
+    -- Count and find the maximum for other players
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayer = Players[otherPlayerID]
+            local otherPlayerTerrainCount = countPlayerTerrains(otherPlayer)
+            if otherPlayerTerrainCount > highestOtherPlayerTerrainCount then
+                highestOtherPlayerTerrainCount = otherPlayerTerrainCount
+            end
+        end
+    end
+
+    return playerTerrainCount, highestOtherPlayerTerrainCount
 end
 
 local function GetArcticTerrainCounts(playerID)
@@ -1225,6 +1469,23 @@ local function GetTradeRoutesCount(playerID)
     return playerTradeRoutes, highestTradeRouteCount
 end
 
+local function GetCitiesWithTradingPosts(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local citiesWithTradingPosts = 0
+    local totalCities = 0
+
+    for _, city in playerCities:Members() do
+        totalCities = totalCities + 1
+        local hasTradiningPost = ExposedMembers.HSD_GetTradingPost(city, playerID)
+        if hasTradiningPost then
+            citiesWithTradingPosts = citiesWithTradingPosts + 1
+        end
+    end
+
+    return citiesWithTradingPosts, totalCities
+end
+
 local function HasUnlockedAllCivicsForEra(playerID, eraType)
     local player = Players[playerID]
     local playerCulture = player:GetCulture()
@@ -1394,6 +1655,21 @@ local function IsBuildingInCapital(playerID, buildingType)
 
     local buildingIndex = GameInfo.Buildings[buildingType].Index
     return capital:GetBuildings():HasBuilding(buildingIndex)
+end
+
+local function GetHappiness(playerID)
+    local player = Players[playerID]
+    local ecstaticCitiesCount = 0
+    local totalCitiesCount = 0
+    local playerCities = player:GetCities()
+    for _, city in playerCities:Members() do
+        local happinessIndex = city:GetGrowth():GetHappiness()
+        if GameInfo.Happinesses[happinessIndex].HappinessType == "HAPPINESS_ECSTATIC" then
+            ecstaticCitiesCount = ecstaticCitiesCount + 1
+        end
+        totalCitiesCount = totalCitiesCount + 1
+    end
+    return ecstaticCitiesCount, totalCitiesCount
 end
 
 local function GetCitiesOnHomeContinent(playerID)
@@ -1841,6 +2117,22 @@ local function HSD_OnCivicCompleted(ePlayer, eCivic)
     end
 end
 
+local function HSD_OnCityConvertedLoyalty(playerID, cityID, oldOwnerID)
+    local playerKey = "HSD_LOYALTY_CONVERT_CITY_COUNT_" .. tostring(playerID)
+    local cityConversionCount = Game:GetProperty(playerKey) or 0
+    Game:SetProperty(playerKey, cityConversionCount + 1)
+    print("Recorded ".. playerKey.. " as city conversion count for player ".. tostring(playerID).. " = ".. tostring(Game:GetProperty(playerKey)))
+end
+
+local function HSD_OnCityPopulationChanged(playerID, cityID, cityPopulation)
+    local player = Players[playerID]
+    local populationKey = "HSD_CITY_POPULATION_SIZE_" .. tostring(cityPopulation)
+    if not Game:GetProperty(populationKey) then
+        Game:SetProperty(populationKey, playerID)
+        print("Player #" .. tostring(playerID).." recorded as first player with a city of size " .. tostring(cityPopulation))
+    end
+end
+
 local function HSD_OnGovernmentChanged(playerID, governmentID)
     local governmentInfo = GameInfo.Governments[governmentID]
     local governmentKey = "HSD_" .. tostring(governmentInfo.GovernmentType)
@@ -1851,6 +2143,17 @@ local function HSD_OnGovernmentChanged(playerID, governmentID)
     else
         -- print(governmentInfo.GovernmentType .. " has already been adopted by another player.")
     end
+end
+
+local function HSD_OnGreatPersonCreated(playerID, unitID, greatPersonClassID, greatPersonIndividualID)
+    local player = Players[playerID]
+    local greatPersonClassInfo = GameInfo.GreatPersonClasses[greatPersonClassID]
+
+    -- Record the total number of great person class created by the player
+    local greatPersonClassKey = "HSD_GREAT_PERSON_TYPE_COUNT_"..tostring(greatPersonClassInfo.GreatPersonClassType)
+    local greatPersonClassCount = player:GetProperty(greatPersonClassKey) or 0
+    greatPersonClassCount = greatPersonClassCount + 1
+    player:SetProperty(greatPersonClassKey, greatPersonClassCount)
 end
 
 local function HSD_OnGreatPersonActivated(UnitOwner, unitID, GreatPersonType, GreatPersonClass)
@@ -1926,7 +2229,7 @@ end
 local function HSD_OnProjectCompleted(playerID, cityID, projectID, buildingIndex, iX, iY, bCancelled)
     local player = Players[playerID]
     local projectInfo = GameInfo.Projects[projectID]
-    local projectKey = "HSD_" .. tostring(projectInfo.ProjectType) .. "_COMPLETED"
+    local projectKey = "HSD_" .. tostring(projectInfo.ProjectType) .. "_FIRST_COMPLETED"
 
     -- Set turn project was first completed by any player
     if not Game:GetProperty(projectKey) then
@@ -1946,7 +2249,7 @@ local function HSD_OnProjectCompleted(playerID, cityID, projectID, buildingIndex
     local conditionsForPlayer = victoryConditions[playerID] or {}
     for _, victoryCondition in ipairs(conditionsForPlayer) do
         for _, objective in ipairs(victoryCondition.objectives) do
-            if (objective.type == "PROJECT_COMPLETED") and (objective.id == projectInfo.ProjectType) then
+            if (objective.type == "PROJECT_FIRST_COMPLETED") and (objective.id == projectInfo.ProjectType) then
                 -- Display in-game popup text
                 local message = Locale.Lookup("LOC_HSD_PROJECT_COMPLETED_FLOATER", "LOC_HSD_VICTORY_"..tostring(victoryCondition.playerTypeName).."_"..tostring(victoryCondition.index).."_NAME", Locale.Lookup(projectInfo.Name))
                 Game.AddWorldViewText(0, message, iX, iY)
@@ -2120,12 +2423,16 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "BUILDING_IN_CAPITAL" then
 			current = IsBuildingInCapital(playerID, obj.id) and 1 or 0
 			total = 1
+		elseif obj.type == "BUILDING_IN_EVERY_CITY" then
+			current, total = GetCitiesWithBuilding(playerID, obj.id)
 		elseif obj.type == "CITY_ADJACENT_TO_RIVER_COUNT" then
 			current = GetCityAdjacentToRiverCount(playerID)
 			total = obj.count
         elseif obj.type == "CITY_COUNT" then
 			current = GetCitiesCount(playerID)
 			total = obj.count
+		elseif obj.type == "CITY_COUNT_EVERY_CONTINENT" then
+			current, total = GetCityCountPerContinent(playerID, obj.count)
 		elseif obj.type == "CITY_COUNT_FOREIGN_CONTINENT" then
 			current = GetCitiesOnForeignContinents(playerID)
 			total = obj.count
@@ -2148,6 +2455,12 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "DISTRICT_COUNT" then
 			current = GetDistrictTypeCount(playerID, obj.id)
 			total = obj.count
+		elseif obj.type == "DISTRICT_COUNT_CAPITAL_ADJACENT" then
+			current = GetAdjacentDistrictsCapital(playerID)
+			total = obj.count
+        elseif obj.type == "ENVOYS_WITH_CITY_STATE" then
+            current = GetHighestEnvoyCount(playerID)
+            total = obj.count
 		elseif obj.type == "FEATURE_COUNT" then
 			current = GetPlayerFeaturePlotCount(playerID, obj.id)
 			total = obj.count
@@ -2162,6 +2475,10 @@ function EvaluateObjectives(player, condition)
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
+        elseif obj.type == "FIRST_CITY_SIZE" then
+            isPlayerProperty = true
+            current = Game:GetProperty("HSD_CITY_POPULATION_SIZE_"..tostring(obj.count)) or -1 --playerID nil check
+            total = playerID
 		elseif obj.type == "FIRST_GOVERNMENT" then
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
@@ -2181,6 +2498,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "GREAT_PERSON_ERA_COUNT" then -- UNTESTED
 			current = player:GetProperty("HSD_GREAT_PERSON_ERA_COUNT_"..tostring(obj.id)) or 0
 			total = obj.count
+		elseif obj.type == "GREAT_PERSON_TYPE_COUNT" then -- UNTESTED
+			current = player:GetProperty("HSD_GREAT_PERSON_TYPE_COUNT_"..tostring(obj.id)) or 0
+			total = obj.count
 		elseif obj.type == "GOLD_COUNT" then
 			current = GetPlayerGold(playerID)
 			total = obj.count
@@ -2189,6 +2509,8 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "GREAT_PEOPLE_ACTIVATED" then
 			current = Game:GetProperty("HSD_GREAT_PERSON_COUNT_"..tostring(playerID)) or 0
 			total = obj.count
+		elseif obj.type == "HAPPIEST_POPULATION" then
+			current, total = GetHappiness(playerID)
 		elseif obj.type == "HIGHEST_CITY_POPULATION" then
             isGreaterThan = true
 			current, total = GetHighestCityPopulation(playerID)
@@ -2216,9 +2538,15 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "IMPROVEMENT_COUNT" then
 			current = GetImprovementCount(playerID, obj.id) or -1
 			total = obj.count
+		elseif obj.type == "IMPROVEMENT_YIELD_COUNT" then
+			current = GetHighestImprovementYield(playerID, obj.id, obj.yield)
+            total = obj.count
 		elseif obj.type == "LAND_AREA_HOME_CONTINENT" then
 			current = GetPercentLandArea_HomeContinent(playerID, obj.percent) or -1
 			total = obj.percent
+        elseif obj.type == "LOYALTY_CONVERT_CITY_COUNT" then -- UNTESTED
+			current = Game:GetProperty("HSD_"..tostring(obj.type).."_"..tostring(playerID)) or 0
+			total = obj.count
 		elseif obj.type == "MAXIMUM_ALLIANCE_LEVEL_COUNT" then -- UNTESTED
 			current = GetAllianceLevelCount(playerID)
 			total = obj.count
@@ -2246,6 +2574,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "MOST_TERRAIN_TYPE" then
             isGreaterThan = true
 			current, total = GetTerrainCounts(playerID, obj.id)
+		elseif obj.type == "MOST_TERRAIN_CLASS" then
+            isGreaterThan = true
+			current, total = GetTerrainClassCounts(playerID, obj.id)
 		elseif obj.type == "MOST_UNIT_DOMAIN_TYPE" then
             isGreaterThan = true
 			current, total = GetUnitDomainCount(playerID, obj.id)
@@ -2254,6 +2585,9 @@ function EvaluateObjectives(player, condition)
 			current, total = GetUnitFormationClassCount(playerID, obj.id)
 		elseif obj.type == "NATURAL_WONDER_COUNT" then
 			current = GetNaturalWonderCount(playerID)
+			total = obj.count
+		elseif obj.type == "NUCLEAR_WEAPONS_COUNT" then
+			current = GetNuclearWeaponCount(playerID)
 			total = obj.count
 		elseif obj.type == "NUM_CITIES_CAPITAL_RANGE" then
 			current = GetNumCitiesWithinCapitalRange(playerID, obj.range)
@@ -2264,13 +2598,13 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "OCCUPIED_CAPITAL_COUNT" then
 			current = GetOccupiedCapitals(playerID)
 			total = obj.count
-		elseif obj.type == "PROJECT_COMPLETED" then
-            isPlayerProperty = true
-			current = Game:GetProperty("HSD_"..tostring(obj.id).."_COMPLETED") or -1 --playerID nil check
-			total = playerID
 		elseif obj.type == "PROJECT_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_COUNT") or 0
 			total = obj.count
+		elseif obj.type == "PROJECT_FIRST_COMPLETED" then
+            isPlayerProperty = true
+			current = player:GetProperty("HSD_"..tostring(obj.id).."_FIRST_COMPLETED") or -1 --playerID nil check
+			total = playerID
 		elseif obj.type == "RESOURCE_MONOPOLY" then
 			current = GetResourcePercentage(playerID, obj.id)
 			total = obj.percent
@@ -2286,6 +2620,8 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "TERRITORY_CONTROL" then
 			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
 			total = 1
+        elseif obj.etype == "TRADING_POST_IN_EVERY_CITY" then
+            current, total = GetCitiesWithTradingPosts(playerID)
 		elseif obj.type == "TOTAL_LAND_AREA" then
 			current = GetPercentLandArea(playerID)
 			total = obj.percent
@@ -2478,11 +2814,14 @@ function HSD_InitVictoryMode()
     CacheAllResourcePlots() -- Sets game property containing resource plots as table
     CacheVictoryConditions() -- Sets game property containing victory data as table
     Events.CityProjectCompleted.Add(HSD_OnProjectCompleted)
+    Events.CityPopulationChanged.Add(HSD_OnCityPopulationChanged)
 	Events.CivicCompleted.Add(HSD_OnCivicCompleted)
+    Events.CulturalIdentityCityConverted.Add(HSD_OnCityConvertedLoyalty)
     Events.DiplomacyDeclareWar.Add(HSD_OnWarDeclared)
     Events.GovernmentChanged.Add(HSD_OnGovernmentChanged)
 	Events.ResearchCompleted.Add(HSD_OnTechCompleted)
 	Events.WonderCompleted.Add(HSD_OnWonderConstructed)
+    Events.UnitGreatPersonCreated.Add(HSD_OnGreatPersonCreated)
 	Events.UnitKilledInCombat.Add(HSD_OnUnitKilled)
     GameEvents.BuildingConstructed.Add(HSD_OnBuildingConstructed)
     GameEvents.CityConquered.Add(HSD_OnCityConquered)

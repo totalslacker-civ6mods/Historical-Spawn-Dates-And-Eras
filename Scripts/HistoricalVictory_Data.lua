@@ -131,7 +131,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "OCCUPIED_CAPITAL_COUNT", count = 2},
-                {type = "LOYALTY_CONVERT_CITY_COUNT", count = 4}, -- TODO
+                {type = "LOYALTY_CONVERT_CITY_COUNT", count = 4},
             },
             score = 1
         },
@@ -167,7 +167,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_RENAISSANCE",
             objectives = {
-                {type = "SAME_RELIGION_ALL_CITIES"},
+                {type = "CONVERT_ALL_CITIES"},
                 {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_WRITING"},
                 {type = "GOLD_COUNT", count = 4000},
             },
@@ -570,7 +570,7 @@ HSD_victoryConditionsConfig = {
 			year = 1920,
 			era = nil,
             objectives = {
-                {type = "CITY_COUNT_EVERY_CONTINENT", count = 1}, -- TODO
+                {type = "CITY_COUNT_EVERY_CONTINENT", count = 1},
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 10},
                 {type = "UNIT_KILL_COUNT", id = "UNIT_ENGLISH_REDCOAT", count = 20},
             },
@@ -1029,7 +1029,7 @@ HSD_victoryConditionsConfig = {
             era = "ERA_INDUSTRIAL",
             objectives = {
                 {type = "ALLIANCE_COUNT", count = 5},
-                {type = "TRADING_POST_IN_EVERY_CITY"}, --TODO
+                {type = "TRADING_POST_IN_EVERY_CITY"},
                 {type = "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT"}, --TODO
             },
             score = 1
@@ -1116,7 +1116,7 @@ HSD_victoryConditionsConfig = {
 			year = 1920,
 			era = nil,
             objectives = {
-                {type = "CITY_COUNT_EVERY_CONTINENT", count = 1}, -- TODO
+                {type = "CITY_COUNT_EVERY_CONTINENT", count = 1},
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 10},
                 {type = "MOST_POWERFUL_NAVY"}, -- TODO
             },
@@ -1378,7 +1378,7 @@ HSD_victoryConditionsConfig = {
             era = "ERA_RENAISSANCE",
             objectives = {
                 {type = "SUZERAINTY_COUNT", count = 3},
-                {type = "DISTRICT_COUNT_CAPITAL_ADJACENT", count = 5}, -- TODO
+                {type = "DISTRICT_COUNT_CAPITAL_ADJACENT", count = 5},
             },
             score = 1
         },
@@ -1426,7 +1426,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "MOST_TERRAIN_CLASS", id = "TERRAIN_CLASS_MOUNTAIN"}, -- TODO
+                {type = "MOST_TERRAIN_CLASS", id = "TERRAIN_CLASS_MOUNTAIN"},
             },
             score = 1
         },
@@ -1520,7 +1520,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_KOTOKU_IN"},
                 {type = "HIGHEST_CULTURE"},
-                {type = "FIRST_CITY_SIZE", count = 20}, -- TODO
+                {type = "FIRST_CITY_SIZE", count = 20},
             },
             score = 1
         },
@@ -1582,7 +1582,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "DISTRICT_COUNT", id = "DISTRICT_AQUEDUCT", count = 4},
-                {type = "HAPPIEST_POPULATION"}, -- TODO
+                {type = "HAPPIEST_POPULATION"},
                 {type = "HIGHEST_CITY_POPULATION"},
             },
             score = 1
@@ -1598,7 +1598,7 @@ HSD_victoryConditionsConfig = {
             era = "ERA_RENAISSANCE",
             objectives = {
                 {type = "HIGHEST_POPULATION_CITY"},
-                {type = "SAME_RELIGION_ALL_CITIES"},
+                {type = "CONVERT_ALL_CITIES"},
             },
             score = 1
         },
@@ -1884,8 +1884,8 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_RENAISSANCE",
             objectives = {
-                {type = "CONTROL_ORIGINAL_CAPITALS", percent = 60},-- TODO
-                {type = "GREAT_PERSON_TYPE_COUNT", id = "GREAT_PERSON_CLASS_GENERAL", count = 3}, -- TODO
+                {type = "OCCUPIED_CAPITAL_COUNT", count = 10},
+                {type = "GREAT_PERSON_TYPE_COUNT", id = "GREAT_PERSON_CLASS_GENERAL", count = 3},
             },
             score = 1
         },
@@ -2137,7 +2137,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_RENAISSANCE",
             objectives = {
-                {type = "BUILDING_IN_EVERY_CITY", id = "BUILDING_SUKIENNICE"}, -- TODO
+                {type = "BUILDING_IN_EVERY_CITY", id = "BUILDING_SUKIENNICE"},
                 {type = "GREAT_PERSON_ERA_COUNT", id = "ERA_RENAISSANCE", count = 3},
             },
             score = 1
@@ -2150,7 +2150,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_POLISH_HUSSAR", count = 20},
                 {type = "NUM_CITIES_CAPITAL_RANGE", count = 6, range = 6},
-                {type = "ENVOYS_WITH_CITY_STATE", count = 10}, -- TODO
+                {type = "ENVOYS_WITH_CITY_STATE", count = 10},
             },
             score = 1
         },
@@ -2189,7 +2189,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 10},
-                {type = "SAME_RELIGION_ALL_CITIES"}, -- TODO
+                {type = "CONVERT_ALL_CITIES"},
             },
             score = 1
         },
@@ -2206,7 +2206,7 @@ HSD_victoryConditionsConfig = {
                 -- {type = "WONDER_BUILT", id = "BUILDING_COLOSSEUM"},
                 -- {type = "DISTRICT_COUNT", id = "DISTRICT_BATH", count = 4},
                 -- {type = "ROUTE_COUNT", count = 15},
-                {type = "MOST_HILL_PLOTS"},
+                {type = "TRADING_POST_IN_EVERY_CITY"},
             },
             score = 1
         },
@@ -2218,7 +2218,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 -- {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
                 -- {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 5},
-                {type = "MOST_TERRAIN_TYPE", id = "TERRAIN_PLAINS"},
+                {type = "GREAT_PERSON_TYPE_COUNT", id = "GREAT_PERSON_CLASS_GENERAL", count = 3},
             },
             score = 1
         },
@@ -2229,7 +2229,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 -- {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
-                {type = "HIGHEST_TOURISM"},
+                {type = "FIRST_CITY_SIZE", count = 20},
             },
             score = 1
         },
@@ -2257,7 +2257,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "TOTAL_LAND_AREA", percent = 15},
                 {type = "UNIT_KILL_COUNT", id = "UNIT_RUSSIAN_COSSACK", count = 20},
-                {type = "PROJECT_FIRST_COMPLETED", id = "PROJECT_LAUNCH_EARTH_SATELLITE"}, -- TODO
+                {type = "PROJECT_FIRST_COMPLETED", id = "PROJECT_LAUNCH_EARTH_SATELLITE"},
             },
             score = 1
         },
@@ -2268,8 +2268,8 @@ HSD_victoryConditionsConfig = {
             era = "ERA_ATOMIC",
             objectives = {
                 {type = "FIRST_GOVERNMENT", id = "GOVERNMENT_COMMUNISM"},
-                {type = "HIGHEST_PRODUCTION"},
-                {type = "NUCLEAR_WEAPONS_COUNT", count = 10}, -- TODO
+                {type = "BUILDING_COUNT", id = "BUILDING_FACTORY", count = 10},
+                {type = "NUCLEAR_WEAPONS_COUNT", count = 10},
             },
             score = 1
         },
@@ -2285,7 +2285,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "FIRST_CIVIC_RESEARCHED", id = "CIVIC_THE_ENLIGHTENMENT"},
                 {type = "GREAT_PERSON_ERA_COUNT", id = "ERA_INDUSTRIAL", count = 3},
-                {type = "IMPROVEMENT_YIELD_COUNT", id = "IMPROVEMENT_GOLF_COURSE", yield = "YIELD_CULTURE", count = 3}, --TODO
+                {type = "IMPROVEMENT_YIELD_COUNT", id = "IMPROVEMENT_GOLF_COURSE", yield = "YIELD_CULTURE", count = 3},
             },
             score = 1
         },
