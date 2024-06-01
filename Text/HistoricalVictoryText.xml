@@ -163,6 +163,10 @@
 	  <Text>Convert all your cities to your religion</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_DIFFERENT_GOVERNMENTS_ADOPTED" Language="en_US">
+	  <Text>Change government {1_count} different times</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_DISTRICT_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_districtTypeName} districts</Text>
 	</Replace>
@@ -206,6 +210,10 @@
 	<Replace Tag="LOC_HSD_FIRST_GREAT_PERSON_CLASS" Language="en_US">
 	  <Text>Activate the first {1_greatPersonClassTypeName}</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_FIRST_RELIGIOUS_BELIEFS" Language="en_US">
+	  <Text>First to have {1_count} religious beliefs</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_FIRST_TECH_RESEARCHED" Language="en_US">
 	  <Text>First to research {1_technologyTypeName}</Text>
@@ -234,6 +242,18 @@
 	<Replace Tag="LOC_HSD_GREAT_PERSON_TYPE_COUNT" Language="en_US">
 	  <Text>Earn {2_count} {1_greatPersonClassTypeName}</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_GREAT_PERSON_TYPE_FROM_ERA" Language="en_US">
+	  <Text>Earn {3_count} {1_greatPersonClassTypeName} from the {2_eraTypeName}</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_GREAT_WORK_COUNT" Language="en_US">
+	  <Text>Own {1_count} Great Works</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_GREAT_WORK_TYPE_COUNT" Language="en_US">
+	  <Text>Own {2_count} {1_greatWorkType}</Text>
+	</Replace>	
 	
 	<Replace Tag="LOC_HSD_HAPPIEST_POPULATION" Language="en_US">
 	  <Text>Have the highest happiness in every city</Text>
@@ -382,6 +402,10 @@
 	<Replace Tag="LOC_HSD_TRADING_POST_IN_EVERY_CITY" Language="en_US">
 	  <Text>Have a trading post in all your cities</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_TRADING_POST_WITH_ALL_PLAYERS_CONTINENT" Language="en_US">
+	  <Text>Have at least one trading post per player with cities on your home continent</Text>
+	</Replace>	
 
 	<Replace Tag="LOC_HSD_TOTAL_LAND_AREA" Language="en_US">
 	  <Text>Control {1_percent}% of land area</Text>

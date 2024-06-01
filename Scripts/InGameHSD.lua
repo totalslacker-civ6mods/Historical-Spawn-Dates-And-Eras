@@ -611,6 +611,77 @@ function HSD_GetTradingPost(city, playerID)
 	end
 end
 
+local function HSD_GetGreatWorksCount(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    -- local greatWorks = {}
+    local greatWorkCount = 0
+
+    -- Iterate through each city
+    for _, city in playerCities:Members() do
+        local cityBuildings = city:GetBuildings()
+
+        -- Check each building in the city for great works
+        for building in GameInfo.Buildings() do
+            local buildingIndex = building.Index
+            if cityBuildings:HasBuilding(buildingIndex) then
+                -- Get the number of great works in this building
+                local numSlots = cityBuildings:GetNumGreatWorkSlots(buildingIndex)
+                for index = 0, numSlots - 1 do
+                    local greatWorkIndex = cityBuildings:GetGreatWorkInSlot(buildingIndex, index)
+                    if greatWorkIndex ~= -1 then
+                        -- table.insert(greatWorks, {Index=greatWorkIndex, Building=buildingIndex, City=city});
+                        greatWorkCount = greatWorkCount + 1
+                    end
+                end
+            end
+        end
+    end
+
+    return greatWorkCount
+end
+
+local function HSD_GetGreatWorkTypeCount(playerID, greatWorkType)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local greatWorkCount = 0
+
+    -- Iterate through each city
+    for _, city in playerCities:Members() do
+        local cityBuildings = city:GetBuildings()
+
+        -- Check each building in the city for great works
+        for building in GameInfo.Buildings() do
+            local buildingIndex = building.Index
+            if cityBuildings:HasBuilding(buildingIndex) then
+                -- Get the number of great work slots in this building
+                local numSlots = cityBuildings:GetNumGreatWorkSlots(buildingIndex)
+                for slotIndex = 0, numSlots - 1 do
+                    local greatWorkIndex = cityBuildings:GetGreatWorkInSlot(buildingIndex, slotIndex)
+                    if greatWorkIndex ~= -1 then
+                        local greatWork = GameInfo.GreatWorks[greatWorkIndex]
+						local greatWorkTypeName = cityBuildings:GetGreatWorkTypeFromIndex(greatWorkIndex)
+						print("Great work object type is "..tostring(greatWorkTypeName))
+                        if greatWork and (greatWork.GreatWorkObjectType == greatWorkType) then
+                            greatWorkCount = greatWorkCount + 1
+							print("Great work count is "..tostring(greatWorkCount).." for "..tostring(greatWorkType))
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return greatWorkCount
+end
+
+local function HSD_GetNumBeliefs(playerID)
+    local player = Players[playerID]
+    local religion = player:GetReligion()
+    local numBeliefs = religion:GetNumBeliefsEarned()
+    return numBeliefs
+end
+
 ----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
@@ -649,6 +720,9 @@ function InitializeHSD_UI()
 	ExposedMembers.HSD_GetTourismCounts = HSD_GetTourismCounts
 	ExposedMembers.HSD_GetPlotYield = HSD_GetPlotYield
 	ExposedMembers.HSD_GetTradingPost = HSD_GetTradingPost
+	ExposedMembers.HSD_GetGreatWorksCount = HSD_GetGreatWorksCount
+	ExposedMembers.HSD_GetGreatWorkTypeCount = HSD_GetGreatWorkTypeCount
+	ExposedMembers.HSD_GetNumBeliefs = HSD_GetNumBeliefs
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))

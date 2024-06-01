@@ -26,6 +26,9 @@ ExposedMembers.HSD_GetUnitPromotionLevel = {}
 ExposedMembers.HSD_GetUnitClassLevel = {}
 ExposedMembers.HSD_GetTourismCounts = {}
 ExposedMembers.HSD_GetPlotYield = {}
+ExposedMembers.HSD_GetGreatWorksCount = {}
+ExposedMembers.HSD_GetGreatWorkTypeCount = {}
+ExposedMembers.HSD_GetNumBeliefs = {}
 
 -- ===========================================================================
 -- Variables
@@ -1477,13 +1480,60 @@ local function GetCitiesWithTradingPosts(playerID)
 
     for _, city in playerCities:Members() do
         totalCities = totalCities + 1
-        local hasTradiningPost = ExposedMembers.HSD_GetTradingPost(city, playerID)
-        if hasTradiningPost then
+        local hasTradingPost = ExposedMembers.HSD_GetTradingPost(city, playerID)
+        if hasTradingPost then
             citiesWithTradingPosts = citiesWithTradingPosts + 1
         end
     end
 
     return citiesWithTradingPosts, totalCities
+end
+
+local function HasTradeRouteWithEveryPlayerOnContinent(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local playerContinent = nil
+    local playersOnContinent = {}
+    local continentPlayersWithTradingPost = 0
+    
+    -- Determine the player's home continent by checking their capital city's continent
+    local capitalCity = playerCities:GetCapitalCity()
+    if capitalCity then
+        playerContinent = capitalCity:GetContinentType()
+    end
+    
+    -- If the player's capital city's continent is not found, return counts as zero
+    if not playerContinent then
+        print("No home continent found for the player.")
+        return 0, 0
+    end
+    
+    -- Track all players with cities on the player's home continent
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        local otherPlayer = Players[otherPlayerID]
+        if (otherPlayerID ~= playerID) and (not otherPlayer:IsBarbarian()) and (not otherPlayer:IsFreeCityPlayer()) then
+            local otherPlayerCities = Players[otherPlayerID]:GetCities()
+            for _, city in otherPlayerCities:Members() do
+                if city:GetContinentType() == playerContinent then
+                    if not playersOnContinent[otherPlayerID] then
+                        playersOnContinent[otherPlayerID] = true
+                    end
+                    local hasTradingPost = ExposedMembers.HSD_GetTradingPost(city, playerID)
+                    if hasTradingPost then
+                        continentPlayersWithTradingPost = continentPlayersWithTradingPost + 1
+                        break -- Found a trading post in this city, no need to check more of their cities
+                    end
+                end
+            end
+        end
+    end
+
+    local totalPlayersOnContinent = 0
+    for _ in pairs(playersOnContinent) do
+        totalPlayersOnContinent = totalPlayersOnContinent + 1
+    end
+    
+    return continentPlayersWithTradingPost, totalPlayersOnContinent
 end
 
 local function HasUnlockedAllCivicsForEra(playerID, eraType)
@@ -2023,6 +2073,38 @@ end
 -- EVENT HOOKS
 -- ===========================================================================
 
+local function HSD_OnBeliefAdded(playerID, beliefID)
+    local player = Players[playerID]
+    local beliefInfo = GameInfo.Beliefs[beliefID]
+    local beliefKey = "HSD_" .. tostring(beliefInfo.BeliefType)
+    if not Game:GetProperty(beliefKey) then
+        Game:SetProperty(beliefKey, playerID)
+        print("Recorded " .. beliefInfo.BeliefType .. " as first completed by player " .. tostring(playerID))
+    end
+
+    -- Record the number of beliefs in the player's religion
+    local numBeliefs = ExposedMembers.HSD_GetNumBeliefs(playerID)
+    local beliefCountKey = "HSD_TOTAL_BELIEFS_" .. tostring(playerID)
+    Game:SetProperty(beliefCountKey, numBeliefs)
+    print("Total beliefs for player " .. tostring(playerID) .. ": " .. tostring(numBeliefs))
+
+    -- Record the first player to receive 2 beliefs
+    if (numBeliefs >= 2) and (not Game:GetProperty("HSD_FIRST_2_BELIEFS")) then
+        Game:SetProperty("HSD_FIRST_2_BELIEFS", playerID)
+        print("Recorded first player to receive 2 beliefs as player #"..tostring(playerID))
+    end
+    -- Record the first player to receive 3 beliefs
+    if (numBeliefs >= 3) and (not Game:GetProperty("HSD_FIRST_3_BELIEFS")) then
+        Game:SetProperty("HSD_FIRST_3_BELIEFS", playerID)
+        print("Recorded first player to receive 3 beliefs as player #"..tostring(playerID))
+    end
+    -- Record the first player to receive 4 beliefs
+    if (numBeliefs >= 4) and (not Game:GetProperty("HSD_FIRST_4_BELIEFS")) then
+        Game:SetProperty("HSD_FIRST_4_BELIEFS", playerID)
+        print("Recorded first player to receive 4 beliefs as player #"..tostring(playerID))
+    end
+end
+
 local function HSD_OnBuildingConstructed(playerID, cityID, buildingID, plotID, bOriginalConstruction)
     local buildingInfo = GameInfo.Buildings[buildingID]
     local buildingKey = "HSD_" .. tostring(buildingInfo.BuildingType)
@@ -2136,24 +2218,37 @@ end
 local function HSD_OnGovernmentChanged(playerID, governmentID)
     local governmentInfo = GameInfo.Governments[governmentID]
     local governmentKey = "HSD_" .. tostring(governmentInfo.GovernmentType)
-    -- Only record first player to adopt government of this type
+    -- Record first player to adopt government of this type
     if not Game:GetProperty(governmentKey) then
         Game:SetProperty(governmentKey, playerID)
         print("Recorded first adoption of government type " .. governmentInfo.GovernmentType .. " by player " .. tostring(playerID))
     else
         -- print(governmentInfo.GovernmentType .. " has already been adopted by another player.")
     end
+    -- Record number of different governments the player has adopted
+    local governmentCountKey = "HSD_GOVERNMENT_ADOPTED_COUNT_"..tostring(playerID)
+    local governmentCount = Game:GetProperty(governmentCountKey) or 0
+    Game:SetProperty(governmentCountKey, governmentCount + 1)
+    print("Recorded ".. governmentCountKey.. " as government adopted count for player ".. tostring(playerID).. " = ".. tostring(Game:GetProperty(governmentCountKey)))
 end
 
 local function HSD_OnGreatPersonCreated(playerID, unitID, greatPersonClassID, greatPersonIndividualID)
     local player = Players[playerID]
     local greatPersonClassInfo = GameInfo.GreatPersonClasses[greatPersonClassID]
+    local greatPersonEra = GameInfo.GreatPersonIndividuals[greatPersonIndividualID].EraType
+    print("Great person era is "..tostring(greatPersonEra))
 
     -- Record the total number of great person class created by the player
     local greatPersonClassKey = "HSD_GREAT_PERSON_TYPE_COUNT_"..tostring(greatPersonClassInfo.GreatPersonClassType)
     local greatPersonClassCount = player:GetProperty(greatPersonClassKey) or 0
     greatPersonClassCount = greatPersonClassCount + 1
     player:SetProperty(greatPersonClassKey, greatPersonClassCount)
+
+    -- Record the total number of this type of great person from this era
+    local greatPersonEraKey = "HSD_GREAT_PERSON_TYPE_ERA_COUNT_"..tostring(greatPersonClassInfo.GreatPersonClassType).."_"..tostring(greatPersonEra)
+    local greatPersonEraCount = player:GetProperty(greatPersonEraKey) or 0
+    greatPersonEraCount = greatPersonEraCount + 1
+    player:SetProperty(greatPersonEraKey, greatPersonEraCount)
 end
 
 local function HSD_OnGreatPersonActivated(UnitOwner, unitID, GreatPersonType, GreatPersonClass)
@@ -2452,6 +2547,9 @@ function EvaluateObjectives(player, condition)
 			total = obj.count
 		elseif obj.type == "CONVERT_ALL_CITIES" then -- UNTESTED
 			current, total = GetCitiesFollowingReligion(playerID)
+        elseif obj.type == "DIFFERENT_GOVERNMENTS_ADOPTED" then
+            current = Game:GetProperty("HSD_GOVERNMENT_ADOPTED_COUNT_"..tostring(playerID)) or 0
+            total = obj.count
 		elseif obj.type == "DISTRICT_COUNT" then
 			current = GetDistrictTypeCount(playerID, obj.id)
 			total = obj.count
@@ -2487,6 +2585,10 @@ function EvaluateObjectives(player, condition)
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
+        elseif obj.type == "FIRST_RELIGIOUS_BELIEFS" then
+            isPlayerProperty = true
+            current = Game:GetProperty("HSD_FIRST_"..tostring(obj.count).."_BELIEFS") or -1 --playerID nil check
+            total = playerID
 		elseif obj.type == "FIRST_TECH_RESEARCHED" then
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
@@ -2495,12 +2597,6 @@ function EvaluateObjectives(player, condition)
 			isPlayerProperty = true
 			current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
 			total = playerID
-		elseif obj.type == "GREAT_PERSON_ERA_COUNT" then -- UNTESTED
-			current = player:GetProperty("HSD_GREAT_PERSON_ERA_COUNT_"..tostring(obj.id)) or 0
-			total = obj.count
-		elseif obj.type == "GREAT_PERSON_TYPE_COUNT" then -- UNTESTED
-			current = player:GetProperty("HSD_GREAT_PERSON_TYPE_COUNT_"..tostring(obj.id)) or 0
-			total = obj.count
 		elseif obj.type == "GOLD_COUNT" then
 			current = GetPlayerGold(playerID)
 			total = obj.count
@@ -2509,6 +2605,21 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "GREAT_PEOPLE_ACTIVATED" then
 			current = Game:GetProperty("HSD_GREAT_PERSON_COUNT_"..tostring(playerID)) or 0
 			total = obj.count
+		elseif obj.type == "GREAT_PERSON_ERA_COUNT" then -- UNTESTED
+			current = player:GetProperty("HSD_GREAT_PERSON_ERA_COUNT_"..tostring(obj.id)) or 0
+			total = obj.count
+		elseif obj.type == "GREAT_PERSON_TYPE_COUNT" then -- UNTESTED
+			current = player:GetProperty("HSD_GREAT_PERSON_TYPE_COUNT_"..tostring(obj.id)) or 0
+			total = obj.count
+        elseif obj.type == "GREAT_PERSON_TYPE_FROM_ERA" then
+            current = player:GetProperty("HSD_GREAT_PERSON_TYPE_ERA_COUNT_"..tostring(obj.id).."_"..tostring(obj.era)) or 0
+            total = obj.count
+        elseif obj.type == "GREAT_WORK_COUNT" then
+            current = ExposedMembers.HSD_GetGreatWorksCount(playerID)
+            total = obj.count
+        elseif obj.type == "GREAT_WORK_TYPE_COUNT" then
+            current = ExposedMembers.HSD_GetGreatWorkTypeCount(playerID, obj.id)
+            total = obj.count
 		elseif obj.type == "HAPPIEST_POPULATION" then
 			current, total = GetHappiness(playerID)
 		elseif obj.type == "HIGHEST_CITY_POPULATION" then
@@ -2620,8 +2731,10 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "TERRITORY_CONTROL" then
 			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
 			total = 1
-        elseif obj.etype == "TRADING_POST_IN_EVERY_CITY" then
+        elseif obj.type == "TRADING_POST_IN_EVERY_CITY" then
             current, total = GetCitiesWithTradingPosts(playerID)
+        elseif obj.type == "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT" then
+            current, total = HasTradeRouteWithEveryPlayerOnContinent(playerID)
 		elseif obj.type == "TOTAL_LAND_AREA" then
 			current = GetPercentLandArea(playerID)
 			total = obj.percent
@@ -2813,6 +2926,7 @@ function HSD_InitVictoryMode()
 	territoryCache = ExposedMembers.HSD_GetTerritoryCache()
     CacheAllResourcePlots() -- Sets game property containing resource plots as table
     CacheVictoryConditions() -- Sets game property containing victory data as table
+    Events.BeliefAdded.Add(HSD_OnBeliefAdded)
     Events.CityProjectCompleted.Add(HSD_OnProjectCompleted)
     Events.CityPopulationChanged.Add(HSD_OnCityPopulationChanged)
 	Events.CivicCompleted.Add(HSD_OnCivicCompleted)

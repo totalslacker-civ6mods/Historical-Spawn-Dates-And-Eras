@@ -64,6 +64,8 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "CONVERT_ALL_CITIES" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
+	elseif type == "DIFFERENT_GOVERNMENTS_ADOPTED" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "DISTRICT_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Districts[objective.id].Name), objective.count)
     elseif type == "DISTRICT_COUNT_CAPITAL_ADJACENT" then
@@ -86,6 +88,8 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Governments[objective.id].Name))
     elseif type == "FIRST_GREAT_PERSON_CLASS" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.GreatPersonClasses[objective.id].Name))
+	elseif type == "FIRST_RELIGIOUS_BELIEFS" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "FIRST_TECH_RESEARCHED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Technologies[objective.id].Name))
     elseif type == "FIRST_WAR_DECLARED" then
@@ -97,9 +101,15 @@ local function GetObjectiveDetails(objective)
     elseif type == "GREAT_PEOPLE_ACTIVATED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "GREAT_PERSON_ERA_COUNT" then
-        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.id, objective.count)
+        detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Eras[objective.id].Name), objective.count)
     elseif type == "GREAT_PERSON_TYPE_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.GreatPersonClasses[objective.id].Name), objective.count)
+	elseif type == "GREAT_PERSON_TYPE_FROM_ERA" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.GreatPersonClasses[objective.id].Name), Locale.Lookup(GameInfo.Eras[objective.era].Name), objective.count)
+	elseif type == "GREAT_WORK_COUNT" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+	elseif type == "GREAT_WORK_TYPE_COUNT" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.GreatWorkObjectTypes[objective.id].Name), objective.count)
     elseif type == "HAPPIEST_POPULATION" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "HIGHEST_CITY_POPULATION" then
@@ -178,6 +188,8 @@ local function GetObjectiveDetails(objective)
     elseif type == "TOTAL_LAND_AREA" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.percent)
 	elseif type == "TRADING_POST_IN_EVERY_CITY" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type)
+	elseif type == "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT" then
 		detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "UNIT_CONQUER_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Units[objective.id].Name), objective.count)

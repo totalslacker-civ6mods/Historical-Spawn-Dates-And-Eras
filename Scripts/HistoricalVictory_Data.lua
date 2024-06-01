@@ -168,7 +168,7 @@ HSD_victoryConditionsConfig = {
             era = "ERA_RENAISSANCE",
             objectives = {
                 {type = "CONVERT_ALL_CITIES"},
-                {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_WRITING"},
+                {type = "GREAT_WORK_TYPE_COUNT", id = "GREATWORKOBJECT_WRITING", count = 6},
                 {type = "GOLD_COUNT", count = 4000},
             },
             score = 1
@@ -329,7 +329,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_RENAISSANCE",
             objectives = {
-                {type = "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT"}, -- TODO
+                {type = "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT"},
                 {type = "MOST_ACTIVE_TRADE_ROUTES"},
                 {type = "HIGHEST_GOLD_PER_TURN"},
             },
@@ -548,7 +548,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_OXFORD_UNIVERSITY"},
 				{type = "GREAT_PERSON_ERA_COUNT", id = "ERA_INDUSTRIAL", count = 5},
-                {type = "GREAT_WORK_COUNT", count = 20}, -- TODO
+                {type = "GREAT_WORK_COUNT", count = 20}, -- TESTING
             },
             score = 1
         },
@@ -976,7 +976,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "DIFFERENT_GOVERNMENTS_ADOPTED", count = 10}, -- TODO
+                {type = "DIFFERENT_GOVERNMENTS_ADOPTED", count = 10},
                 {type = "WONDER_BUILT", id = "BUILDING_FORBIDDEN_CITY"},
                 {type = "FIRST_CIVIC_RESEARCHED", id = "CIVIC_CIVIL_SERVICE"},
             },
@@ -1030,7 +1030,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "ALLIANCE_COUNT", count = 5},
                 {type = "TRADING_POST_IN_EVERY_CITY"},
-                {type = "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT"}, --TODO
+                {type = "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT"},
             },
             score = 1
         },
@@ -1094,7 +1094,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_OXFORD_UNIVERSITY"},
 				{type = "GREAT_PERSON_ERA_COUNT", id = "ERA_INDUSTRIAL", count = 5},
-                {type = "GREAT_WORK_COUNT", count = 20}, -- TODO
+                {type = "GREAT_WORK_COUNT", count = 20},
             },
             score = 1
         },
@@ -1132,8 +1132,8 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_ARTIFACT"}, -- TODO
-                {type = "FIRST_RELIGIOUS_BELIEFS", count = 4}, -- TODO
+                {type = "GREAT_WORK_TYPE_COUNT", id = "GREATWORKOBJECT_ARTIFACT", count = 10}, -- TESTING
+                {type = "FIRST_RELIGIOUS_BELIEFS", count = 4}, -- TESTING
             },
             score = 1
         },
@@ -1183,7 +1183,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_FRENCH_GARDE_IMPERIALE", count = 10},
-                {type = "GREAT_PERSON_TYPE_FROM_ERA", id = "GREAT_PERSON_CLASS_GENERAL", era = "ERA_INDUSTRIAL", count = 1}, -- TODO
+                {type = "GREAT_PERSON_TYPE_FROM_ERA", id = "GREAT_PERSON_CLASS_GENERAL", era = "ERA_INDUSTRIAL", count = 1}, -- TESTING
                 {type = "FIRST_CIVIC_RESEARCHED", id = "CIVIC_NATIONALISM"},
             },
             score = 1
@@ -1608,9 +1608,9 @@ HSD_victoryConditionsConfig = {
             year = 1800,
             era = nil,
             objectives = {
-                {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_RELIC"},
-                {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_ARTIFACT"},
-                {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_SCULPTURE"},
+                {type = "GREAT_WORK_TYPE_COUNT", id = "GREATWORKOBJECT_RELIC", count = 5},
+                {type = "GREAT_WORK_TYPE_COUNT", id = "GREATWORKOBJECT_ARTIFACT", count = 5},
+                {type = "GREAT_WORK_TYPE_COUNT", id = "GREATWORKOBJECT_SCULPTURE", count = 5},
             },
             score = 1
         },
@@ -1912,7 +1912,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_POLDER", count = 6},
-                {type = "MOST_GREAT_WORK_ART"}, -- TODO
+                {type = "GREAT_WORK_TYPE_COUNT", id = "GREATWORKOBJECT_ART", count = 10},
             },
             score = 1
         },
@@ -2126,7 +2126,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "HIGHEST_FAITH_PER_TURN"},
-                {type = "MOST_GREAT_WORK_TYPE", id = "GREATWORKOBJECT_RELIC"},
+                {type = "GREAT_WORK_TYPE_COUNT", id = "GREATWORKOBJECT_RELIC", count = 6},
                 {type = "CONVERT_ALL_CITIES"},
             },
             score = 1
@@ -2218,7 +2218,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 -- {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
                 -- {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 5},
-                {type = "GREAT_PERSON_TYPE_COUNT", id = "GREAT_PERSON_CLASS_GENERAL", count = 3},
+                {type = "DIFFERENT_GOVERNMENTS_ADOPTED", count = 10},
             },
             score = 1
         },
@@ -2229,7 +2229,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 -- {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
-                {type = "FIRST_CITY_SIZE", count = 20},
+                {type = "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT"},
             },
             score = 1
         },
