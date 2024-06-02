@@ -603,12 +603,96 @@ function HSD_GetPlotYield(plotID, yieldIndex)
 	return plotYield
 end
 
-function HSD_GetTradingPost(city, playerID)
-	if city and ((city:GetTrade():HasActiveTradingPost(playerID)) or (city:GetTrade():HasInactiveTradingPost(playerID))) then
-		return true
-	else
-		return false
-	end
+-- Do not call this function from the gameplay script. The city objects are different when called in the UI. GetTrade() will fail, along with trading post checks.
+local function HSD_GetTradingPost(city, playerID)
+    -- Check if city is valid
+    if not city then
+        print("Invalid city object.")
+        return false
+    end
+
+    -- Access the city's trade object safely
+    local cityTrade = city:GetTrade()
+    if not cityTrade then
+        print("City does not have a trade object.")
+        return false
+    end
+
+    -- Check for trading posts
+    local hasActiveTradingPost = cityTrade.HasActiveTradingPost and cityTrade:HasActiveTradingPost(playerID)
+    local hasInactiveTradingPost = cityTrade.HasInactiveTradingPost and cityTrade:HasInactiveTradingPost(playerID)
+
+    return hasActiveTradingPost or hasInactiveTradingPost
+end
+
+function HSD_GetCitiesWithTradingPosts(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local citiesWithTradingPosts = 0
+    local totalCities = 0
+
+    for _, city in playerCities:Members() do
+        local cityID = city:GetID()
+		totalCities = totalCities + 1
+        local hasTradingPost = HSD_GetTradingPost(city, playerID)
+        if hasTradingPost then
+            citiesWithTradingPosts = citiesWithTradingPosts + 1
+        end
+    end
+
+    return citiesWithTradingPosts, totalCities
+end
+
+function HSD_TradePostEveryPlayerOnContinent(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local playerContinent = nil
+    local playersOnContinent = {}
+    local continentPlayersWithTradingPost = 0
+    
+    -- Determine the player's home continent by checking their capital city's continent
+    local capitalCity = playerCities:GetCapitalCity()
+    if capitalCity then
+		local capitalX, capitalY = capitalCity:GetX(), capitalCity:GetY()
+		local capitalPlot = Map.GetPlot(capitalX, capitalY)
+        playerContinent = capitalPlot:GetContinentType()
+		print("Player's Continent is ".. tostring(playerContinent))
+    end
+    
+    -- If the player's capital city's continent is not found, return counts as zero
+    if not playerContinent then
+        print("No home continent found for the player.")
+        return 0, 0
+    end
+    
+    -- Track all players with cities on the player's home continent
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        local otherPlayer = Players[otherPlayerID]
+        if (otherPlayerID ~= playerID) and (otherPlayerID ~= 62) and (not otherPlayer:IsBarbarian()) then
+            local otherPlayerCities = Players[otherPlayerID]:GetCities()
+            for _, city in otherPlayerCities:Members() do
+				local cityPlot = Map.GetPlot(city:GetX(), city:GetY())
+                if cityPlot:GetContinentType() == playerContinent then
+                    if not playersOnContinent[otherPlayerID] then
+                        playersOnContinent[otherPlayerID] = true
+						print("Player #" .. tostring(otherPlayerID).. " is on the same continent as ".. tostring(playerID))
+                    end
+                    local hasTradingPost = HSD_GetTradingPost(city, playerID)
+                    if hasTradingPost then
+                        continentPlayersWithTradingPost = continentPlayersWithTradingPost + 1
+                        break -- Found a trading post in this city, no need to check more of their cities
+                    end
+                end
+            end
+        end
+    end
+
+    local totalPlayersOnContinent = 0
+    for _ in pairs(playersOnContinent) do
+        totalPlayersOnContinent = totalPlayersOnContinent + 1
+    end
+    
+    return continentPlayersWithTradingPost, totalPlayersOnContinent
 end
 
 local function HSD_GetGreatWorksCount(playerID)
@@ -719,7 +803,8 @@ function InitializeHSD_UI()
 	ExposedMembers.HSD_GetUnitClassLevel = HSD_GetUnitClassLevel
 	ExposedMembers.HSD_GetTourismCounts = HSD_GetTourismCounts
 	ExposedMembers.HSD_GetPlotYield = HSD_GetPlotYield
-	ExposedMembers.HSD_GetTradingPost = HSD_GetTradingPost
+	ExposedMembers.HSD_GetCitiesWithTradingPosts = HSD_GetCitiesWithTradingPosts
+	ExposedMembers.HSD_TradePostEveryPlayerOnContinent = HSD_TradePostEveryPlayerOnContinent
 	ExposedMembers.HSD_GetGreatWorksCount = HSD_GetGreatWorksCount
 	ExposedMembers.HSD_GetGreatWorkTypeCount = HSD_GetGreatWorkTypeCount
 	ExposedMembers.HSD_GetNumBeliefs = HSD_GetNumBeliefs

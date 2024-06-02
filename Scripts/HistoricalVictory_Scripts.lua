@@ -16,7 +16,8 @@ ExposedMembers.CheckCityOriginalCapital = {}
 ExposedMembers.HSD_GetTerritoryCache = {}
 ExposedMembers.HSD_GetTerritoryID = {}
 ExposedMembers.HSD_GetTotalIncomingRoutes = {}
-ExposedMembers.HSD_GetTradingPost = {}
+ExposedMembers.HSD_GetCitiesWithTradingPosts = {}
+ExposedMembers.HSD_TradePostEveryPlayerOnContinent = {}
 ExposedMembers.HSD_GetRiverPlots = {}
 ExposedMembers.HSD_GetCultureCounts = {}
 ExposedMembers.HSD_GetNumTechsResearched = {}
@@ -1499,7 +1500,9 @@ local function HasTradeRouteWithEveryPlayerOnContinent(playerID)
     -- Determine the player's home continent by checking their capital city's continent
     local capitalCity = playerCities:GetCapitalCity()
     if capitalCity then
-        playerContinent = capitalCity:GetContinentType()
+        local capitalX, capitalY = capitalCity:GetX(), capitalCity:GetY()
+        local capitalPlot = Map.GetPlot(capitalX, capitalY)
+        playerContinent = capitalCity:GetPlot():GetContinentType()
     end
     
     -- If the player's capital city's continent is not found, return counts as zero
@@ -1511,14 +1514,14 @@ local function HasTradeRouteWithEveryPlayerOnContinent(playerID)
     -- Track all players with cities on the player's home continent
     for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
         local otherPlayer = Players[otherPlayerID]
-        if (otherPlayerID ~= playerID) and (not otherPlayer:IsBarbarian()) and (not otherPlayer:IsFreeCityPlayer()) then
+        if (otherPlayerID ~= playerID) and (not otherPlayer:IsBarbarian()) and (not IsFreeCityPlayer(otherPlayer)) then
             local otherPlayerCities = Players[otherPlayerID]:GetCities()
             for _, city in otherPlayerCities:Members() do
                 if city:GetContinentType() == playerContinent then
                     if not playersOnContinent[otherPlayerID] then
                         playersOnContinent[otherPlayerID] = true
                     end
-                    local hasTradingPost = ExposedMembers.HSD_GetTradingPost(city, playerID)
+                    local hasTradingPost = ExposedMembers.HSD_GetTradingPostFromPlayer(otherplayerID, playerID)
                     if hasTradingPost then
                         continentPlayersWithTradingPost = continentPlayersWithTradingPost + 1
                         break -- Found a trading post in this city, no need to check more of their cities
@@ -2732,9 +2735,9 @@ function EvaluateObjectives(player, condition)
 			current = ControlsTerritory(playerID, obj.territory, obj.minimumSize) and 1 or 0
 			total = 1
         elseif obj.type == "TRADING_POST_IN_EVERY_CITY" then
-            current, total = GetCitiesWithTradingPosts(playerID)
+            current, total = ExposedMembers.HSD_GetCitiesWithTradingPosts(playerID)
         elseif obj.type == "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT" then
-            current, total = HasTradeRouteWithEveryPlayerOnContinent(playerID)
+            current, total = ExposedMembers.HSD_TradePostEveryPlayerOnContinent(playerID)
 		elseif obj.type == "TOTAL_LAND_AREA" then
 			current = GetPercentLandArea(playerID)
 			total = obj.percent

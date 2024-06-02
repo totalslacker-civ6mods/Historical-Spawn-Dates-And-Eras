@@ -404,7 +404,7 @@
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_TRADING_POST_WITH_ALL_PLAYERS_CONTINENT" Language="en_US">
-	  <Text>Have at least one trading post per player with cities on your home continent</Text>
+	  <Text>Trading post with every player on continent</Text>
 	</Replace>	
 
 	<Replace Tag="LOC_HSD_TOTAL_LAND_AREA" Language="en_US">
