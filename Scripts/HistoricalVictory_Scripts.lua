@@ -30,6 +30,7 @@ ExposedMembers.HSD_GetPlotYield = {}
 ExposedMembers.HSD_GetGreatWorksCount = {}
 ExposedMembers.HSD_GetGreatWorkTypeCount = {}
 ExposedMembers.HSD_GetNumBeliefs = {}
+ExposedMembers.HSD_GetGoldenAge = {}
 
 -- ===========================================================================
 -- Variables
@@ -2072,6 +2073,27 @@ local function GetCitiesFollowingReligion(playerID)
     return citiesFollowingReligion, totalCities
 end
 
+local function GetGoldenAgeCount(playerID)
+    local player = Players[playerID]
+    local gameEraIndex = Game.GetEras():GetCurrentEra()
+    print("Current era is "..tostring(gameEraIndex))
+    local eraKey = "HSD_GOLDEN_AGE_ERA_" .. tostring(gameEraIndex)
+    local goldenAge = ExposedMembers.HSD_GetGoldenAge(playerID)
+    print("goldenAge is "..tostring(goldenAge))
+    if goldenAge and (not player:GetProperty(eraKey)) then
+        player:SetProperty(eraKey, true)
+    end
+    local totalGoldenAges = 0
+    for eraIndex = 0, gameEraIndex do
+        local eraPropertyKey = "HSD_GOLDEN_AGE_ERA_" .. tostring(eraIndex)
+        if player:GetProperty(eraPropertyKey) then
+            totalGoldenAges = totalGoldenAges + 1
+        end
+    end
+    print("Total golden ages up to current era: " .. tostring(totalGoldenAges))
+    return totalGoldenAges
+end
+
 -- ===========================================================================
 -- EVENT HOOKS
 -- ===========================================================================
@@ -2215,6 +2237,41 @@ local function HSD_OnCityPopulationChanged(playerID, cityID, cityPopulation)
     if not Game:GetProperty(populationKey) then
         Game:SetProperty(populationKey, playerID)
         print("Player #" .. tostring(playerID).." recorded as first player with a city of size " .. tostring(cityPopulation))
+    end
+end
+
+local function HSD_OnGameHistoryMoment(momentIndex, MomentHash)
+    print("MomentID = " .. tostring(momentIndex) .. ", MomentHash = " .. tostring(MomentHash))
+    local interestLevel = 1
+    local momentType = GameInfo.Moments[MomentHash].MomentType
+    print("momentType = " .. tostring(momentType))
+    local momentData = Game.GetHistoryManager():GetMomentData(momentIndex)
+    print("momentData.Type = " .. tostring(momentData.Type) .. ", momentData.Turn = " .. tostring(momentData.Turn) .. ", momentData.GameEra = " .. tostring(momentData.GameEra))
+    local momentDate = Calendar.MakeYearStr(momentData.Turn)
+    print("momentDate = " .. tostring(momentDate))
+    local firstMoment = momentData.HasEverBeenCommemorated
+    print("firstMoment = " .. tostring(firstMoment))
+
+    local momentsTable = {
+        ["HSD_MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD"] = "MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD",
+        ["HSD_MOMENT_UNIT_CREATED_FIRST_DOMAIN_AIR_IN_WORLD"] = "MOMENT_UNIT_CREATED_FIRST_DOMAIN_AIR_IN_WORLD",
+        ["HSD_MOMENT_WORLD_CIRCUMNAVIGATED_FIRST_IN_WORLD"] = "MOMENT_WORLD_CIRCUMNAVIGATED_FIRST_IN_WORLD",
+    }
+
+    for _, playerID in ipairs(PlayerManager.GetAliveIDs()) do
+        local momentSummary = Game.GetHistoryManager():GetAllMomentsData(playerID, interestLevel)
+        for _, moment in ipairs(momentSummary) do
+            local currentMomentType = GameInfo.Moments[moment.Type].MomentType
+            print(currentMomentType)
+            for key, value in pairs(momentsTable) do
+                if currentMomentType == value then
+                    if not Game:GetProperty(key) then
+                        Game:SetProperty(key, playerID)
+                        print("Set property " .. key .. " for player " .. tostring(playerID))
+                    end
+                end
+            end
+        end
     end
 end
 
@@ -2392,6 +2449,34 @@ local function HSD_OnTechCompleted(ePlayer, eTech)
     end
 end
 
+local function HSD_OnSpyMissionCompleted(playerID, missionID)
+    local player = Players[playerID]
+    -- Retrieve or initialize the table of completed missions
+    local completedMissions = player:GetProperty("HSD_CompletedMissions") or {}
+        
+    -- Check if the missionID has not already been recorded
+    if not completedMissions[missionID] then
+        -- Record the mission as completed
+        completedMissions[missionID] = true
+        player:SetProperty("HSD_CompletedMissions", completedMissions)
+            
+        -- Count the total number of unique missions completed
+        local totalUniqueMissions = 0
+        for _ in pairs(completedMissions) do
+            totalUniqueMissions = totalUniqueMissions + 1
+        end
+        
+        -- Store the total count in another player property
+        player:SetProperty("HSD_TotalUniqueMissionsCompleted", totalUniqueMissions)
+            
+        -- Optionally, log the completion for debugging
+        print("Mission " .. tostring(missionID) .. " completed by player " .. tostring(playerID) .. ". Total unique missions completed: " .. tostring(totalUniqueMissions))
+    else
+        -- Optionally, log if the mission was already completed
+        print("Mission " .. tostring(missionID) .. " already completed by player " .. tostring(playerID))
+    end
+end
+
 local function HSD_OnUnitKilled(killedPlayerID, killedUnitID, playerID, unitID)
     -- print("HSD_OnUnitKilled detected...")
     -- print("Killing player is #"..tostring(playerID))
@@ -2543,6 +2628,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "COASTAL_CITY_COUNT" then
 			current = GetCoastalCityCount(playerID)
 			total = obj.count
+        elseif obj.type == "COMPLETE_ESPIONAGE_MISSIONS" then
+            current = player:GetProperty("HSD_TotalUniqueMissionsCompleted") or 0
+            total = obj.count
 		elseif obj.type == "CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL" then
 			current, total = GetRiverOwnership(playerID)
 		elseif obj.type == "CONVERT_NUM_CONTINENTS" then -- UNTESTED
@@ -2603,6 +2691,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "GOLD_COUNT" then
 			current = GetPlayerGold(playerID)
 			total = obj.count
+        elseif obj.type == "GOLDEN_AGE_COUNT" then
+            current = GetGoldenAgeCount(playerID)
+            total = obj.count
 		elseif obj.type == "GOVERNOR_IN_EVERY_CITY" then
 			current, total = ExposedMembers.HSD_GetCitiesWithGovernors(playerID)
 		elseif obj.type == "GREAT_PEOPLE_ACTIVATED" then
@@ -2935,8 +3026,10 @@ function HSD_InitVictoryMode()
 	Events.CivicCompleted.Add(HSD_OnCivicCompleted)
     Events.CulturalIdentityCityConverted.Add(HSD_OnCityConvertedLoyalty)
     Events.DiplomacyDeclareWar.Add(HSD_OnWarDeclared)
+    Events.GameHistoryMomentRecorded.Add(HSD_OnGameHistoryMoment)
     Events.GovernmentChanged.Add(HSD_OnGovernmentChanged)
 	Events.ResearchCompleted.Add(HSD_OnTechCompleted)
+    Events.SpyMissionCompleted.Add(HSD_OnSpyMissionCompleted)
 	Events.WonderCompleted.Add(HSD_OnWonderConstructed)
     Events.UnitGreatPersonCreated.Add(HSD_OnGreatPersonCreated)
 	Events.UnitKilledInCombat.Add(HSD_OnUnitKilled)

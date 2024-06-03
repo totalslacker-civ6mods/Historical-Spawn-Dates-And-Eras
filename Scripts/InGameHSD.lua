@@ -766,6 +766,12 @@ local function HSD_GetNumBeliefs(playerID)
     return numBeliefs
 end
 
+local function HSD_GetGoldenAge(playerID)
+    local gameEras = Game.GetEras()
+    local goldenAgeProgress = gameEras:HasGoldenAge(playerID) or gameEras:HasHeroicGoldenAge(playerID)
+    return goldenAgeProgress
+end
+
 ----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
@@ -808,6 +814,7 @@ function InitializeHSD_UI()
 	ExposedMembers.HSD_GetGreatWorksCount = HSD_GetGreatWorksCount
 	ExposedMembers.HSD_GetGreatWorkTypeCount = HSD_GetGreatWorkTypeCount
 	ExposedMembers.HSD_GetNumBeliefs = HSD_GetNumBeliefs
+	ExposedMembers.HSD_GetGoldenAge = HSD_GetGoldenAge
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))

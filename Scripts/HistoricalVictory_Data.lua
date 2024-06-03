@@ -611,7 +611,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_SPY", count = 1, level = 3},
-                {type = "COMPLETE_ALL_ESPIONAGE_MISSIONS"}, -- TODO
+                {type = "COMPLETE_ESPIONAGE_MISSIONS", count = 10}, -- TESTING
             },
             score = 1
         },
@@ -1251,7 +1251,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "MAXIMUM_ALLIANCE_LEVEL_COUNT", count = 3},
                 {type = "SUZERAINTY_COUNT", count = 4},
-                {type = "GOLDEN_AGE_COUNT", count = 3}, -- TODO
+                {type = "GOLDEN_AGE_COUNT", count = 3},
             },
             score = 1
         },
@@ -2206,7 +2206,7 @@ HSD_victoryConditionsConfig = {
                 -- {type = "WONDER_BUILT", id = "BUILDING_COLOSSEUM"},
                 -- {type = "DISTRICT_COUNT", id = "DISTRICT_BATH", count = 4},
                 -- {type = "ROUTE_COUNT", count = 15},
-                {type = "TRADING_POST_IN_EVERY_CITY"},
+                {type = "GOLDEN_AGE_COUNT", count = 3},
             },
             score = 1
         },

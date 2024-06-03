@@ -58,6 +58,8 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count, objective.id)
     elseif type == "COASTAL_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+	elseif type == "COMPLETE_ESPIONAGE_MISSIONS" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "CONVERT_NUM_CONTINENTS" then
@@ -95,6 +97,8 @@ local function GetObjectiveDetails(objective)
     elseif type == "FIRST_WAR_DECLARED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "GOLD_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+    elseif type == "GOLDEN_AGE_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "GOVERNOR_IN_EVERY_CITY" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)

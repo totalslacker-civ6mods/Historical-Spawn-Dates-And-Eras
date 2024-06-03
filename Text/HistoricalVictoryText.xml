@@ -151,6 +151,10 @@
 	  <Text>Control {1_count} coastal cities</Text>
 	</Replace>
 
+	<Replace Tag="LOC_HSD_COMPLETE_ESPIONAGE_MISSIONS" Language="en_US">
+	  <Text>Complete {1_count} different espionage missions</Text>
+	</Replace>
+
 	<Replace Tag="LOC_HSD_CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL" Language="en_US">
 	  <Text>Control the river adjacent to your capital</Text>
 	</Replace>
@@ -225,6 +229,10 @@
 	
 	<Replace Tag="LOC_HSD_GOLD_COUNT" Language="en_US">
 	  <Text>{1_count}[ICON_GOLD] in treasury</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_GOLDEN_AGE_COUNT" Language="en_US">
+	  <Text>Earn {1_count} Golden Ages </Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_GOVERNOR_IN_EVERY_CITY" Language="en_US">
