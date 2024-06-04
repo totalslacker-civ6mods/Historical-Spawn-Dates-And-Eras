@@ -28,6 +28,7 @@ local HideObjectiveCount = {
 -- ===========================================================================
 -- Helper Functions for Historical Victory Mode
 -- ===========================================================================
+
 local function GetObjectiveDetails(objective)
     local detailsText = ""
     local type = objective.type
@@ -86,6 +87,9 @@ local function GetObjectiveDetails(objective)
 		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "FIRST_CIVIC_RESEARCHED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Civics[objective.id].Name))
+	elseif type == "FIRST_HISTORICAL_MOMENT" then
+		-- detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup("LOC_HSD_"..tostring(objective.id)))
+		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Moments[objective.id].Name))
     elseif type == "FIRST_GOVERNMENT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Governments[objective.id].Name))
     elseif type == "FIRST_GREAT_PERSON_CLASS" then
@@ -144,6 +148,8 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "MINIMUM_CONTINENT_TECH_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.continent)
+    elseif type == "MOMENT_COUNT" then
+        detailsText = Locale.Lookup("LOC_HSD_"..objective.id.."_COUNT", objective.count)
     elseif type == "MOST_ACTIVE_TRADEROUTES_ALL" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "MOST_ARCTIC_TERRAIN" then

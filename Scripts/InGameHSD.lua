@@ -772,6 +772,79 @@ local function HSD_GetGoldenAge(playerID)
     return goldenAgeProgress
 end
 
+local function HSD_OnGameHistoryMoment(momentIndex, MomentHash)
+    print("MomentID = " .. tostring(momentIndex) .. ", MomentHash = " .. tostring(MomentHash))
+    local interestLevel = GameInfo.Moments[MomentHash].InterestLevel
+    local momentType = GameInfo.Moments[MomentHash].MomentType
+    print("momentType = " .. tostring(momentType))
+	local momentTypeKey = "HSD_"..tostring(momentType)
+    local momentData = Game.GetHistoryManager():GetMomentData(momentIndex)
+    print("momentData.Type = " .. tostring(momentData.Type) .. ", momentData.Turn = " .. tostring(momentData.Turn) .. ", momentData.GameEra = " .. tostring(momentData.GameEra))
+    -- local momentDate = Calendar.MakeYearStr(momentData.Turn)
+    -- print("momentDate = " .. tostring(momentDate))
+    -- local firstMoment = momentData.HasEverBeenCommemorated
+    -- print("firstMoment = " .. tostring(firstMoment))
+	local momentPlayerID = momentData.ActingPlayer
+
+	-- Record every moment
+	if not Game:GetProperty(momentTypeKey) then
+		GameConfiguration.SetValue(momentTypeKey, momentPlayerID)
+		-- Game:SetProperty(momentTypeKey, momentPlayerID)
+		print("Set property " .. momentTypeKey .. " for player " .. tostring(momentPlayerID))
+	end
+
+    -- Print all properties of the momentData table
+    -- for key, value in pairs(momentData) do
+    --     print(key .. " = " .. tostring(value))
+    -- end
+
+    -- local momentsTable = {
+    --     ["HSD_MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD"] = "MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD",
+    --     ["HSD_MOMENT_UNIT_CREATED_FIRST_DOMAIN_AIR_IN_WORLD"] = "MOMENT_UNIT_CREATED_FIRST_DOMAIN_AIR_IN_WORLD",
+    --     ["HSD_MOMENT_WORLD_CIRCUMNAVIGATED_FIRST_IN_WORLD"] = "MOMENT_WORLD_CIRCUMNAVIGATED_FIRST_IN_WORLD",
+    -- }
+
+	-- Check the moment player against the moments table directly
+	-- local momentSummary = Game.GetHistoryManager():GetAllMomentsData(momentPlayerID, interestLevel)
+	-- for _, moment in ipairs(momentSummary) do
+	-- 	local currentMomentType = GameInfo.Moments[moment.Type].MomentType
+	-- 	print(currentMomentType)
+
+	-- 	-- Use the predefined table
+	-- 	for key, value in pairs(momentsTable) do
+	-- 		if currentMomentType == value then
+	-- 			if not Game:GetProperty(key) then
+	-- 				Game:SetProperty(key, momentPlayerID)
+	-- 				print("Set property " .. key .. " for player " .. tostring(momentPlayerID))
+	-- 			end
+	-- 		end
+	-- 	end
+	-- end
+
+	-- Iterate through all players and record the first player to complete a historical moment (slower)
+    -- for _, playerID in ipairs(PlayerManager.GetAliveIDs()) do
+    --     local momentSummary = Game.GetHistoryManager():GetAllMomentsData(playerID, interestLevel)
+    --     for _, moment in ipairs(momentSummary) do
+    --         local currentMomentType = GameInfo.Moments[moment.Type].MomentType
+    --         print(currentMomentType)
+    --         for key, value in pairs(momentsTable) do
+    --             if currentMomentType == value then
+    --                 if not Game:GetProperty(key) then
+    --                     Game:SetProperty(key, playerID)
+    --                     print("Set property " .. key .. " for player " .. tostring(playerID))
+    --                 end
+    --             end
+    --         end
+    --     end
+    -- end
+end
+
+local function HSD_GetMomentData(momentIndex)
+    local momentData = Game.GetHistoryManager():GetMomentData(momentIndex)
+    -- print("momentData.Type = " .. tostring(momentData.Type) .. ", momentData.Turn = " .. tostring(momentData.Turn) .. ", momentData.GameEra = " .. tostring(momentData.GameEra))
+	return momentData
+end
+
 ----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
@@ -815,6 +888,7 @@ function InitializeHSD_UI()
 	ExposedMembers.HSD_GetGreatWorkTypeCount = HSD_GetGreatWorkTypeCount
 	ExposedMembers.HSD_GetNumBeliefs = HSD_GetNumBeliefs
 	ExposedMembers.HSD_GetGoldenAge = HSD_GetGoldenAge
+	ExposedMembers.HSD_GetMomentData = HSD_GetMomentData
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))

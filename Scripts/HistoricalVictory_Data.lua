@@ -668,7 +668,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "NATURAL_WONDER_COUNT", count = 4},
-                {type = "NATIONAL_PARK_COUNT", count = 4}, --TODO
+                {type = "MOMENT_COUNT", id = "MOMENT_NATIONAL_PARK_CREATED", count = 4},
                 {type = "LAND_AREA_HOME_CONTINENT", percent = 40},
             },
             score = 1
@@ -1366,8 +1366,8 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "UNIT_KILL_COUNT", id = "UNIT_HUNGARY_BLACK_ARMY", count = 10},
-                {type = "UNIT_KILL_COUNT", id = "UNIT_HUNGARY_HUSZAR", count = 10},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_HUNGARY_BLACK_ARMY", count = 20},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_HUNGARY_HUSZAR", count = 20},
             },
             score = 1
         },
@@ -1379,6 +1379,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "SUZERAINTY_COUNT", count = 3},
                 {type = "DISTRICT_COUNT_CAPITAL_ADJACENT", count = 5},
+                {type = "MOMENT_COUNT", id = "MOMENT_PLAYER_LEVIED_MILITARY", count = 5},
             },
             score = 1
         },
@@ -1674,6 +1675,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "OCCUPIED_CAPITAL_COUNT", count = 3},
+                {type = "MOMENT_COUNT", id = "MOMENT_UNIT_KILLED_ASSISTED_BY_GENERAL", count = 5},
             },
             score = 1
         },
@@ -1683,7 +1685,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "GREAT_PERSON_TYPE_COUNT", id = "GREAT_PERSON_CLASS_GENERAL", count = 6},
+                {type = "GREAT_PERSON_TYPE_COUNT", id = "GREAT_PERSON_CLASS_GENERAL", count = 5},
                 {type = "UNIT_KILL_COUNT", id = "UNIT_MACEDONIAN_HETAIROI", count = 20},
                 {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_MACEDONIAN_HYPASPIST", count = 1, level = 8},
             },
@@ -2176,7 +2178,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_RENAISSANCE",
             objectives = {
-                {type = "FIRST_CIRCUMNAVIGATE_GLOBE"}, -- TODO
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_WORLD_CIRCUMNAVIGATED_FIRST_IN_WORLD"},
                 {type = "MOST_OUTGOING_TRADE_ROUTES"},
                 {type = "UNIT_KILL_COUNT", id = "UNIT_PORTUGUESE_NAU", count = 10},
             },
@@ -2218,7 +2220,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 -- {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
                 -- {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 5},
-                {type = "DIFFERENT_GOVERNMENTS_ADOPTED", count = 10},
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_INQUISITION_LAUNCHED_FIRST_IN_WORLD"},
             },
             score = 1
         },
@@ -2229,7 +2231,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 -- {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
-                {type = "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT"},
+                {type = "MOMENT_COUNT", id = "MOMENT_NATIONAL_PARK_CREATED", count = 4},
             },
             score = 1
         },
@@ -2362,7 +2364,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_SPANISH_CONQUISTADOR", count = 10},
                 {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_SPANISH_CONQUISTADOR", count = 5},
-                {type = "CONVERT_ALL_CITIES"},
+                {type = "MOMENT_COUNT", id = "MOMENT_INQUISITION_LAUNCHED", count = 5},
             },
             score = 1
         },
@@ -2386,6 +2388,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "CONVERT_NUM_CONTINENTS", count = 3},
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_MISSION", count = 10},
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD"},
             },
             score = 1
         },

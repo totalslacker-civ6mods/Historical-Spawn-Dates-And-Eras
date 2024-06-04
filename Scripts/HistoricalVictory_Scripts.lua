@@ -31,6 +31,7 @@ ExposedMembers.HSD_GetGreatWorksCount = {}
 ExposedMembers.HSD_GetGreatWorkTypeCount = {}
 ExposedMembers.HSD_GetNumBeliefs = {}
 ExposedMembers.HSD_GetGoldenAge = {}
+ExposedMembers.HSD_GetMomentData = {}
 
 -- ===========================================================================
 -- Variables
@@ -2241,38 +2242,30 @@ local function HSD_OnCityPopulationChanged(playerID, cityID, cityPopulation)
 end
 
 local function HSD_OnGameHistoryMoment(momentIndex, MomentHash)
-    print("MomentID = " .. tostring(momentIndex) .. ", MomentHash = " .. tostring(MomentHash))
-    local interestLevel = 1
+    -- print("MomentID = " .. tostring(momentIndex) .. ", MomentHash = " .. tostring(MomentHash))
+    local interestLevel = GameInfo.Moments[MomentHash].InterestLevel
     local momentType = GameInfo.Moments[MomentHash].MomentType
-    print("momentType = " .. tostring(momentType))
-    local momentData = Game.GetHistoryManager():GetMomentData(momentIndex)
-    print("momentData.Type = " .. tostring(momentData.Type) .. ", momentData.Turn = " .. tostring(momentData.Turn) .. ", momentData.GameEra = " .. tostring(momentData.GameEra))
-    local momentDate = Calendar.MakeYearStr(momentData.Turn)
-    print("momentDate = " .. tostring(momentDate))
-    local firstMoment = momentData.HasEverBeenCommemorated
-    print("firstMoment = " .. tostring(firstMoment))
+    -- print("momentType = " .. tostring(momentType))
+	local momentTypeKey = "HSD_"..tostring(momentType)
+    local momentCountKey = "HSD_"..tostring(momentType).."_COUNT"
+    local momentData = ExposedMembers.HSD_GetMomentData(momentIndex)
+    -- print("momentData.Type = " .. tostring(momentData.Type) .. ", momentData.Turn = " .. tostring(momentData.Turn) .. ", momentData.GameEra = " .. tostring(momentData.GameEra))
+    -- local momentDate = Calendar.MakeYearStr(momentData.Turn)
+    -- print("momentDate = " .. tostring(momentDate))
+    -- local firstMoment = momentData.HasEverBeenCommemorated
+    -- print("firstMoment = " .. tostring(firstMoment))
+	local momentPlayerID = momentData.ActingPlayer
+    local player = Players[momentPlayerID]
 
-    local momentsTable = {
-        ["HSD_MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD"] = "MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD",
-        ["HSD_MOMENT_UNIT_CREATED_FIRST_DOMAIN_AIR_IN_WORLD"] = "MOMENT_UNIT_CREATED_FIRST_DOMAIN_AIR_IN_WORLD",
-        ["HSD_MOMENT_WORLD_CIRCUMNAVIGATED_FIRST_IN_WORLD"] = "MOMENT_WORLD_CIRCUMNAVIGATED_FIRST_IN_WORLD",
-    }
+	-- Record every moment
+	if not Game:GetProperty(momentTypeKey) then
+		Game:SetProperty(momentTypeKey, momentPlayerID)
+		print("Set property " .. momentTypeKey .. " for player " .. tostring(momentPlayerID))
+	end
 
-    for _, playerID in ipairs(PlayerManager.GetAliveIDs()) do
-        local momentSummary = Game.GetHistoryManager():GetAllMomentsData(playerID, interestLevel)
-        for _, moment in ipairs(momentSummary) do
-            local currentMomentType = GameInfo.Moments[moment.Type].MomentType
-            print(currentMomentType)
-            for key, value in pairs(momentsTable) do
-                if currentMomentType == value then
-                    if not Game:GetProperty(key) then
-                        Game:SetProperty(key, playerID)
-                        print("Set property " .. key .. " for player " .. tostring(playerID))
-                    end
-                end
-            end
-        end
-    end
+    -- Record number of times a player activated a moment
+    local momentCount = player:GetProperty(momentCountKey) or 0
+    player:SetProperty(momentCountKey, momentCount + 1)
 end
 
 local function HSD_OnGovernmentChanged(playerID, governmentID)
@@ -2653,7 +2646,12 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "FEATURE_COUNT" then
 			current = GetPlayerFeaturePlotCount(playerID, obj.id)
 			total = obj.count
+        elseif obj.type == "FIRST_HISTORICAL_MOMENT" then
+            isPlayerProperty = true
+            current = Game:GetProperty("HSD_"..tostring(obj.id)) or -1 --playerID nil check
+            total = playerID
 		elseif obj.type == "FIRST_NUM_ACTIVE_ALLIANCES" then
+            isPlayerProperty = true
 			current = GetAllianceCount_AllPlayers(obj.count)
 			total = playerID
 		elseif obj.type == "FIRST_BUILDING_CONSTRUCTED" then
@@ -2758,6 +2756,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "MINIMUM_CONTINENT_TECH_COUNT" then
             isGreaterThan = true
 			current, total = HasMoreTechsThanContinentMinimum(playerID, obj.continent)
+        elseif obj.type == "MOMENT_COUNT" then
+            current = player:GetProperty("HSD_"..tostring(obj.id).."_COUNT") or 0
+            total = obj.count
 		elseif obj.type == "MOST_ACTIVE_TRADEROUTES_ALL" then
             isGreaterThan = true
 			current, total = GetTradeRoutesCount(playerID)
