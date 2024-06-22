@@ -2206,10 +2206,9 @@ HSD_victoryConditionsConfig = {
             year = 200,
 			era = nil,
             objectives = {
-                -- {type = "WONDER_BUILT", id = "BUILDING_COLOSSEUM"},
-                -- {type = "DISTRICT_COUNT", id = "DISTRICT_BATH", count = 4},
-                -- {type = "ROUTE_COUNT", count = 15},
-                {type = "GOLDEN_AGE_COUNT", count = 3},
+                {type = "WONDER_BUILT", id = "BUILDING_COLOSSEUM"},
+                {type = "DISTRICT_COUNT", id = "DISTRICT_BATH", count = 4},
+                {type = "ROUTE_COUNT", count = 15},
             },
             score = 1
         },
@@ -2219,9 +2218,8 @@ HSD_victoryConditionsConfig = {
             year = 450,
 			era = nil,
             objectives = {
-                -- {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
-                -- {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 5},
-                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_INQUISITION_LAUNCHED_FIRST_IN_WORLD"},
+                {type = "LAND_AREA_HOME_CONTINENT", percent = 20},
+                {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 5},
             },
             score = 1
         },
@@ -2231,8 +2229,7 @@ HSD_victoryConditionsConfig = {
 			year = nil,
 			era = nil,
             objectives = {
-                -- {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
-                {type = "MOMENT_COUNT", id = "MOMENT_NATIONAL_PARK_CREATED", count = 4},
+                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 8},
             },
             score = 1
         },

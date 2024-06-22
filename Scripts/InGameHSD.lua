@@ -177,22 +177,22 @@ function CheckCityCapital(pPlayerID, pCityID)
 		if pCity:IsOriginalCapital() and (pCity:GetOriginalOwner() == pCity:GetOwner()) then
 			if pCity:IsCapital() then
 				-- Original capital still owned by original owner
-				print("Found original capital")
+				-- print("Found original capital")
 				bCapital = true
 			else
-				print("Found occupied capital")
+				-- print("Found occupied capital")
 				bCapital = false
 			end
 		elseif pCity:IsOriginalCapital() and (pCity:GetOriginalOwner() ~= pCity:GetOwner()) then
-			print("Found occupied capital")
+			-- print("Found occupied capital")
 			bCapital = false
 		elseif pCity:IsCapital() then
 			-- New capital
-			print("Found new capital")
+			-- print("Found new capital")
 			bCapital = false
 		else
 			-- Other cities
-			print("Found non-capital city")
+			-- print("Found non-capital city")
 			bCapital = false
 		end
 	end
@@ -528,10 +528,10 @@ function HSD_GetUnitPromotionLevel(playerID, unitType, promotionLevel)
 
     for i, unit in playerUnits:Members() do
 		local playerUnitType = GameInfo.Units[unit:GetUnitType()].UnitType
-        print("Unit type is "..tostring(playerUnitType))
+        -- print("Unit type is "..tostring(playerUnitType))
         if playerUnitType == unitType then
             local unitLevel = unit:GetExperience():GetLevel()
-            print("Unit is level "..tostring(unitLevel))
+            -- print("Unit is level "..tostring(unitLevel))
             if unitLevel >= promotionLevel then
                 count = count + 1
             end

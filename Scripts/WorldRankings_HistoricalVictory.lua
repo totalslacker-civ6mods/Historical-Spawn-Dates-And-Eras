@@ -165,7 +165,7 @@ local function GetObjectiveDetails(objective)
     elseif type == "MOST_HILL_PLOTS" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
 	elseif type == "MOST_FRIENDS" then
-		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+		detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "MOST_OUTGOING_TRADE_ROUTES" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "MOST_TERRAIN_TYPE" then
@@ -232,7 +232,7 @@ local function GetObjectiveDetails(objective)
     elseif type == "WONDER_BUILT_CITIES_IN_RANGE" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Buildings[objective.id].Name), objective.count, objective.range)
 	elseif type == "WONDER_CONTROL_ALL" then
-		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count, objective.total)
+		detailsText = Locale.Lookup("LOC_HSD_"..type)
     else
         detailsText = "Generic victory details text for type: " .. type
     end

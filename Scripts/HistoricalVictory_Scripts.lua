@@ -302,6 +302,13 @@ local function GetWondersCount(playerID)
         end
     end
 
+    -- The amount of player wonders will be evaluated against the total count
+    -- If the both are zero, the victory will be marked as completed
+    -- Set play wonder count to -1 in this case to prevent this from happening
+    if (playerWondersCount == 0) and (totalWondersCount == 0) then
+        playerWondersCount = -1
+    end
+
     return playerWondersCount, totalWondersCount
 end
 
@@ -378,7 +385,7 @@ local function GetCitiesWithFeatureCount(playerID, featureType)
 end
 
 local function GetOccupiedCapitals(playerID)
-    print("Checking number of occupied capitals for player " .. tostring(playerID))
+    -- print("Checking number of occupied capitals for player " .. tostring(playerID))
     local player = Players[playerID]
     local playerCities = player:GetCities()
     local count = 0
@@ -390,7 +397,7 @@ local function GetOccupiedCapitals(playerID)
         end
     end
 
-    print("Player " .. tostring(playerID) .. " owns " .. tostring(count) .. " occupied capitals.")
+    -- print("Player " .. tostring(playerID) .. " owns " .. tostring(count) .. " occupied capitals.")
     return count
 end
 
@@ -453,7 +460,7 @@ local function GetSuzeraintyCount(playerID)
         if IsCityState(otherPlayerID) then
             local suzerainID = otherPlayer:GetInfluence():GetSuzerain()
 			if suzerainID then
-				print("suzerainID for "..tostring(CivilizationTypeName).." is "..tostring(suzerainID))
+				-- print("suzerainID for "..tostring(CivilizationTypeName).." is "..tostring(suzerainID))
 				if suzerainID == playerID then
 					suzerainCount = suzerainCount + 1
 					print("Suzerainty detected. suzerainCount is "..tostring(suzerainCount))
@@ -2172,7 +2179,8 @@ local function GetCitiesOnHomeContinentFollowingReligion(playerID)
     -- Determine the player's home continent by checking their capital city's continent
     local capitalCity = playerCities:GetCapitalCity()
     if capitalCity then
-        playerContinent = capitalCity:GetContinentType()
+        local cityPlot = capitalCity:GetPlot()
+        playerContinent = cityPlot:GetContinentType()
     end
 
     -- If the player's capital city's continent is not found, return 0
@@ -2192,7 +2200,8 @@ local function GetCitiesOnHomeContinentFollowingReligion(playerID)
             if cityPlot:GetContinentType() == playerContinent then
                 local cityReligion = city:GetReligion()
                 local majorityReligion = cityReligion:GetMajorityReligion()
-                if majorityReligion == playerReligionID then
+                -- print("Majority religion is "..tostring(majorityReligion))
+                if (playerReligionID ~= -1) and (majorityReligion == playerReligionID) then
                     religiousCitiesCount = religiousCitiesCount + 1
                 else
                     nonReligiousCitiesCount = nonReligiousCitiesCount + 1
@@ -2618,13 +2627,13 @@ local function HSD_OnUnitKilled(killedPlayerID, killedUnitID, playerID, unitID)
         if unitPrereqTech then
             local techInfo = GameInfo.Technologies[unitPrereqTech]
             if techInfo then
-                unitEra = GameInfo.Eras[techInfo.Era].Index
+                unitEra = GameInfo.Eras[techInfo.EraType].Index
             end
         end
         if unitPrereqCivic then
             local civicInfo = GameInfo.Civics[unitPrereqCivic]
             if civicInfo then
-                unitEra = GameInfo.Eras[civicInfo.Era].Index
+                unitEra = GameInfo.Eras[civicInfo.EraType].Index
             end
         end
         if not unitPrereqTech and not unitPrereqCivic then
