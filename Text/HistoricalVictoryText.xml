@@ -139,6 +139,10 @@
 	  <Text>Own {1_count} cities on foreign continents</Text>
 	</Replace>
 
+	<Replace Tag="LOC_HSD_CITY_NAME_COUNT" Language="en_US">
+	  <Text>Own {1_count} cities named {2_name}</Text>
+	</Replace>
+
 	<Replace Tag="LOC_HSD_CITY_WITH_FEATURE_COUNT" Language="en_US">
 	  <Text>Own {1_count} cities with {2_featureTypeName}</Text>
 	</Replace>
@@ -157,6 +161,10 @@
 
 	<Replace Tag="LOC_HSD_CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL" Language="en_US">
 	  <Text>Control the river adjacent to your capital</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_CONVERT_MAJORITY_HOME_CONTINENT_RELIGION" Language="en_US">
+	  <Text>Convert majority cities on home continent to your religion</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_CONVERT_NUM_CONTINENTS" Language="en_US">
@@ -339,6 +347,10 @@
 	  <Text>Most cities on home continent</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_MOST_FRIENDS" Language="en_US">
+	  <Text>Have the most declared friends</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_MOST_HILL_PLOTS" Language="en_US">
 	  <Text>Have the most Hills plots</Text>
 	</Replace>
@@ -443,6 +455,10 @@
 	  <Text>Kill {2_count} units with the {1_unitTypeName}</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_UNIT_KILL_ERA_DIFFERENCE" Language="en_US">
+	  <Text>Kill a unit {2_count} eras above with the {1_unitTypeName}</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_UNIT_PILLAGE_COUNT" Language="en_US">
 	  <Text>Pillage {2_count} times with the {1_unitTypeName}</Text>
 	</Replace>
@@ -466,6 +482,10 @@
 	<Replace Tag="LOC_HSD_WONDER_BUILT_CITIES_IN_RANGE" Language="en_US">
 	  <Text>Build {2_count} cities in {3_range} plots of the {1_buildingTypeName}</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_WONDER_CONTROL_ALL" Language="en_US">
+	  <Text>Control all completed World Wonders</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_GENERIC_VICTORY_DETAILS_TEXT" Language="en_US">
 	  <Text>Generic victory details text for type: {1_type}</Text>
@@ -474,6 +494,10 @@
 	<!-- ----------------------------------->
 	<!-- HISTORICAL MOMENT OBJECTIVE TEXT -->
 	<!-- ----------------------------------->
+	
+	<Replace Tag="LOC_HSD_MOMENT_EMERGENCY_WON_AS_MEMBER_COUNT" Language="en_US">
+	  <Text>Win {1_count} emergencies as a member</Text>
+	</Replace>
 	
 	<Replace Tag="LOC_HSD_MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD" Language="en_US">
 	  <Text>First armada in the world</Text>
@@ -489,6 +513,10 @@
 	
 	<Replace Tag="LOC_HSD_MOMENT_PLAYER_LEVIED_MILITARY_COUNT" Language="en_US">
 	  <Text>Levy a city-state {1_count} times</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOMENT_SPY_MAX_LEVEL_COUNT" Language="en_US">
+	  <Text>Promote {1_count} master spies</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_MOMENT_UNIT_CREATED_FIRST_DOMAIN_AIR_IN_WORLD" Language="en_US">

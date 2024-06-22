@@ -270,10 +270,63 @@ local function AreTwoWondersInSameCity(playerID, firstWonderID, secondWonderID)
     return false
 end
 
+local function GetWondersCount(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local playerWondersCount = 0
+    local totalWondersCount = 0
+
+    -- Function to count wonders in a given city
+    local function countCityWonders(city)
+        local cityBuildings = city:GetBuildings()
+        local cityWondersCount = 0
+        for building in GameInfo.Buildings() do
+            if building.IsWonder and cityBuildings:HasBuilding(building.Index) then
+                cityWondersCount = cityWondersCount + 1
+            end
+        end
+        return cityWondersCount
+    end
+
+    -- Count wonders for the specified player
+    for _, city in playerCities:Members() do
+        playerWondersCount = playerWondersCount + countCityWonders(city)
+    end
+
+    -- Count wonders for all players to get the total wonders in the world
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        local otherPlayer = Players[otherPlayerID]
+        local otherPlayerCities = otherPlayer:GetCities()
+        for _, city in otherPlayerCities:Members() do
+            totalWondersCount = totalWondersCount + countCityWonders(city)
+        end
+    end
+
+    return playerWondersCount, totalWondersCount
+end
+
 local function GetCitiesCount(playerID)
     local player = Players[playerID]
     local playerCitiesCount = player:GetCities():GetCount()
     return playerCitiesCount
+end
+
+local function GetCitiesWithNameCount(playerID, word)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local count = 0
+    local lowerCaseWord = string.lower(word)
+
+    -- Iterate through each city
+    for _, city in playerCities:Members() do
+        local cityName = Locale.Lookup(city:GetName())
+        local lowerCaseCityName = string.lower(cityName)
+        if string.find(lowerCaseCityName, lowerCaseWord) then
+            count = count + 1
+        end
+    end
+
+    return count
 end
 
 local function GetNumCitiesWithPopulation(playerID, requiredCityNum, requiredPopulation)
@@ -1936,6 +1989,42 @@ local function GetAllianceLevelCount(playerID)
     return allianceCount
 end
 
+local function GetDeclaredFriendsCount(playerID)
+    local player = Players[playerID]
+    local playerDiplomacy = player:GetDiplomacy()
+    local playerFriendsCount = 0
+    local highestOtherPlayerFriendsCount = 0
+
+    -- Function to count the number of declared friends for a given player
+    local function countDeclaredFriends(player)
+        local friendsCount = 0
+        for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+            if otherPlayerID ~= player:GetID() then
+                if player:GetDiplomacy():HasDeclaredFriendship(otherPlayerID) then
+                    friendsCount = friendsCount + 1
+                end
+            end
+        end
+        return friendsCount
+    end
+
+    -- Count the number of declared friends for the specified player
+    playerFriendsCount = countDeclaredFriends(player)
+
+    -- Count the number of declared friends for each other player and find the maximum
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            local otherPlayer = Players[otherPlayerID]
+            local otherPlayerFriendsCount = countDeclaredFriends(otherPlayer)
+            if otherPlayerFriendsCount > highestOtherPlayerFriendsCount then
+                highestOtherPlayerFriendsCount = otherPlayerFriendsCount
+            end
+        end
+    end
+
+    return playerFriendsCount, highestOtherPlayerFriendsCount
+end
+
 local function GetCitiesInRange_Building(playerID, buildingID, range)
     local player = Players[playerID]
     local playerCities = player:GetCities()
@@ -2072,6 +2161,47 @@ local function GetCitiesFollowingReligion(playerID)
     end
 
     return citiesFollowingReligion, totalCities
+end
+
+local function GetCitiesOnHomeContinentFollowingReligion(playerID)
+    local player = Players[playerID]
+    local playerReligionID = player:GetReligion():GetReligionTypeCreated()
+    local playerCities = player:GetCities()
+    local playerContinent = false
+
+    -- Determine the player's home continent by checking their capital city's continent
+    local capitalCity = playerCities:GetCapitalCity()
+    if capitalCity then
+        playerContinent = capitalCity:GetContinentType()
+    end
+
+    -- If the player's capital city's continent is not found, return 0
+    if not playerContinent then
+        print("No home continent found for the player.")
+        return 0, 0
+    end
+
+    local religiousCitiesCount = 0
+    local nonReligiousCitiesCount = 0
+
+    -- Iterate through all cities on the map
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
+        local otherPlayer = Players[otherPlayerID]
+        for _, city in otherPlayer:GetCities():Members() do
+            local cityPlot = city:GetPlot()
+            if cityPlot:GetContinentType() == playerContinent then
+                local cityReligion = city:GetReligion()
+                local majorityReligion = cityReligion:GetMajorityReligion()
+                if majorityReligion == playerReligionID then
+                    religiousCitiesCount = religiousCitiesCount + 1
+                else
+                    nonReligiousCitiesCount = nonReligiousCitiesCount + 1
+                end
+            end
+        end
+    end
+
+    return religiousCitiesCount, nonReligiousCitiesCount
 end
 
 local function GetGoldenAgeCount(playerID)
@@ -2474,6 +2604,35 @@ local function HSD_OnUnitKilled(killedPlayerID, killedUnitID, playerID, unitID)
     -- print("HSD_OnUnitKilled detected...")
     -- print("Killing player is #"..tostring(playerID))
     local player = Players[playerID]
+    local otherPlayer = Players[killedPlayerID]
+
+    if not otherPlayer then
+        print("WARNING: HSD_OnUnitKilled failed to detect a player for the unit that was killed")
+        print("Continuing function...")
+    end
+
+    local function GetUnitEra(unit)
+        local unitPrereqTech = GameInfo.Units[unit:GetType()].PrereqTech
+        local unitPrereqCivic = GameInfo.Units[unit:GetType()].PrereqCivic
+        local unitEra = 0 -- Era zero corresponds to the ancient era index
+        if unitPrereqTech then
+            local techInfo = GameInfo.Technologies[unitPrereqTech]
+            if techInfo then
+                unitEra = GameInfo.Eras[techInfo.Era].Index
+            end
+        end
+        if unitPrereqCivic then
+            local civicInfo = GameInfo.Civics[unitPrereqCivic]
+            if civicInfo then
+                unitEra = GameInfo.Eras[civicInfo.Era].Index
+            end
+        end
+        if not unitPrereqTech and not unitPrereqCivic then
+            print("Unit "..tostring(unit:GetType()).." has no prereq tech or civic, using default era value of "..tostring(unitEra))
+        end
+        return unitEra
+    end
+
     if player and IsHistoricalVictoryPlayer(playerID) then
         -- print("Player is a historical victory player")
         -- local unit = player:GetUnits():FindID(unitID)
@@ -2485,6 +2644,28 @@ local function HSD_OnUnitKilled(killedPlayerID, killedUnitID, playerID, unitID)
             local unitKillCount = player:GetProperty("HSD_"..tostring(unitTypeName).."_KILL_COUNT") or 0
             unitKillCount = unitKillCount + 1
             player:SetProperty("HSD_"..tostring(unitTypeName).."_KILL_COUNT", unitKillCount)
+
+            -- Set highest difference in eras between units killed by this unit type for the player
+            local unitEraDifference = 0
+            local unitPropertyKey = "HSD_"..tostring(unitTypeName).."_KILL_ERA_DIFFERENCE"
+            local eraDifferenceProperty = player:GetProperty(unitPropertyKey) or -999 -- Arbitrary default value below the lowest possible era index (hopefully)
+            local unitEra = GetUnitEra(unit)
+            local otherUnit = UnitManager.GetUnit(killedPlayerID, killedUnitID)
+            if otherUnit then
+                local otherUnitTypeName = GameInfo.Units[otherUnit:GetType()].UnitType
+                print("otherUnitTypeName is "..tostring(otherUnitTypeName))
+                local killedUnitEra = GetUnitEra(otherUnit)
+                print("Killed unit era is "..tostring(killedUnitEra))
+                -- If the player unit kills a more advanced unit, the difference will be positive; less advanced will be negative
+                unitEraDifference = killedUnitEra - unitEra
+                if unitEraDifference > eraDifferenceProperty then
+                    print("Highest era kill difference for "..tostring(unitTypeName).." by player #"..tostring(playerID).." is "..tostring(unitEraDifference))
+                    player:SetProperty(unitPropertyKey, unitEraDifference)
+                end
+            else
+                print("WARNING: HSD_OnUnitKilled failed to detect unit that was killed by player #"..tostring(playerID))
+                print("Continuing function...")
+            end
 
             -- Display a popup in-game if the victory condition is active
             local victoryConditions = Game:GetProperty("HSD_PlayerVictoryConditions") or {}
@@ -2500,7 +2681,7 @@ local function HSD_OnUnitKilled(killedPlayerID, killedUnitID, playerID, unitID)
                 end
             end
         else
-            print("WARNING: OnUnitKilled did not detect a unit!")
+            print("WARNING: HSD_OnUnitKilled did not detect a unit!")
         end
     end
 end
@@ -2612,6 +2793,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "CITY_COUNT_FOREIGN_CONTINENT" then
 			current = GetCitiesOnForeignContinents(playerID)
 			total = obj.count
+        elseif obj.type == "CITY_NAME_COUNT" then
+            current = GetCitiesWithNameCount(playerID, obj.id)
+            total = obj.count
 		elseif obj.type == "CITY_WITH_FEATURE_COUNT" then
 			current = GetCitiesWithFeatureCount(playerID, obj.id) or 0
 			total = obj.count
@@ -2626,6 +2810,9 @@ function EvaluateObjectives(player, condition)
             total = obj.count
 		elseif obj.type == "CONTROL_ALL_ADJACENT_RIVER_TO_CAPITAL" then
 			current, total = GetRiverOwnership(playerID)
+        elseif obj.type == "CONVERT_MAJORITY_HOME_CONTINENT_RELIGION" then
+            isGreaterThan = true
+            current, total = GetCitiesOnHomeContinentFollowingReligion(playerID)
 		elseif obj.type == "CONVERT_NUM_CONTINENTS" then -- UNTESTED
 			current = GetContinentsWithMajorityReligion(playerID)
 			total = obj.count
@@ -2771,6 +2958,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "MOST_CITIES_ON_HOME_CONTINENT" then
             isGreaterThan = true
 			current, total = GetCitiesOnHomeContinent(playerID)
+        elseif obj.type == "MOST_FRIENDS" then
+            isGreaterThan = true
+            current, total = GetDeclaredFriendsCount(playerID)
 		elseif obj.type == "MOST_HILL_PLOTS" then
             isGreaterThan = true
 			current, total = GetHillsCount(playerID)
@@ -2848,6 +3038,9 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "UNIT_KILL_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_KILL_COUNT") or 0
 			total = obj.count
+        elseif obj.type == "UNIT_KILL_ERA_DIFFERENCE" then
+            current = player:GetProperty("HSD_"..tostring(obj.id).."_KILL_ERA_DIFFERENCE") or -999
+            total = obj.count
 		elseif obj.type == "UNIT_PILLAGE_COUNT" then
 			current = player:GetProperty("HSD_"..tostring(obj.id).."_PILLAGE_COUNT") or 0
 			total = obj.count
@@ -2868,6 +3061,8 @@ function EvaluateObjectives(player, condition)
 		elseif obj.type == "WONDER_BUILT_CITIES_IN_RANGE" then
 			current = GetCitiesInRange_Building(playerID, obj.id, obj.range)
 			total = obj.count
+        elseif obj.type == "WONDER_CONTROL_ALL" then
+            current, total = GetWondersCount(playerID)
 		end
 
 		if isPlayerProperty then

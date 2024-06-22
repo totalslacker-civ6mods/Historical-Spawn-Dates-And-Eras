@@ -257,6 +257,7 @@ HSD_victoryConditionsConfig = {
 			era = "ERA_MEDIEVAL",
             objectives = {
                 {type = "SUZERAINTY_COUNT", count = 4},
+                {type = "MOMENT_COUNT", id = "MOMENT_PLAYER_LEVIED_MILITARY", count = 4}
             },
             score = 1
         },
@@ -610,7 +611,8 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_SPY", count = 1, level = 3},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_SPY", count = 3, level = 3},
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_SPY_MAX_LEVEL_FIRST"},
                 {type = "COMPLETE_ESPIONAGE_MISSIONS", count = 10}, -- TESTING
             },
             score = 1
@@ -938,7 +940,6 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_SKI_RESORT", count = 10},
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_ICE_HOCKEY_RINK", count = 10},
-                {type = "HAPPIEST_POPULATION"},
             },
             score = 1
         },
@@ -949,7 +950,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "WONDER_BUILT", id = "BUILDING_BIOSPHERE"},
-                {type = "NATIONAL_PARK_COUNT", count = 5},
+                {type = "MOMENT_COUNT", id = "MOMENT_NATIONAL_PARK_CREATED", count = 5},
                 {type = "MOST_ARCTIC_TERRAIN"},
             },
             score = 1
@@ -961,8 +962,8 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "MAXIMUM_ALLIANCE_LEVEL_COUNT", count = 4},
-                {type = "MOST_FRIENDS"}, -- TODO
-                {type = "HIGHEST_DIPLOMATIC_FAVOR"}, --TODO
+                {type = "MOST_FRIENDS"},
+                {type = "MOMENT_COUNT", id = "MOMENT_EMERGENCY_WON_AS_MEMBER", count = 1},
             },
             score = 1
         },
@@ -1118,7 +1119,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "CITY_COUNT_EVERY_CONTINENT", count = 1},
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 10},
-                {type = "MOST_POWERFUL_NAVY"}, -- TODO
+                {type = "MOST_UNIT_DOMAIN_TYPE", id = "DOMAIN_SEA"},
             },
             score = 1
         },
@@ -1452,7 +1453,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_MEDIEVAL",
             objectives = {
-                {type = "CONVERT_HOME_CONTINENT_RELIGION"}, -- TODO
+                {type = "CONVERT_MAJORITY_HOME_CONTINENT_RELIGION"},
                 {type = "FIRST_RELIGIOUS_BELIEFS", count = 4},
                 {type = "UNIT_COUNT", id = "UNIT_GURU", count = 10},
             },
@@ -1675,7 +1676,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "OCCUPIED_CAPITAL_COUNT", count = 3},
-                {type = "MOMENT_COUNT", id = "MOMENT_UNIT_KILLED_ASSISTED_BY_GENERAL", count = 5},
+                {type = "MOMENT_COUNT", id = "MOMENT_UNIT_KILLED_ASSISTED_BY_GENERAL", count = 1},
             },
             score = 1
         },
@@ -1697,8 +1698,8 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "WONDER_CONTROL_ALL"}, -- TODO
-                {type = "CITY_COUNT_EVERY_RELIGION", count = 1}, -- TODO
+                {type = "WONDER_CONTROL_ALL"},
+                {type = "CITY_NAME_COUNT", id = "ALEXANDRIA", count = 10},
             },
             score = 1
         },
@@ -1725,7 +1726,7 @@ HSD_victoryConditionsConfig = {
             era = "ERA_MEDIEVAL",
             objectives = {
                 {type = "MOST_OUTGOING_TRADE_ROUTES"},
-                {type = "DISTRICT_COUNT", id = "DISTRICT_SUGUBA", count = 4},
+                {type = "DISTRICT_COUNT", id = "DISTRICT_SUGUBA", count = 6},
             },
             score = 1
         },
@@ -1925,7 +1926,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "FIRST_BUILDING_CONSTRUCTED", id = "BUILDING_STOCK_EXCHANGE"},
-                {type = "TRADING_POST_WITH_ALL_PLAYERS"}, -- TODO
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_TRADING_POST_CONSTRUCTED_IN_EVERY_CIV_FIRST_IN_WORLD"},
                 {type = "GOLD_COUNT", count = 7000},
             },
             score = 1
@@ -2440,7 +2441,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "UNIT_KILL_ERA_ABOVE", id = "UNIT_ZULU_IMPI", eraDifference = 2}, -- TODO
+                {type = "UNIT_KILL_ERA_DIFFERENCE", id = "UNIT_ZULU_IMPI", count = 2},
             },
             score = 1
         },
