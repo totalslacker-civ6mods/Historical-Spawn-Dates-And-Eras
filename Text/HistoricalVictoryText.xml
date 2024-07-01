@@ -299,6 +299,10 @@
 	  <Text>Have the highest gold per turn</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_HIGHEST_PRODUCTION" Language="en_US">
+	  <Text>Have the highest production per turn</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_HIGHEST_TECH_COUNT" Language="en_US">
 	  <Text>Have the highest tech count</Text>
 	</Replace>
@@ -499,16 +503,32 @@
 	<!-- HISTORICAL MOMENT OBJECTIVE TEXT -->
 	<!-- ----------------------------------->
 	
+	<Replace Tag="LOC_HSD_MOMENT_BUILDING_CONSTRUCTED_GAME_ERA_WONDER_COUNT" Language="en_US">
+	  <Text>Build {1_count} current era wonders</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_MOMENT_CITY_CHANGED_RELIGION_OTHER_HOLY_CITY_COUNT" Language="en_US">
 	  <Text>Convert {1_count} holy cities to your religion</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOMENT_CITY_TRANSFERRED_PLAYER_DEFEATED_COUNT" Language="en_US">
+	  <Text>Defeat {1_count} players</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_MOMENT_EMERGENCY_WON_AS_MEMBER_COUNT" Language="en_US">
 	  <Text>Win {1_count} emergencies as a member</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_MOMENT_FIND_NEW_CONTINENT_FIRST_IN_WORLD_COUNT" Language="en_US">
+	  <Text>Find {1_count} undiscovered continents</Text>
+	</Replace>	
+	
 	<Replace Tag="LOC_HSD_MOMENT_FORMATION_ARMADA_FIRST_IN_WORLD" Language="en_US">
 	  <Text>First armada in the world</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOMENT_GREAT_PERSON_CREATED_GAME_ERA_COUNT" Language="en_US">
+	  <Text>Recruit {1_count} Great People from current era</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_MOMENT_INQUISITION_LAUNCHED_COUNT" Language="en_US">
@@ -551,9 +571,24 @@
 	  <Text>First to circumnavigate the world</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_MOMENT_BUILDING_CONSTRUCTED_GAME_ERA_WONDER_COUNT" Language="en_US">
+	  <Text>Build {1_count} current era wonders</Text>
+	</Replace>
+	
 	<!-- ---------------------------->
 	<!-- CIVILIZATION VICTORY TEXT -->
 	<!-- ---------------------------->
+	
+	<!-- GENERIC -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GENERIC_1_NAME" Language="en_US">
+		<Text>Cultural Dominance</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GENERIC_2_NAME" Language="en_US">
+		<Text>Military Dominance</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GENERIC_3_NAME" Language="en_US">
+		<Text>Technological Dominance</Text>
+	</Replace>
 	
 	<!-- AMERICA -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_AMERICA_1_NAME" Language="en_US">

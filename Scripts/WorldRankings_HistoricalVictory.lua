@@ -18,6 +18,7 @@ print("Loading Historical Victory World Rankings replace UI...")
 local HideObjectiveCount = {
 	["FIRST_BUILDING_CONSTRUCTED"] = true,
 	["FIRST_CIVIC_RESEARCHED"] = true,
+	["FIRST_HISTORICAL_MOMENT"] = true,
 	["FIRST_GOVERNMENT"] = true,
 	["FIRST_GREAT_PERSON_CLASS"] = true,
 	["FIRST_TECH_RESEARCHED"] = true,
@@ -733,7 +734,6 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 	-- end
 
 	-- Check if the CivilizationTypeName is in the list for predefined victory objectives
-    -- local civilizationInfo = HSD_victoryConditionsConfig[playerTypeName] -- TODO: Delete
 	local civilizationInfo = victoryConditions[PlayerID] -- TODO: Generic condition not working because players get empty tables
 	if not civilizationInfo then
 		if HSD_victoryConditionsConfig[PlayerConfigurations[PlayerID]:GetCivilizationTypeName()] then
@@ -747,7 +747,7 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 		else
 			-- print("Civilization and Leader not detected on historical victory list, defaulting to Generic victory")
 			defaultTypeName = "GENERIC_CIVILIZATION"
-			-- Don't update civilizationInfo, using generic conditions
+			civilizationInfo = HSD_victoryConditionsConfig[defaultTypeName]
 		end
 	end
     if civilizationInfo then
@@ -855,13 +855,13 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 				-- Unknown player, display nothing
 			end
 
-			for i = 1, objectiveCount do
-				local objectiveStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_" .. victoryType .. "_OBJECTIVE_" .. i)
+			for j = 1, objectiveCount do
+				local objectiveStatus = player:GetProperty("HSD_HISTORICAL_VICTORY_" .. victoryType .. "_OBJECTIVE_" .. j)
 				if not objectiveStatus then objectiveStatus = 0 end -- nil check
 				-- Only display generic objectives for the human player
 				if (g_LocalPlayer:GetID() == PlayerID) then
 					-- Display objective status
-					detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. defaultTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. i)
+					detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. defaultTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. j)
 					if objectiveStatus == 0 then
 						-- Not yet completed
 						detailsText = detailsText .. "[ICON_Bolt]"

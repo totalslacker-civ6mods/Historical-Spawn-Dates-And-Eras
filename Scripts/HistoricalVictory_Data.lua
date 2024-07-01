@@ -8,6 +8,45 @@ print("Loading HistoricalVictory_Data.lua")
 -- This table tracks the index and objective count for each challenge, to be used to generate text and check properties
 
 HSD_victoryConditionsConfig = {
+    -- DEFAULT
+    GENERIC_CIVILIZATION = {
+        {
+            id = "CULTURAL_DOMINANCE",
+            index = "1",
+            year = nil,
+            era = nil,
+            objectives = {
+                {type = "MOMENT_COUNT", id = "MOMENT_BUILDING_CONSTRUCTED_GAME_ERA_WONDER", count = 6},
+                {type = "MOMENT_COUNT", id = "MOMENT_GREAT_PERSON_CREATED_GAME_ERA", count = 10},
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_UNIT_TOURISM_BOMB_FIRST_IN_WORLD"},
+            },
+            score = 1
+        },
+        {
+            id = "MILITARY_DOMINANCE",
+            index = "2",
+            year = nil,
+            era = nil,
+            objectives = {
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_TRADING_POST_CONSTRUCTED_IN_EVERY_CIV_FIRST_IN_WORLD"},
+                {type = "MOMENT_COUNT", id = "MOMENT_CITY_TRANSFERRED_PLAYER_DEFEATED", count = 1},
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_PROJECT_FOUNDED_OPERATION_IVY"},
+            },
+            score = 1
+        },
+        {
+            id = "TECH_DOMINANCE",
+            index = "3",
+            year = nil,
+            era = nil,
+            objectives = {
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_CITY_SIZE_EXTRA_LARGE_FIRST_IN_WORLD"},
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_ROUTE_CREATED_RAILROAD_CONNECTS_TWO_CITIES_FIRST_IN_WORLD"},
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_PROJECT_FOUNDED_MOON_LANDING_FIRST_IN_WORLD"},
+            },
+            score = 1
+        },
+    },
 
     -- LEADERS
     LEADER_ABRAHAM_LINCOLN = {
@@ -1761,7 +1800,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "UNIT_KILL_COUNT", id = "TOA", count = 20},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_MAORI_TOA", count = 20},
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_PA", count = 10},
                 {type = "BUILDING_COUNT", id = "BUILDING_MARAE", count = 5},
             },
@@ -1775,7 +1814,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "FEATURE_COUNT", id = "FEATURE_VOLCANO", count = 5},
                 {type = "FEATURE_COUNT", id = "FEATURE_REEF", count = 10},
-                {type = "FEATURE_COUNT", id = "FEATURE_JUNGLE", count = 20},
+                {type = "NATURAL_WONDER_COUNT", count = 1},
             },
             score = 1
         },
@@ -1786,8 +1825,8 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "MOST_WATER_PLOTS_CONTROL"},
-                {type = "SEA_TERRITORY_SIZE", name = "Named Sea", size = 6},
-                {type = "COASTAL_CITY_COUNT", count = 10},
+                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 6},
+                {type = "MOMENT_COUNT", id = "MOMENT_FIND_NEW_CONTINENT_FIRST_IN_WORLD", count = 1},
             },
             score = 1
         },
