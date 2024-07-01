@@ -37,6 +37,8 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.firstID, objective.secondID)
     elseif type == "ALLIANCE_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+	elseif type == "ALL_CITIES_FOLLOW_SAME_RELIGION" then
+        detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "BORDERING_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
     elseif type == "BUILDING_COUNT" then

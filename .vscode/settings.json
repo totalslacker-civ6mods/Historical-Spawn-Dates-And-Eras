@@ -1,0 +1,14 @@
+{
+    "Lua.diagnostics.globals": [
+        "include",
+        "ExposedMembers",
+        "PlayerConfigurations",
+        "PlayerManager",
+        "MapConfiguration",
+        "Players",
+        "Map",
+        "Locale",
+        "GameInfo",
+        "Game"
+    ]
+}

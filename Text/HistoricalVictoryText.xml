@@ -106,6 +106,10 @@
 	<Replace Tag="LOC_HSD_ALLIANCE_COUNT" Language="en_US">
 	  <Text>Have {1_count} alliances</Text>
 	</Replace>
+	
+	<Replace Tag="LOC_HSD_ALL_CITIES_FOLLOW_RELIGION" Language="en_US">
+	  <Text>All your cities follow the same religion</Text>
+	</Replace>
 
 	<Replace Tag="LOC_HSD_BORDERING_CITY_COUNT" Language="en_US">
 	  <Text>Own {1_count} cities bordering other players</Text>
@@ -495,6 +499,10 @@
 	<!-- HISTORICAL MOMENT OBJECTIVE TEXT -->
 	<!-- ----------------------------------->
 	
+	<Replace Tag="LOC_HSD_MOMENT_CITY_CHANGED_RELIGION_OTHER_HOLY_CITY_COUNT" Language="en_US">
+	  <Text>Convert {1_count} holy cities to your religion</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_MOMENT_EMERGENCY_WON_AS_MEMBER_COUNT" Language="en_US">
 	  <Text>Win {1_count} emergencies as a member</Text>
 	</Replace>
@@ -529,6 +537,14 @@
 	
 	<Replace Tag="LOC_HSD_MOMENT_UNIT_KILLED_ASSISTED_BY_GENERAL_COUNT" Language="en_US">
 	  <Text>Kill {1_count} units near a General</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOMENT_UNIT_KILLED_UNDERDOG_MILITARY_FORMATION_COUNT" Language="en_US">
+	  <Text>Kill {1_count} units in larger formation than yours</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOMENT_UNIT_KILLED_UNDERDOG_PROMOTIONS_COUNT" Language="en_US">
+	  <Text>Kill {1_count} units with 2+ promotions than yours</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_MOMENT_WORLD_CIRCUMNAVIGATED_FIRST_IN_WORLD" Language="en_US">
@@ -1033,6 +1049,17 @@
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SPAIN_3_NAME" Language="en_US">
 	  <Text>Missionary Zeal</Text>
 	</Replace>
+	
+	<!-- SWEDEN -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SWEDEN_1_NAME" Language="en_US">
+	  <Text>Vasa Dynasty</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SWEDEN_2_NAME" Language="en_US">
+	  <Text>Swedish Empire</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SWEDEN_3_NAME" Language="en_US">
+	  <Text>Nordic Model</Text>
+	</Replace>
 
 	<!-- SUMERIA -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SUMERIA_1_NAME" Language="en_US">
@@ -1043,6 +1070,17 @@
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SUMERIA_3_NAME" Language="en_US">
 	  <Text>Epic of Gilgamesh</Text>
+	</Replace>
+
+	<!-- VIETNAM -->
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_VIETNAM_1_NAME" Language="en_US">
+	  <Text>Vietnamese Resistance</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_VIETNAM_2_NAME" Language="en_US">
+	  <Text>Ly Dynasty</Text>
+	</Replace>
+	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_VIETNAM_3_NAME" Language="en_US">
+	  <Text>Nguyen Dynasty</Text>
 	</Replace>
 	
 	<!-- ZULU -->

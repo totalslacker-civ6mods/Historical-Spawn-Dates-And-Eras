@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 -- ===========================================================================
 --	Historical Victory Scripts
 -- ===========================================================================
@@ -1535,72 +1536,6 @@ local function GetTradeRoutesCount(playerID)
     return playerTradeRoutes, highestTradeRouteCount
 end
 
-local function GetCitiesWithTradingPosts(playerID)
-    local player = Players[playerID]
-    local playerCities = player:GetCities()
-    local citiesWithTradingPosts = 0
-    local totalCities = 0
-
-    for _, city in playerCities:Members() do
-        totalCities = totalCities + 1
-        local hasTradingPost = ExposedMembers.HSD_GetTradingPost(city, playerID)
-        if hasTradingPost then
-            citiesWithTradingPosts = citiesWithTradingPosts + 1
-        end
-    end
-
-    return citiesWithTradingPosts, totalCities
-end
-
-local function HasTradeRouteWithEveryPlayerOnContinent(playerID)
-    local player = Players[playerID]
-    local playerCities = player:GetCities()
-    local playerContinent = nil
-    local playersOnContinent = {}
-    local continentPlayersWithTradingPost = 0
-    
-    -- Determine the player's home continent by checking their capital city's continent
-    local capitalCity = playerCities:GetCapitalCity()
-    if capitalCity then
-        local capitalX, capitalY = capitalCity:GetX(), capitalCity:GetY()
-        local capitalPlot = Map.GetPlot(capitalX, capitalY)
-        playerContinent = capitalCity:GetPlot():GetContinentType()
-    end
-    
-    -- If the player's capital city's continent is not found, return counts as zero
-    if not playerContinent then
-        print("No home continent found for the player.")
-        return 0, 0
-    end
-    
-    -- Track all players with cities on the player's home continent
-    for _, otherPlayerID in ipairs(PlayerManager.GetAliveIDs()) do
-        local otherPlayer = Players[otherPlayerID]
-        if (otherPlayerID ~= playerID) and (not otherPlayer:IsBarbarian()) and (not IsFreeCityPlayer(otherPlayer)) then
-            local otherPlayerCities = Players[otherPlayerID]:GetCities()
-            for _, city in otherPlayerCities:Members() do
-                if city:GetContinentType() == playerContinent then
-                    if not playersOnContinent[otherPlayerID] then
-                        playersOnContinent[otherPlayerID] = true
-                    end
-                    local hasTradingPost = ExposedMembers.HSD_GetTradingPostFromPlayer(otherplayerID, playerID)
-                    if hasTradingPost then
-                        continentPlayersWithTradingPost = continentPlayersWithTradingPost + 1
-                        break -- Found a trading post in this city, no need to check more of their cities
-                    end
-                end
-            end
-        end
-    end
-
-    local totalPlayersOnContinent = 0
-    for _ in pairs(playersOnContinent) do
-        totalPlayersOnContinent = totalPlayersOnContinent + 1
-    end
-    
-    return continentPlayersWithTradingPost, totalPlayersOnContinent
-end
-
 local function HasUnlockedAllCivicsForEra(playerID, eraType)
     local player = Players[playerID]
     local playerCulture = player:GetCulture()
@@ -2213,6 +2148,33 @@ local function GetCitiesOnHomeContinentFollowingReligion(playerID)
     return religiousCitiesCount, nonReligiousCitiesCount
 end
 
+local function GetCitiesFollowingAnyReligion(playerID)
+    local player = Players[playerID]
+    local religionCounts = {}
+    local totalCities = 0
+
+    -- Iterate through player cities
+    for _, city in player:GetCities():Members() do
+        totalCities = totalCities + 1
+        local cityReligion = city:GetReligion():GetMajorityReligion()
+
+        -- Initialize or increment the count for this religion
+        if cityReligion > 0 then
+            religionCounts[cityReligion] = (religionCounts[cityReligion] or 0) + 1
+        end
+    end
+
+    -- Find the highest count of cities following the same religion
+    local maxCitiesFollowingReligion = 0
+    for _, count in pairs(religionCounts) do
+        if count > maxCitiesFollowingReligion then
+            maxCitiesFollowingReligion = count
+        end
+    end
+
+    return maxCitiesFollowingReligion, totalCities
+end
+
 local function GetGoldenAgeCount(playerID)
     local player = Players[playerID]
     local gameEraIndex = Game.GetEras():GetCurrentEra()
@@ -2777,7 +2739,9 @@ function EvaluateObjectives(player, condition)
 		if obj.type == "2_WONDERS_IN_CITY" then
 			current = AreTwoWondersInSameCity(playerID, obj.firstID, obj.secondID) and 1 or 0
 			total = 1
-		elseif obj.type == "ALLIANCE_COUNT" then
+        elseif obj.type == "ALL_CITIES_FOLLOW_SAME_RELIGION" then
+            current, total = GetCitiesFollowingAnyReligion(playerID)
+        elseif obj.type == "ALLIANCE_COUNT" then
 			current = GetAllianceCount(playerID)
 			total = obj.count
         elseif obj.type == "BORDERING_CITY_COUNT" then
