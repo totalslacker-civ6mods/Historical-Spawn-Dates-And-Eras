@@ -580,13 +580,13 @@
 	<!-- ---------------------------->
 	
 	<!-- GENERIC -->
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GENERIC_1_NAME" Language="en_US">
+	<Replace Tag="LOC_HSD_VICTORY_GENERIC_CIVILIZATION__1_NAME" Language="en_US">
 		<Text>Cultural Dominance</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GENERIC_2_NAME" Language="en_US">
+	<Replace Tag="LOC_HSD_VICTORY_GENERIC_CIVILIZATION_2_NAME" Language="en_US">
 		<Text>Military Dominance</Text>
 	</Replace>
-	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GENERIC_3_NAME" Language="en_US">
+	<Replace Tag="LOC_HSD_VICTORY_GENERIC_CIVILIZATION_3_NAME" Language="en_US">
 		<Text>Technological Dominance</Text>
 	</Replace>
 	
