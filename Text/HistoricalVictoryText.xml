@@ -511,6 +511,14 @@
 	  <Text>Build {1_count} current era wonders</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_MOMENT_CITY_BUILT_BECAME_LARGEST_CIV_BY_MARGIN_COUNT" Language="en_US">
+	  <Text>Own 3 more cities than next largest player</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOMENT_CITY_BUILT_NEAR_OTHER_CIV_CITY_COUNT" Language="en_US">
+	  <Text>Build {1_count} cities with 5 plots of another player</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_MOMENT_CITY_CHANGED_RELIGION_OTHER_HOLY_CITY_COUNT" Language="en_US">
 	  <Text>Convert {1_count} holy cities to your religion</Text>
 	</Replace>
@@ -787,7 +795,7 @@
 	
 	<!-- GREECE -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GREECE_1_NAME" Language="en_US">
-	  <Text>The Classical Age</Text>
+	  <Text>Age of Pericles</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GREECE_2_NAME" Language="en_US">
 	  <Text>Cradle of the West</Text>
@@ -1029,7 +1037,7 @@
 	
 	<!-- PORTUGAL -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PORTUGAL_1_NAME" Language="en_US">
-		<Text>First Empire</Text>
+		<Text>Casa Da India</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_PORTUGAL_2_NAME" Language="en_US">
 		<Text>Age of Discovery</Text>
@@ -1087,7 +1095,7 @@
 	  <Text>Reconquista</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SPAIN_2_NAME" Language="en_US">
-	  <Text>Age of Discovery</Text>
+	  <Text>Treaty of Tordesillas</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_SPAIN_3_NAME" Language="en_US">
 	  <Text>Missionary Zeal</Text>

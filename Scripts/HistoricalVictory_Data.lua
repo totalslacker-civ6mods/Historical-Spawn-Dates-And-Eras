@@ -1268,14 +1268,14 @@ HSD_victoryConditionsConfig = {
             score = 1
         },
         {
-            id = "CELTIC_MIGRATIONS",
+            id = "LA_TENE_CULTURE",
 			index = "2",
             year = -50,
-            yearLimit = "ON_YEAR",
             era = nil,
             objectives = {
-                {type = "BORDERING_CITY_COUNT", count = 5},
-                {type = "GOLD_COUNT", count = 1000},
+                {type = "MOMENT_COUNT", id = "MOMENT_CITY_BUILT_NEAR_OTHER_CIV_CITY", count = 5},
+                {type = "MOMENT_COUNT", id = "MOMENT_CITY_BUILT_BECAME_LARGEST_CIV_BY_MARGIN", count = 1},
+                {type = "UNIT_PILLAGE_COUNT", id = "UNIT_GAUL_GAESATAE", count = 10},
             },
             score = 1
         },
@@ -1286,8 +1286,8 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_GAUL_GAESATAE", count = 20},
-                {type = "UNIT_PILLAGE_COUNT", id = "UNIT_GAUL_GAESATAE", count = 10},
-                {type = "GOLD_COUNT", count = 1000},
+                {type = "UNIT_KILL_ERA_DIFFERENCE", id = "UNIT_GAUL_GAESATAE", count = 2},
+                {type = "TRADING_POST_WITH_ALL_PLAYERS_CONTINENT"},
             },
             score = 1
         },
@@ -1373,7 +1373,7 @@ HSD_victoryConditionsConfig = {
 
     CIVILIZATION_GREECE = {
         {
-			id = "CLASSICAL_AGE",
+			id = "AGE_OF_PERICLES",
 			index = "1",
             year = nil,
 			era = "ERA_CLASSICAL",
@@ -1495,6 +1495,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_INDIAN_VARU", count = 10},
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_STEPWELL", count = 5},
+                {type = "MOMENT_COUNT", id = "MOMENT_CITY_BUILT_BECAME_LARGEST_CIV_BY_MARGIN", count = 1},
             },
             score = 1
         },
@@ -2214,14 +2215,14 @@ HSD_victoryConditionsConfig = {
 
     CIVILIZATION_PORTUGAL = {
         {
-            id = "FIRST_EMPIRE",
+            id = "CASA_DA_INDIA",
             index = "1",
             year = 1580,
             era = nil,
             objectives = {
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 5},
                 {type = "WONDER_BUILT", id = "BUILDING_TORRE_DE_BELEM"},
-                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_FEITORIA", count = 10},
+                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_FEITORIA", count = 5},
             },
             score = 1
         },
@@ -2245,6 +2246,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 10},
                 {type = "ALL_CITIES_FOLLOW_SAME_RELIGION"},
+                {type = "FIRST_HISTORICAL_MOMENT", id = "MOMENT_TRADING_POST_CONSTRUCTED_IN_EVERY_CIV_FIRST_IN_WORLD"},
             },
             score = 1
         },
@@ -2412,14 +2414,14 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = nil,
             objectives = {
-                {type = "UNIT_KILL_COUNT", id = "UNIT_SPANISH_CONQUISTADOR", count = 10},
+                {type = "UNIT_KILL_COUNT", id = "UNIT_SPANISH_CONQUISTADOR", count = 20},
                 {type = "UNIT_CONQUER_CITY_COUNT", id = "UNIT_SPANISH_CONQUISTADOR", count = 5},
                 {type = "MOMENT_COUNT", id = "MOMENT_INQUISITION_LAUNCHED", count = 5},
             },
             score = 1
         },
         {
-            id = "AGE_OF_DISCOVERY",
+            id = "TREATY_OF_TORDESILLAS",
 			index = "2",
             year = 1650,
             era = nil,
