@@ -1883,7 +1883,7 @@ local function GetAllianceCount(playerID)
 
     for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
         if otherPlayerID ~= playerID then
-            if playerDiplomacy:HasAlliance(otherPlayerID) then
+            if playerDiplomacy:GetAllianceType(otherPlayerID) ~= -1 then
                 allianceCount = allianceCount + 1
             end
         end
@@ -1918,8 +1918,9 @@ local function GetAllianceLevelCount(playerID)
 
     for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
         if otherPlayerID ~= playerID then
-            if playerDiplomacy:HasAlliance(otherPlayerID) then
-                local allianceLevel = playerDiplomacy:GetAllianceLevel()
+            if playerDiplomacy:GetAllianceType(otherPlayerID) ~= -1 then
+                print("Alliance type is "..tostring(playerDiplomacy:GetAllianceType(otherPlayerID)))
+                local allianceLevel = playerDiplomacy:GetAllianceLevel(otherPlayerID)
                 print("Alliance level is "..tostring(allianceLevel))
                 if allianceLevel == maximumAllianceLevel then
                     allianceCount = allianceCount + 1

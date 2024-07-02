@@ -345,6 +345,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "GOLD_COUNT", count = 10000},
+                {type = "MOMENT_COUNT", id = "MOMENT_BARBARIAN_CAMP_DESTROYED", count = 10},
             },
             score = 1
         },
@@ -787,13 +788,13 @@ HSD_victoryConditionsConfig = {
 
     CIVILIZATION_AUSTRALIA = {
         {
-            id = "GREAT_SOUTHERN_LAND",
+            id = "RED_CONTINENT",
             index = "1",
             year = nil,
             era = "ERA_MODERN",
             objectives = {
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_OUTBACK_STATION", count = 10},
-                {type = "COASTAL_CITY_COUNT", count = 7},
+                {type = "TERRITORY_CONTROL", territory = "DESERT", minimumSize = 10},
                 {type = "NATURAL_WONDER_COUNT", count = 2},
             },
             score = 1
@@ -804,8 +805,9 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "UNIT_KILL_COUNT", id = "UNIT_DIGGER", count = 10},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_DIGGER", count = 2, level = 8},
                 {type = "MAXIMUM_ALLIANCE_LEVEL_COUNT", count = 3},
+                {type = "MOMENT_COUNT", id = "MOMENT_CITY_TRANSFERRED_TO_ORIGINAL_OWNER", count = 3},
             },
             score = 1
         },
@@ -971,7 +973,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_BYZANTINE_DROMON", count = 20},
                 {type = "COASTAL_CITY_COUNT", count = 10},
-                {type = "TERRITORY_CONTROL", territory = "SEA", minSize = 6},
+                {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 6},
             },
             score = 1
         },
@@ -1261,7 +1263,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "BUILDING_COUNT", id = "BUILDING_ORACLE", count = 1},
 				{type = "BUILDING_COUNT", id = "BUILDING_STONEHENGE", count = 1},
-                {type = "FEATURE_COUNT", id = "FEATURE_FOREST", count = 5},
+                {type = "FEATURE_COUNT", id = "FEATURE_FOREST", count = 10},
             },
             score = 1
         },
@@ -1278,13 +1280,14 @@ HSD_victoryConditionsConfig = {
             score = 1
         },
         {
-            id = "PAINTED_WARRIORS",
+            id = "TORC_AND_CARNYX",
 			index = "3",
 			year = nil,
 			era = nil,
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_GAUL_GAESATAE", count = 20},
                 {type = "UNIT_PILLAGE_COUNT", id = "UNIT_GAUL_GAESATAE", count = 10},
+                {type = "GOLD_COUNT", count = 1000},
             },
             score = 1
         },

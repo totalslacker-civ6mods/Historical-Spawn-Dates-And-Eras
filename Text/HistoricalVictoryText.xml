@@ -503,6 +503,10 @@
 	<!-- HISTORICAL MOMENT OBJECTIVE TEXT -->
 	<!-- ----------------------------------->
 	
+	<Replace Tag="LOC_HSD_MOMENT_BARBARIAN_CAMP_DESTROYED_COUNT" Language="en_US">
+	  <Text>Clear {1_count} barbarian camps</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_MOMENT_BUILDING_CONSTRUCTED_GAME_ERA_WONDER_COUNT" Language="en_US">
 	  <Text>Build {1_count} current era wonders</Text>
 	</Replace>
@@ -513,6 +517,10 @@
 	
 	<Replace Tag="LOC_HSD_MOMENT_CITY_TRANSFERRED_PLAYER_DEFEATED_COUNT" Language="en_US">
 	  <Text>Defeat {1_count} players</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOMENT_CITY_TRANSFERRED_TO_ORIGINAL_OWNER_COUNT" Language="en_US">
+	  <Text>Liberate {1_count} cities</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_MOMENT_EMERGENCY_WON_AS_MEMBER_COUNT" Language="en_US">
@@ -614,7 +622,7 @@
 	
 	<!-- AUSTRALIA -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_AUSTRALIA_1_NAME" Language="en_US">
-		<Text>Great Southern Land</Text>
+		<Text>Red Continent</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_AUSTRALIA_2_NAME" Language="en_US">
 		<Text>ANZAC</Text>
@@ -746,13 +754,13 @@
 
 	<!-- GAUL -->
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_1_NAME" Language="en_US">
-	  <Text>Classical Age</Text>
+	  <Text>Druidic Lore</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_2_NAME" Language="en_US">
-	  <Text>Celtic Migrations</Text>
+	  <Text>La Tene Culture</Text>
 	</Replace>
 	<Replace Tag="LOC_HSD_VICTORY_CIVILIZATION_GAUL_3_NAME" Language="en_US">
-	  <Text>Painted Warriors</Text>
+	  <Text>Torc and Carnyx</Text>
 	</Replace>
 	
 	<!-- GEORGIA -->
