@@ -275,6 +275,10 @@
 	  <Text>Own {1_count} Great Works</Text>
 	</Replace>
 	
+	<Replace Tag="LOC_HSD_GREAT_WORK_ART_COUNT" Language="en_US">
+	  <Text>Own {1_count} Great Works of Art</Text>
+	</Replace>
+	
 	<Replace Tag="LOC_HSD_GREAT_WORK_TYPE_COUNT" Language="en_US">
 	  <Text>Own {2_count} {1_greatWorkType}</Text>
 	</Replace>	

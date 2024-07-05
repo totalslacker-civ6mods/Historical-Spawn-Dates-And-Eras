@@ -1623,7 +1623,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_MEDIEVAL",
             objectives = {
-                {type = "DISTRICT_COUNT", id = "DISTRICT_PRASAT", count = 4},
+                {type = "BUILDING_COUNT", id = "BUILDING_PRASAT", count = 4},
                 {type = "CONVERT_ALL_CITIES"},
                 {type = "HIGHEST_FAITH_PER_TURN"},
             },
@@ -1968,7 +1968,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_POLDER", count = 6},
-                {type = "GREAT_WORK_TYPE_COUNT", id = "GREATWORKOBJECT_ART", count = 10},
+                {type = "GREAT_WORK_ART_COUNT", count = 10},
             },
             score = 1
         },
@@ -2466,7 +2466,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
 			era = "ERA_INDUSTRIAL",
             objectives = {
-                {type = "IMPROVEMENT_YIELD_COUNT", id = "IMPROVEMENT_OPEN_AIR_MUSEUM", yield = "YIELD_TOURISM", count = 10},
+                {type = "IMPROVEMENT_YIELD_COUNT", id = "IMPROVEMENT_OPEN_AIR_MUSEUM", yield = "YIELD_CULTURE", count = 10},
                 {type = "TERRITORY_CONTROL", territory = "SEA", minimumSize = 6},
             },
             score = 1
@@ -2581,7 +2581,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = nil,
             objectives = {
-                {type = "RESOURCE_MONOPOLY", id = "CATTLE", percent = 60},
+                {type = "RESOURCE_MONOPOLY", id = "RESOURCE_CATTLE", percent = 60},
             },
             score = 1
         },

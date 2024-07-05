@@ -21,7 +21,9 @@ local HideObjectiveCount = {
 	["FIRST_HISTORICAL_MOMENT"] = true,
 	["FIRST_GOVERNMENT"] = true,
 	["FIRST_GREAT_PERSON_CLASS"] = true,
+	["FIRST_RELIGIOUS_BELIEFS"] = true,
 	["FIRST_TECH_RESEARCHED"] = true,
+	["FIRST_WAR_DECLARED"] = true,
 	["WONDER_ADJACENT_IMPROVEMENT"] = true,
 	["WONDER_BUILT"] = true,
 }
@@ -122,6 +124,8 @@ local function GetObjectiveDetails(objective)
 	elseif type == "GREAT_PERSON_TYPE_FROM_ERA" then
 		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.GreatPersonClasses[objective.id].Name), Locale.Lookup(GameInfo.Eras[objective.era].Name), objective.count)
 	elseif type == "GREAT_WORK_COUNT" then
+		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
+	elseif type == "GREAT_WORK_ART_COUNT" then
 		detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
 	elseif type == "GREAT_WORK_TYPE_COUNT" then
 		detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.GreatWorkObjectTypes[objective.id].Name), objective.count)
@@ -803,6 +807,7 @@ function GetHistoricDetails(detailsText: string, CivilizationTypeName: string, P
 				if not objectiveStatus then objectiveStatus = 0 end -- nil check
 
 				if (g_LocalPlayer:GetDiplomacy():HasMet(PlayerID)) or (g_LocalPlayer:GetID() == PlayerID) then
+				-- if (g_LocalPlayer:GetID() == PlayerID) then
 					-- Display objective status
 					-- detailsText = detailsText .. Locale.Lookup("LOC_HSD_VICTORY_" .. playerTypeName .. "_" .. victoryType .. "_DETAILS_ROW_" .. j) .. " : "
 					detailsText = detailsText .. GetObjectiveDetails(objective) .. " : "

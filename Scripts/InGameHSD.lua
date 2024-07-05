@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 ------------------------------------------------------------------------------
 --	FILE:	 InGameHSD.lua
 --  Gedemon (2017)
@@ -759,6 +760,50 @@ local function HSD_GetGreatWorkTypeCount(playerID, greatWorkType)
     return greatWorkCount
 end
 
+local function HSD_GetGreatWorkOfArtCount(playerID)
+    local player = Players[playerID]
+    local playerCities = player:GetCities()
+    local greatWorkCount = 0
+
+    -- List of Great Work Object Types for Art
+    local greatWorkObjectTypes = {
+        "GREATWORKOBJECT_SCULPTURE",
+        "GREATWORKOBJECT_PORTRAIT",
+        "GREATWORKOBJECT_LANDSCAPE",
+        "GREATWORKOBJECT_RELIGIOUS"
+    }
+
+    -- Iterate through each city
+    for _, city in playerCities:Members() do
+        local cityBuildings = city:GetBuildings()
+
+        -- Check each building in the city for great works
+        for building in GameInfo.Buildings() do
+            local buildingIndex = building.Index
+            if cityBuildings:HasBuilding(buildingIndex) then
+                -- Get the number of great work slots in this building
+                local numSlots = cityBuildings:GetNumGreatWorkSlots(buildingIndex)
+                for slotIndex = 0, numSlots - 1 do
+                    local greatWorkIndex = cityBuildings:GetGreatWorkInSlot(buildingIndex, slotIndex)
+                    if greatWorkIndex ~= -1 then
+                        local greatWork = GameInfo.GreatWorks[greatWorkIndex]
+                        local greatWorkTypeName = cityBuildings:GetGreatWorkTypeFromIndex(greatWorkIndex)
+                        -- Check if the great work is one of the specified art types
+                        for _, artType in ipairs(greatWorkObjectTypes) do
+                            if greatWork and (greatWork.GreatWorkObjectType == artType) then
+                                greatWorkCount = greatWorkCount + 1
+                                print("Great work count is "..tostring(greatWorkCount).." for "..tostring(artType))
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return greatWorkCount
+end
+
 local function HSD_GetNumBeliefs(playerID)
     local player = Players[playerID]
     local religion = player:GetReligion()
@@ -845,6 +890,42 @@ local function HSD_GetMomentData(momentIndex)
 	return momentData
 end
 
+local function HSD_GetAllianceCount(playerID)
+    local playerDiplomacy = Players[playerID]:GetDiplomacy()
+    local allianceCount = 0
+
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            if playerDiplomacy:GetAllianceType(otherPlayerID) ~= -1 then
+                allianceCount = allianceCount + 1
+            end
+        end
+    end
+
+    return allianceCount
+end
+
+local function HSD_GetAllianceLevelCount(playerID)
+    local playerDiplomacy = Players[playerID]:GetDiplomacy()
+    local allianceCount = 0
+    local maximumAllianceLevel = 3
+
+    for _, otherPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+        if otherPlayerID ~= playerID then
+            if playerDiplomacy:GetAllianceType(otherPlayerID) ~= -1 then
+                print("Alliance type is "..tostring(playerDiplomacy:GetAllianceType(otherPlayerID)))
+                local allianceLevel = playerDiplomacy:GetAllianceLevel(otherPlayerID)
+                print("Alliance level is "..tostring(allianceLevel))
+                if allianceLevel == maximumAllianceLevel then
+                    allianceCount = allianceCount + 1
+                end
+            end
+        end
+    end
+
+    return allianceCount
+end
+
 ----------------------------------------------------------------------------------------
 -- Initialize all functions and link to the the necessary in-game event hooks
 ----------------------------------------------------------------------------------------
@@ -886,9 +967,12 @@ function InitializeHSD_UI()
 	ExposedMembers.HSD_TradePostEveryPlayerOnContinent = HSD_TradePostEveryPlayerOnContinent
 	ExposedMembers.HSD_GetGreatWorksCount = HSD_GetGreatWorksCount
 	ExposedMembers.HSD_GetGreatWorkTypeCount = HSD_GetGreatWorkTypeCount
+	ExposedMembers.HSD_GetGreatWorkOfArtCount = HSD_GetGreatWorkOfArtCount
 	ExposedMembers.HSD_GetNumBeliefs = HSD_GetNumBeliefs
 	ExposedMembers.HSD_GetGoldenAge = HSD_GetGoldenAge
 	ExposedMembers.HSD_GetMomentData = HSD_GetMomentData
+	ExposedMembers.HSD_GetAllianceLevelCount = HSD_GetAllianceLevelCount
+	ExposedMembers.HSD_GetAllianceCount = HSD_GetAllianceCount
 	-- Set current & next turn year ASAP when (re)loading
 	LuaEvents.SetCurrentTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()))
 	LuaEvents.SetNextTurnYear(Calendar.GetTurnYearForGame(Game.GetCurrentGameTurn()+1))

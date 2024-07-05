@@ -30,9 +30,12 @@ ExposedMembers.HSD_GetTourismCounts = {}
 ExposedMembers.HSD_GetPlotYield = {}
 ExposedMembers.HSD_GetGreatWorksCount = {}
 ExposedMembers.HSD_GetGreatWorkTypeCount = {}
+ExposedMembers.HSD_GetGreatWorkOfArtCount = {}
 ExposedMembers.HSD_GetNumBeliefs = {}
 ExposedMembers.HSD_GetGoldenAge = {}
 ExposedMembers.HSD_GetMomentData = {}
+ExposedMembers.HSD_GetAllianceLevelCount = {}
+ExposedMembers.HSD_GetAllianceCount = {}
 
 -- ===========================================================================
 -- Variables
@@ -1900,7 +1903,7 @@ local function GetAllianceCount_AllPlayers(targetAllianceCount)
 
     -- Iterate through all alive major players
     for _, playerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
-        local allianceCount = GetAllianceCount(playerID)
+        local allianceCount = ExposedMembers.HSD_GetAllianceCount(playerID)
 
         -- Check if the player has reached the target alliance count
         if allianceCount >= targetAllianceCount then
@@ -2098,7 +2101,7 @@ local function GetCitiesFollowingReligion(playerID)
         local cityReligion = city:GetReligion():GetMajorityReligion()
 
         -- Check if the city's majority religion matches the player's majority religion
-        if cityReligion == religionID then
+        if (cityReligion ~= -1) and (cityReligion == religionID) then
             citiesFollowingReligion = citiesFollowingReligion + 1
         end
     end
@@ -2743,7 +2746,7 @@ function EvaluateObjectives(player, condition)
         elseif obj.type == "ALL_CITIES_FOLLOW_SAME_RELIGION" then
             current, total = GetCitiesFollowingAnyReligion(playerID)
         elseif obj.type == "ALLIANCE_COUNT" then
-			current = GetAllianceCount(playerID)
+			current = ExposedMembers.HSD_GetAllianceCount(playerID)
 			total = obj.count
         elseif obj.type == "BORDERING_CITY_COUNT" then
 			current = GetBorderingCitiesCount(playerID)
@@ -2870,6 +2873,9 @@ function EvaluateObjectives(player, condition)
         elseif obj.type == "GREAT_WORK_COUNT" then
             current = ExposedMembers.HSD_GetGreatWorksCount(playerID)
             total = obj.count
+        elseif obj.type == "GREAT_WORK_ART_COUNT" then
+            current = ExposedMembers.HSD_GetGreatWorkOfArtCount(playerID)
+            total = obj.count
         elseif obj.type == "GREAT_WORK_TYPE_COUNT" then
             current = ExposedMembers.HSD_GetGreatWorkTypeCount(playerID, obj.id)
             total = obj.count
@@ -2911,8 +2917,8 @@ function EvaluateObjectives(player, condition)
         elseif obj.type == "LOYALTY_CONVERT_CITY_COUNT" then -- UNTESTED
 			current = Game:GetProperty("HSD_"..tostring(obj.type).."_"..tostring(playerID)) or 0
 			total = obj.count
-		elseif obj.type == "MAXIMUM_ALLIANCE_LEVEL_COUNT" then -- UNTESTED
-			current = GetAllianceLevelCount(playerID)
+		elseif obj.type == "MAXIMUM_ALLIANCE_LEVEL_COUNT" then
+			current = ExposedMembers.HSD_GetAllianceLevelCount(playerID)
 			total = obj.count
 		elseif obj.type == "MINIMUM_CONTINENT_TECH_COUNT" then
             isGreaterThan = true
