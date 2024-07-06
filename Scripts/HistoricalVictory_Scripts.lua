@@ -2926,7 +2926,7 @@ function EvaluateObjectives(player, condition)
         elseif obj.type == "MOMENT_COUNT" then
             current = player:GetProperty("HSD_"..tostring(obj.id).."_COUNT") or 0
             total = obj.count
-		elseif obj.type == "MOST_ACTIVE_TRADEROUTES_ALL" then
+		elseif obj.type == "MOST_ACTIVE_TRADE_ROUTES" then
             isGreaterThan = true
 			current, total = GetTradeRoutesCount(playerID)
 		elseif obj.type == "MOST_ARCTIC_TERRAIN" then

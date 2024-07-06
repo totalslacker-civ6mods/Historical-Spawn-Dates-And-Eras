@@ -107,7 +107,7 @@
 	  <Text>Have {1_count} alliances</Text>
 	</Replace>
 	
-	<Replace Tag="LOC_HSD_ALL_CITIES_FOLLOW_RELIGION" Language="en_US">
+	<Replace Tag="LOC_HSD_ALL_CITIES_FOLLOW_SAME_RELIGION" Language="en_US">
 	  <Text>All your cities follow the same religion</Text>
 	</Replace>
 
@@ -407,8 +407,8 @@
 	  <Text>Occupy {1_count} capitals</Text>
 	</Replace>
 
-	<Replace Tag="LOC_HSD_PROJECT_COMPLETED" Language="en_US">
-	  <Text>Complete the {1_projectTypeName} project</Text>
+	<Replace Tag="LOC_HSD_PROJECT_FIRST_COMPLETED" Language="en_US">
+	  <Text>First to complete the {1_projectTypeName} project</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_PROJECT_COUNT" Language="en_US">
@@ -561,6 +561,10 @@
 	
 	<Replace Tag="LOC_HSD_MOMENT_PLAYER_LEVIED_MILITARY_COUNT" Language="en_US">
 	  <Text>Levy a city-state {1_count} times</Text>
+	</Replace>
+	
+	<Replace Tag="LOC_HSD_MOMENT_SHIP_SUNK_COUNT" Language="en_US">
+	  <Text>Sink {1_count} ships</Text>
 	</Replace>
 	
 	<Replace Tag="LOC_HSD_MOMENT_SPY_MAX_LEVEL_COUNT" Language="en_US">

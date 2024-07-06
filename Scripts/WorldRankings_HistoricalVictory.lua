@@ -24,6 +24,7 @@ local HideObjectiveCount = {
 	["FIRST_RELIGIOUS_BELIEFS"] = true,
 	["FIRST_TECH_RESEARCHED"] = true,
 	["FIRST_WAR_DECLARED"] = true,
+	["UNIT_KILL_ERA_DIFFERENCE"] = true,
 	["WONDER_ADJACENT_IMPROVEMENT"] = true,
 	["WONDER_BUILT"] = true,
 }
@@ -63,7 +64,7 @@ local function GetObjectiveDetails(objective)
     elseif type == "CITY_WITH_FEATURE_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count, objective.id)
     elseif type == "CITY_WITH_IMPROVEMENT_COUNT" then
-        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count, objective.id)
+        detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count, Locale.Lookup(GameInfo.Improvements[objective.id].Name))
     elseif type == "COASTAL_CITY_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
 	elseif type == "COMPLETE_ESPIONAGE_MISSIONS" then
@@ -161,7 +162,7 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.continent)
     elseif type == "MOMENT_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..objective.id.."_COUNT", objective.count)
-    elseif type == "MOST_ACTIVE_TRADEROUTES_ALL" then
+    elseif type == "MOST_ACTIVE_TRADE_ROUTES" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
     elseif type == "MOST_ARCTIC_TERRAIN" then
         detailsText = Locale.Lookup("LOC_HSD_"..type)
@@ -193,7 +194,7 @@ local function GetObjectiveDetails(objective)
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.cityNum, objective.popNum)
     elseif type == "OCCUPIED_CAPITAL_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, objective.count)
-    elseif type == "PROJECT_COMPLETED" then
+    elseif type == "PROJECT_FIRST_COMPLETED" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Projects[objective.id].Name))
     elseif type == "PROJECT_COUNT" then
         detailsText = Locale.Lookup("LOC_HSD_"..type, Locale.Lookup(GameInfo.Projects[objective.id].Name), objective.count)
@@ -711,7 +712,7 @@ end
 
 function PopulateHistoricalVictoryInstance(instance:table, playerData:table, victoryType:string, showTeamDetails:boolean )
 	PopulatePlayerInstanceShared(instance, playerData.PlayerID);
-	local detailsText:string = "";
+	local detailsText:string = "[NEWLINE]";
 	local CivilizationTypeName = PlayerConfigurations[playerData.PlayerID]:GetCivilizationTypeName()
 	detailsText = GetHistoricDetails(detailsText, CivilizationTypeName, playerData.PlayerID)
 	instance.Details:SetText(detailsText);

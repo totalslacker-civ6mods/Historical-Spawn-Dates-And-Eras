@@ -518,7 +518,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "CITY_COUNT", count = 10},
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 5},
-                {type = "OCCUPIED_CAPITAL_COUNT", count = 5},
+                {type = "OCCUPIED_CAPITAL_COUNT", count = 3},
             },
         },
         {
@@ -539,7 +539,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "HIGHEST_CULTURE"},
                 {type = "BUILDING_COUNT", id = "BUILDING_GRAND_BAZAAR", count = 7},
-                {type = "HAPPIEST_POPULATION"},
+                {type = "HIGHEST_GOLD_PER_TURN"},
             },
         },
     },
@@ -1169,7 +1169,7 @@ HSD_victoryConditionsConfig = {
             objectives = {
                 {type = "CITY_COUNT_EVERY_CONTINENT", count = 1},
                 {type = "CITY_COUNT_FOREIGN_CONTINENT", count = 10},
-                {type = "MOST_UNIT_DOMAIN_TYPE", id = "DOMAIN_SEA"},
+                {type = "MOMENT_COUNT", id = "MOMENT_SHIP_SUNK", count = 50},
             },
             score = 1
         },
@@ -1651,7 +1651,7 @@ HSD_victoryConditionsConfig = {
             year = nil,
             era = "ERA_RENAISSANCE",
             objectives = {
-                {type = "HIGHEST_POPULATION_CITY"},
+                {type = "HIGHEST_CITY_POPULATION"},
                 {type = "ALL_CITIES_FOLLOW_SAME_RELIGION"},
                 {type = "DISTRICT_COUNT", id = "DISTRICT_MBANZA", count = 10},
             },
@@ -2043,7 +2043,7 @@ HSD_victoryConditionsConfig = {
             era = nil,
             objectives = {
                 {type = "UNIT_KILL_COUNT", id = "UNIT_NUBIAN_PITATI", count = 20},
-                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_NUBIAN_PITATI", count = 1, level = 8},
+                {type = "UNIT_PROMOTION_LEVEL", id = "UNIT_NUBIAN_PITATI", count = 2, level = 8},
             },
             score = 1
         },
@@ -2054,7 +2054,7 @@ HSD_victoryConditionsConfig = {
 			era = nil,
             objectives = {
                 {type = "WONDER_ADJACENT_IMPROVEMENT", id = "BUILDING_JEBEL_BARKAL", improvement = "IMPROVEMENT_PYRAMID"},
-                {type = "IMPROVEMENT_PYRAMID", count = 10},
+                {type = "IMPROVEMENT_COUNT", id = "IMPROVEMENT_PYRAMID", count = 10},
                 {type = "GOLD_COUNT", count = 6000},
             },
             score = 1
